@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="ChessBoardTest.ChessBoardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChessBoardTest"
+             mc:Ignorable="d"
+             x:Name="ChessBoardUC">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BlackCellBrush" Color="#FF1A5C7F" />
+        <SolidColorBrush x:Key="WhiteCellBrush" Color="#FF3980A6" />
+        <local:BoardDimensionConverter x:Key="BoardDimConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="ChessBoardGrid" HorizontalAlignment="Stretch" 
+          VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="wrapperGrid" Grid.Row="1" Grid.Column="1" Background="#ff065E8C">
+            <Canvas x:Name="mainCanvas" Height="{Binding ElementName=mainCanvas, Path=Width}"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Canvas.Width>
+                    <MultiBinding Converter="{StaticResource BoardDimConverter}">
+                        <Binding Mode="OneWay" ElementName="wrapperGrid" Path="ActualWidth" />
+                        <Binding Mode="OneWay" ElementName="wrapperGrid" Path="ActualHeight" />
+                    </MultiBinding>
+                </Canvas.Width>
+
+                <Canvas.Background>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <UniformGrid Rows="8" Columns="8" 
+                                     Width="{Binding ElementName=mainCanvas, Path=Width}" 
+                                     Height="{Binding ElementName=mainCanvas, Path=Height}">
+                                <!-- Row 1 -->
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <!-- Row 2 -->
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <!-- Row 3 -->
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <!-- Row 4 -->
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <!-- Row 5 -->
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <!-- Row 6 -->
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <!-- Row 7 -->
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <!-- Row 8 -->
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                                <Border Background="{StaticResource BlackCellBrush}" />
+                                <Border Background="{StaticResource WhiteCellBrush}" />
+                            </UniformGrid>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Canvas.Background>
+            </Canvas>
+        </Grid>
+        
+    </Grid>
+</UserControl>

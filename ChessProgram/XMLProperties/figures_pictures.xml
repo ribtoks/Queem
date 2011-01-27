@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FiguresPictures whiteprefix="White" blackprefix="Black">
+	<Picture name="Pawn" value="Pawn.png" />
+	<Picture name="Rook" value="Rook.png" />
+	<Picture name="Bishop" value="Bishop.png" />
+	<Picture name="Knight" value="Knight.png" />
+	<Picture name="Queen" value="Queen.png" />
+	<Picture name="King" value="King.png" />
+</FiguresPictures>

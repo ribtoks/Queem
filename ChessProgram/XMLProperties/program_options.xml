@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProgramOptions>
+	<!-- Chess program folder names -->
+	<Option name="HistoryFolderName" value="Histories" />
+	<Option name="UpdatesFolderName" value="Updates" />
+	<Option name="PicturesFolderName" value="Pictures" />
+	<Option name="SoundsFolderName" value="Sounds" />
+	<Option name="PlayersFolderName" value="Players" />
+	
+	<!-- Figures counts -->
+	<Option name="PawnsCount" value="8" />
+	<Option name="RooksCount" value="2" />
+	<Option name="BishopsCount" value="2" />
+	<Option name="KnightsCount" value="2" />
+	<Option name="QueensCount" value="1" />
+	<Option name="KingsCount" value="1" />
+	
+	<!-- Appearence options -->
+	<Option name="WhiteCellColor" value="WhiteSmoke" />
+	<Option name="DarkCellColor" value="Silver" />
+</ProgramOptions>

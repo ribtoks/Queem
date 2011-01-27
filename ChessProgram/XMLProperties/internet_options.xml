@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OnlineServers>
+	<Server>
+		<Name>ForeWar Server</Name>
+		<Url>http://www.forewar.com/chess.php</Url>
+		<CheatPassword>c0h2e4s8s</CheatPassword>
+		<ControlSum>65537</ControlSum>
+	</Server>
+	<Server>
+		<Name>Other test serve</Name>
+		<Url>http://localhost/~taras/chess.php</Url>
+		<CheatPassword>c0h2e4s8s</CheatPassword>
+		<ControlSum>65537</ControlSum>
+	</Server>
+</OnlineServers>

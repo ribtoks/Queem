@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlayersList>
+	<Player>
+		<Name>Taras</Name>
+		<Age>19</Age>
+		<Country>Ukraine</Country>
+	</Player>
+	<Player>
+		<Name>Andrew</Name>
+		<Age>19</Age>
+		<Country>Senegal</Country>
+	</Player>
+</PlayersList>

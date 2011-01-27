@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLProperties", "XMLProperties\XMLProperties.csproj", "{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicChessClasses", "BasicChessClasses\BasicChessClasses.csproj", "{E4485A2E-85DF-4528-9E14-4CB306812C34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebutMovesHolder", "DebutMovesHolder\DebutMovesHolder.csproj", "{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessBoardTest", "ChessBoardTest\ChessBoardTest.csproj", "{A47F3296-872F-4393-AD51-93C23F0F1266}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Debug|x86.ActiveCfg = Debug|x86
+		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Debug|x86.Build.0 = Debug|x86
+		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Release|x86.ActiveCfg = Release|x86
+		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Release|x86.Build.0 = Release|x86
+		{E4485A2E-85DF-4528-9E14-4CB306812C34}.Debug|x86.ActiveCfg = Debug|x86
+		{E4485A2E-85DF-4528-9E14-4CB306812C34}.Debug|x86.Build.0 = Debug|x86
+		{E4485A2E-85DF-4528-9E14-4CB306812C34}.Release|x86.ActiveCfg = Release|x86
+		{E4485A2E-85DF-4528-9E14-4CB306812C34}.Release|x86.Build.0 = Release|x86
+		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Debug|x86.ActiveCfg = Debug|x86
+		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Debug|x86.Build.0 = Debug|x86
+		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Release|x86.ActiveCfg = Release|x86
+		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Release|x86.Build.0 = Release|x86
+		{A47F3296-872F-4393-AD51-93C23F0F1266}.Debug|x86.ActiveCfg = Debug|x86
+		{A47F3296-872F-4393-AD51-93C23F0F1266}.Debug|x86.Build.0 = Debug|x86
+		{A47F3296-872F-4393-AD51-93C23F0F1266}.Release|x86.ActiveCfg = Release|x86
+		{A47F3296-872F-4393-AD51-93C23F0F1266}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = XMLProperties\XMLProperties.csproj
+	EndGlobalSection
+EndGlobal
