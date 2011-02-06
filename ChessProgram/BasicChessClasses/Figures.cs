@@ -113,7 +113,8 @@ namespace BasicChessClasses
 		
 		public Figure ()
 		{
-			
+            figure = new GeneralFigure();
+            coords = new Coordinates();
 		}
 		
 		public Figure (Coordinates copyCoords, FigureType ftype, FigureColor fcolor)

@@ -143,6 +143,8 @@ namespace BasicChessClasses
 		
 		public KingProcessor ()
 		{
+            directions = new List<List<Delta>>();
+
 			#region Hardcoded moves
 			
 			directions.Add (new List<Delta>() {});
@@ -465,6 +467,8 @@ namespace BasicChessClasses
 		
 		public HorseProcessor ()
 		{
+            directions = new List<List<Delta>>();
+
 			#region Hardcoded moves
 			
 			directions.Add (new List<Delta>() {});

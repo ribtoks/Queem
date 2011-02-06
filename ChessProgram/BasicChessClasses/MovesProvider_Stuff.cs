@@ -10,6 +10,11 @@ namespace BasicChessClasses
 			get { return whitePos; }
 			//set { whitePos = value; }
 		}
+
+        public ChessBoard ChessBoard
+        {
+            get { return board; }
+        }
 		
 		public bool IsThreefoldRepetition ()
 		{

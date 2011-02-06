@@ -42,11 +42,12 @@ namespace BasicChessClasses
 		
 		public MovesProvider (FigureColor player1Color, FigureStartPosition player1StartPos)
 		{
+            player1 = new ChessPlayerBase(player1Color, player1StartPos);
+
 			FigureColor player2Color = player1.FiguresColor.GetOppositeColor ();
 			
 			FigureStartPosition player2StartPos = player1.StartPos.GetOppositePosition ();
 			
-			player1 = new ChessPlayerBase (player1Color, player1StartPos);
 			player2 = new ChessPlayerBase (player2Color, player2StartPos);
 			
 			board = new ChessBoard (player1StartPos, player1Color);
