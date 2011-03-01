@@ -29,6 +29,37 @@ namespace ChessBoardTest
             InitializeBoard();
         }
 
+        protected Grid CreateFigureGrid(FigureType type)
+        {
+            Grid grid = new Grid();
+
+            // -------------------------------------
+
+            grid.RowDefinitions.Add(
+                new RowDefinition() { Height = new GridLength(1.0, GridUnitType.Star) });
+            grid.RowDefinitions.Add(
+                new RowDefinition() { Height = new GridLength(8.0, GridUnitType.Star) });
+            grid.RowDefinitions.Add(
+                new RowDefinition() { Height = new GridLength(1.0, GridUnitType.Star) });
+
+            // -------------------------------------
+
+            grid.ColumnDefinitions.Add(
+                new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Star) });
+            
+            // need different scaling for pawns
+            double columnLength = 8.0;
+            if (type == FigureType.Pawn)
+                columnLength = 4.0;
+
+            grid.ColumnDefinitions.Add(
+                new ColumnDefinition() { Width = new GridLength(columnLength, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(
+                new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Star) });
+
+            return grid;
+        }
+
         protected void InitializeBoard()
         {
             ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
@@ -43,15 +74,21 @@ namespace ChessBoardTest
                     if (gf.Type == FigureType.Nobody)
                         continue;
 
+                    Grid grid = CreateFigureGrid(gf.Type);
+
                     Border border = new Border();
                     string brushName = string.Format("{0}{1}", gf.Color, gf.Type);
                     object vb = myStyles[brushName];
                     
                     border.Background = (VisualBrush)vb;
 
+                    grid.Children.Add(border);
+                    Grid.SetColumn(border, 1);
+                    Grid.SetRow(border, 1);
+
                     int index = i * 8 + j;
                     Border existingBorder = (Border)chessBoardGrid.Children[index];
-                    existingBorder.Child = border;
+                    existingBorder.Child = grid;
                 }
             }
         }
