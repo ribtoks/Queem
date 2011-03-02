@@ -228,8 +228,10 @@ namespace BasicChessClasses
 			
 			// now process pawn move
 			// first check if it was a "check in passing move"
-			
-			ChessMove lastMove = history.Moves[movesCount - 1];
+
+            ChessMove lastMove = new ChessMove(new Coordinates(), new Coordinates());
+            if (movesCount > 0)
+                lastMove = history.Moves[movesCount - 1];
 			
 			#region Pawn logic
 			
@@ -240,7 +242,7 @@ namespace BasicChessClasses
 				// if last move was a pawn move to in-passing state
 				
 				// if last figure, that moved was a pawn
-				if (board[lastMove.End].Type == FigureType.Pawn)
+                if ((movesCount > 0) && board[lastMove.End].Type == FigureType.Pawn)
 				{
 					Pawn lastPawn = opponentManager.Pawns[lastMove.End];
 					
@@ -404,10 +406,12 @@ namespace BasicChessClasses
 					break;
 					
 				case MoveAction.Move:
-					
+
+                    move = new ChessMove();
+
 					// get this move
 					move.Start = change.Coords;
-					move.End = change.AdditionalCoords;
+                    move.End = change.AdditionalCoords;
 					
 					// move figure backward
 					myManager.MoveFigure (change.FigureType, move.End, move.Start);
@@ -989,7 +993,7 @@ namespace BasicChessClasses
 			ChessMove move = new ChessMove ();
 			move.Start = coords;
 			
-			if (IsInCheckAfterOpponentMove (history.LastMove, player, opponentPlayer))
+			if ((history.Moves.Count > 0) && IsInCheckAfterOpponentMove (history.LastMove, player, opponentPlayer))
 			{
 				for (int i = 0; i < possibleCells.Count; ++i)
 				{
