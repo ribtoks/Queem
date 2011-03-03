@@ -16,7 +16,7 @@ using System.Windows.Media.Animation;
 
 namespace ChessBoardTest
 {
-    public enum MoveTurn { My, Opponent }
+    public enum MoveTurn { My, Other }
 
     /// <summary>
     /// Interaction logic for Chessboard.xaml
@@ -25,27 +25,63 @@ namespace ChessBoardTest
     {
         #region Data
 
-        protected HH_MovesProvider mp;
+        // basic class of move provider
+        protected MovesProvider mp;
         protected bool isMoving = false;
-        
-        protected FigureColor myColor = FigureColor.White;
-        protected FigureStartPosition myStartPos = FigureStartPosition.Down;
-        
+
         protected Coordinates startCoord;
         protected Coordinates endCoord;
         
         protected List<Coordinates> lastPossibleMoves;
+
+        // color of figures of player,
+        // which turn to move is now
+        protected FigureColor currPlayerColor;
+
+        private int lastZIndex;
+
+        #endregion
+
+        #region Events
+
+        public event PlayerMoveEventHandler PlayerMoveStartPreview;
+
+        protected void OnPlayerMoveStartPreview()
+        {
+            if (PlayerMoveStartPreview != null)
+            {
+                PlayerMoveStartPreview(this, new PlayerMoveEventArgs() { MoveStart = new Coordinates(startCoord), PlayerColor = currPlayerColor });
+            }
+        }
+
+        public event PlayerMoveEventHandler PlayerMoveAnimationFinished;
+
+        protected void OnPlayerAnimationFinish()
+        {
+            if (PlayerMoveAnimationFinished != null)
+            {
+                PlayerMoveAnimationFinished(this, new PlayerMoveEventArgs() { 
+                    MoveStart = new Coordinates(startCoord),
+                    MoveEnd = new Coordinates(endCoord),
+                    PlayerColor = currPlayerColor });
+            }
+        }
 
         #endregion
 
         public ChessBoardControl()
         {
             InitializeComponent();
-            mp = new HH_MovesProvider(myColor, myStartPos);
+        }
+
+        public void InitializeControl(MovesProvider mp_base)
+        {
+            mp = mp_base;
+            currPlayerColor = mp_base.Player1.FiguresColor;
             
             InitializeBoard();
             BindBoardHandlers();
-            
+
             startCoord = new Coordinates();
             endCoord = new Coordinates();
         }
@@ -92,10 +128,10 @@ namespace ChessBoardTest
                 {
                     /*
                      * Border (White/Black cell background)
-                     * -> OuterGrid (OnMouseOver when is moving)
-                     *    -> Grid (PossibleCells)
+                     * |_ OuterGrid (OnMouseOver when is moving)
+                     *    |_ Grid (PossibleCells)
                      *    ------------------------------------- optional
-                     *       -> Border (Figure VisualBrush, OnAnimate)
+                     *       |_ Border (Figure VisualBrush, OnAnimate)
                     */
 
                     GeneralFigure gf = mp.ChessBoard[j, i];
@@ -168,13 +204,13 @@ namespace ChessBoardTest
                 startCoord.Set(j, i);
 
                 // just initialize a new move
-                StartMyFigureMoving(i, j);               
+                StartFigureMoving(i, j);               
             }
             else
             {
                 endCoord.Set(j, i);
                 unhightlightBorder(sender);
-                FinishMyFigureMooving(i, j);
+                FinishFigureMoving(i, j);
             }
         }
 
@@ -193,7 +229,7 @@ namespace ChessBoardTest
                 {
                     unhightlightBorder(sender);
 
-                    FinishMyFigureMooving(i, j);
+                    FinishFigureMoving(i, j);
                 }
             }
         }
@@ -215,5 +251,10 @@ namespace ChessBoardTest
         }
 
         #endregion
+
+        public void ChangePlayer()
+        {
+            currPlayerColor = currPlayerColor.GetOppositeColor();
+        }
     }
 }

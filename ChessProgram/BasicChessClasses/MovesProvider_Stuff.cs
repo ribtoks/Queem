@@ -15,6 +15,16 @@ namespace BasicChessClasses
         {
             get { return board; }
         }
+
+        public ChessPlayerBase Player1
+        {
+            get { return player1; }
+        }
+
+        public ChessPlayerBase Player2
+        {
+            get { return player2; }
+        }
 		
 		public bool IsThreefoldRepetition ()
 		{

@@ -48,17 +48,19 @@ namespace ChessBoardTest
             }
         }
 
-        protected bool StartMyFigureMoving(int i, int j)
+        protected bool StartFigureMoving(int i, int j)
         {
             GeneralFigure gf = mp.ChessBoard[j, i];
             if (gf.Type != FigureType.Nobody)
             {
                 // i can move only mine figures
-                if (gf.Color == myColor)
+                if (gf.Color == currPlayerColor)
                 {
+                    // raise event
+                    OnPlayerMoveStartPreview();
+
                     isMoving = true;
                     lastPossibleMoves = mp.GetFilteredCells(startCoord);
-
                     ShowPossibleCells(lastPossibleMoves);
                     return true;
                 }
@@ -66,7 +68,7 @@ namespace ChessBoardTest
             return false;
         }
 
-        protected void FinishMyFigureMooving(int i, int j)
+        protected void FinishFigureMoving(int i, int j)
         {
             // if it's allowed move
             if (lastPossibleMoves.IndexOf(endCoord) != -1)
@@ -75,29 +77,29 @@ namespace ChessBoardTest
                 HidePossibleCells(lastPossibleMoves);
                 AnimateFigureMove(startCoord, endCoord);
 
-                // provide move on board
-                mp.ProvideMyMove(new ChessMove(startCoord, endCoord));
+                // (a real player move in event handler after animate)
             }
             else
             {
                 GeneralFigure gf = mp.ChessBoard[j, i];
                 if (gf.Type != FigureType.Nobody)
                 {
-                    if (!StartMyFigureMoving(i, j))
+                    // will return true if it's current
+                    // player's figure, and false if opponent's one
+                    if (gf.Color == currPlayerColor)
                     {
-                        isMoving = false;
+                        // if user clicked on his other figure
+                        // initialize a new move
                         HidePossibleCells(lastPossibleMoves);
+
+                        startCoord.Set(j, i);
+                        StartFigureMoving(i, j);
+                        return;
                     }
                 }
-                else
-                {
-                    isMoving = false;
-                    HidePossibleCells(lastPossibleMoves);
-                }
-                // if user clicked on his other figure
-                // initialize a new move
-                startCoord.Set(j, i);
-                StartMyFigureMoving(i, j);
+
+                isMoving = false;
+                HidePossibleCells(lastPossibleMoves);
             }
 
             lastPossibleMoves.Clear();
@@ -109,6 +111,9 @@ namespace ChessBoardTest
             Border startBorder = chessBoardGrid.Children[startIndex] as Border;
             Grid startGrid = startBorder.Child as Grid;
             Border startTarget = (startGrid.Children[0] as Grid).Children[0] as Border;
+            lastZIndex = Panel.GetZIndex(startBorder);
+            Panel.SetZIndex(startBorder, 9001);
+
 
             int finishIndex = end.Y * 8 + end.X;
             Border finishBorder = chessBoardGrid.Children[finishIndex] as Border;
@@ -143,8 +148,8 @@ namespace ChessBoardTest
             Storyboard.SetTargetProperty(shiftX, new PropertyPath("RenderTransform.X"));
             Storyboard.SetTargetProperty(shiftY, new PropertyPath("RenderTransform.Y"));
 
-            story.Begin();
             story.Completed += new EventHandler(story_Completed);
+            story.Begin();
         }
 
         protected void story_Completed(object sender, EventArgs e)
@@ -156,6 +161,8 @@ namespace ChessBoardTest
         {
             int startIndex = startCoord.Y * 8 + startCoord.X;
             Border startBorder = chessBoardGrid.Children[startIndex] as Border;
+            Panel.SetZIndex(startBorder, lastZIndex);
+
             Grid startGrid = startBorder.Child as Grid;
             Grid startFigureGrid = startGrid.Children[0] as Grid;
             Border figureBorder = startFigureGrid.Children[0] as Border;
@@ -164,10 +171,16 @@ namespace ChessBoardTest
             int finishIndex = endCoord.Y * 8 + endCoord.X;
             Border finishBorder = chessBoardGrid.Children[finishIndex] as Border;
             Grid finishGrid = finishBorder.Child as Grid;
+            Grid finishFigureGrid = finishGrid.Children[0] as Grid;
 
             finishGrid.Children.Clear();
+            startGrid.Children.Add(CreateFigureGrid(FigureType.King));
+
             figureBorder.RenderTransform = new TranslateTransform();
             finishGrid.Children.Add(startFigureGrid);
+
+            // raise event
+            OnPlayerAnimationFinish();
         }
 
         protected void highlightBorder(object sender)

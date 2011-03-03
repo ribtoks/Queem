@@ -105,7 +105,7 @@ namespace BasicChessClasses
 				}
 			}
 			
-			Coordinates rightRookCoord = new Coordinates (FieldLetter.A, y);
+			Coordinates rightRookCoord = new Coordinates (FieldLetter.H, y);
 			if (board[FieldLetter.H, y].Type == FigureType.Rook)
 			{
 				if (fm.Rooks[rightRookCoord].CanDoCastling)

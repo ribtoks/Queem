@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BasicChessClasses;
 
 namespace ChessBoardTest
 {
@@ -19,9 +20,34 @@ namespace ChessBoardTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Data
+
+        HH_MovesProvider mp;
+        FigureColor myColor = FigureColor.White;
+        FigureStartPosition myStartPos = FigureStartPosition.Down;
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
+
+            mp = new HH_MovesProvider(myColor, myStartPos);
+            chessBoardControl.InitializeControl(mp);
+            chessBoardControl.PlayerMoveAnimationFinished += new PlayerMoveEventHandler(chessBoardControl_PlayerMoveAnimationFinished);
+        }
+
+        protected void chessBoardControl_PlayerMoveAnimationFinished(object source, PlayerMoveEventArgs e)
+        {
+            if (e.PlayerColor == myColor)
+            {
+                mp.ProvideMyMove(new ChessMove(e.MoveStart, e.MoveEnd));
+            }
+            else
+            {
+                mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
+            }
+            chessBoardControl.ChangePlayer();
         }
     }
 }
