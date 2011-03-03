@@ -77,6 +77,12 @@ namespace BasicChessClasses
 		}
 		
 		#endregion
+
+        public void Set(int _x, int _y)
+        {
+            letter = (FieldLetter)_x;
+            y = _y;
+        }
 		
 		public void Reflect ()
 		{

@@ -16,25 +16,38 @@ using System.Windows.Media.Animation;
 
 namespace ChessBoardTest
 {
+    public enum MoveTurn { My, Opponent }
+
     /// <summary>
     /// Interaction logic for Chessboard.xaml
     /// </summary>
     public partial class ChessBoardControl : UserControl
     {
-        protected MovesProvider mp;
+        #region Data
+
+        protected HH_MovesProvider mp;
         protected bool isMoving = false;
+        
         protected FigureColor myColor = FigureColor.White;
         protected FigureStartPosition myStartPos = FigureStartPosition.Down;
-        protected Coordinates lastClickedCoords;
+        
+        protected Coordinates startCoord;
+        protected Coordinates endCoord;
+        
         protected List<Coordinates> lastPossibleMoves;
+
+        #endregion
 
         public ChessBoardControl()
         {
             InitializeComponent();
-            mp = new MovesProvider(myColor, myStartPos);
+            mp = new HH_MovesProvider(myColor, myStartPos);
+            
             InitializeBoard();
             BindBoardHandlers();
-            lastClickedCoords = new Coordinates();
+            
+            startCoord = new Coordinates();
+            endCoord = new Coordinates();
         }
 
         protected Grid CreateFigureGrid(FigureType type)
@@ -78,10 +91,11 @@ namespace ChessBoardTest
                 for (int j = 0; j < 8; ++j)
                 {
                     /*
-                     * Border
-                     * -> OuterGrid 
-                     *    -> Grid ()
-                     *       -> Border (VisualBrush)
+                     * Border (White/Black cell background)
+                     * -> OuterGrid (OnMouseOver when is moving)
+                     *    -> Grid (PossibleCells)
+                     *    ------------------------------------- optional
+                     *       -> Border (Figure VisualBrush, OnAnimate)
                     */
 
                     GeneralFigure gf = mp.ChessBoard[j, i];
@@ -135,33 +149,6 @@ namespace ChessBoardTest
             }
         }
 
-        protected void ShowPossibleCells(List<Coordinates> coordinates)
-        {
-            foreach (var coord in coordinates)
-            {
-                int index = coord.Y * 8 + coord.X;
-
-                Border border = chessBoardGrid.Children[index] as Border;
-                Grid figureGrid = ((Grid)border.Child).Children[0] as Grid;
-
-                figureGrid.Background = new SolidColorBrush(
-                    Color.FromArgb(0x44, 0x7F, 0x19, 0x63));
-            }
-        }
-
-        protected void HidePossibleCells(List<Coordinates> coordinates)
-        {
-            foreach (var coord in coordinates)
-            {
-                int index = coord.Y * 8 + coord.X;
-
-                Border border = chessBoardGrid.Children[index] as Border;
-                Grid figureGrid = ((Grid)border.Child).Children[0] as Grid;
-
-                figureGrid.Background = new SolidColorBrush();
-            }
-        }
-
         #region Border mouse handlers
 
         protected void border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -174,15 +161,18 @@ namespace ChessBoardTest
             // we selected some figure
             if (!isMoving)
             {
+                if (mp.ChessBoard[j, i].Type == FigureType.Nobody)
+                    return;
+
                 // save last coordinages
-                lastClickedCoords.X = j;
-                lastClickedCoords.Y = i;
+                startCoord.Set(j, i);
 
                 // just initialize a new move
                 StartMyFigureMoving(i, j);               
             }
             else
             {
+                endCoord.Set(j, i);
                 unhightlightBorder(sender);
                 FinishMyFigureMooving(i, j);
             }
@@ -195,11 +185,11 @@ namespace ChessBoardTest
             int i = index / 8;
             int j = index % 8;
 
-            Coordinates mouseUpCoords = new Coordinates(j, i);
+            endCoord.Set(j, i);
 
             if (isMoving)
             {
-                if (mouseUpCoords != lastClickedCoords)
+                if (startCoord != endCoord)
                 {
                     unhightlightBorder(sender);
 
@@ -225,114 +215,5 @@ namespace ChessBoardTest
         }
 
         #endregion
-
-        protected bool StartMyFigureMoving(int i, int j)
-        {
-            GeneralFigure gf = mp.ChessBoard[j, i];
-            if (gf.Type != FigureType.Nobody)
-            {
-                // i can move only mine figures
-                if (gf.Color == myColor)
-                {
-                    isMoving = true;
-                    lastPossibleMoves = mp.GetFilteredCells(lastClickedCoords);
-
-                    ShowPossibleCells(lastPossibleMoves);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        protected void FinishMyFigureMooving(int i, int j)
-        {
-            // if it's allowed move
-            if (lastPossibleMoves.IndexOf(lastClickedCoords) != -1)
-            {
-                HidePossibleCells(lastPossibleMoves);
-            }
-            else
-            {
-                GeneralFigure gf = mp.ChessBoard[j, i];
-                if (gf.Type != FigureType.Nobody)
-                {
-                    if (!StartMyFigureMoving(i, j))
-                    {
-                        isMoving = false;
-                        HidePossibleCells(lastPossibleMoves);
-                    }
-                }
-                else
-                {
-                    isMoving = false;
-                    HidePossibleCells(lastPossibleMoves);
-                    AnimateFigureMove(lastClickedCoords, new Coordinates(j, i));
-                }
-                // if user clicked on his other figure
-                StartMyFigureMoving(i, j);
-            }
-
-            lastPossibleMoves.Clear();
-        }
-
-        #region Figure move animation
-
-        protected void AnimateFigureMove(Coordinates start, Coordinates end)
-        {
-            int startIndex = start.Y * 8 + start.X;
-            Border startBorder = chessBoardGrid.Children[startIndex] as Border;
-            Grid startGrid = startBorder.Child as Grid;
-            Border startTarget = (startGrid.Children[0] as Grid).Children[0] as Border;
-
-            int finishIndex = end.Y * 8 + end.X;
-            Border finishBorder = chessBoardGrid.Children[finishIndex] as Border;
-            Grid finishGrid = finishBorder.Child as Grid;
-            
-            double deltaX = (end.X - start.X) * startGrid.ActualWidth;
-            double deltaY = (end.Y - start.Y) * startGrid.ActualHeight;
-
-            TranslateTransform tt = new TranslateTransform();
-            startTarget.RenderTransform = tt;
-
-            DoubleAnimation shiftX = new DoubleAnimation();
-            shiftX.From = 0;
-            shiftX.To = deltaX;
-            shiftX.Duration = new Duration(TimeSpan.FromSeconds(0.5));
-            
-            DoubleAnimation shiftY = new DoubleAnimation();
-            shiftY.From = 0;
-            shiftY.To = deltaY;
-            shiftY.Duration = shiftX.Duration;
-
-            Storyboard story = new Storyboard();
-            story.Children.Add(shiftX);
-            story.Children.Add(shiftY);
-
-            Storyboard.SetTarget(shiftX, startTarget);
-            Storyboard.SetTarget(shiftY, startTarget);
-
-            Storyboard.SetTargetProperty(shiftX, new PropertyPath("RenderTransform.X"));
-            Storyboard.SetTargetProperty(shiftY, new PropertyPath("RenderTransform.Y"));
-
-            story.Begin();
-        }
-
-        #endregion
-
-        protected void highlightBorder(object sender)
-        {
-            Border border = (Border)sender;
-            Grid grid = (Grid)border.Child;
-
-            grid.Background = new SolidColorBrush(Color.FromArgb(0x19, 0xff, 0xff, 0xff));
-        }
-
-        protected void unhightlightBorder(object sender)
-        {
-            Border border = (Border)sender;
-            Grid grid = (Grid)border.Child;
-
-            grid.Background = new SolidColorBrush();
-        }
     }
 }

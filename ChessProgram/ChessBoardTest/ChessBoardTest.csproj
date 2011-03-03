@@ -72,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BoardDimensionConverter.cs" />
+    <Compile Include="ChessBoardControl_Helpers.cs" />
     <Compile Include="ChessBoardControl.xaml.cs">
       <DependentUpon>ChessBoardControl.xaml</DependentUpon>
     </Compile>
