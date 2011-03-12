@@ -228,5 +228,10 @@ namespace BasicChessClasses
 			moves.Clear ();
 			moveResults.Clear ();
 		}
+
+        public int Count
+        {
+            get { return moves.Count; }
+        }
 	}
 }

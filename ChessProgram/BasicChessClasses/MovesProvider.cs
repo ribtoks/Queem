@@ -126,13 +126,7 @@ namespace BasicChessClasses
 			
 			kingProcessor = copy.kingProcessor;
 			horseProcessor = copy.horseProcessor;
-			
-			//pawnProcessors = copy.pawnProcessors;
-			//kingProcessors = copy.kingProcessors;
-			//horseProcessors = copy.horseProcessors;
-			
-			//movesGenerators = copy.movesGenerators;
-		}
+        }
 		
 		protected virtual MoveResult ProvidePlayerMove (ChessMove move, 
 		                                     ChessPlayerBase player, ChessPlayerBase opponentPlayer)
@@ -524,7 +518,11 @@ namespace BasicChessClasses
 							if (controlMapper.GetDiagonalsMap (player.FiguresColor)[figure] == 1)
 								return true;
 							
-							break;
+                            // finish this if loop
+							x1 = 0;
+
+                            if (x2 > 7)
+                                break;
 						}
 						
 						--x1;
@@ -543,7 +541,11 @@ namespace BasicChessClasses
 							if (controlMapper.GetDiagonalsMap (player.FiguresColor)[figure] == 1)
 								return true;
 							
-							break;
+                            // finish this if loop
+							x2 = 7;
+
+                            if (x1 < 0)
+                                break;
 						}
 						
 						++x2;
@@ -570,8 +572,11 @@ namespace BasicChessClasses
 							
 							if (controlMapper.GetDiagonalsMap (player.FiguresColor)[figure] == 1)
 								return true;
-							
-							break;
+
+                            // finish this if loop
+                            x1 = 0;
+                            if (x2 > 7)
+                                break;
 						}
 						
 						--x1;
@@ -589,8 +594,12 @@ namespace BasicChessClasses
 							
 							if (controlMapper.GetDiagonalsMap (player.FiguresColor)[figure] == 1)
 								return true;
-							
-							break;
+
+                            // finish this if loop
+                            x2 = 7;
+
+                            if (x1 < 0)
+                                break;
 						}
 						
 						++x2;
@@ -771,7 +780,7 @@ namespace BasicChessClasses
 				
 				// if direction == 1, than critical = 7
 				// else if direction == -1, than critical = 0
-				criticalY = (int)(3.5 + directionY * 3.5);
+				criticalY = (int)(3.5 + directionY * 3.5) + directionY;
 				
 				while (y != criticalY)
 				{
@@ -808,7 +817,7 @@ namespace BasicChessClasses
 				
 				// if direction == 1, than critical = 7
 				// else if direction == -1, than critical = 0
-				criticalX = (int)(3.5 + directionX * 3.5);
+				criticalX = (int)(3.5 + directionX * 3.5) + directionX;
 				
 				int tempY = fromCoords.Y;
 				
@@ -847,7 +856,7 @@ namespace BasicChessClasses
 				
 				// if direction == 1, than critical = 7
 				// else if direction == -1, than critical = 0
-				criticalY = (int)(3.5 + directionY * 3.5);
+				criticalY = (int)(3.5 + directionY * 3.5) + directionY;
 				
 				// -------------------------------------
 				
@@ -857,7 +866,7 @@ namespace BasicChessClasses
 				
 				// if direction == 1, than critical = 7
 				// else if direction == -1, than critical = 0
-				criticalX = (int)(3.5 + directionX * 3.5);
+				criticalX = (int)(3.5 + directionX * 3.5) + directionX;
 				
 				// ----------------------------------------
 				
@@ -922,7 +931,7 @@ namespace BasicChessClasses
 			
 			if (board[opponentMove.End].Type == FigureType.Horse)
 			{
-				foreach (Horse horse in player.FiguresManager.Horses)
+                foreach (Horse horse in opponentPlayer.FiguresManager.Horses)
 				{
 					Coordinates horseCoords = horse.Coordinates;
 					
@@ -943,7 +952,7 @@ namespace BasicChessClasses
 				int y = coords.Y;
 				
 				// first check diagonal (for pawns)
-				int direction = 1;
+				int direction = -1;
 			
 				if (player.StartPos == FigureStartPosition.Up)
 					direction *= -1;
@@ -951,13 +960,13 @@ namespace BasicChessClasses
 				GeneralFigure gf = board[x - 1, y + direction];
 			
 				if (gf.Type == FigureType.Pawn)
-					if (gf.Color == player.FiguresColor)
+					if (gf.Color == opponentPlayer.FiguresColor)
 						return true;
 				
 				gf = board[x + 1, y + direction];
 				
 				if (gf.Type == FigureType.Pawn)
-					if (gf.Color == player.FiguresColor)
+                    if (gf.Color == opponentPlayer.FiguresColor)
 						return true;
 				
 				return false;
@@ -993,7 +1002,7 @@ namespace BasicChessClasses
 			ChessMove move = new ChessMove ();
 			move.Start = coords;
 			
-			if ((history.Moves.Count > 0) && IsInCheckAfterOpponentMove (history.LastMove, player, opponentPlayer))
+			if ((history.Count > 0) && IsInCheckAfterOpponentMove (history.LastMove, player, opponentPlayer))
 			{
 				for (int i = 0; i < possibleCells.Count; ++i)
 				{

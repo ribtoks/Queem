@@ -12,7 +12,7 @@ namespace ChessBoardTest
         {
             if ((values[0] is double) && (values[1] is double))
             {
-                return Math.Min((double)values[0], (double)values[1]);
+                return Math.Min((double)values[0], (double)values[1]) - 40.0;
             }
             return 0;
         }

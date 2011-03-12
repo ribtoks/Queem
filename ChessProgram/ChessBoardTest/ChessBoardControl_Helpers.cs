@@ -149,6 +149,7 @@ namespace ChessBoardTest
             Storyboard.SetTargetProperty(shiftY, new PropertyPath("RenderTransform.Y"));
 
             story.Completed += new EventHandler(story_Completed);
+            chessBoardGrid.IsHitTestVisible = false;
             story.Begin();
         }
 
@@ -181,6 +182,7 @@ namespace ChessBoardTest
 
             // raise event
             OnPlayerAnimationFinish();
+            chessBoardGrid.IsHitTestVisible = true;
         }
 
         protected void highlightBorder(object sender)

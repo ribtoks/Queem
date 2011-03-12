@@ -130,7 +130,7 @@ namespace ChessBoardTest
                      * Border (White/Black cell background)
                      * |_ OuterGrid (OnMouseOver when is moving)
                      *    |_ Grid (PossibleCells)
-                     *    ------------------------------------- optional
+                     *    -------------- optional --------------
                      *       |_ Border (Figure VisualBrush, OnAnimate)
                     */
 
@@ -255,6 +255,13 @@ namespace ChessBoardTest
         public void ChangePlayer()
         {
             currPlayerColor = currPlayerColor.GetOppositeColor();
+        }
+
+        public void RedrawAll()
+        {
+            chessBoardGrid.Children.Clear();
+            InitializeBoard();
+            BindBoardHandlers();            
         }
     }
 }

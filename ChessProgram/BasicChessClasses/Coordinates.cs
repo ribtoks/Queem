@@ -83,6 +83,11 @@ namespace BasicChessClasses
             letter = (FieldLetter)_x;
             y = _y;
         }
+
+        public bool EqualCoords(int _x, int _y)
+        {
+            return (X == _x) && (y == _y);
+        }
 		
 		public void Reflect ()
 		{

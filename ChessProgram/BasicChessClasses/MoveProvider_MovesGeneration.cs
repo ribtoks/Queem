@@ -25,19 +25,69 @@ namespace BasicChessClasses
 				pp = pawnProcessor2;
 			
 			GeneralFigureMap<byte> map = figureMapper.GetFiguresMap (color);
-			
+            GeneralFigureMap<byte> attackingMap = figureMapper.GetAttackingFiguresMap(color);
+
+            int x = coords.X;
+			int y = coords.Y;
+
+            byte firstMove = 0;
+            bool canTakePassing = false;
+
 			// if startpos == Down
 			int dir = -1;
+
+            if (pp.StartPos == FigureStartPosition.Up)
+            {
+                dir *= -1;
+                firstMove = Convert.ToByte(y == 1);
+                canTakePassing = (y == 4);
+            }
+            else
+            {
+                firstMove = Convert.ToByte(y == 6);
+                canTakePassing = (y == 3);
+            }
+
+            byte leftPassing = 0;
+            byte rightPassing = 0;
+
+            if (canTakePassing)
+            {
+                leftPassing = GetPassingPawnState(coords, -1);
+                rightPassing = GetPassingPawnState(coords, +1);
+            }
+
+            byte oneStepUp = Convert.ToByte(board[x, y + dir].Type == FigureType.Nobody);
+            byte twoStepsUp = Convert.ToByte(board[x, y + 2*dir].Type == FigureType.Nobody);
 			
-			if (pp.StartPos == FigureStartPosition.Up)
-				dir *= -1;
-			
-			int x = coords.X;
-			int y = coords.Y;
-			
-			return pp.GetMoves (coords, map[ board[x - 1, y + dir] ], map[ board[x, y + dir] ], 
-			                    map[ board[x, y + dir * 2] ], map[ board[x + 1, y + dir] ]);
+			return pp.GetMoves (coords, 
+                (byte)(attackingMap[ board[x - 1, y + dir] ] | leftPassing), 
+                oneStepUp, 
+			    (byte)(twoStepsUp & firstMove), 
+                (byte)(attackingMap[ board[x + 1, y + dir] ] | rightPassing));
 		}
+
+        protected virtual byte GetPassingPawnState(Coordinates coords, int direction)
+        {
+            byte state = 0;
+
+            int x = coords.X;
+            int y = coords.Y;
+
+            // neighbour figure
+            GeneralFigure nf = board[x + direction, y];
+
+            if ((nf.Type == FigureType.Pawn) && 
+                (nf.Color != board[x, y].Color))
+            {
+                if (this.history.LastMove.End.EqualCoords(x + direction, y))
+                {
+                    state = 1;
+                }
+            }
+
+            return state;
+        }
 		
 		public virtual List<Coordinates> GetKingMoves (Coordinates coords)
 		{
@@ -353,8 +403,11 @@ namespace BasicChessClasses
 			int x = coords.X;
 			int y = coords.Y;
 			
-			return pp.GetMoves (coords, map[ board[x - 1, y + dir] ], map[ board[x, y + dir] ], 
-			                    map[ board[x, y + dir * 2] ], map[ board[x + 1, y + dir] ]);
+			return pp.GetMoves (coords, 
+                map[ board[x - 1, y + dir] ], 
+                0/*map[ board[x, y + dir] ]*/, 
+                0/*map[ board[x, y + dir * 2] ]*/, 
+                map[ board[x + 1, y + dir] ]);
 		}
 		
 		public virtual List<Coordinates> GetAttackingKingMoves (Coordinates coords)

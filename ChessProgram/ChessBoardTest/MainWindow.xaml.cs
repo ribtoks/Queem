@@ -48,6 +48,7 @@ namespace ChessBoardTest
                 mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
             chessBoardControl.ChangePlayer();
+            chessBoardControl.RedrawAll();
         }
     }
 }

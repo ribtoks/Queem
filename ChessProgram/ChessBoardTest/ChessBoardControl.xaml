@@ -28,8 +28,65 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
-        <Grid x:Name="wrapperGrid" Grid.Row="1" Grid.Column="1" Background="#ff065E8C">
-            <UniformGrid x:Name="chessBoardGrid" Rows="8" Columns="8" Height="{Binding Width, ElementName=chessBoardGrid}">
+        <Grid x:Name="wrapperGrid" 
+              Grid.Row="1" Grid.Column="1" 
+              Background="#ff065E8C">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+            </Grid.ColumnDefinitions>
+            <UniformGrid Grid.Row="0" Grid.Column="1" 
+                         Columns="8" Rows="1" Background="SteelBlue"
+                         HorizontalAlignment="Center" VerticalAlignment="Top"
+                         Width="{Binding Width, ElementName=chessBoardGrid}">               
+                <UniformGrid.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Foreground" Value="White" />                        
+                    </Style>
+                </UniformGrid.Resources>
+                <Label>A</Label>
+                <Label>B</Label>
+                <Label>C</Label>
+                <Label>D</Label>
+                <Label>E</Label>
+                <Label>F</Label>
+                <Label>G</Label>
+                <Label>H</Label>
+            </UniformGrid>
+            <UniformGrid Grid.Row="1" Grid.Column="0" 
+                         Columns="1" Rows="8" Background="SteelBlue"
+                         HorizontalAlignment="Center" VerticalAlignment="Top"
+                         Height="{Binding Height, ElementName=chessBoardGrid}">
+                <UniformGrid.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Style>
+                </UniformGrid.Resources>
+                <Label>0</Label>
+                <Label>1</Label>
+                <Label>2</Label>
+                <Label>3</Label>
+                <Label>4</Label>
+                <Label>5</Label>
+                <Label>6</Label>
+                <Label>7</Label>
+            </UniformGrid>
+            <UniformGrid x:Name="chessBoardGrid" 
+                         Rows="8" Columns="8" 
+                         Grid.Row="1" Grid.Column="1" 
+                         Height="{Binding Width, ElementName=chessBoardGrid}">
                 <UniformGrid.Width>
                     <MultiBinding Converter="{StaticResource BoardDimConverter}">
                         <Binding Mode="OneWay" ElementName="wrapperGrid" Path="ActualWidth" />
