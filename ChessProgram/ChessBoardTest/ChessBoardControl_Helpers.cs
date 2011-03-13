@@ -75,7 +75,8 @@ namespace ChessBoardTest
             {
                 isMoving = false;
                 HidePossibleCells(lastPossibleMoves);
-                AnimateFigureMove(startCoord, endCoord);
+                OnPlayerMoveFinish();
+                //AnimateFigureMove(startCoord, endCoord);
 
                 // (a real player move in event handler after animate)
             }
@@ -105,8 +106,11 @@ namespace ChessBoardTest
             lastPossibleMoves.Clear();
         }
 
-        protected void AnimateFigureMove(Coordinates start, Coordinates end)
+        protected void innerAnimateFigureMove(ChessMove move)
         {
+            var start = move.Start;
+            var end = move.End;
+
             int startIndex = start.Y * 8 + start.X;
             Border startBorder = chessBoardGrid.Children[startIndex] as Border;
             Grid startGrid = startBorder.Child as Grid;
@@ -149,13 +153,18 @@ namespace ChessBoardTest
             Storyboard.SetTargetProperty(shiftY, new PropertyPath("RenderTransform.Y"));
 
             story.Completed += new EventHandler(story_Completed);
-            chessBoardGrid.IsHitTestVisible = false;
             story.Begin();
         }
 
         protected void story_Completed(object sender, EventArgs e)
         {
+            Clock clock = (Clock)sender;
+            Storyboard storyboard = clock.Timeline as Storyboard;
+            DoubleAnimation shiftX = (DoubleAnimation)storyboard.Children[0];
+            DoubleAnimation shiftY = (DoubleAnimation)storyboard.Children[1];
+            
             ReplaceAnimationFigures();
+            
         }
 
         protected void ReplaceAnimationFigures()
@@ -182,9 +191,19 @@ namespace ChessBoardTest
 
             // raise event
             OnPlayerAnimationFinish();
-            chessBoardGrid.IsHitTestVisible = true;
+            
         }
 
+        public void AnimateFigureMove(DeltaChanges changes, MoveResult moveResult, ChessMove move)
+        {
+            chessBoardGrid.IsHitTestVisible = false;
+
+
+
+            chessBoardGrid.IsHitTestVisible = true;
+        }
+        
+        
         protected void highlightBorder(object sender)
         {
             Border border = (Border)sender;

@@ -54,13 +54,13 @@ namespace ChessBoardTest
             }
         }
 
-        public event PlayerMoveEventHandler PlayerMoveAnimationFinished;
+        public event PlayerMoveEventHandler PlayerMoveFinished;
 
-        protected void OnPlayerAnimationFinish()
+        protected void OnPlayerMoveFinish()
         {
-            if (PlayerMoveAnimationFinished != null)
+            if (PlayerMoveFinished != null)
             {
-                PlayerMoveAnimationFinished(this, new PlayerMoveEventArgs() { 
+                PlayerMoveFinished(this, new PlayerMoveEventArgs() { 
                     MoveStart = new Coordinates(startCoord),
                     MoveEnd = new Coordinates(endCoord),
                     PlayerColor = currPlayerColor });
