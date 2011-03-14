@@ -25,6 +25,11 @@ namespace BasicChessClasses
         {
             get { return player2; }
         }
+
+        public MovesHistory History
+        {
+            get { return history; }
+        }
 		
 		public bool IsThreefoldRepetition ()
 		{

@@ -152,24 +152,59 @@ namespace ChessBoardTest
             Storyboard.SetTargetProperty(shiftX, new PropertyPath("RenderTransform.X"));
             Storyboard.SetTargetProperty(shiftY, new PropertyPath("RenderTransform.Y"));
 
-            story.Completed += new EventHandler(story_Completed);
+            story.Completed += new EventHandler((sender, e) =>
+            {
+                ReplaceAnimationFigures(new ChessMove(move));
+            });
+
             story.Begin();
         }
 
-        protected void story_Completed(object sender, EventArgs e)
+        protected void deleteFigureImageAt(Coordinates coords)
         {
-            Clock clock = (Clock)sender;
-            Storyboard storyboard = clock.Timeline as Storyboard;
-            DoubleAnimation shiftX = (DoubleAnimation)storyboard.Children[0];
-            DoubleAnimation shiftY = (DoubleAnimation)storyboard.Children[1];
-            
-            ReplaceAnimationFigures();
-            
+            int index = coords.Y * 8 + coords.X;
+            Border border = chessBoardGrid.Children[index] as Border;
+            Grid grid= border.Child as Grid;
+            grid.Children.Clear();
+
+            grid.Children.Add(CreateFigureGrid(FigureType.Rook));
         }
 
-        protected void ReplaceAnimationFigures()
+        protected void addFigureImageAt(Coordinates coords, GeneralFigure gf)
         {
-            int startIndex = startCoord.Y * 8 + startCoord.X;
+            ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
+            ResourceDictionary myStyles = rd.MergedDictionaries[0];
+
+            int index = coords.Y * 8 + coords.X;
+            Border outerBorder = chessBoardGrid.Children[index] as Border;
+            Grid parentGrid = outerBorder.Child as Grid;
+            parentGrid.Children.Clear();
+
+            // create border with needed margins
+            Grid grid = CreateFigureGrid(gf.Type);
+
+            Border border = new Border();
+            string brushName = string.Format("{0}{1}", gf.Color, gf.Type);
+            object vb = myStyles[brushName];
+
+            border.Background = (VisualBrush)vb;
+
+            grid.Children.Add(border);
+            Grid.SetColumn(border, 1);
+            Grid.SetRow(border, 1);
+
+            parentGrid.Children.Add(grid);
+
+            // don't forget about event handlers,
+            // but it looks like they're binded
+            // to chessBoard uniform grid childs
+        }
+        protected void ReplaceAnimationFigures(ChessMove move)
+        {
+            Coordinates start = move.Start;
+            Coordinates end = move.End;
+
+            int startIndex = start.Y * 8 + start.X;
             Border startBorder = chessBoardGrid.Children[startIndex] as Border;
             Panel.SetZIndex(startBorder, lastZIndex);
 
@@ -178,31 +213,49 @@ namespace ChessBoardTest
             Border figureBorder = startFigureGrid.Children[0] as Border;
             startGrid.Children.Clear();
 
-            int finishIndex = endCoord.Y * 8 + endCoord.X;
+            int finishIndex = end.Y * 8 + end.X;
             Border finishBorder = chessBoardGrid.Children[finishIndex] as Border;
             Grid finishGrid = finishBorder.Child as Grid;
             Grid finishFigureGrid = finishGrid.Children[0] as Grid;
 
             finishGrid.Children.Clear();
-            startGrid.Children.Add(CreateFigureGrid(FigureType.King));
+            startGrid.Children.Add(CreateFigureGrid(FigureType.Rook));
 
             figureBorder.RenderTransform = new TranslateTransform();
-            finishGrid.Children.Add(startFigureGrid);
-
-            // raise event
-            OnPlayerAnimationFinish();
-            
+            finishGrid.Children.Add(startFigureGrid);            
         }
 
-        public void AnimateFigureMove(DeltaChanges changes, MoveResult moveResult, ChessMove move)
+        public void AnimateFigureMove(DeltaChanges dc, ChessMove move)
         {
             chessBoardGrid.IsHitTestVisible = false;
-
-
+            
+            while (dc.Changes.Count > 0)
+            {
+                Change change = dc.Changes.Pop();
+                switch (change.Action)
+                {
+                    case MoveAction.Move:
+                        innerAnimateFigureMove(new ChessMove(change.Coords,
+                            change.AdditionalCoords));
+                        break;
+                    case MoveAction.Deletion:
+                        // delete figure image only when 
+                        // processing in passing capture
+                        if (change.Coords != move.End)
+                            deleteFigureImageAt(change.Coords);
+                        break;
+                    case MoveAction.Creation:
+                        addFigureImageAt(change.Coords,
+                            new GeneralFigure(change.FigureType, 
+                                change.FigureColor));
+                        break;
+                }
+            }
 
             chessBoardGrid.IsHitTestVisible = true;
+            // raise event
+            OnPlayerMoveAnimatinFinish();
         }
-        
         
         protected void highlightBorder(object sender)
         {

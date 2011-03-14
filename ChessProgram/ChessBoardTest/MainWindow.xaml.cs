@@ -34,10 +34,10 @@ namespace ChessBoardTest
 
             mp = new HH_MovesProvider(myColor, myStartPos);
             chessBoardControl.InitializeControl(mp);
-            chessBoardControl.PlayerMoveAnimationFinished += new PlayerMoveEventHandler(chessBoardControl_PlayerMoveAnimationFinished);
+            chessBoardControl.PlayerMoveFinished += new PlayerMoveEventHandler(chessBoardControl_PlayerMoveFinished);
         }
 
-        protected void chessBoardControl_PlayerMoveAnimationFinished(object source, PlayerMoveEventArgs e)
+        protected void chessBoardControl_PlayerMoveFinished(object source, PlayerMoveEventArgs e)
         {
             if (e.PlayerColor == myColor)
             {
@@ -48,7 +48,7 @@ namespace ChessBoardTest
                 mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
             chessBoardControl.ChangePlayer();
-            chessBoardControl.RedrawAll();
+            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove);
         }
     }
 }

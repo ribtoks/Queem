@@ -67,6 +67,16 @@ namespace ChessBoardTest
             }
         }
 
+        protected event EventHandler MoveAnimatinFinished;
+
+        protected void OnPlayerMoveAnimatinFinish()
+        {
+            if (MoveAnimatinFinished != null)
+            {
+                MoveAnimatinFinished(this, EventArgs.Empty);
+            }
+        }
+
         #endregion
 
         public ChessBoardControl()
