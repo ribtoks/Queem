@@ -348,6 +348,11 @@ namespace BasicChessClasses
 					moveResult = MoveResult.Castling;
 					
 					board.ProvideMove (move, moveResult);
+
+                    // FIX: forgot to make rook move on board
+                    // need to check in future if this line is
+                    // in right place!
+                    board.ProvideMove(rookMove, MoveResult.MoveOk);
 					
 					history.Add (move, moveResult, changes);
 					return moveResult;

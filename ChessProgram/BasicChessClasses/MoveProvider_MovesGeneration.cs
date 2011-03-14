@@ -59,6 +59,8 @@ namespace BasicChessClasses
 
             byte oneStepUp = Convert.ToByte(board[x, y + dir].Type == FigureType.Nobody);
             byte twoStepsUp = Convert.ToByte(board[x, y + 2*dir].Type == FigureType.Nobody);
+            // can go if only first cell in empty
+            twoStepsUp = (byte)(twoStepsUp & oneStepUp);
 			
 			return pp.GetMoves (coords, 
                 (byte)(attackingMap[ board[x - 1, y + dir] ] | leftPassing), 
@@ -127,7 +129,7 @@ namespace BasicChessClasses
 			{
 				if (fm.Rooks[leftRookCoord].CanDoCastling)
 				{
-					for (x = 0; x < initX; ++x)
+					for (x = 1; x < initX; ++x)
 					{
 						if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 						{
@@ -148,9 +150,12 @@ namespace BasicChessClasses
 								break;
 							}
 						}
-						
-						if (noEnemyControl)							
-							moveCoords.Add (leftRookCoord);
+
+                        if (noEnemyControl)
+                        {
+                            leftRookCoord.X += 2;
+                            moveCoords.Add(leftRookCoord);
+                        }
 					}
 				}
 			}
@@ -160,7 +165,9 @@ namespace BasicChessClasses
 			{
 				if (fm.Rooks[rightRookCoord].CanDoCastling)
 				{
-					for (x = initX + 1; x < 8; ++x)
+                    isClear = true;
+
+					for (x = initX + 1; x < 7; ++x)
 					{
 						if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 						{
@@ -172,8 +179,9 @@ namespace BasicChessClasses
 					if (isClear)
 					{
 						bool noEnemyControl = true;
-						
-						for (x = initX + 1; x < 8; ++x)
+                        // rook can be controlled by opponents figure
+                        // but king cannot
+						for (x = initX + 1; x < 7; ++x)
 						{
 							if (IsUnderPlayerControl (x, y, opponentPlayer))
 							{
@@ -181,9 +189,12 @@ namespace BasicChessClasses
 								break;
 							}
 						}
-						
-						if (noEnemyControl)
-							moveCoords.Add (rightRookCoord);
+
+                        if (noEnemyControl)
+                        {
+                            rightRookCoord.X -= 1;
+                            moveCoords.Add(rightRookCoord);
+                        }
 					}
 				}
 			}
@@ -390,24 +401,41 @@ namespace BasicChessClasses
 			
 			PawnProcessor pp = pawnProcessor1;
 			if (color == this.player2.FiguresColor)
-				pp = pawnProcessor2;
-			
-			GeneralFigureMap<byte> map = figureMapper.GetAttackingFiguresMap (color);
+                pp = pawnProcessor2;
+
+            int x = coords.X;
+            int y = coords.Y;
+
+            GeneralFigureMap<byte> map = figureMapper.GetAttackingFiguresMap(color);
+            bool canTakePassing = false;
 			
 			// if startpos == Down
 			int dir = -1;
-			
-			if (pp.StartPos == FigureStartPosition.Up)
-				dir *= -1;
-			
-			int x = coords.X;
-			int y = coords.Y;
+
+            if (pp.StartPos == FigureStartPosition.Up)
+            {
+                dir *= -1;
+                canTakePassing = (y == 4);
+            }
+            else
+            {
+                canTakePassing = (y == 3);
+            }
+
+            byte leftPassing = 0;
+            byte rightPassing = 0;
+
+            if (canTakePassing)
+            {
+                leftPassing = GetPassingPawnState(coords, -1);
+                rightPassing = GetPassingPawnState(coords, +1);
+            }
 			
 			return pp.GetMoves (coords, 
-                map[ board[x - 1, y + dir] ], 
+                (byte)(map[ board[x - 1, y + dir] ] | leftPassing), 
                 0/*map[ board[x, y + dir] ]*/, 
                 0/*map[ board[x, y + dir * 2] ]*/, 
-                map[ board[x + 1, y + dir] ]);
+                (byte)(map[ board[x + 1, y + dir] ] | rightPassing));
 		}
 		
 		public virtual List<Coordinates> GetAttackingKingMoves (Coordinates coords)

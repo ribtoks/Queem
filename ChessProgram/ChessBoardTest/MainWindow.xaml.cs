@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BasicChessClasses;
+using System.Threading;
 
 namespace ChessBoardTest
 {
@@ -49,6 +50,8 @@ namespace ChessBoardTest
             }
             chessBoardControl.ChangePlayer();
             chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove);
+            // next line for debug - substitution for animation
+            //chessBoardControl.RedrawAll();
         }
     }
 }

@@ -222,7 +222,9 @@ namespace ChessBoardTest
             startGrid.Children.Add(CreateFigureGrid(FigureType.Rook));
 
             figureBorder.RenderTransform = new TranslateTransform();
-            finishGrid.Children.Add(startFigureGrid);            
+            finishGrid.Children.Add(startFigureGrid);
+
+            chessBoardGrid.IsHitTestVisible = true;
         }
 
         public void AnimateFigureMove(DeltaChanges dc, ChessMove move)
@@ -251,10 +253,9 @@ namespace ChessBoardTest
                         break;
                 }
             }
-
-            chessBoardGrid.IsHitTestVisible = true;
+            
             // raise event
-            OnPlayerMoveAnimatinFinish();
+            //OnPlayerMoveAnimatinFinish();
         }
         
         protected void highlightBorder(object sender)

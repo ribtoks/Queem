@@ -67,13 +67,13 @@ namespace ChessBoardTest
             }
         }
 
-        protected event EventHandler MoveAnimatinFinished;
+        public event EventHandler PlayerMoveAnimatinFinished;
 
         protected void OnPlayerMoveAnimatinFinish()
         {
-            if (MoveAnimatinFinished != null)
+            if (PlayerMoveAnimatinFinished != null)
             {
-                MoveAnimatinFinished(this, EventArgs.Empty);
+                PlayerMoveAnimatinFinished(this, EventArgs.Empty);
             }
         }
 
