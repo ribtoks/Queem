@@ -143,7 +143,7 @@ namespace BasicChessClasses
 			 * 
 			 * 
 			 * ----------Rook----------
-			 *  1. kill a pawn in passing state
+			 *  1. kill a pawn in a passing state
 			 *  2. move from castling state
 			 *  3. be a part of a castling
 			 *  4. kill other rook in a castling state
@@ -152,7 +152,7 @@ namespace BasicChessClasses
 			 * 
 			 * ----------King----------
 			 *  1. move from a castling state
-			 *  2. kill a pawn in a castling state
+			 *  2. kill a pawn in a passing state
 			 *  3. kill a rook in a castling state
 			*/
 			

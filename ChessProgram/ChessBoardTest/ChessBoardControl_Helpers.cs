@@ -115,7 +115,7 @@ namespace ChessBoardTest
             Border startBorder = chessBoardGrid.Children[startIndex] as Border;
             Grid startGrid = startBorder.Child as Grid;
             Border startTarget = (startGrid.Children[0] as Grid).Children[0] as Border;
-            lastZIndex = Panel.GetZIndex(startBorder);
+            int zIndex = Panel.GetZIndex(startBorder);
             Panel.SetZIndex(startBorder, 9001);
 
 
@@ -154,7 +154,84 @@ namespace ChessBoardTest
 
             story.Completed += new EventHandler((sender, e) =>
             {
+                Panel.SetZIndex(startBorder, zIndex);
                 ReplaceAnimationFigures(new ChessMove(move));
+
+                animationsDone += 1;
+                if (animationsDone == animationEventsCount)
+                    OnPlayerMoveAnimationFinish();
+            });
+
+            story.Begin();
+        }
+
+        protected void innerAnimateCancelFigureMove(ChessMove move, GeneralFigure figureDied)
+        {
+            var start = move.Start;
+            var end = move.End;
+
+            int startIndex = start.Y * 8 + start.X;
+            Border startBorder = chessBoardGrid.Children[startIndex] as Border;
+            Grid startGrid = startBorder.Child as Grid;
+            if (figureDied.Type != FigureType.Nobody)
+                addFigureImageAt(start, figureDied);
+
+            // -------------------------------------
+
+            double deltaX = (start.X - end.X) * startGrid.ActualWidth;
+            double deltaY = (start.Y - end.Y) * startGrid.ActualHeight;
+
+            // -------------------------------------
+            
+            int finishIndex = end.Y * 8 + end.X;
+            Border finishBorder = chessBoardGrid.Children[finishIndex] as Border;
+            Grid finishGrid = finishBorder.Child as Grid;
+            
+            Grid grid = createFigureBoardGrid(mp.ChessBoard[end]);
+            Border endTarget = grid.Children[0] as Border;
+            endTarget.RenderTransform = new TranslateTransform(deltaX, deltaY);
+            // must NOT clear children, 'cause of 
+            // capture situation
+            //finishGrid.Children.Clear();
+            finishGrid.Children.Add(grid);
+            if (figureDied.Type == FigureType.Nobody)
+                deleteFigureImageAt(start);
+            // ------------------------------------
+            int zIndex = Panel.GetZIndex(finishBorder);
+            Panel.SetZIndex(finishBorder, 9001);
+
+            DoubleAnimation shiftX = new DoubleAnimation();
+            shiftX.To = 0;
+            shiftX.Duration = new Duration(TimeSpan.FromSeconds(0.3));
+            shiftX.AccelerationRatio = 0.4;
+            shiftX.DecelerationRatio = 0.6;
+
+            DoubleAnimation shiftY = new DoubleAnimation();
+            shiftY.To = 0;
+            shiftY.Duration = shiftX.Duration;
+            shiftY.AccelerationRatio = shiftX.AccelerationRatio;
+            shiftY.DecelerationRatio = shiftX.DecelerationRatio;
+
+            Storyboard story = new Storyboard();
+            story.Children.Add(shiftX);
+            story.Children.Add(shiftY);
+
+            Storyboard.SetTarget(shiftX, endTarget);
+            Storyboard.SetTarget(shiftY, endTarget);
+
+            Storyboard.SetTargetProperty(shiftX, new PropertyPath("RenderTransform.X"));
+            Storyboard.SetTargetProperty(shiftY, new PropertyPath("RenderTransform.Y"));
+
+            story.Completed += new EventHandler((sender, e) =>
+            {
+                Panel.SetZIndex(finishBorder, zIndex);
+                finishGrid.Children.Clear();
+                finishGrid.Children.Add(grid);
+                chessBoardGrid.IsHitTestVisible = true;
+
+                animationsDone += 1;
+                if (animationsDone == animationEventsCount)
+                    OnPlayerMoveAnimationFinish();
             });
 
             story.Begin();
@@ -170,17 +247,12 @@ namespace ChessBoardTest
             grid.Children.Add(CreateFigureGrid(FigureType.Rook));
         }
 
-        protected void addFigureImageAt(Coordinates coords, GeneralFigure gf)
+        protected Grid createFigureBoardGrid(GeneralFigure gf)
         {
             ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
             ResourceDictionary myStyles = rd.MergedDictionaries[0];
 
-            int index = coords.Y * 8 + coords.X;
-            Border outerBorder = chessBoardGrid.Children[index] as Border;
-            Grid parentGrid = outerBorder.Child as Grid;
-            parentGrid.Children.Clear();
-
-            // create border with needed margins
+            // create grid with needed margins
             Grid grid = CreateFigureGrid(gf.Type);
 
             Border border = new Border();
@@ -193,6 +265,19 @@ namespace ChessBoardTest
             Grid.SetColumn(border, 1);
             Grid.SetRow(border, 1);
 
+            return grid;
+        }
+
+        protected void addFigureImageAt(Coordinates coords, GeneralFigure gf)
+        {
+            int index = coords.Y * 8 + coords.X;
+            Border outerBorder = chessBoardGrid.Children[index] as Border;
+            Grid parentGrid = outerBorder.Child as Grid;
+            parentGrid.Children.Clear();
+
+            // create grid with needed margins
+            Grid grid = createFigureBoardGrid(gf);
+
             parentGrid.Children.Add(grid);
 
             // don't forget about event handlers,
@@ -204,41 +289,32 @@ namespace ChessBoardTest
             Coordinates start = move.Start;
             Coordinates end = move.End;
 
-            int startIndex = start.Y * 8 + start.X;
-            Border startBorder = chessBoardGrid.Children[startIndex] as Border;
-            Panel.SetZIndex(startBorder, lastZIndex);
-
-            Grid startGrid = startBorder.Child as Grid;
-            Grid startFigureGrid = startGrid.Children[0] as Grid;
-            Border figureBorder = startFigureGrid.Children[0] as Border;
-            startGrid.Children.Clear();
-
-            int finishIndex = end.Y * 8 + end.X;
-            Border finishBorder = chessBoardGrid.Children[finishIndex] as Border;
-            Grid finishGrid = finishBorder.Child as Grid;
-            Grid finishFigureGrid = finishGrid.Children[0] as Grid;
-
-            finishGrid.Children.Clear();
-            startGrid.Children.Add(CreateFigureGrid(FigureType.Rook));
-
-            figureBorder.RenderTransform = new TranslateTransform();
-            finishGrid.Children.Add(startFigureGrid);
+            deleteFigureImageAt(start);
+            addFigureImageAt(end, mp.ChessBoard[end]);
 
             chessBoardGrid.IsHitTestVisible = true;
         }
 
-        public void AnimateFigureMove(DeltaChanges dc, ChessMove move)
+        public void AnimateFigureMove(DeltaChanges dc, ChessMove move, MoveResult moveResult)
         {
+            OnPlayerMoveAnimationPreview();
+
             chessBoardGrid.IsHitTestVisible = false;
-            
+            if (moveResult == MoveResult.Castling)
+                animationEventsCount = 2;
+            else
+                animationEventsCount = 1;
+            animationsDone = 0;
+
             while (dc.Changes.Count > 0)
             {
                 Change change = dc.Changes.Pop();
                 switch (change.Action)
                 {
                     case MoveAction.Move:
+                        chessBoardGrid.IsHitTestVisible = false;
                         innerAnimateFigureMove(new ChessMove(change.Coords,
-                            change.AdditionalCoords));
+    change.AdditionalCoords));    
                         break;
                     case MoveAction.Deletion:
                         // delete figure image only when 
@@ -253,7 +329,62 @@ namespace ChessBoardTest
                         break;
                 }
             }
-            
+        }
+
+        public void AnimateCancelFigureMove(DeltaChanges dc, ChessMove move, MoveResult moveResult)
+        {
+            OnPlayerMoveAnimationPreview();
+
+            chessBoardGrid.IsHitTestVisible = false;
+
+            if (moveResult == MoveResult.Castling)
+                animationEventsCount = 2;
+            else
+                animationEventsCount = 1;
+            animationsDone = 0;
+
+            GeneralFigure figureDied = new GeneralFigure();
+            // select figure that was taken directly 
+            // by move, but not passing pawn
+            var deadFigures = dc.Changes.Where((x) => (x.Action == MoveAction.Deletion) && // was taken
+                (x.FigureColor != mp.ChessBoard[move.Start].Color) && // opponents figure
+                (x.Coords == move.End)); // not passing pawn
+            if (deadFigures.Count() == 1)
+            {
+                var firstChange = deadFigures.First();
+                figureDied = new GeneralFigure(firstChange.FigureType, firstChange.FigureColor);
+            }
+#if DEBUG
+            else if (deadFigures.Count() > 1)
+                throw new Exception("Something strange here");
+#endif
+
+            while (dc.Changes.Count > 0)
+            {
+                Change change = dc.Changes.Pop();
+                switch (change.Action)
+                {
+                    case MoveAction.Move:
+                        chessBoardGrid.IsHitTestVisible = false;
+                        //if (moveResult == MoveResult.Castling)
+                            innerAnimateCancelFigureMove(new ChessMove(change.AdditionalCoords,
+                                change.Coords), figureDied);
+                        //else
+                        //    innerAnimateFigureMove(new ChessMove(change.AdditionalCoords,
+                        //    change.Coords));
+                        break;
+                    case MoveAction.Creation:
+                        //deleteFigureImageAt(change.Coords);
+                        break;
+                    case MoveAction.Deletion:
+                        if (move.End != change.Coords)
+                            addFigureImageAt(change.Coords,
+                                new GeneralFigure(change.FigureType,
+                                    change.FigureColor));
+                        break;
+                }
+            }
+
             // raise event
             //OnPlayerMoveAnimatinFinish();
         }

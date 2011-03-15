@@ -38,9 +38,15 @@ namespace ChessBoardTest
         // which turn to move is now
         protected FigureColor currPlayerColor;
 
-        private int lastZIndex;
+        protected int animationEventsCount = 0;
+        protected int animationsDone = 0;
 
         #endregion
+
+        public FigureColor CurrPlayerColor
+        {
+            get { return currPlayerColor; }
+        }
 
         #region Events
 
@@ -51,6 +57,16 @@ namespace ChessBoardTest
             if (PlayerMoveStartPreview != null)
             {
                 PlayerMoveStartPreview(this, new PlayerMoveEventArgs() { MoveStart = new Coordinates(startCoord), PlayerColor = currPlayerColor });
+            }
+        }
+
+        public event EventHandler PlayerMoveAnimationPreview;
+
+        protected void OnPlayerMoveAnimationPreview()
+        {
+            if (PlayerMoveAnimationPreview != null)
+            {
+                PlayerMoveAnimationPreview(this, EventArgs.Empty);
             }
         }
 
@@ -67,13 +83,13 @@ namespace ChessBoardTest
             }
         }
 
-        public event EventHandler PlayerMoveAnimatinFinished;
+        public event EventHandler PlayerMoveAnimationFinished;
 
-        protected void OnPlayerMoveAnimatinFinish()
+        protected void OnPlayerMoveAnimationFinish()
         {
-            if (PlayerMoveAnimatinFinished != null)
+            if (PlayerMoveAnimationFinished != null)
             {
-                PlayerMoveAnimatinFinished(this, EventArgs.Empty);
+                PlayerMoveAnimationFinished(this, EventArgs.Empty);
             }
         }
 
@@ -267,6 +283,9 @@ namespace ChessBoardTest
             currPlayerColor = currPlayerColor.GetOppositeColor();
         }
 
+        /// <summary>
+        /// Debug method
+        /// </summary>
         public void RedrawAll()
         {
             chessBoardGrid.Children.Clear();

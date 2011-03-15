@@ -123,5 +123,13 @@ namespace BasicChessClasses
 			player1 = new ChessPlayerBase (player1.FiguresColor, player1.StartPos);
 			player2 = new ChessPlayerBase (player2.FiguresColor, player2.StartPos);
 		}
+
+        public void CancelMove(FigureColor playerColor)
+        {
+            if (playerColor == player1.FiguresColor)
+                CancelLastPlayerMove(player1, player2);
+            else
+                CancelLastPlayerMove(player2, player1);
+        }
 	}
 }

@@ -7,6 +7,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
@@ -16,7 +17,10 @@
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <Button x:Name="cancelButton" Click="cancelButton_Click" Content="Cancel last move" />
+        </StackPanel>
         <local:ChessBoardControl x:Name="chessBoardControl" 
-                                 Grid.Row="1" Grid.Column="1" />
+                                 Grid.Row="2" Grid.Column="1" />
     </Grid>
 </Window>

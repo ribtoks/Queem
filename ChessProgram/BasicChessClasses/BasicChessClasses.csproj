@@ -9,7 +9,8 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>BasicChessClasses</RootNamespace>
     <AssemblyName>BasicChessClasses</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +56,9 @@
     <Compile Include="MovesProvider_Stuff.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GeneralFigureMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -36,6 +36,18 @@ namespace ChessBoardTest
             mp = new HH_MovesProvider(myColor, myStartPos);
             chessBoardControl.InitializeControl(mp);
             chessBoardControl.PlayerMoveFinished += new PlayerMoveEventHandler(chessBoardControl_PlayerMoveFinished);
+            chessBoardControl.PlayerMoveAnimationFinished += new EventHandler(chessBoardControl_PlayerMoveAnimationFinished);
+            chessBoardControl.PlayerMoveAnimationPreview += new EventHandler(chessBoardControl_PlayerMoveAnimationPreview);
+        }
+
+        protected void chessBoardControl_PlayerMoveAnimationPreview(object sender, EventArgs e)
+        {
+            cancelButton.IsEnabled = false;
+        }
+
+        protected void chessBoardControl_PlayerMoveAnimationFinished(object sender, EventArgs e)
+        {
+            cancelButton.IsEnabled = true;
         }
 
         protected void chessBoardControl_PlayerMoveFinished(object source, PlayerMoveEventArgs e)
@@ -49,9 +61,24 @@ namespace ChessBoardTest
                 mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
             chessBoardControl.ChangePlayer();
-            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove);
+            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
             // next line for debug - substitution for animation
             //chessBoardControl.RedrawAll();
+        }
+
+        protected void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mp.History.Count == 0)
+                return;
+
+            ChessMove lastMove = new ChessMove(mp.History.LastMove);
+            DeltaChanges lastChanges = new DeltaChanges(mp.History.LastChanges);
+            MoveResult lastResult = mp.History.LastMoveResult;
+
+            chessBoardControl.ChangePlayer();
+
+            mp.CancelMove(chessBoardControl.CurrPlayerColor);
+            chessBoardControl.AnimateCancelFigureMove(lastChanges, lastMove, lastResult);
         }
     }
 }
