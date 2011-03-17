@@ -19,9 +19,10 @@
         
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
             <Button x:Name="cancelButton" Width="50" Click="cancelButton_Click"
-                    Content="Undo" Margin="5" />
+                    Content="Undo" Margin="5" IsEnabled="False" />
             <Button x:Name="redoButton" Width="50" Content="Redo"
-                    Click="redoButton_Click" Margin="5" />
+                    Click="redoButton_Click" Margin="5" 
+                    IsEnabled="False" />
         </StackPanel>
         <local:ChessBoardControl x:Name="chessBoardControl" 
                                  Grid.Row="2" Grid.Column="1" />

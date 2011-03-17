@@ -112,14 +112,14 @@ namespace BasicChessClasses
 		
 		public void AddFigure (Coordinates addWhere,FigureType type, FigureColor color)
 		{
-			T figure = new T ();
+            T figure = new T ();
 			figure.Color = color;
 			figure.Type = type;
 			figure.Coordinates = addWhere;
 				
 			figures[addWhere] = figure;
 			figureList.Add (figure);
-			figureAccess.Add (figure, true);
+			figureAccess[figure] = true;
 			
 			++figuresCount;
 		}
