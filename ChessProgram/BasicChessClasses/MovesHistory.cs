@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BasicChessClasses
 {
-	public enum MoveAction { Creation, Move, Deletion }
+	public enum MoveAction { Creation, Move, Deletion, PawnChange }
 	
 	public class Change
 	{

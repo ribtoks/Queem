@@ -41,6 +41,9 @@ namespace ChessBoardTest
         protected int animationEventsCount = 0;
         protected int animationsDone = 0;
 
+        protected Coordinates pawnChangeCoords;
+        protected FigureType[] pawnReplacementTypes = new FigureType[] { FigureType.Horse, FigureType.Bishop, FigureType.Rook, FigureType.Queen };
+
         #endregion
 
         public FigureColor CurrPlayerColor
@@ -90,6 +93,17 @@ namespace ChessBoardTest
             if (PlayerMoveAnimationFinished != null)
             {
                 PlayerMoveAnimationFinished(this, EventArgs.Empty);
+            }
+        }
+
+        public event PawnChangedEventHandler PawnChanged;
+
+        protected void OnPawnChange(FigureType changeType)
+        {
+            if (PawnChanged != null)
+            {
+                PawnChanged(this, new PawnChangedEventArgs() 
+                { Type = changeType, Coords = pawnChangeCoords });
             }
         }
 
@@ -283,6 +297,40 @@ namespace ChessBoardTest
             currPlayerColor = currPlayerColor.GetOppositeColor();
         }
 
+        public void ReplacePawn(Coordinates coords, FigureColor pawnColor)
+        {
+            alternativesGrid.Children.Clear();
+
+            Storyboard showOverlay = (Storyboard)this.FindResource("showOverlay");
+            ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
+            ResourceDictionary myStyles = rd.MergedDictionaries[0];
+
+            pawnChangeCoords = new Coordinates(coords);
+
+            foreach (var type in pawnReplacementTypes)
+            {
+                Border outerBorder = new Border();
+                outerBorder.Style = (Style)alternativesGrid.Resources["borderWrapperStyle"];
+
+                outerBorder.MouseUp += new MouseButtonEventHandler(FigureBorder_Click);
+
+                Grid grid = CreateFigureGrid(type);
+                
+                Border border = new Border();
+                border.Background = (VisualBrush)myStyles[string.Format("{0}{1}", pawnColor, type)];
+
+                grid.Children.Add(border);
+                Grid.SetRow(border, 1);
+                Grid.SetColumn(border, 1);
+
+                outerBorder.Child = grid;
+
+                alternativesGrid.Children.Add(outerBorder);
+            }
+
+            showOverlay.Begin();
+        }
+
         /// <summary>
         /// Debug method
         /// </summary>
@@ -291,6 +339,20 @@ namespace ChessBoardTest
             chessBoardGrid.Children.Clear();
             InitializeBoard();
             BindBoardHandlers();            
+        }
+
+        private void FigureBorder_Click(object sender, MouseButtonEventArgs e)
+        {
+            int borderIndex = alternativesGrid.Children.IndexOf(sender as UIElement);
+            FigureType type = pawnReplacementTypes[borderIndex];
+
+            Storyboard hideOverlay = (Storyboard)this.FindResource("hideOverlay");
+
+            hideOverlay.Begin();
+            deleteFigureImageAt(pawnChangeCoords);
+            addFigureImageAt(pawnChangeCoords, new GeneralFigure(type, currPlayerColor));
+
+            OnPawnChange(type);
         }
     }
 }

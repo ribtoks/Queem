@@ -15,6 +15,32 @@
                 <ResourceDictionary Source="Resources/ChessFiguresDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        <Storyboard x:Key="showOverlay">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="overlayGrid" 
+                                           Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="overlayGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"  />
+        </Storyboard>
+        <Storyboard x:Key="hideOverlay">
+            <DoubleAnimation Storyboard.TargetName="overlayGrid" 
+                             BeginTime="0:0:0.4" 
+                             Storyboard.TargetProperty="Opacity" 
+                             From="1" To="0" Duration="0:0:0.5"  />
+            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.7" 
+                                           Storyboard.TargetName="overlayGrid" 
+                                           Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
     <Grid x:Name="ChessBoardGrid" HorizontalAlignment="Stretch" 
           VerticalAlignment="Stretch">
@@ -97,6 +123,54 @@
                     <!-- Placeholder for borders -->
                 </UniformGrid>
             </Grid>
+        </Grid>
+        <Grid x:Name="overlayGrid"
+              Panel.ZIndex="100" Opacity="0" Visibility="Collapsed" 
+              Background="#70000000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" BorderThickness="2" BorderBrush="White" CornerRadius="5">
+                <UniformGrid x:Name="alternativesGrid" 
+                        Rows="1" Columns="4"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
+                    <UniformGrid.Resources>
+                        <Style x:Key="borderWrapperStyle" TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                            <Setter Property="Background" Value="Steelblue" />
+                            <Setter Property="Margin" Value="5" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                             From="5" To="0" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                             From="0" To="5" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </UniformGrid.Resources>
+                </UniformGrid>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>

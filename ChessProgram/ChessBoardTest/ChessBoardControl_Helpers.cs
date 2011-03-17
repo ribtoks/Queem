@@ -48,6 +48,11 @@ namespace ChessBoardTest
             }
         }
 
+        public void HideHighlitedCells()
+        {
+            HidePossibleCells(this.lastPossibleMoves);
+        }
+
         protected bool StartFigureMoving(int i, int j)
         {
             GeneralFigure gf = mp.ChessBoard[j, i];

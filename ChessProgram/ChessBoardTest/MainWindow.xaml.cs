@@ -38,6 +38,14 @@ namespace ChessBoardTest
             chessBoardControl.PlayerMoveFinished += new PlayerMoveEventHandler(chessBoardControl_PlayerMoveFinished);
             chessBoardControl.PlayerMoveAnimationFinished += new EventHandler(chessBoardControl_PlayerMoveAnimationFinished);
             chessBoardControl.PlayerMoveAnimationPreview += new EventHandler(chessBoardControl_PlayerMoveAnimationPreview);
+            chessBoardControl.PawnChanged += new PawnChangedEventHandler(chessBoardControl_PawnChanged);
+        }
+
+        protected void chessBoardControl_PawnChanged(object source, PawnChangedEventArgs e)
+        {
+            mp.ReplacePawn(e.Coords, e.Type, 
+                chessBoardControl.CurrPlayerColor);
+            chessBoardControl.ChangePlayer();
         }
 
         protected void chessBoardControl_PlayerMoveAnimationPreview(object sender, EventArgs e)
@@ -52,16 +60,26 @@ namespace ChessBoardTest
 
         protected void chessBoardControl_PlayerMoveFinished(object source, PlayerMoveEventArgs e)
         {
+            MoveResult mr = MoveResult.Fail;
+
             if (e.PlayerColor == myColor)
             {
-                mp.ProvideMyMove(new ChessMove(e.MoveStart, e.MoveEnd));
+                mr = mp.ProvideMyMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
             else
             {
-                mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
+                mr = mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
-            chessBoardControl.ChangePlayer();
+            
             chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
+
+            if ((mr == MoveResult.PawnReachedEnd) ||
+                (mr == MoveResult.CapturedAndPawnReachedEnd))
+            {
+                chessBoardControl.ReplacePawn(mp.History.LastMove.End, chessBoardControl.CurrPlayerColor);
+            }
+            else
+                chessBoardControl.ChangePlayer();
             // next line for debug - substitution for animation
             //chessBoardControl.RedrawAll();
         }
@@ -76,9 +94,14 @@ namespace ChessBoardTest
             MoveResult lastResult = mp.History.LastMoveResult;
 
             chessBoardControl.ChangePlayer();
-
+            chessBoardControl.HideHighlitedCells();
             mp.CancelMove(chessBoardControl.CurrPlayerColor);
             chessBoardControl.AnimateCancelFigureMove(lastChanges, lastMove, lastResult);
+        }
+
+        private void redoButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

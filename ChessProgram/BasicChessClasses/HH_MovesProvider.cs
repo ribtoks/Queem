@@ -22,5 +22,13 @@ namespace BasicChessClasses
         {
             return this.ProvidePlayerMove(move, player2, player1);
         }
+
+        public void ReplacePawn(Coordinates pawnCoords, FigureType newType, FigureColor figureColor)
+        {
+            if (figureColor == player1.FiguresColor)
+                this.ReplacePawnAtTheOtherSide(pawnCoords, newType, player1);
+            else
+                this.ReplacePawnAtTheOtherSide(pawnCoords, newType, player2);
+        }
     }
 }
