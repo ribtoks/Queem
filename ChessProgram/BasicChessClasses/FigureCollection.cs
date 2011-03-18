@@ -133,7 +133,7 @@ namespace BasicChessClasses
 			
 			figures[addWhat.Coordinates] = figure;
 			figureList.Add (figure);
-			figureAccess.Add (figure, true);
+			figureAccess[figure] = true;
 			
 			++figuresCount;
 		}
