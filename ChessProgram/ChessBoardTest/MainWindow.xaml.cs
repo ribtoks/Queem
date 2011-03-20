@@ -26,7 +26,7 @@ namespace ChessBoardTest
         HH_MovesProvider mp;
         FigureColor myColor = FigureColor.White;
         FigureStartPosition myStartPos = FigureStartPosition.Down;
-        List<MoveRedoInfo> redoMoves;
+        List<MoveWithDecision> redoMoves;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace ChessBoardTest
             InitializeComponent();
 
             mp = new HH_MovesProvider(myColor, myStartPos);
-            redoMoves = new List<MoveRedoInfo>();
+            redoMoves = new List<MoveWithDecision>();
 
             #region ChessBoard Events Handlers
             chessBoardControl.InitializeControl(mp);
@@ -109,7 +109,7 @@ namespace ChessBoardTest
             chessBoardControl.AnimateCancelFigureMove(new DeltaChanges(lastChanges), lastMove, lastResult);
 
             redoButton.IsEnabled = true;
-            MoveRedoInfo mi = new MoveRedoInfo();
+            MoveWithDecision mi = new MoveWithDecision();
             mi.Move = lastMove;
             if ((lastResult == MoveResult.CapturedAndPawnReachedEnd) ||
                 (lastResult == MoveResult.PawnReachedEnd))
@@ -128,7 +128,7 @@ namespace ChessBoardTest
                 return;
 
             MoveResult mr = MoveResult.Fail;
-            MoveRedoInfo redoInfo = redoMoves.Last();
+            MoveWithDecision redoInfo = redoMoves.Last();
             ChessMove move = redoInfo.Move;
             redoMoves.RemoveAt(redoMoves.Count - 1);
 

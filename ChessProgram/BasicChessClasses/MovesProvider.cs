@@ -131,7 +131,7 @@ namespace BasicChessClasses
             horseProcessor = copy.horseProcessor;
         }
 
-        protected virtual MoveResult ProvidePlayerMove(ChessMove move,
+        public virtual MoveResult ProvidePlayerMove(ChessMove move,
                                              ChessPlayerBase player, ChessPlayerBase opponentPlayer)
         {
             /*
@@ -379,7 +379,7 @@ namespace BasicChessClasses
             return moveResult;
         }
 
-        protected virtual void CancelLastPlayerMove(ChessPlayerBase player,
+        public virtual void CancelLastPlayerMove(ChessPlayerBase player,
                                                      ChessPlayerBase opponentPlayer)
         {
             // get links for FigureManager classes of players
@@ -452,7 +452,7 @@ namespace BasicChessClasses
             history.UndoLast();
         }
 
-        protected virtual void ReplacePawnAtTheOtherSide(Coordinates pawnCoords,
+        public virtual void ReplacePawnAtTheOtherSide(Coordinates pawnCoords,
                                                        FigureType newType, ChessPlayerBase player)
         {
             Change deleteChange =
@@ -1036,8 +1036,26 @@ namespace BasicChessClasses
                      * else check AttackFromDirections() 
                      * from move.start and move.end
                     */
-                    if (!IsInCheck(player, opponentPlayer))
-                        resultCoords.Add(possibleCells[i]);
+                    if (board[move.End].Type == FigureType.King)
+                    {
+                        if (!IsInCheck(player, opponentPlayer))
+                            resultCoords.Add(possibleCells[i]);
+                    }
+                    else
+                    {
+                        bool notInCheck = true;
+                        Coordinates kingCoords = player.FiguresManager.Kings.King.Coordinates;
+
+                        if (IsUnderAttackFromDirection(kingCoords, move.Start))
+                            notInCheck = false;
+
+                        if (notInCheck)
+                            if (IsUnderAttackFromDirection(kingCoords, move.End))
+                                notInCheck = false;
+
+                        if (notInCheck)
+                            resultCoords.Add(possibleCells[i]);
+                    }
 
                     CancelLastPlayerMove(player, opponentPlayer);
                 }

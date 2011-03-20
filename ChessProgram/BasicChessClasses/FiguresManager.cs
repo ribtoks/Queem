@@ -105,8 +105,37 @@ namespace BasicChessClasses
 		FiguresManagementDelegates kingDeletages;
 		
 		#endregion
-		
-		public FiguresManager (FigureStartPosition startPos, FigureColor figuresColor)
+
+        #region Properties
+
+        public int PawnCount
+        {
+            get { return pawns.Count; }
+        }
+
+        public int BishopCount
+        {
+            get { return bishops.Count; }
+        }
+
+        public int HorseCount
+        {
+            get { return horses.Count; }
+        }
+
+        public int RookCount
+        {
+            get { return rooks.Count; }
+        }
+
+        public int QueenCount
+        {
+            get { return queens.Count; }
+        }
+
+        #endregion
+
+        public FiguresManager (FigureStartPosition startPos, FigureColor figuresColor)
 		{
 			pawns = new PawnCollection ();
 			rooks = new RookCollection ();

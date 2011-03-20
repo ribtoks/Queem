@@ -6,7 +6,7 @@ using BasicChessClasses;
 
 namespace ChessBoardTest
 {
-    public class MoveRedoInfo
+    public class MoveWithDecision
     {
         public ChessMove Move { get; set; }
         public FigureType PawnDecision { get; set; }
