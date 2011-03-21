@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BasicChessClasses;
 using System.Threading;
+using QueemAI;
 
 namespace ChessBoardTest
 {
@@ -23,7 +24,7 @@ namespace ChessBoardTest
     {
         #region Data
 
-        HH_MovesProvider mp;
+        CH_MovesProvider mp;
         FigureColor myColor = FigureColor.White;
         FigureStartPosition myStartPos = FigureStartPosition.Down;
         List<MoveWithDecision> redoMoves;
@@ -34,7 +35,7 @@ namespace ChessBoardTest
         {
             InitializeComponent();
 
-            mp = new HH_MovesProvider(myColor, myStartPos);
+            mp = new CH_MovesProvider(myColor, myStartPos);
             redoMoves = new List<MoveWithDecision>();
 
             #region ChessBoard Events Handlers
@@ -60,6 +61,29 @@ namespace ChessBoardTest
 
         protected void chessBoardControl_PlayerMoveAnimationFinished(object sender, EventArgs e)
         {
+            if (chessBoardControl.CurrPlayerColor != myColor)
+            {
+                ChessSolver cs = new ChessSolver();
+
+                ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 3);
+
+                //chessBoardControl.RedrawAll();
+                //return;
+
+                MoveResult mr = mp.ProvideOpponenMove(move);
+
+                chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
+
+                if ((mr == MoveResult.PawnReachedEnd) ||
+                    (mr == MoveResult.CapturedAndPawnReachedEnd))
+                {
+                    PromotionType prType = (move as PromotionMove).Promotion;
+                    mp.ReplacePawn(move.End, (FigureType)prType, mp.ChessBoard[move.End].Color);
+                }
+   
+                chessBoardControl.ChangePlayer();
+            }
+
             if (mp.History.Count > 0)
                 cancelButton.IsEnabled = true;
         }

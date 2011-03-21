@@ -6,34 +6,84 @@ using BasicChessClasses;
 
 namespace QueemAI
 {
-    public enum CurrentPlayer { Me, CPU }
-
-    public static class CurrentPlayerExtensions
-    {
-        public static CurrentPlayer GetOppositePlayer(this CurrentPlayer player)
-        {
-            if (player == CurrentPlayer.Me)
-                return CurrentPlayer.CPU;
-            return CurrentPlayer.Me;
-        }
-    }
-
-    public class ChessSolver
+    public partial class ChessSolver
     {
         protected MovesProvider provider;
-        protected CurrentPlayer currPlayer;
         protected int ply;
         protected int nodesSearched;
+        protected List<EvaluatedMove>[] bestMoves = new List<EvaluatedMove>[2];
+        protected int[] playerDepth = new int[2];
 
-        public ChessMove SolveProblem(MovesProvider snapshot, FigureColor playerColor)
+        public ChessMove SolveProblem(MovesProvider snapshot, FigureColor playerColor, int maxdepth)
         {
-            ply = 0;
-            //return snapshot.GetFilteredCells(
-            return new ChessMove();
+            provider = snapshot;
+            var moves = Search(maxdepth);
+            SortEvaluatedMoves(moves);
+
+            // of course, will be changed in future...
+            return moves[0].Move;
         }
 
-        protected int AlphaBetaPruning(int alpha, int beta, int depth)
+        protected List<EvaluatedMove> Search(int maxdepth)
         {
+            ply = 0;
+            nodesSearched = 0;
+
+            List<EvaluatedMove> evaluatedMoves = new List<EvaluatedMove>();
+
+            int alpha = -PositionEvaluator.MateValue;
+            int beta = PositionEvaluator.MateValue;
+            int value = 0;
+
+            InitializeBestMoves();
+            InitializePlayerDepth();
+
+            var player = provider.Player2;
+            var opponentPlayer = provider.Player1;
+            CurrentPlayer nextPlayer = CurrentPlayer.Me;
+            MoveResult mr = MoveResult.Fail;
+
+            nodesSearched += 1;
+            var moves = GetPlayerMoves(provider.Player2, provider.Player1);
+            for (int i = 0; i < moves.Count; ++i)
+            {
+                var move = moves[i];
+                mr = provider.ProvidePlayerMove(move, player, opponentPlayer);
+
+                if ((mr == MoveResult.PawnReachedEnd) ||
+                    (mr == MoveResult.CapturedAndPawnReachedEnd))
+                {
+                    PromotionType promotionFigure = (move as PromotionMove).Promotion;
+                    provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
+                }
+
+                value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
+
+                provider.CancelLastPlayerMove(player, opponentPlayer);
+                --ply;
+
+                if (value > alpha)
+                {
+                    // paste history heuristics here...
+
+                    alpha = value;
+                }
+
+                evaluatedMoves.Add(new EvaluatedMove() 
+                    { Move = move, Value = value }
+                    );
+            }
+
+            // TODO check for checkmate and stalemate
+
+            //return snapshot.GetFilteredCells(
+            return evaluatedMoves;
+        }
+
+        protected int AlphaBetaPruning(int alpha, int beta, int depth, CurrentPlayer currPlayer)
+        {
+            var nextPlayer = currPlayer.GetOppositePlayer();
+            IncPlayerDepth(currPlayer);
             nodesSearched += 1;
 
             ChessPlayerBase player = provider.Player1;
@@ -44,7 +94,7 @@ namespace QueemAI
                 player = provider.Player2;
                 opponentPlayer = provider.Player1;
             }
-            currPlayer = currPlayer.GetOppositePlayer();
+            //var currBestMoves = bestMoves[(int)currPlayer];
 
             bool wasOwnKingInCheck = provider.IsCheckmate(player, opponentPlayer);
 
@@ -55,15 +105,15 @@ namespace QueemAI
 
             if (moves.Count == 0)
             {
+                DecPlayerDepth(currPlayer);
                 if (wasOwnKingInCheck)
                     return (-PositionEvaluator.MateValue + ply);
                 else
                     // position is a stalemate
                     return 0;
             }
-
+            
             ChessMove move = new ChessMove();
-
             for (int i = 0; i < moves.Count; ++i)
             {
                 move = moves[i];
@@ -74,22 +124,25 @@ namespace QueemAI
                 if ((mr == MoveResult.PawnReachedEnd) ||
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
-                    FigureType promotionFigure = (move as ChessPromotionMove).Promotion;
-                    provider.ReplacePawnAtTheOtherSide(move.End, promotionFigure, player);
+                    PromotionType promotionFigure = (move as PromotionMove).Promotion;
+                    provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
                 }
 
                 value = EvaluatePosition(player, opponentPlayer) - EvaluatePosition(opponentPlayer, player);
 
                 if (depth > 1)
-                    value = -AlphaBetaPruning(-beta, -alpha, depth - 1);
+                    value = -AlphaBetaPruning(-beta, -alpha, depth - 1, nextPlayer);
 
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;
 
                 if (value > alpha)
                 {
+                    // paste history heuristics here...
+
                     if (value >= beta)
                     {
+                        DecPlayerDepth(currPlayer);
                         return beta;
                     }
 
@@ -97,6 +150,7 @@ namespace QueemAI
                 }
             }
 
+            DecPlayerDepth(currPlayer);
             return alpha;
         }
 
@@ -120,24 +174,24 @@ namespace QueemAI
                         (move.End.Y == 7))
                     {
                         pMoves.Add(
-                            new ChessPromotionMove(
+                            new PromotionMove(
                                 new ChessMove(move),
-                                FigureType.Queen));
+                                PromotionType.Queen));
 
                         pMoves.Add(
-                            new ChessPromotionMove(
+                            new PromotionMove(
                                 new ChessMove(move),
-                                FigureType.Rook));
+                                PromotionType.Rook));
 
                         pMoves.Add(
-                            new ChessPromotionMove(
+                            new PromotionMove(
                                 new ChessMove(move),
-                                FigureType.Bishop));
+                                PromotionType.Bishop));
 
                         pMoves.Add(
-                            new ChessPromotionMove(
+                            new PromotionMove(
                                 new ChessMove(move),
-                                FigureType.Horse));
+                                PromotionType.Horse));
                     }
                     else
                         pMoves.Add(new ChessMove(move));
@@ -153,6 +207,7 @@ namespace QueemAI
 
                 for (int i = 0; i < horseMoves.Count; ++i)
                 {
+                    move.End = horseMoves[i];
                     moves.Add(new ChessMove(move));
                 }
             }
@@ -164,6 +219,7 @@ namespace QueemAI
 
                 for (int i = 0; i < bishopMoves.Count; ++i)
                 {
+                    move.End = bishopMoves[i];
                     moves.Add(new ChessMove(move));
                 }
             }
@@ -175,6 +231,7 @@ namespace QueemAI
 
                 for (int i = 0; i < rookMoves.Count; ++i)
                 {
+                    move.End = rookMoves[i];
                     moves.Add(new ChessMove(move));
                 }
             }
@@ -186,6 +243,7 @@ namespace QueemAI
 
                 for (int i = 0; i < queenMoves.Count; ++i)
                 {
+                    move.End = queenMoves[i];
                     moves.Add(new ChessMove(move));
                 }
             }
@@ -195,35 +253,11 @@ namespace QueemAI
 
             for (int i = 0; i < kingMoves.Count; ++i)
             {
+                move.End = kingMoves[i];
                 moves.Add(new ChessMove(move));
             }
 
             return moves;
-        }
-
-        protected int EvaluatePosition(ChessPlayerBase player, ChessPlayerBase opponentPlayer)
-        {
-            int result = 0;
-
-            // add actual figures
-            result += player.FiguresManager.PawnCount * PositionEvaluator.PawnValue;
-            result += player.FiguresManager.BishopCount * PositionEvaluator.BishopValue;
-            result += player.FiguresManager.HorseCount * PositionEvaluator.HorseValue;
-            result += player.FiguresManager.RookCount * PositionEvaluator.RookValue;
-            result += player.FiguresManager.QueenCount * PositionEvaluator.QueenValue;
-
-            foreach (var figure in player.FiguresManager)
-            {
-                var coords = figure.Coordinates;
-                result += PositionEvaluator.PositionValue[coords.Y, coords.X];
-            }
-
-            if (player.FiguresManager.Bishops.Count == 2)
-                result += PositionEvaluator.PawnValue / 3;
-
-            // TODO write lots of other conditions
-
-            return result;
         }
     }
 }

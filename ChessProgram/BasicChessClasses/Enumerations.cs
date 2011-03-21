@@ -2,7 +2,7 @@ using System;
 
 namespace BasicChessClasses
 {
-	public enum PromotionType { Rook = 2, Bishop = 4, Horse = 6, Queen = 10 };
+	public enum PromotionType { Rook = 1, Bishop = 2, Horse = 3, Queen = 5 };
 	
 	public enum FigureType { Pawn = 0, Rook = 1, Bishop = 2, Horse = 3, King = 4, Queen = 5,
 		Nobody = 6, Null = 7 };

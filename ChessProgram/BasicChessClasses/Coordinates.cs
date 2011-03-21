@@ -287,6 +287,12 @@ namespace BasicChessClasses
 			: base()
 		{
 		}
+
+        public PromotionMove(ChessMove move, PromotionType promotionType)
+            : base(move)
+        {
+            promotion = promotionType;
+        }
 		
 		public PromotionMove (Coordinates copyStart, 
 			Coordinates copyEnd, PromotionType promotionType)
