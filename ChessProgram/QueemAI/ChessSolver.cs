@@ -13,6 +13,7 @@ namespace QueemAI
         protected int nodesSearched;
         protected List<EvaluatedMove>[] bestMoves = new List<EvaluatedMove>[2];
         protected int[] playerDepth = new int[2];
+        protected ChessMove bestMove = null;
 
         public ChessMove SolveProblem(MovesProvider snapshot, FigureColor playerColor, int maxdepth)
         {
@@ -21,7 +22,8 @@ namespace QueemAI
             SortEvaluatedMoves(moves);
 
             // of course, will be changed in future...
-            return moves[0].Move;
+            //return moves[0].Move;
+            return bestMove;
         }
 
         protected List<EvaluatedMove> Search(int maxdepth)
@@ -44,7 +46,7 @@ namespace QueemAI
             MoveResult mr = MoveResult.Fail;
 
             nodesSearched += 1;
-            var moves = GetPlayerMoves(provider.Player2, provider.Player1);
+            var moves = GetPlayerMoves(player, opponentPlayer);
             for (int i = 0; i < moves.Count; ++i)
             {
                 var move = moves[i];
@@ -57,7 +59,10 @@ namespace QueemAI
                     provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
                 }
 
-                value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
+                if (maxdepth > 1)
+                    value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
+                else
+                    value = EvaluatePosition(player, opponentPlayer) - EvaluatePosition(opponentPlayer, player);
 
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;
@@ -65,7 +70,7 @@ namespace QueemAI
                 if (value > alpha)
                 {
                     // paste history heuristics here...
-
+                    bestMove = move;
                     alpha = value;
                 }
 
@@ -157,13 +162,13 @@ namespace QueemAI
         protected List<ChessMove> GetPlayerMoves(ChessPlayerBase player, ChessPlayerBase opponent)
         {
             // in future, use sorted dictionary
-            var moves = new List<ChessMove>(40);
+            var moves = new List<ChessMove>(30);
             ChessMove move = new ChessMove();
 
             var pMoves = new List<ChessMove>();
             foreach (var pawn in player.FiguresManager.Pawns)
             {
-                var pawnMoves = provider.GetFilteredCells(pawn.Coordinates);
+                var pawnMoves = provider.GetFilteredCells(pawn.Coordinates, player, opponent);
                 move.Start = pawn.Coordinates;
 
                 for (int i = 0; i < pawnMoves.Count; ++i)
@@ -203,7 +208,7 @@ namespace QueemAI
             foreach (var horse in player.FiguresManager.Horses)
             {
                 move.Start = horse.Coordinates;
-                var horseMoves = provider.GetFilteredCells(horse.Coordinates);
+                var horseMoves = provider.GetFilteredCells(horse.Coordinates, player, opponent);
 
                 for (int i = 0; i < horseMoves.Count; ++i)
                 {
@@ -215,7 +220,7 @@ namespace QueemAI
             foreach (var bishop in player.FiguresManager.Bishops)
             {
                 move.Start = bishop.Coordinates;
-                var bishopMoves = provider.GetFilteredCells(bishop.Coordinates);
+                var bishopMoves = provider.GetFilteredCells(bishop.Coordinates, player, opponent);
 
                 for (int i = 0; i < bishopMoves.Count; ++i)
                 {
@@ -227,7 +232,7 @@ namespace QueemAI
             foreach (var rook in player.FiguresManager.Rooks)
             {
                 move.Start = rook.Coordinates;
-                var rookMoves = provider.GetFilteredCells(rook.Coordinates);
+                var rookMoves = provider.GetFilteredCells(rook.Coordinates, player, opponent);
 
                 for (int i = 0; i < rookMoves.Count; ++i)
                 {
@@ -239,7 +244,7 @@ namespace QueemAI
             foreach (var queen in player.FiguresManager.Queens)
             {
                 move.Start = queen.Coordinates;
-                var queenMoves = provider.GetFilteredCells(queen.Coordinates);
+                var queenMoves = provider.GetFilteredCells(queen.Coordinates, player, opponent);
 
                 for (int i = 0; i < queenMoves.Count; ++i)
                 {
@@ -249,7 +254,7 @@ namespace QueemAI
             }
 
             move.Start = player.FiguresManager.Kings.King.Coordinates;
-            var kingMoves = provider.GetFilteredCells(move.Start);
+            var kingMoves = provider.GetFilteredCells(move.Start, player, opponent);
 
             for (int i = 0; i < kingMoves.Count; ++i)
             {

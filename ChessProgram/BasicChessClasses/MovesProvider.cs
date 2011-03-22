@@ -1020,6 +1020,8 @@ namespace BasicChessClasses
 
             if ((history.Count > 0) && IsInCheckAfterOpponentMove(history.LastMove, player, opponentPlayer))
             {
+                var lastMove = history.LastMove;
+
                 for (int i = 0; i < possibleCells.Count; ++i)
                 {
                     move.End = possibleCells[i];
@@ -1036,6 +1038,9 @@ namespace BasicChessClasses
                      * else check AttackFromDirections() 
                      * from move.start and move.end
                     */
+                    if (!IsInCheck(player, opponentPlayer))
+                        resultCoords.Add(possibleCells[i]);
+                    /*
                     if (board[move.End].Type == FigureType.King)
                     {
                         if (!IsInCheck(player, opponentPlayer))
@@ -1046,8 +1051,11 @@ namespace BasicChessClasses
                         bool notInCheck = true;
                         Coordinates kingCoords = player.FiguresManager.Kings.King.Coordinates;
 
-                        if (IsUnderAttackFromDirection(kingCoords, move.Start))
-                            notInCheck = false;
+                        notInCheck = IsInCheckAfterOpponentMove(lastMove, player, opponentPlayer);
+
+                        if (notInCheck)
+                            if (IsUnderAttackFromDirection(kingCoords, move.Start))
+                                notInCheck = false;
 
                         if (notInCheck)
                             if (IsUnderAttackFromDirection(kingCoords, move.End))
@@ -1056,7 +1064,7 @@ namespace BasicChessClasses
                         if (notInCheck)
                             resultCoords.Add(possibleCells[i]);
                     }
-
+                    */
                     CancelLastPlayerMove(player, opponentPlayer);
                 }
             }

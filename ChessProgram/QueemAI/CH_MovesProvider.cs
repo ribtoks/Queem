@@ -18,7 +18,7 @@ namespace QueemAI
             return this.ProvidePlayerMove(move, player1, player2);
         }
 
-        public MoveResult ProvideOpponenMove(ChessMove move)
+        public MoveResult ProvideOpponetMove(ChessMove move)
         {
             return this.ProvidePlayerMove(move, player2, player1);
         }

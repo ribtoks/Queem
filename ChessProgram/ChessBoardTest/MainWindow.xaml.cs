@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using BasicChessClasses;
 using System.Threading;
 using QueemAI;
+using System.ComponentModel;
 
 namespace ChessBoardTest
 {
@@ -28,6 +29,7 @@ namespace ChessBoardTest
         FigureColor myColor = FigureColor.White;
         FigureStartPosition myStartPos = FigureStartPosition.Down;
         List<MoveWithDecision> redoMoves;
+        BackgroundWorker bw;
 
         #endregion
 
@@ -37,6 +39,10 @@ namespace ChessBoardTest
 
             mp = new CH_MovesProvider(myColor, myStartPos);
             redoMoves = new List<MoveWithDecision>();
+            bw = new BackgroundWorker();
+
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 
             #region ChessBoard Events Handlers
             chessBoardControl.InitializeControl(mp);
@@ -45,6 +51,34 @@ namespace ChessBoardTest
             chessBoardControl.PlayerMoveAnimationPreview += new EventHandler(chessBoardControl_PlayerMoveAnimationPreview);
             chessBoardControl.PawnChanged += new PawnChangedEventHandler(chessBoardControl_PawnChanged);
             #endregion
+        }
+
+        void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ChessMove move = (ChessMove)e.Result;
+            //chessBoardControl.RedrawAll();
+            //return;
+
+            MoveResult mr = mp.ProvideOpponetMove(move);
+
+            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
+
+            if ((mr == MoveResult.PawnReachedEnd) ||
+                (mr == MoveResult.CapturedAndPawnReachedEnd))
+            {
+                PromotionType prType = (move as PromotionMove).Promotion;
+                mp.ReplacePawn(move.End, (FigureType)prType, mp.ChessBoard[move.End].Color);
+            }
+
+            chessBoardControl.ChangePlayer();
+        }
+
+        void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ChessSolver cs = new ChessSolver();
+
+            ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 4);
+            e.Result = move;
         }
 
         protected void chessBoardControl_PawnChanged(object source, PawnChangedEventArgs e)
@@ -63,25 +97,7 @@ namespace ChessBoardTest
         {
             if (chessBoardControl.CurrPlayerColor != myColor)
             {
-                ChessSolver cs = new ChessSolver();
-
-                ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 3);
-
-                //chessBoardControl.RedrawAll();
-                //return;
-
-                MoveResult mr = mp.ProvideOpponenMove(move);
-
-                chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
-
-                if ((mr == MoveResult.PawnReachedEnd) ||
-                    (mr == MoveResult.CapturedAndPawnReachedEnd))
-                {
-                    PromotionType prType = (move as PromotionMove).Promotion;
-                    mp.ReplacePawn(move.End, (FigureType)prType, mp.ChessBoard[move.End].Color);
-                }
-   
-                chessBoardControl.ChangePlayer();
+                bw.RunWorkerAsync();
             }
 
             if (mp.History.Count > 0)
@@ -98,7 +114,7 @@ namespace ChessBoardTest
             }
             else
             {
-                mr = mp.ProvideOpponenMove(new ChessMove(e.MoveStart, e.MoveEnd));
+                mr = mp.ProvideOpponetMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
 
             chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
@@ -162,7 +178,7 @@ namespace ChessBoardTest
             }
             else
             {
-                mr = mp.ProvideOpponenMove(move);
+                mr = mp.ProvideOpponetMove(move);
             }
 
             chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);

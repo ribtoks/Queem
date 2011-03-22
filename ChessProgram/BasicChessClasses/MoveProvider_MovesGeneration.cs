@@ -120,9 +120,9 @@ namespace BasicChessClasses
 			}
 			
 			if (!fm.Kings.King.CanDoCastling)
-				return moveCoords;			
-			
-			bool isClear = true;
+				return moveCoords;
+
+            bool isClear = true;
 			
 			Coordinates leftRookCoord = new Coordinates (FieldLetter.A, y);
 			if (board[FieldLetter.A, y].Type == FigureType.Rook)
@@ -142,7 +142,7 @@ namespace BasicChessClasses
 					{
 						bool noEnemyControl = true;
 						
-						for (x = 0; x < initX; ++x)
+						for (x = 1; x <= initX; ++x)
 						{
 							if (IsUnderPlayerControl (x, y, opponentPlayer))
 							{
@@ -181,7 +181,7 @@ namespace BasicChessClasses
 						bool noEnemyControl = true;
                         // rook can be controlled by opponents figure
                         // but king cannot
-						for (x = initX + 1; x < 7; ++x)
+						for (x = initX; x < 7; ++x)
 						{
 							if (IsUnderPlayerControl (x, y, opponentPlayer))
 							{
@@ -676,6 +676,13 @@ namespace BasicChessClasses
 			else
 				return FilterMoves (coords, allCoords, player2, player1);
 		}
+
+        public List<Coordinates> GetFilteredCells(Coordinates coords,
+            ChessPlayerBase player, ChessPlayerBase opponentPlayer)
+        {
+            List<Coordinates> allCoords = GetMoves(coords);
+            return FilterMoves(coords, allCoords, player, opponentPlayer);
+        }
 		
 		public bool ArePossibleCells (Coordinates coords)
 		{
