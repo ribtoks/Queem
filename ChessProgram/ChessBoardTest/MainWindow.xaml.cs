@@ -15,6 +15,7 @@ using BasicChessClasses;
 using System.Threading;
 using QueemAI;
 using System.ComponentModel;
+using System.IO;
 
 namespace ChessBoardTest
 {
@@ -62,10 +63,10 @@ namespace ChessBoardTest
             }
 
             ChessMove move = (ChessMove)e.Result;
-            
+
             MoveResult mr = mp.ProvideOpponetMove(move);
-            
-            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
+
+            //chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
 
             if ((mr == MoveResult.PawnReachedEnd) ||
                 (mr == MoveResult.CapturedAndPawnReachedEnd))
@@ -75,7 +76,7 @@ namespace ChessBoardTest
                 // TODO add replace pawn image code here
             }
 
-            //chessBoardControl.RedrawAll();
+            chessBoardControl.RedrawAll();
 
             chessBoardControl.ChangePlayer();
         }
@@ -83,9 +84,15 @@ namespace ChessBoardTest
         void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             ChessSolver cs = new ChessSolver();
-
-            ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 4);
-            e.Result = move;
+            try
+            {
+                ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 4);
+                e.Result = move;
+            }
+            catch
+            {
+                e.Result = null;
+            }
         }
 
         protected void chessBoardControl_PawnChanged(object source, PawnChangedEventArgs e)
@@ -205,6 +212,45 @@ namespace ChessBoardTest
                 redoButton.IsEnabled = false;
             }
             cancelButton.IsEnabled = true;
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string path = Directory.GetCurrentDirectory() + System.IO.Path.DirectorySeparatorChar + "chess.game";
+
+            //MessageBox.Show(path);
+            File.WriteAllLines(path, mp.History.Moves.Select(x => x.ToString()).ToArray());
+        }
+
+        private void readButton_Click(object sender, RoutedEventArgs e)
+        {
+            mp.ResetAll();
+            redoMoves = new List<MoveWithDecision>();
+
+            string path = Directory.GetCurrentDirectory() + System.IO.Path.DirectorySeparatorChar + "chess.game";
+
+            string[] lines = File.ReadAllLines(path);
+            int i = 0;
+            foreach (var line in lines)
+            {
+                if ((i % 2) == 0)
+                    mp.ProvideMyMove(new ChessMove(line));
+                else
+                    mp.ProvideOpponetMove(new ChessMove(line));
+                i += 1;
+                //chessBoardControl.RedrawAll();
+            }
+            chessBoardControl.RedrawAll();
+            if ((i % 2) == 0)
+            {
+                if (chessBoardControl.CurrPlayerColor != myColor)
+                    chessBoardControl.ChangePlayer();
+            }
+            else
+            {
+                if (chessBoardControl.CurrPlayerColor == myColor)
+                    chessBoardControl.ChangePlayer();
+            }
         }
     }
 }

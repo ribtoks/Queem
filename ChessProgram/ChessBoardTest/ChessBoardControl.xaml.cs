@@ -425,8 +425,8 @@ namespace ChessBoardTest
         public void RedrawAll()
         {
             chessBoardGrid.Children.Clear();
-            InitializeBoard();
-            //InitializeBoardWithPlayer();
+            //InitializeBoard();
+            InitializeBoardWithPlayer();
             BindBoardHandlers();            
         }
 

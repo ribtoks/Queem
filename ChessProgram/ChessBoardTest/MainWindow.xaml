@@ -23,6 +23,12 @@
             <Button x:Name="redoButton" Width="50" Content="Redo"
                     Click="redoButton_Click" Margin="5" 
                     IsEnabled="False" />
+            <Button x:Name="saveButton" Width="50" Content="Save"
+                    Click="saveButton_Click" Margin="5" 
+                    IsEnabled="True" />
+            <Button x:Name="readButton" Width="50" Content="Read"
+                    Click="readButton_Click" Margin="5" 
+                    IsEnabled="True" />
         </StackPanel>
         <local:ChessBoardControl x:Name="chessBoardControl" 
                                  Grid.Row="2" Grid.Column="1" />

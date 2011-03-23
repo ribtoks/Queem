@@ -20,7 +20,6 @@ namespace BasicChessClasses
 			//FillDictionaryCoords (figures);
 			//FillDictionaryCoords (killedFigures);
 			
-			
 			figureList = new List<T> ();
 			figureAccess = new Dictionary<T, bool> ();
 		}
