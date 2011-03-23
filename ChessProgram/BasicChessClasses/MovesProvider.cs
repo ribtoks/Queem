@@ -226,7 +226,7 @@ namespace BasicChessClasses
             // now process pawn move
             // first check if it was a "check in passing move"
 
-            ChessMove lastMove = new ChessMove(new Coordinates(), new Coordinates());
+            ChessMove lastMove = new ChessMove();
             if (movesCount > 0)
                 lastMove = history.Moves[movesCount - 1];
 

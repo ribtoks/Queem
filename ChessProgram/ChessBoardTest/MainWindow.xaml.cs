@@ -55,12 +55,16 @@ namespace ChessBoardTest
 
         void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (e.Result == null)
+            {
+                chessBoardControl.RedrawAll();
+                return;
+            }
+
             ChessMove move = (ChessMove)e.Result;
-            //chessBoardControl.RedrawAll();
-            //return;
-
+            
             MoveResult mr = mp.ProvideOpponetMove(move);
-
+            
             chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
 
             if ((mr == MoveResult.PawnReachedEnd) ||
@@ -68,7 +72,10 @@ namespace ChessBoardTest
             {
                 PromotionType prType = (move as PromotionMove).Promotion;
                 mp.ReplacePawn(move.End, (FigureType)prType, mp.ChessBoard[move.End].Color);
+                // TODO add replace pawn image code here
             }
+
+            //chessBoardControl.RedrawAll();
 
             chessBoardControl.ChangePlayer();
         }

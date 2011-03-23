@@ -161,7 +161,7 @@ namespace ChessBoardTest
         {
             ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
             ResourceDictionary myStyles = rd.MergedDictionaries[0];
-
+            
             for (int i = 0; i < 8; ++i)
             {
                 for (int j = 0; j < 8; ++j)
@@ -210,6 +210,94 @@ namespace ChessBoardTest
 
                     chessBoardGrid.Children.Add(existingBorder);
                 }
+            }
+        }
+
+        protected void InitializeBoardWithPlayer()
+        {
+            ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
+            ResourceDictionary myStyles = rd.MergedDictionaries[0];
+
+            for (int i = 0; i < 8; ++i)
+            {
+                for (int j = 0; j < 8; ++j)
+                {
+                    /*
+                     * Border (White/Black cell background)
+                     * |_ OuterGrid (OnMouseOver when is moving)
+                     *    |_ Grid (PossibleCells)
+                     *    -------------- optional --------------
+                     *       |_ Border (Figure VisualBrush, OnAnimate)
+                    */
+
+                    GeneralFigure gf = mp.ChessBoard[j, i];
+
+                    // create border with needed margins
+                    Grid grid = CreateFigureGrid(gf.Type);
+                    string color;
+                    if (0 == (i + j) % 2)
+                        color = "White";
+                    else
+                        color = "Black";
+
+                    int index = i * 8 + j;
+                    Border existingBorder = new Border();// (Border)chessBoardGrid.Children[index];
+
+                    // create outer grid for 
+                    // additional highlighting
+                    Grid outerGrid = new Grid();
+                    outerGrid.Children.Add(grid);
+
+                    existingBorder.Background = (SolidColorBrush)this.FindResource(string.Format("{0}CellBrush", color));
+
+                    existingBorder.Child = outerGrid;
+
+                    chessBoardGrid.Children.Add(existingBorder);
+                }
+            }
+
+            SetPlayerFigures(mp.Player1);
+            SetPlayerFigures(mp.Player2);
+        }
+
+        protected void SetPlayerFigures(ChessPlayerBase player)
+        {
+            ResourceDictionary rd = (ResourceDictionary)this.FindResource("Dictionaries");
+            ResourceDictionary myStyles = rd.MergedDictionaries[0];
+
+            foreach (var figure in player.FiguresManager)
+            {
+                int i = figure.Coordinates.Y;
+                int j = figure.Coordinates.X;
+                // create border with needed margins
+                Grid grid = CreateFigureGrid(figure.Type);
+                string color;
+                if (0 == (i + j) % 2)
+                    color = "White";
+                else
+                    color = "Black";
+
+                Border border = new Border();
+                string brushName = string.Format("{0}{1}", figure.Color, figure.Type);
+                object vb = myStyles[brushName];
+
+                border.Background = (VisualBrush)vb;
+
+                grid.Children.Add(border);
+                Grid.SetColumn(border, 1);
+                Grid.SetRow(border, 1);
+
+                int index = i * 8 + j;
+                Border existingBorder = (Border)chessBoardGrid.Children[index];
+
+                // create outer grid for 
+                // additional highlighting
+                Grid outerGrid = new Grid();
+                outerGrid.Children.Add(grid);
+
+                existingBorder.Background = (SolidColorBrush)this.FindResource(string.Format("{0}CellBrush", color));
+
+                existingBorder.Child = outerGrid;
             }
         }
 
@@ -338,6 +426,7 @@ namespace ChessBoardTest
         {
             chessBoardGrid.Children.Clear();
             InitializeBoard();
+            //InitializeBoardWithPlayer();
             BindBoardHandlers();            
         }
 

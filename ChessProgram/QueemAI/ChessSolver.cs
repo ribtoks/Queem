@@ -74,14 +74,12 @@ namespace QueemAI
                     alpha = value;
                 }
 
-                evaluatedMoves.Add(new EvaluatedMove() 
-                    { Move = move, Value = value }
+                evaluatedMoves.Add(new EvaluatedMove() { Move = move, Value = value }
                     );
             }
-
+            // TODO check for wrong pawn In-passing state assigning
             // TODO check for checkmate and stalemate
 
-            //return snapshot.GetFilteredCells(
             return evaluatedMoves;
         }
 
@@ -117,7 +115,7 @@ namespace QueemAI
                     // position is a stalemate
                     return 0;
             }
-            
+
             ChessMove move = new ChessMove();
             for (int i = 0; i < moves.Count; ++i)
             {
@@ -133,10 +131,10 @@ namespace QueemAI
                     provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
                 }
 
-                value = EvaluatePosition(player, opponentPlayer) - EvaluatePosition(opponentPlayer, player);
-
                 if (depth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, depth - 1, nextPlayer);
+                else
+                    value = EvaluatePosition(player, opponentPlayer) - EvaluatePosition(opponentPlayer, player);
 
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;

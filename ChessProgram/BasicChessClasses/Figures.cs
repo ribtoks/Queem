@@ -115,6 +115,8 @@ namespace BasicChessClasses
 		{
             figure = new GeneralFigure();
             coords = new Coordinates();
+
+            hashcode = FiguresHashes.GetNextHash();
 		}
 		
 		public Figure (Coordinates copyCoords, FigureType ftype, FigureColor fcolor)

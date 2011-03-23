@@ -366,7 +366,7 @@ namespace BasicChessClasses
 			currentHashCode ^= Constants.FigureHashes[creationChange.Coords][ board[y, x] ];
 			
 			board[y, x].Type = FigureType.Nobody;
-			
+            			
 			// add nobody...
 			currentHashCode ^= Constants.FigureHashes[creationChange.Coords][ board[y, x] ];
 		}

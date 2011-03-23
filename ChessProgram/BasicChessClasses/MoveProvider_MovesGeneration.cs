@@ -640,7 +640,7 @@ namespace BasicChessClasses
 		public List<Coordinates> GetMoves (Coordinates coords)
 		{
 			//return movesGenerators[ board[coords.X, coords.Y].Type ] (coords);
-			FigureType figureType = board[coords.X, coords.Y].Type;
+			FigureType figureType = board[coords].Type;
 			
 			switch (figureType)
 			{
