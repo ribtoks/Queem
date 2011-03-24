@@ -20,6 +20,18 @@ namespace QueemAI
 
     public partial class ChessSolver
     {
+        public int NodesSearched
+        {
+            get { return nodesSearched; }
+        }
+
+        public int HistoryDepth
+        {
+            get { return provider.History.Count; }
+        }
+
+
+
         protected void InitializeBestMoves()
         {
             int count = 0;
