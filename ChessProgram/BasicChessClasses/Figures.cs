@@ -210,7 +210,7 @@ namespace BasicChessClasses
 	
 	public class Pawn : Figure
 	{
-		protected bool isInPassing = false;
+		//protected bool isInPassing = false;
 		
 		public Pawn ()
 			: base()
@@ -225,14 +225,15 @@ namespace BasicChessClasses
 		public Pawn (Pawn copy)
 			: base(copy)
 		{
-			isInPassing = copy.isInPassing;
+			//isInPassing = copy.isInPassing;
 		}
-		
+		/*
 		public bool IsInPassing 
 		{
 			get { return this.isInPassing; }
 			set { isInPassing = value; }
 		}
+        */
 		
 		#region Operator overloading
 
@@ -242,8 +243,8 @@ namespace BasicChessClasses
                 return false;
             if (pawn1.Color != pawn2.Color)
                 return false;
-			if (pawn1.isInPassing != pawn2.isInPassing)
-				return false;
+			//if (pawn1.isInPassing != pawn2.isInPassing)
+			//	return false;
 			
             return true;
         }
@@ -266,8 +267,8 @@ namespace BasicChessClasses
                 return false;
             if (pawn.Color != this.Color)
                 return false;
-			if (pawn.isInPassing != this.isInPassing)
-				return false;
+			//if (pawn.isInPassing != this.isInPassing)
+			//	return false;
 			
             return true;
         }

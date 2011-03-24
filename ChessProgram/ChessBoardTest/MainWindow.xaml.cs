@@ -58,7 +58,10 @@ namespace ChessBoardTest
         {
             if (e.Result == null)
             {
-                chessBoardControl.RedrawAll();
+                if (mp.IsStalemate(mp.Player1, mp.Player2))
+                    MessageBox.Show("You're in stalemate.");
+                else
+                    MessageBox.Show("You're checkmated.");
                 return;
             }
 
@@ -67,8 +70,8 @@ namespace ChessBoardTest
             MoveResult mr = mp.ProvideOpponetMove(move);
 
             chessBoardControl.AnimateFigureMove(
-                new DeltaChanges(mp.History.LastChanges), 
-                mp.History.LastMove, 
+                new DeltaChanges(mp.History.LastChanges),
+                mp.History.LastMove,
                 mp.History.LastMoveResult);
 
             if ((mr == MoveResult.PawnReachedEnd) ||
@@ -87,15 +90,11 @@ namespace ChessBoardTest
         void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             ChessSolver cs = new ChessSolver();
-            //try
-            // {
-                ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 4);
-                e.Result = move;
-            //}
-            //catch
-            //{
-            //    e.Result = null;
-            //}
+
+            ChessMove move = cs.SolveProblem(mp,
+                chessBoardControl.CurrPlayerColor,
+                5);
+            e.Result = move;
         }
 
         protected void chessBoardControl_PawnChanged(object source, PawnChangedEventArgs e)
@@ -114,6 +113,17 @@ namespace ChessBoardTest
         {
             if (chessBoardControl.CurrPlayerColor != myColor)
             {
+                if (mp.IsCheckmate(mp.Player2, mp.Player1))
+                {
+                    MessageBox.Show("You checkmated computer.");
+                    return;
+                }
+
+                if (mp.IsStalemate(mp.Player2, mp.Player1))
+                {
+                    MessageBox.Show("Computer is in stalemate.");
+                }
+
                 bw.RunWorkerAsync();
             }
 

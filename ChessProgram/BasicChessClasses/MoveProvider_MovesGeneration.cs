@@ -125,9 +125,9 @@ namespace BasicChessClasses
             bool isClear = true;
 			
 			Coordinates leftRookCoord = new Coordinates (FieldLetter.A, y);
-			if (board[FieldLetter.A, y].Type == FigureType.Rook)
+            if ((object)fm.Rooks[leftRookCoord] != null)
 			{
-				if (fm.Rooks[leftRookCoord].CanDoCastling)
+ 				if (fm.Rooks[leftRookCoord].CanDoCastling)
 				{
 					for (x = 1; x < initX; ++x)
 					{
@@ -161,7 +161,7 @@ namespace BasicChessClasses
 			}
 			
 			Coordinates rightRookCoord = new Coordinates (FieldLetter.H, y);
-			if (board[FieldLetter.H, y].Type == FigureType.Rook)
+            if ((object)fm.Rooks[rightRookCoord] != null)
 			{
 				if (fm.Rooks[rightRookCoord].CanDoCastling)
 				{

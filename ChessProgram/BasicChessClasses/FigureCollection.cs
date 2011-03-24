@@ -170,7 +170,8 @@ namespace BasicChessClasses
 			
 			T figure = figures[coords];
 			
-			figureAccess[figure] = false;
+			//figureAccess[figure] = false;
+            figureAccess.Remove(figure);
 			figures[coords] = null;
 			
 			// in most cases figure would be
@@ -242,7 +243,7 @@ namespace BasicChessClasses
 		
 		public IEnumerator<T> GetEnumerator ()
 		{
-			#if DEBUG
+#if DEBUG
 			if (figureList.Count != figureAccess.Count)
 				throw new ApplicationException ("Collections are not equal");
 #endif
@@ -355,12 +356,12 @@ namespace BasicChessClasses
 		
 		public override void SetBoolProperty (Coordinates coordinate, bool data)
 		{
-			figures[coordinate].IsInPassing = data;
+			//figures[coordinate].IsInPassing = data;
 		}
 		
 		public override bool GetBoolProperty (Coordinates coordinates)
 		{
-			return figures[coordinates].IsInPassing;
+            return false;// figures[coordinates].IsInPassing;
 		}
 		
 		#region IClonable implementation

@@ -18,15 +18,29 @@ namespace QueemAI
         public ChessMove SolveProblem(MovesProvider snapshot, FigureColor playerColor, int maxdepth)
         {
             provider = snapshot;
-            var moves = Search(maxdepth);
-            SortEvaluatedMoves(moves);
+            bestMove = null;
+            var player = provider.Player1;
+            var oppositePlayer = provider.Player2;
+            CurrentPlayer currPlayer = CurrentPlayer.Me;
 
+            if (playerColor != player.FiguresColor)
+            {
+                player = provider.Player2;
+                oppositePlayer = provider.Player1;
+                currPlayer = CurrentPlayer.CPU;
+            }
+
+            var moves = Search(maxdepth, player, oppositePlayer, currPlayer);
+            //SortEvaluatedMoves(moves);
+            
             // of course, will be changed in future...
             //return moves[0].Move;
             return bestMove;
         }
 
-        protected List<EvaluatedMove> Search(int maxdepth)
+        protected List<EvaluatedMove> Search(int maxdepth, 
+            ChessPlayerBase player, ChessPlayerBase opponentPlayer,
+            CurrentPlayer currPlayer)
         {
             ply = 0;
             nodesSearched = 0;
@@ -40,9 +54,7 @@ namespace QueemAI
             InitializeBestMoves();
             InitializePlayerDepth();
 
-            var player = provider.Player2;
-            var opponentPlayer = provider.Player1;
-            CurrentPlayer nextPlayer = CurrentPlayer.Me;
+            CurrentPlayer nextPlayer = currPlayer.GetOppositePlayer();
             MoveResult mr = MoveResult.Fail;
 
             nodesSearched += 1;
@@ -59,11 +71,20 @@ namespace QueemAI
                     provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
                 }
 
+                value = EvaluatePosition(player, opponentPlayer) -
+                        EvaluatePosition(opponentPlayer, player);
+
+                if (value <= alpha)
+                {
+                    provider.CancelLastPlayerMove(player, opponentPlayer);
+                    --ply;
+
+                    continue;
+                }
+
                 if (maxdepth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
-                else
-                    value = EvaluatePosition(player, opponentPlayer) - EvaluatePosition(opponentPlayer, player);
-
+                
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;
 
@@ -77,8 +98,16 @@ namespace QueemAI
                 evaluatedMoves.Add(new EvaluatedMove() { Move = move, Value = value }
                     );
             }
-            // TODO check for wrong pawn In-passing state assigning
             // TODO check for checkmate and stalemate
+
+            if (moves.Count == 0)
+            {
+                if (provider.IsCheckmate(player, opponentPlayer))
+                    value = (-PositionEvaluator.MateValue + ply);
+                else
+                    // stalemate
+                    value = 0;
+            }
 
             return evaluatedMoves;
         }
@@ -109,6 +138,7 @@ namespace QueemAI
             if (moves.Count == 0)
             {
                 DecPlayerDepth(currPlayer);
+
                 if (wasOwnKingInCheck)
                     return (-PositionEvaluator.MateValue + ply);
                 else
@@ -128,14 +158,27 @@ namespace QueemAI
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
                     PromotionType promotionFigure = (move as PromotionMove).Promotion;
-                    provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
+                    provider.ReplacePawnAtTheOtherSide(move.End, 
+                        (FigureType)promotionFigure, 
+                        player);
                 }
 
+                value = EvaluatePosition(player, opponentPlayer) - 
+                    EvaluatePosition(opponentPlayer, player);
+
+                
+                if (value <= alpha)
+                {
+                    provider.CancelLastPlayerMove(player, opponentPlayer);
+                    --ply;
+
+                    continue;
+                }
+                
+                
                 if (depth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, depth - 1, nextPlayer);
-                else
-                    value = EvaluatePosition(player, opponentPlayer) - EvaluatePosition(opponentPlayer, player);
-
+                
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;
 
