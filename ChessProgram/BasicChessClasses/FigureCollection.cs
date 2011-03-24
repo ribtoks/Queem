@@ -9,13 +9,14 @@ namespace BasicChessClasses
 		protected CoordinatesMap<T> figures;
 		protected List<T> figureList;
 		protected Dictionary<T, bool> figureAccess;
-		protected CoordinatesMap<T> killedFigures;
+		protected CoordinatesMap<SimpleStack<T>> killedFigures;
 		protected int figuresCount = 0;
 		
 		public FigureCollectionBase ()
 		{
 			figures = new CoordinatesMap<T> ();
-			killedFigures = new CoordinatesMap<T> ();
+            killedFigures = new CoordinatesMap<SimpleStack<T>>();
+            killedFigures.CreateNewEachItem();
 			
 			//FillDictionaryCoords (figures);
 			//FillDictionaryCoords (killedFigures);
@@ -35,8 +36,9 @@ namespace BasicChessClasses
 			//FillDictionaryCoords (figures);
 			
 			figureList = new List<T> (copy.figureList.Count);
-			
-			killedFigures = new CoordinatesMap<T> ();
+
+            killedFigures = new CoordinatesMap<SimpleStack<T>>();
+            killedFigures.CreateNewEachItem();
 			//FillDictionaryCoords (killedFigures);
 			
 			figureAccess = new Dictionary<T, bool> (copy.figureAccess.Count);
@@ -74,19 +76,23 @@ namespace BasicChessClasses
 			{
 				for (int j = 0; j < 8; ++j)					
 				{
-					var figure = copy.killedFigures[i, j];
-					
-					T nextCopy = new T ();
-					
-					nextCopy.Coordinates = figure.Coordinates;
-					nextCopy.Color = figure.Color;
-					nextCopy.Type = figure.Type;
-					nextCopy.hashcode = figure.hashcode;
-				
-					// paste copy into dictionary
-					killedFigures[i, j] = nextCopy;
-					
-					figureAccess.Add (nextCopy, false);
+                    var killedFiguresArray = copy.killedFigures[i, j].ToArray();
+                    for (int k = 0; k < killedFiguresArray.Length; ++k)
+                    {
+                        var figure = killedFiguresArray[k];
+
+                        T nextCopy = new T();
+
+                        nextCopy.Coordinates = figure.Coordinates;
+                        nextCopy.Color = figure.Color;
+                        nextCopy.Type = figure.Type;
+                        nextCopy.hashcode = figure.hashcode;
+
+                        // paste copy into dictionary
+                        killedFigures[i, j].Push(nextCopy);
+
+                        figureAccess.Add(nextCopy, false);
+                    }
 				}
 			}
 		}
@@ -153,7 +159,7 @@ namespace BasicChessClasses
 			figureAccess[figure] = false;
 			figures[coords] = null;
 			
-			killedFigures[coords] = figure;
+			killedFigures[coords].Push(figure);
 			
 			--figuresCount;
 		}
@@ -189,8 +195,7 @@ namespace BasicChessClasses
 		
 		public void RestoreFigure (Coordinates coords)
 		{
-			T figure = killedFigures[coords];
-			killedFigures[coords] = null;
+			T figure = killedFigures[coords].Pop();
 			
 			figureAccess[figure] = true;
 			figures[coords] = figure;
