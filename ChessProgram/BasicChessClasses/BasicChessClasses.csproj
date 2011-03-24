@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E4485A2E-85DF-4528-9E14-4CB306812C34}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>BasicChessClasses</RootNamespace>
     <AssemblyName>BasicChessClasses</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -30,13 +30,15 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HH_MovesProvider.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="ApplicationExceptions.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="MovesProvider_Stuff.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GeneralFigureMap.cs" />
+    <Compile Include="SimpleStack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

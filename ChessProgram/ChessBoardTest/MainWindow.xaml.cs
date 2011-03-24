@@ -66,7 +66,10 @@ namespace ChessBoardTest
 
             MoveResult mr = mp.ProvideOpponetMove(move);
 
-            //chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
+            chessBoardControl.AnimateFigureMove(
+                new DeltaChanges(mp.History.LastChanges), 
+                mp.History.LastMove, 
+                mp.History.LastMoveResult);
 
             if ((mr == MoveResult.PawnReachedEnd) ||
                 (mr == MoveResult.CapturedAndPawnReachedEnd))
@@ -76,7 +79,7 @@ namespace ChessBoardTest
                 // TODO add replace pawn image code here
             }
 
-            chessBoardControl.RedrawAll();
+            //chessBoardControl.RedrawAll();
 
             chessBoardControl.ChangePlayer();
         }
@@ -84,15 +87,15 @@ namespace ChessBoardTest
         void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             ChessSolver cs = new ChessSolver();
-            try
-            {
+            //try
+            // {
                 ChessMove move = cs.SolveProblem(mp, chessBoardControl.CurrPlayerColor, 4);
                 e.Result = move;
-            }
-            catch
-            {
-                e.Result = null;
-            }
+            //}
+            //catch
+            //{
+            //    e.Result = null;
+            //}
         }
 
         protected void chessBoardControl_PawnChanged(object source, PawnChangedEventArgs e)

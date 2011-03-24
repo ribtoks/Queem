@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\QueemTests.csproj</TopNode>
+  <SelectedNode>[0-1005]QueemTests.FigureCollectionTest.DoubleKillingTest</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\QueemTests.csproj" Expanded="true" />
+    <Node UniqueName="[0-1006]C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\bin\Debug\QueemTests.dll" Expanded="true" />
+    <Node UniqueName="[0-1007]QueemTests" Expanded="true" />
+    <Node UniqueName="[0-1001]QueemTests.CoordinatesTests" Expanded="true" />
+    <Node UniqueName="[0-1004]QueemTests.FigureCollectionTest" Expanded="true" />
+  </Nodes>
+</VisualState>
