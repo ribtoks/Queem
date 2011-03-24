@@ -100,11 +100,13 @@ namespace QueemAI
             result += player.FiguresManager.RookCount * PositionEvaluator.RookValue;
             result += player.FiguresManager.QueenCount * PositionEvaluator.QueenValue;
 
-            foreach (var figure in player.FiguresManager)
-            {
-                var coords = figure.Coordinates;
-                result += PositionEvaluator.PositionValue[coords.Y, coords.X];
-            }
+            //foreach (var figure in player.FiguresManager)
+            //{
+            //    var coords = figure.Coordinates;
+            //    result += PositionEvaluator.PositionValue[coords.Y, coords.X];
+            //}
+            result += player.FiguresManager.GetPositionValue(
+                PositionEvaluator.PositionValue);
 
             if (player.FiguresManager.Bishops.Count == 2)
                 result += PositionEvaluator.PawnValue / 3;

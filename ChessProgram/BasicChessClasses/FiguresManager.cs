@@ -261,7 +261,20 @@ namespace BasicChessClasses
 			get { return this.rooks; }
 		}
 		
-		#endregion	
+		#endregion
+
+        public int GetPositionValue(int[,] positionValues)
+        {
+            int value = 0;
+
+            value += pawns.GetPositionValue(positionValues);
+            value += bishops.GetPositionValue(positionValues);
+            value += horses.GetPositionValue(positionValues);
+            value += rooks.GetPositionValue(positionValues);
+            value += queens.GetPositionValue(positionValues);
+
+            return value;
+        }
 		
 		public IEnumerator<Figure> GetEnumerator ()
 		{
@@ -532,7 +545,7 @@ namespace BasicChessClasses
 				kingDeletages.SetBoolProperty (coords, data);
 				break;
 			case FigureType.Pawn:
-				pawnDeletages.SetBoolProperty (coords, data);
+				//pawnDeletages.SetBoolProperty (coords, data);
 				break;
 			case FigureType.Queen:
 				//queenDeletages.SetBoolProperty (coords, data);
@@ -559,7 +572,7 @@ namespace BasicChessClasses
 			case FigureType.King:
 				return kingDeletages.GetBoolProperty (coords);
 			case FigureType.Pawn:
-				return pawnDeletages.GetBoolProperty (coords);
+                return false;
 			case FigureType.Queen:
 				return false;
 			case FigureType.Rook:

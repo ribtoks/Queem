@@ -243,51 +243,40 @@ namespace BasicChessClasses
                 {
                     Pawn lastPawn = opponentManager.Pawns[lastMove.End];
 
-                    // if after move that pawn was in passing state
-                    //if (lastPawn.IsInPassing)
+                    // if this pawn is moving to that pawn
+                    if (lastPawn.Coordinates.Letter == move.End.Letter)
                     {
-                        // if this pawn is moving to that pawn
-                        if (lastPawn.Coordinates.Letter == move.End.Letter)
+                        if (lastPawn.Coordinates.Y == move.Start.Y)
                         {
-                            if (lastPawn.Coordinates.Y == move.Start.Y)
-                            {
-                                // now it is an in-passing capture state
+                            // now it is an in-passing capture state
 
-                                Change inPassingCaptureChange =
-                                    new Change(MoveAction.Deletion,
-                                               lastPawn.Coordinates,
-                                               FigureType.Pawn,
-                                               lastPawn.Color);
+                            Change inPassingCaptureChange =
+                                new Change(MoveAction.Deletion,
+                                           lastPawn.Coordinates,
+                                           FigureType.Pawn,
+                                           lastPawn.Color);
 
-                                inPassingCaptureChange.Data = true;
-                                changes.Add(inPassingCaptureChange);
-                                opponentManager.RemoveFigure(FigureType.Pawn, lastPawn.Coordinates);
+                            changes.Add(inPassingCaptureChange);
+                            opponentManager.RemoveFigure(FigureType.Pawn, lastPawn.Coordinates);
 
-                                changes.Add(moveChange);
-                                myManager.MoveFigure(FigureType.Pawn, move.Start, move.End);
+                            changes.Add(moveChange);
+                            myManager.MoveFigure(FigureType.Pawn, move.Start, move.End);
 
+                            moveResult = MoveResult.CapturedInPassing;
 
-                                moveResult = MoveResult.CapturedInPassing;
+                            board.ProvideMove(move, moveResult);
 
-                                board.ProvideMove(move, moveResult);
-
-                                history.Add(move, moveResult, changes);
-                                return moveResult;
-                            }
+                            history.Add(move, moveResult, changes);
+                            return moveResult;
                         }
                     }
                 }
 
                 // else it is just a simple move
-                //moveChange.Data = myManager.Pawns[move.Start].IsInPassing;
-
+                
                 changes.Add(moveChange);
                 myManager.MoveFigure(FigureType.Pawn, move.Start, move.End);
-
-                // if a pawn making a move to in-passing state
-                //myManager.Pawns[move.End].IsInPassing =
-                //    (Math.Abs(move.Start.Y - move.End.Y) == 2);
-
+                
                 if ((move.End.Y == 0) || (move.End.Y == 7))
                     moveResult = MoveResult.PawnReachedEnd;
                 else

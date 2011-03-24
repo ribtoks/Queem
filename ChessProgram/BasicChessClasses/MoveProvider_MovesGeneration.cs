@@ -82,10 +82,12 @@ namespace BasicChessClasses
             if ((nf.Type == FigureType.Pawn) && 
                 (nf.Color != board[x, y].Color))
             {
-                if (this.history.LastMove.End.EqualCoords(x + direction, y))
-                {
-                    state = 1;
-                }
+                var lastMove = this.history.LastMove;
+                if (Math.Abs(lastMove.Start.Y - lastMove.End.Y) == 2)
+                    if (lastMove.End.EqualCoords(x + direction, y))
+                    {
+                        state = 1;
+                    }
             }
 
             return state;

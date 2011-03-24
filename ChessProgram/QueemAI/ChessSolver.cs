@@ -32,13 +32,13 @@ namespace QueemAI
 
             var moves = Search(maxdepth, player, oppositePlayer, currPlayer);
             //SortEvaluatedMoves(moves);
-            
+
             // of course, will be changed in future...
             //return moves[0].Move;
             return bestMove;
         }
 
-        protected List<EvaluatedMove> Search(int maxdepth, 
+        protected List<EvaluatedMove> Search(int maxdepth,
             ChessPlayerBase player, ChessPlayerBase opponentPlayer,
             CurrentPlayer currPlayer)
         {
@@ -84,7 +84,7 @@ namespace QueemAI
 
                 if (maxdepth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
-                
+
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;
 
@@ -98,7 +98,6 @@ namespace QueemAI
                 evaluatedMoves.Add(new EvaluatedMove() { Move = move, Value = value }
                     );
             }
-            // TODO check for checkmate and stalemate
 
             if (moves.Count == 0)
             {
@@ -158,15 +157,17 @@ namespace QueemAI
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
                     PromotionType promotionFigure = (move as PromotionMove).Promotion;
-                    provider.ReplacePawnAtTheOtherSide(move.End, 
-                        (FigureType)promotionFigure, 
+                    provider.ReplacePawnAtTheOtherSide(move.End,
+                        (FigureType)promotionFigure,
                         player);
                 }
 
-                value = EvaluatePosition(player, opponentPlayer) - 
+                value = EvaluatePosition(player, opponentPlayer) -
                     EvaluatePosition(opponentPlayer, player);
 
-                
+                // if value is so bad, opponent player
+                // will only make it worse on his next
+                // move for current player
                 if (value <= alpha)
                 {
                     provider.CancelLastPlayerMove(player, opponentPlayer);
@@ -174,11 +175,11 @@ namespace QueemAI
 
                     continue;
                 }
-                
-                
+
+
                 if (depth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, depth - 1, nextPlayer);
-                
+
                 provider.CancelLastPlayerMove(player, opponentPlayer);
                 --ply;
 

@@ -231,7 +231,6 @@ namespace ChessBoardTest
         {
             string path = Directory.GetCurrentDirectory() + System.IO.Path.DirectorySeparatorChar + "chess.game";
 
-            //MessageBox.Show(path);
             File.WriteAllLines(path, mp.History.Moves.Select(x => x.ToString()).ToArray());
         }
 
@@ -251,7 +250,6 @@ namespace ChessBoardTest
                 else
                     mp.ProvideOpponetMove(new ChessMove(line));
                 i += 1;
-                //chessBoardControl.RedrawAll();
             }
             chessBoardControl.RedrawAll();
             if ((i % 2) == 0)
