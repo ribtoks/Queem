@@ -1,2 +1,7 @@
 FigureImages/
 XAML_figures/
+~*.*
+*~.*
+*~
+bin/
+obj/

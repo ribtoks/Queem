@@ -9,12 +9,19 @@ namespace BasicChessClasses
         CaptureOk, Fail, CapturedAndPawnReachedEnd, PawnReachedEnd
     };
 
+    public delegate MoveResult ProvideMoveDelegate(ChessMove move);
+    public delegate void CancelMoveDelegate();
+
     public partial class MovesProvider
     {
         #region Data
 
         protected ChessPlayerBase player1;
         protected ChessPlayerBase player2;
+
+        protected ChessPlayerBase[] players;
+        protected ProvideMoveDelegate[] provideMoveDelegates;
+        protected CancelMoveDelegate[] cancelMoveDelegates;
 
         // must not use board[int, int] in this file
         // only in ChessBoard class
@@ -53,6 +60,12 @@ namespace BasicChessClasses
 
             player2 = new ChessPlayerBase(player2Color, player2StartPos);
 
+            // -----------------------------------------------------------
+
+            this.SetupInnerColorToObjectMaps();
+
+            // -----------------------------------------------------------
+
             board = new ChessBoard(player1StartPos, player1Color);
             history = new MovesHistory();
 
@@ -63,6 +76,8 @@ namespace BasicChessClasses
             // after provide move and cancel move 
             positionCounts = new SortedDictionary<ulong, int>();
             positionCounts.Add(board.HashCode, 1);
+
+            // -----------------------------------------------------------
 
             #region Processors
 
@@ -107,6 +122,8 @@ namespace BasicChessClasses
             player1 = (ChessPlayerBase)copy.player1.Clone();
             player2 = (ChessPlayerBase)copy.player2.Clone();
 
+            this.SetupInnerColorToObjectMaps();
+
             board = (ChessBoard)copy.board.Clone();
 
             positionCounts = new SortedDictionary<ulong, int>(copy.positionCounts);
@@ -131,7 +148,87 @@ namespace BasicChessClasses
             horseProcessor = copy.horseProcessor;
         }
 
-        public virtual MoveResult ProvidePlayerMove(ChessMove move,
+        protected virtual void SetupInnerColorToObjectMaps()
+        {
+            // setup non-delegates here
+            players = new ChessPlayerBase[2];
+            if (player1.FiguresColor == FigureColor.Black)
+            {
+                players[0] = player1;
+                players[1] = player2;
+            }
+            else
+            {
+                players[0] = player2;
+                players[1] = player1;
+            }
+
+            // setup delegates
+
+            ProvideMoveDelegate player1MoveDelegate = (mv) =>
+            {
+                return this.ProvidePlayerMove(mv, player1, player2);
+            };
+
+            ProvideMoveDelegate player2MoveDelegate = (mv) =>
+            {
+                return this.ProvidePlayerMove(mv, player2, player1);
+            };
+            
+            ProvideMoveDelegate whiteMoveDelegate = null;
+            ProvideMoveDelegate blackMoveDelegate = null;
+            if (player1.FiguresColor == FigureColor.Black)
+            {
+                blackMoveDelegate = player1MoveDelegate;
+                whiteMoveDelegate = player2MoveDelegate;
+            }
+            else
+            {
+                blackMoveDelegate = player2MoveDelegate;
+                whiteMoveDelegate = player1MoveDelegate;
+            }
+
+            // FigureColor.Black stands for 0 - it's first in array
+            this.provideMoveDelegates = new ProvideMoveDelegate[] 
+            { 
+                blackMoveDelegate, 
+                whiteMoveDelegate 
+            };
+
+            // -------------------------------------------------
+
+            CancelMoveDelegate player1CancelMove = () =>
+                {
+                    this.CancelLastPlayerMove(player1, player2);
+                };
+
+            CancelMoveDelegate player2CancelMove = () =>
+                {
+                    this.CancelLastPlayerMove(player2, player1);
+                };
+
+            CancelMoveDelegate whiteCancelMoveDelegate = null;
+            CancelMoveDelegate blackCancelMoveDelegate = null;
+            if (player1.FiguresColor == FigureColor.Black)
+            {
+                blackCancelMoveDelegate = player1CancelMove;
+                whiteCancelMoveDelegate = player2CancelMove;
+            }
+            else
+            {
+                blackCancelMoveDelegate = player2CancelMove;
+                whiteCancelMoveDelegate = player1CancelMove;
+            }
+
+            // FigureColor.Black stands for 0 - it's first in array
+            this.cancelMoveDelegates = new CancelMoveDelegate[] 
+            { 
+                blackCancelMoveDelegate, 
+                whiteCancelMoveDelegate 
+            };
+        }
+
+        protected virtual MoveResult ProvidePlayerMove(ChessMove move,
                                              ChessPlayerBase player, ChessPlayerBase opponentPlayer)
         {
             /*
@@ -368,7 +465,18 @@ namespace BasicChessClasses
             return moveResult;
         }
 
-        public virtual void CancelLastPlayerMove(ChessPlayerBase player,
+        public virtual MoveResult ProvidePlayerMove(ChessMove move,
+            FigureColor playerColor)
+        {
+            return this.provideMoveDelegates[(int)playerColor](move);
+        }
+
+        public virtual void CancelLastPlayerMove(FigureColor playerColor)
+        {
+            this.cancelMoveDelegates[(int)playerColor]();
+        }
+
+        protected virtual void CancelLastPlayerMove(ChessPlayerBase player,
                                                      ChessPlayerBase opponentPlayer)
         {
             // get links for FigureManager classes of players
@@ -441,7 +549,7 @@ namespace BasicChessClasses
             history.UndoLast();
         }
 
-        public virtual void ReplacePawnAtTheOtherSide(Coordinates pawnCoords,
+        protected virtual void ReplacePawnAtTheOtherSide(Coordinates pawnCoords,
                                                        FigureType newType, ChessPlayerBase player)
         {
             Change deleteChange =
@@ -459,6 +567,15 @@ namespace BasicChessClasses
             player.FiguresManager.AddFigure(pawnCoords, newType, player.FiguresColor);
 
             board[pawnCoords].Type = newType;
+        }
+
+        public virtual void ReplacePawn(Coordinates pawnCoords, FigureType newType)
+        {
+            this.ReplacePawnAtTheOtherSide(
+                pawnCoords,
+                newType,
+                players[(int)board[pawnCoords].Color]
+                );
         }
 
         protected virtual bool IsUnderPlayerControl(int coordsX, int coordsY, ChessPlayerBase player)

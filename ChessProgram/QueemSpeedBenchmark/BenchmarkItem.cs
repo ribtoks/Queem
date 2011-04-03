@@ -24,7 +24,7 @@ namespace QueemSpeedBenchmark
             mp = new CH_MovesProvider(FigureColor.White, 
                 FigureStartPosition.Down);
 
-            int i = 0;
+            FigureColor currColor = FigureColor.White;
 
             foreach (var moveStr in moves)
             {
@@ -36,27 +36,15 @@ namespace QueemSpeedBenchmark
                     move = new PromotionMove(moveStr);
 
                 MoveResult mr = MoveResult.Fail;
-                if ((i % 2) == 0)
-                    mr = mp.ProvideMyMove(move);
-                else
-                    mr = mp.ProvideOpponetMove(move);
+                mr = mp.ProvidePlayerMove(move, currColor);
+                currColor = currColor.GetOppositeColor();
 
                 if ((mr == MoveResult.PawnReachedEnd) ||
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
-                    ChessPlayerBase player = null;
-
-                    if (mp.Player1.FiguresColor == FigureColor.White)
-                        player = mp.Player1;
-                    else
-                        player = mp.Player2;
-
-                    mp.ReplacePawnAtTheOtherSide(mp.History.LastMove.End,
-                        (FigureType)((move as PromotionMove).Promotion),
-                        player);
+                    mp.ReplacePawn(mp.History.LastMove.End,
+                        (FigureType)((move as PromotionMove).Promotion));
                 }
-
-                i += 1;
             }
 
             solver = new ChessSolver();

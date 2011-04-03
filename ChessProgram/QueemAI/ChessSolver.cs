@@ -15,6 +15,24 @@ namespace QueemAI
         protected int[] playerDepth = new int[2];
         protected ChessMove bestMove = null;
 
+        #region Internal stuff
+
+        internal MovesProvider Provider
+        {
+            get { return provider; }
+        }
+        
+        internal ChessSolver(MovesProvider snapshot)
+        {
+            provider = snapshot;
+        }
+
+        #endregion
+
+        public ChessSolver()
+        {
+        }
+
         public ChessMove SolveProblem(MovesProvider snapshot, FigureColor playerColor, int maxdepth)
         {
             provider = snapshot;
@@ -62,13 +80,14 @@ namespace QueemAI
             for (int i = 0; i < moves.Count; ++i)
             {
                 var move = moves[i];
-                mr = provider.ProvidePlayerMove(move, player, opponentPlayer);
+                mr = provider.ProvidePlayerMove(move, player.FiguresColor);
 
                 if ((mr == MoveResult.PawnReachedEnd) ||
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
                     PromotionType promotionFigure = (move as PromotionMove).Promotion;
-                    provider.ReplacePawnAtTheOtherSide(move.End, (FigureType)promotionFigure, player);
+                    provider.ReplacePawn(move.End, 
+                        (FigureType)promotionFigure);
                 }
 
                 value = EvaluatePosition(player, opponentPlayer) -
@@ -76,7 +95,7 @@ namespace QueemAI
 
                 if (value <= alpha)
                 {
-                    provider.CancelLastPlayerMove(player, opponentPlayer);
+                    provider.CancelLastPlayerMove(player.FiguresColor);
                     --ply;
 
                     continue;
@@ -85,7 +104,7 @@ namespace QueemAI
                 if (maxdepth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
 
-                provider.CancelLastPlayerMove(player, opponentPlayer);
+                provider.CancelLastPlayerMove(player.FiguresColor);
                 --ply;
 
                 if (value > alpha)
@@ -150,16 +169,15 @@ namespace QueemAI
             {
                 move = moves[i];
 
-                mr = provider.ProvidePlayerMove(move, player, opponentPlayer);
+                mr = provider.ProvidePlayerMove(move, player.FiguresColor);
                 ++ply;
 
                 if ((mr == MoveResult.PawnReachedEnd) ||
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
                     PromotionType promotionFigure = (move as PromotionMove).Promotion;
-                    provider.ReplacePawnAtTheOtherSide(move.End,
-                        (FigureType)promotionFigure,
-                        player);
+                    provider.ReplacePawn(move.End,
+                        (FigureType)promotionFigure);
                 }
 
                 value = EvaluatePosition(player, opponentPlayer) -
@@ -170,7 +188,7 @@ namespace QueemAI
                 // move for current player
                 if (value <= alpha)
                 {
-                    provider.CancelLastPlayerMove(player, opponentPlayer);
+                    provider.CancelLastPlayerMove(player.FiguresColor);
                     --ply;
 
                     continue;
@@ -180,7 +198,7 @@ namespace QueemAI
                 if (depth > 1)
                     value = -AlphaBetaPruning(-beta, -alpha, depth - 1, nextPlayer);
 
-                provider.CancelLastPlayerMove(player, opponentPlayer);
+                provider.CancelLastPlayerMove(player.FiguresColor);
                 --ply;
 
                 if (value > alpha)
@@ -305,6 +323,22 @@ namespace QueemAI
             }
 
             return moves;
+        }
+
+        public static List<ChessMove> GenerateAllMoves(MovesProvider provider,
+            FigureColor playerColor)
+        {
+            ChessSolver cs = new ChessSolver(provider);
+            ChessPlayerBase player = provider.Player1;
+            ChessPlayerBase opponent = provider.Player2;
+
+            if (player.FiguresColor != playerColor)
+            {
+                player = provider.Player2;
+                opponent = provider.Player1;
+            }
+
+            return cs.GetPlayerMoves(player, opponent);
         }
     }
 }

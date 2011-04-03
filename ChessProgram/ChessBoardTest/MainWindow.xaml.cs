@@ -31,6 +31,7 @@ namespace ChessBoardTest
         FigureStartPosition myStartPos = FigureStartPosition.Down;
         List<MoveWithDecision> redoMoves;
         BackgroundWorker bw;
+        bool solverDisabled = false;
 
         #endregion
 
@@ -102,6 +103,9 @@ namespace ChessBoardTest
             mp.ReplacePawn(e.Coords, e.Type,
                 chessBoardControl.CurrPlayerColor);
             chessBoardControl.ChangePlayer();
+
+            solverDisabled = false;
+            StartSolver();
         }
 
         protected void chessBoardControl_PlayerMoveAnimationPreview(object sender, EventArgs e)
@@ -109,8 +113,11 @@ namespace ChessBoardTest
             cancelButton.IsEnabled = false;
         }
 
-        protected void chessBoardControl_PlayerMoveAnimationFinished(object sender, EventArgs e)
+        protected void StartSolver()
         {
+            if (solverDisabled)
+                return;
+
             if (chessBoardControl.CurrPlayerColor != myColor)
             {
                 if (mp.IsCheckmate(mp.Player2, mp.Player1))
@@ -131,6 +138,11 @@ namespace ChessBoardTest
                 cancelButton.IsEnabled = true;
         }
 
+        protected void chessBoardControl_PlayerMoveAnimationFinished(object sender, EventArgs e)
+        {
+            StartSolver();
+        }
+
         protected void chessBoardControl_PlayerMoveFinished(object source, PlayerMoveEventArgs e)
         {
             MoveResult mr = MoveResult.Fail;
@@ -144,10 +156,16 @@ namespace ChessBoardTest
                 mr = mp.ProvideOpponetMove(new ChessMove(e.MoveStart, e.MoveEnd));
             }
 
-            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), mp.History.LastMove, mp.History.LastMoveResult);
+            bool needChangePawn = (mr == MoveResult.PawnReachedEnd) ||
+                (mr == MoveResult.CapturedAndPawnReachedEnd);
 
-            if ((mr == MoveResult.PawnReachedEnd) ||
-                (mr == MoveResult.CapturedAndPawnReachedEnd))
+            if (needChangePawn)
+                solverDisabled = true;
+
+            chessBoardControl.AnimateFigureMove(new DeltaChanges(mp.History.LastChanges), 
+                mp.History.LastMove, mp.History.LastMoveResult);
+
+            if (needChangePawn)
             {
                 chessBoardControl.ReplacePawn(mp.History.LastMove.End, chessBoardControl.CurrPlayerColor);
             }
@@ -172,6 +190,7 @@ namespace ChessBoardTest
 
             chessBoardControl.ChangePlayer();
             chessBoardControl.HideHighlitedCells();
+            
             mp.CancelMove(chessBoardControl.CurrPlayerColor);
             chessBoardControl.AnimateCancelFigureMove(new DeltaChanges(lastChanges), lastMove, lastResult);
 

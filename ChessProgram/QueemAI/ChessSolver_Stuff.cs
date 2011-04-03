@@ -29,9 +29,7 @@ namespace QueemAI
         {
             get { return provider.History.Count; }
         }
-
-
-
+        
         protected void InitializeBestMoves()
         {
             int count = 0;

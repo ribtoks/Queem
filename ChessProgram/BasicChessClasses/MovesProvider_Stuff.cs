@@ -40,6 +40,10 @@ namespace BasicChessClasses
 		{
 			FiguresManager fm = player.FiguresManager;
 			List<Coordinates> coords;
+
+            var king_coords = GetFilteredCells(fm.Kings.King.Coordinates);
+            if (king_coords.Count != 0)
+                return false;
 			
 			// horses usualy can make more moves, because
             // they can jump over other figures
@@ -122,6 +126,8 @@ namespace BasicChessClasses
 			
 			player1 = new ChessPlayerBase (player1.FiguresColor, player1.StartPos);
 			player2 = new ChessPlayerBase (player2.FiguresColor, player2.StartPos);
+
+            this.SetupInnerColorToObjectMaps();
 		}
 
         public void CancelMove(FigureColor playerColor)
