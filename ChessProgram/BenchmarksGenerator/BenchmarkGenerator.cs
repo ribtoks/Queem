@@ -23,6 +23,11 @@ namespace BenchmarksGenerator
             while (curr_depth < depth)
             {
                 List<ChessMove> moves = ChessSolver.GenerateAllMoves(mp, currColor);
+                if (moves.Count == 0)
+                {
+                    // some checkmate found
+                    break;
+                }
                 int index = rand.Next(moves.Count);
                 // just get random move
                 var move = moves[index];
