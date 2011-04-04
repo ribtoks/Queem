@@ -31,18 +31,36 @@ namespace QueemSpeedBenchmark
             }
         }
 
-        public void RunBenchmarks(int maxdepth)
+        public void RunBenchmarks(int maxdepth, bool verbose)
         {
             ParallelLoopResult result = Parallel.For(0, benchmarks.Count,
                 (i) =>
                 {
+                    if (verbose)
+                        Console.WriteLine("Started test " + i + "...");
+
                     benchmarks[i].Run(maxdepth);
+
+                    if (verbose)
+                        Console.WriteLine("Test " + i + " finished.");
                 });
 
             // wait for all tests complete
             while (!result.IsCompleted) ;
 
             // do other stuff...
+        }
+
+        public void SaveResultsToFile(string filePath)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var b in benchmarks)
+            {
+                sb.AppendLine(b.ToString());
+            }
+
+            File.WriteAllText(filePath, sb.ToString());
         }
     }
 }

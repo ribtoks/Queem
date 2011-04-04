@@ -28,6 +28,9 @@ namespace QueemSpeedBenchmark
 
             foreach (var moveStr in moves)
             {
+                if (moveStr.Length == 0)
+                    continue;
+
                 ChessMove move = null;
                 
                 if (moveStr.Length == 5)
@@ -65,6 +68,16 @@ namespace QueemSpeedBenchmark
             this.historyCount = solver.HistoryDepth;
             this.nodesSearched = solver.NodesSearched;
             this.depth = maxdepth;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3}",
+                this.milliseconds,
+                this.historyCount,
+                this.nodesSearched,
+                this.depth
+                );
         }
     }
 }
