@@ -1065,7 +1065,7 @@ namespace BasicChessClasses
                         return true;
                 }
 
-                return false;
+                return IsUnderAttackFromDirection(coords, opponentMove.Start);
             }
 
             if (board[opponentMove.End].Type == FigureType.Pawn)
@@ -1090,6 +1090,9 @@ namespace BasicChessClasses
                 if (gf.Type == FigureType.Pawn)
                     if (gf.Color == opponentPlayer.FiguresColor)
                         return true;
+
+                if (opponentMove.Start.X != opponentMove.End.X)
+                    return IsUnderAttackFromDirection(coords, opponentMove.Start);
 
                 return false;
             }
