@@ -151,7 +151,7 @@ namespace BasicChessClasses
         }
     }
 
-    public class ChessMove
+    public class ChessMove : ICloneable
     {
         protected Coordinates start;
         protected Coordinates end;
@@ -277,6 +277,16 @@ namespace BasicChessClasses
         {
             return (start.GetHashCode() - 1) * 64 + end.GetHashCode();
         }
+
+        protected virtual ChessMove CreateCopy()
+        {
+            return new ChessMove(this);
+        }
+
+        public object Clone()
+        {
+            return CreateCopy();
+        }
     }
 
     public class PromotionMove : ChessMove
@@ -342,6 +352,11 @@ namespace BasicChessClasses
         public override string ToString()
         {
             return base.ToString() + char.ToLower(promotion.ToString()[0]);
+        }
+
+        protected override ChessMove CreateCopy()
+        {
+            return new PromotionMove(this);
         }
     }
 }

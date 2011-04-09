@@ -165,7 +165,7 @@ namespace BasicChessClasses
 		
 		public void Add (ChessMove move, MoveResult moveResult, DeltaChanges changes)
 		{
-			moves.Add (new ChessMove (move));
+			moves.Add ((ChessMove)move.Clone());
 			deltaChanges.Add (changes);
 			moveResults.Add (moveResult);
 		}
