@@ -69,10 +69,20 @@ Usage: QueemSpeedBenchmark [-h|--help] [-v|--verbose] tests_dir_path max_depth [
 
             bp.RunBenchmarks(maxdepth, verbose);
 
-            string resultsFilePath = string.Format("test_results_{0}_{1}_{2}",
-                maxdepth,
-                Guid.NewGuid().ToString().Substring(0, 8),
-                DateTime.Now.Millisecond);                
+            string resultsFilePath = string.Empty;
+
+            // then user specified output name
+            if (args.Length == (3 + index))
+            {
+                resultsFilePath = args[3];
+            }
+            else
+            {
+                resultsFilePath = string.Format("test_results_{0}_{1}_{2}",
+                    maxdepth,
+                    Guid.NewGuid().ToString().Substring(0, 8),
+                    DateTime.Now.Millisecond);
+            }
 
             bp.SaveResultsToFile(resultsFilePath);
 

@@ -32,7 +32,15 @@ namespace BenchmarksGenerator
                 // just get random move
                 var move = moves[index];
 
-                mp.ProvidePlayerMove(move, currColor);
+                MoveResult mr = mp.ProvidePlayerMove(move, currColor);
+
+                if ((mr == MoveResult.PawnReachedEnd) ||
+                    (mr == MoveResult.CapturedAndPawnReachedEnd))
+                {
+                    mp.ReplacePawn(mp.History.LastMove.End,
+                        (FigureType)((move as PromotionMove).Promotion));
+                }
+
                 currColor = currColor.GetOppositeColor();
 
                 curr_depth += 1;

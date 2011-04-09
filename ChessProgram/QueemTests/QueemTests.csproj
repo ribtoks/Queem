@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CoordinatesTests.cs" />
     <Compile Include="FigureCollectionTest.cs" />
+    <Compile Include="MovesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

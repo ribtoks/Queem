@@ -59,8 +59,14 @@ namespace QueemSpeedBenchmark
 
             watch.Start();
 
+            FigureColor color = FigureColor.Black;
+            if (mp.History.Count > 0)
+             color = mp.ChessBoard[mp.History.LastMove.End]
+                 .Color
+                 .GetOppositeColor();
+            
             // TODO write some exceptions handling
-            solver.SolveProblem(mp, FigureColor.White, maxdepth);
+            solver.SolveProblem(mp, color, maxdepth);
             
             watch.Stop();
 

@@ -1,23 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\QueemTests.csproj" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-03-24" time="17:35:52">
+<test-results name="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\QueemTests.csproj" total="4" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-04-09" time="19:35:45">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.3053" os-version="Microsoft Windows NT 5.1.2600 Service Pack 3" platform="Win32NT" cwd="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests" machine-name="HOME-4869B110A9" user="Taras" user-domain="HOME-4869B110A9" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Project" name="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\QueemTests.csproj" executed="True" result="Success" success="True" time="0.180" asserts="0">
+  <test-suite type="Project" name="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\QueemTests.csproj" executed="True" result="Success" success="True" time="0.149" asserts="0">
     <results>
-      <test-suite type="Assembly" name="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\bin\Debug\QueemTests.dll" executed="True" result="Success" success="True" time="0.160" asserts="0">
+      <test-suite type="Assembly" name="C:\Documents and Settings\Taras\My Documents\Projects\Queem\ChessProgram\QueemTests\bin\Debug\QueemTests.dll" executed="True" result="Success" success="True" time="0.139" asserts="0">
         <results>
-          <test-suite type="Namespace" name="QueemTests" executed="True" result="Success" success="True" time="0.160" asserts="0">
+          <test-suite type="Namespace" name="QueemTests" executed="True" result="Success" success="True" time="0.139" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="CoordinatesTests" executed="True" result="Success" success="True" time="0.130" asserts="0">
+              <test-suite type="TestFixture" name="CoordinatesTests" executed="True" result="Success" success="True" time="0.099" asserts="0">
                 <results>
-                  <test-case name="QueemTests.CoordinatesTests.CompareWithOperator" executed="True" result="Success" success="True" time="0.090" asserts="7" />
+                  <test-case name="QueemTests.CoordinatesTests.CompareWithOperator" executed="True" result="Success" success="True" time="0.059" asserts="7" />
                   <test-case name="QueemTests.CoordinatesTests.CreateItemFromString" executed="True" result="Success" success="True" time="0.010" asserts="8" />
                 </results>
               </test-suite>
               <test-suite type="TestFixture" name="FigureCollectionTest" executed="True" result="Success" success="True" time="0.030" asserts="0">
                 <results>
                   <test-case name="QueemTests.FigureCollectionTest.DoubleKillingTest" executed="True" result="Success" success="True" time="0.030" asserts="4" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="MovesTests" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                <results>
+                  <test-case name="QueemTests.MovesTests.StringTest" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                 </results>
               </test-suite>
             </results>
