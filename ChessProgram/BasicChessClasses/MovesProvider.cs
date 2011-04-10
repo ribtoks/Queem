@@ -1091,10 +1091,7 @@ namespace BasicChessClasses
                     if (gf.Color == opponentPlayer.FiguresColor)
                         return true;
 
-                if (opponentMove.Start.X != opponentMove.End.X)
-                    return IsUnderAttackFromDirection(coords, opponentMove.Start);
-
-                return false;
+                return IsUnderAttackFromDirection(coords, opponentMove.Start);
             }
 
             if (IsUnderAttackFromDirection(coords, opponentMove.Start))
