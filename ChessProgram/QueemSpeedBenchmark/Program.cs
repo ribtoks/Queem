@@ -22,8 +22,8 @@ Usage: QueemSpeedBenchmark [-h|--help] [-v|--verbose] tests_dir_path max_depth [
 ";
 
             // will fit both -h and --help
-            if (args.Any((s) => s.Contains("-h")) || 
-                (args.Length == 0))
+            if ((args.Length == 0) || 
+                args[0].ToLower().Contains("-h"))
             {
                 Console.WriteLine(help);
                 return;
@@ -32,7 +32,8 @@ Usage: QueemSpeedBenchmark [-h|--help] [-v|--verbose] tests_dir_path max_depth [
             int index = 0;
             bool verbose = false;
 
-            if (args[0].Contains("-v"))
+            if ((args[0].ToLower() == "-v") || 
+                (args[0].ToLower() == "--verbose"))
             {
                 verbose = true;
                 index += 1;
@@ -74,7 +75,7 @@ Usage: QueemSpeedBenchmark [-h|--help] [-v|--verbose] tests_dir_path max_depth [
             // then user specified output name
             if (args.Length == (3 + index))
             {
-                resultsFilePath = args[3];
+                resultsFilePath = args[2 + index];
             }
             else
             {
