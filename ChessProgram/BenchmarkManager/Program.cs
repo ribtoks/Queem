@@ -7,6 +7,15 @@ using System.IO;
 
 namespace BenchmarkManager
 {
+    public class SimpleMatrix<T>
+    {
+        List<List<T>> matr;
+
+        public SimpleMatrix(int w, int h)
+        {
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -32,6 +41,7 @@ Run options:
        tests_count : number of tests to generate
        tests_depth : number of moves, generated in every test
          max_depth : maximum depth for AI when solving tests
+      results_path : filename with test results
 
 Compare options:
          -c, --cmp : compare two files with test results
@@ -40,7 +50,7 @@ Compare options:
       results_file : file with prepared for graphic comparison data
 ";
 
-            if ((args.Length == 0) || 
+            if ((args.Length == 0) ||
                 (args[0].ToLower().Contains("-h")) ||
                 (args.Length < 4))
             {
@@ -121,21 +131,21 @@ Compare options:
                     }
 
                     // path to current result folder
-                    string testsFolder = "./tests_bundle_" + 
+                    string testsFolder = "./tests_bundle_" +
                         Guid.NewGuid().ToString().Substring(0, 8);
 
                     // now run processes with correct parameters
                     ProcessStartInfo gen_psi = new ProcessStartInfo();
-                    gen_psi.UseShellExecute = false;
+                    gen_psi.UseShellExecute = true;
                     gen_psi.FileName = generatorPath;
                     gen_psi.CreateNoWindow = true;
-                    
-                    string verboseStr = string.Empty;                    
+
+                    string verboseStr = string.Empty;
                     if (verbose)
                         verboseStr = "--verbose ";
 
                     gen_psi.Arguments = string.Format(
-                        "{0}{1}, {2} {3}",
+                        "{0}{1} {2} {3}",
                         verboseStr,
                         tests_count,
                         tests_depth,
@@ -146,12 +156,12 @@ Compare options:
                     generateTests.WaitForExit();
 
                     if (verbose)
-                        Console.WriteLine("\r\nTests're generated. Starting solving...\r\n");
+                        Console.WriteLine("Tests're generated. Starting solving...\r\n");
 
                     // now start solving process
 
                     ProcessStartInfo solve_psi = new ProcessStartInfo();
-                    solve_psi.UseShellExecute = false;
+                    solve_psi.UseShellExecute = true;
                     solve_psi.FileName = testurerPath;
                     solve_psi.CreateNoWindow = true;
 
@@ -165,6 +175,10 @@ Compare options:
 
                     Process solveTests = Process.Start(solve_psi);
                     solveTests.WaitForExit();
+
+                    if (verbose)
+                        Console.WriteLine("\r\nTests're solved.\r\n");
+
                     break;
 
                 case "-c":
@@ -183,6 +197,8 @@ Compare options:
                         return;
                     }
 
+                    string results_file = args[3];
+
                     var data1 = ReadTestsFile(file1);
                     var data2 = ReadTestsFile(file2);
 
@@ -192,25 +208,35 @@ Compare options:
                         return;
                     }
 
+                    try
+                    {
+                        data1 = Transpose(data1);
+                        data2 = Transpose(data2);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Data has different columns");
+                        return;
+                    }
+
                     StringBuilder sb = new StringBuilder();
-                    List<string> milliseconds = new List<string>();
-                    List<string> historyCounts = new List<string>();
-                    List<string> nodesSearched = new List<string>();
-                    List<string> depthes = new List<string>();
 
                     for (int i = 0; i < data1.Count; ++i)
                     {
-                        
+                        sb.AppendLine(string.Join(" ", data1[i]));
+                        sb.AppendLine(string.Join(" ", data2[i]));
+                        sb.AppendLine();
                     }
+
+                    File.WriteAllText(results_file, sb.ToString());
 
                     break;
             }
         }
 
-        static List<Tuple<string, string, string, string>> ReadTestsFile(string filePath)
+        static List<List<string>> ReadTestsFile(string filePath)
         {
-            List<Tuple<string, string, string, string>> data =
-                        new List<Tuple<string, string, string, string>>();
+            var data = new List<List<string>>();
 
             foreach (string line in File.ReadAllLines(filePath))
             {
@@ -218,20 +244,32 @@ Compare options:
                     continue;
 
                 string[] values = line.Split(' ');
-                
-                if (values.Length != 4)
-                    continue;
 
-                data.Add(
-                    new Tuple<string, string, string, string>(
-                        values[0],
-                        values[1],
-                        values[2],
-                        values[3]
-                        ));
+                data.Add(new List<string>(values));
             }
 
             return data;
+        }
+
+        static List<List<T>> Transpose<T>(List<List<T>> matr)
+        {
+            var list = new List<List<T>>();
+
+            for (int j = 0; j < matr[0].Count; ++j)
+                list.Add(new List<T>());
+
+
+            for (int j = 0; j < matr[0].Count; ++j)
+            {
+                list[j] = new List<T>();
+
+                for (int i = 0; i < matr.Count; ++i)
+                {
+                    list[j].Add(matr[i][j]);
+                }
+            }
+
+            return list;
         }
     }
 }
