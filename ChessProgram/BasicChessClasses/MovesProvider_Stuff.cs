@@ -26,6 +26,11 @@ namespace BasicChessClasses
             get { return player2; }
         }
 
+        public ChessPlayerBase GetPlayer(FigureColor color)
+        {
+            return players[(int)color];
+        }
+
         public MovesHistory History
         {
             get { return history; }

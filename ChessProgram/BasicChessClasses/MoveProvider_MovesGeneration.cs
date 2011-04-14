@@ -662,6 +662,37 @@ namespace BasicChessClasses
 				return new List<Coordinates> ();
 			}
 		}
+
+        /// <summary>
+        /// Generates all moves, that can do 
+        /// a figure on specified coordinates
+        /// when taking some opponent's figure
+        /// </summary>
+        /// <param name="coords">Coordinates of a figure</param>
+        /// <returns>List of moves, that can be done in generic situation</returns>
+        public List<Coordinates> GetAttackingMoves(Coordinates coords)
+        {
+            //return movesGenerators[ board[coords.X, coords.Y].Type ] (coords);
+            FigureType figureType = board[coords].Type;
+
+            switch (figureType)
+            {
+                case FigureType.Bishop:
+                    return this.GetAttackingBishopMoves(coords);
+                case FigureType.Horse:
+                    return this.GetAttackingHorseMoves(coords);
+                case FigureType.King:
+                    return this.GetAttackingKingMoves(coords);
+                case FigureType.Pawn:
+                    return this.GetAttackingPawnMoves(coords);
+                case FigureType.Queen:
+                    return this.GetAttackingQueenMoves(coords);
+                case FigureType.Rook:
+                    return this.GetAttackingRookMoves(coords);
+                default:
+                    return new List<Coordinates>();
+            }
+        }
 		
         /// <summary>
         /// Generates all moves, that can be
@@ -679,11 +710,35 @@ namespace BasicChessClasses
 				return FilterMoves (coords, allCoords, player2, player1);
 		}
 
+        /// <summary>
+        /// Generates all moves, that can be
+        /// done in particular situation
+        /// when taking opponent's figure
+        /// </summary>
+        /// <param name="coords"></param>
+        /// <returns></returns>
+        public List<Coordinates> GetFilteredAttackingCells(Coordinates coords)
+        {
+            List<Coordinates> allCoords = GetAttackingMoves(coords);
+
+            if (board[coords].Color == player1.FiguresColor)
+                return this.FilterMoves(coords, allCoords, player1, player2);
+            else
+                return this.FilterMoves(coords, allCoords, player2, player1);
+        }
+
         public List<Coordinates> GetFilteredCells(Coordinates coords,
             ChessPlayerBase player, ChessPlayerBase opponentPlayer)
         {
             List<Coordinates> allCoords = GetMoves(coords);
-            return FilterMoves(coords, allCoords, player, opponentPlayer);
+            return this.FilterMoves(coords, allCoords, player, opponentPlayer);
+        }
+
+        public List<Coordinates> GetFilteredAttackingCells(Coordinates coords,
+            ChessPlayerBase player, ChessPlayerBase opponentPlayer)
+        {
+            List<Coordinates> allCoords = this.GetAttackingMoves(coords);
+            return this.FilterMoves(coords, allCoords, player, opponentPlayer);
         }
 		
 		public bool ArePossibleCells (Coordinates coords)

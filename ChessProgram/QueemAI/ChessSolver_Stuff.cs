@@ -98,32 +98,5 @@ namespace QueemAI
 
             quicksort(moves, 0, moves.Count - 1);
         }
-
-        protected int EvaluatePosition(ChessPlayerBase player, ChessPlayerBase opponentPlayer)
-        {
-            int result = 0;
-
-            // add actual figures
-            result += player.FiguresManager.PawnCount * PositionEvaluator.PawnValue;
-            result += player.FiguresManager.BishopCount * PositionEvaluator.BishopValue;
-            result += player.FiguresManager.HorseCount * PositionEvaluator.HorseValue;
-            result += player.FiguresManager.RookCount * PositionEvaluator.RookValue;
-            result += player.FiguresManager.QueenCount * PositionEvaluator.QueenValue;
-
-            //foreach (var figure in player.FiguresManager)
-            //{
-            //    var coords = figure.Coordinates;
-            //    result += PositionEvaluator.PositionValue[coords.Y, coords.X];
-            //}
-            result += player.FiguresManager.GetPositionValue(
-                PositionEvaluator.PositionValue);
-
-            if (player.FiguresManager.Bishops.Count == 2)
-                result += PositionEvaluator.PawnValue / 3;
-
-            // TODO write lots of other conditions
-
-            return result;
-        }
     }
 }

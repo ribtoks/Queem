@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChessNodeInfo.cs" />
     <Compile Include="ChessSolver.cs" />
     <Compile Include="ChessSolver_Stuff.cs" />
     <Compile Include="CH_MovesProvider.cs" />
     <Compile Include="EvaluatedMove.cs" />
+    <Compile Include="MovesGenerator.cs" />
     <Compile Include="PositionEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

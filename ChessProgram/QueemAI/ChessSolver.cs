@@ -63,10 +63,20 @@ namespace QueemAI
             ply = 0;
             nodesSearched = 0;
 
+            // TODO search debut moves here
+
             List<EvaluatedMove> evaluatedMoves = new List<EvaluatedMove>();
 
-            int alpha = -PositionEvaluator.MateValue;
-            int beta = PositionEvaluator.MateValue;
+            ChessNodeInfo cni = new ChessNodeInfo()
+            {
+                Alpha = -PositionEvaluator.MateValue,
+                Beta = PositionEvaluator.MateValue,
+                Evaluator = PositionEvaluator.SimpleEvaluatePosition,
+                CanMakeNullMove = true,
+                CurrPlayer = currPlayer,
+                Depth = maxdepth
+            };
+
             int value = 0;
 
             InitializeBestMoves();
@@ -76,7 +86,7 @@ namespace QueemAI
             MoveResult mr = MoveResult.Fail;
 
             nodesSearched += 1;
-            var moves = GetPlayerMoves(player, opponentPlayer);
+            var moves = MovesGenerator.GetPlayerMoves(provider, player, opponentPlayer);
             for (int i = 0; i < moves.Count; ++i)
             {
                 var move = moves[i];
@@ -90,10 +100,10 @@ namespace QueemAI
                         (FigureType)promotionFigure);
                 }
 
-                value = EvaluatePosition(player, opponentPlayer) -
-                        EvaluatePosition(opponentPlayer, player);
+                value = cni.Evaluator(player, opponentPlayer) -
+                    cni.Evaluator(opponentPlayer, player);
 
-                if (value <= alpha)
+                if (value <= cni.Alpha)
                 {
                     provider.CancelLastPlayerMove(player.FiguresColor);
                     --ply;
@@ -102,16 +112,16 @@ namespace QueemAI
                 }
 
                 if (maxdepth > 1)
-                    value = -AlphaBetaPruning(-beta, -alpha, maxdepth - 1, nextPlayer);
+                    value = -AlphaBetaPruning(cni.GetNext());
 
                 provider.CancelLastPlayerMove(player.FiguresColor);
                 --ply;
 
-                if (value > alpha)
+                if (value > cni.Alpha)
                 {
                     // paste history heuristics here...
                     bestMove = move;
-                    alpha = value;
+                    cni.Alpha = value;
                 }
 
                 evaluatedMoves.Add(new EvaluatedMove() { Move = move, Value = value }
@@ -130,16 +140,16 @@ namespace QueemAI
             return evaluatedMoves;
         }
 
-        protected int AlphaBetaPruning(int alpha, int beta, int depth, CurrentPlayer currPlayer)
+        protected int AlphaBetaPruning(ChessNodeInfo cni)
         {
-            var nextPlayer = currPlayer.GetOppositePlayer();
-            IncPlayerDepth(currPlayer);
+            var nextPlayer = cni.CurrPlayer.GetOppositePlayer();
+            IncPlayerDepth(cni.CurrPlayer);
             nodesSearched += 1;
 
             ChessPlayerBase player = provider.Player1;
             ChessPlayerBase opponentPlayer = provider.Player2;
 
-            if (currPlayer == CurrentPlayer.CPU)
+            if (cni.CurrPlayer == CurrentPlayer.CPU)
             {
                 player = provider.Player2;
                 opponentPlayer = provider.Player1;
@@ -151,11 +161,11 @@ namespace QueemAI
             int value = 0;
             MoveResult mr;
 
-            var moves = GetPlayerMoves(player, opponentPlayer);
+            var moves = MovesGenerator.GetPlayerMoves(provider, player, opponentPlayer);
 
             if (moves.Count == 0)
             {
-                DecPlayerDepth(currPlayer);
+                DecPlayerDepth(cni.CurrPlayer);
 
                 if (wasOwnKingInCheck)
                     return (-PositionEvaluator.MateValue + ply);
@@ -180,13 +190,13 @@ namespace QueemAI
                         (FigureType)promotionFigure);
                 }
 
-                value = EvaluatePosition(player, opponentPlayer) -
-                    EvaluatePosition(opponentPlayer, player);
+                value = cni.Evaluator(player, opponentPlayer) -
+                    cni.Evaluator(opponentPlayer, player);
 
                 // if value is so bad, opponent player
                 // will only make it worse on his next
                 // move for current player
-                if (value <= alpha)
+                if (value <= cni.Alpha)
                 {
                     provider.CancelLastPlayerMove(player.FiguresColor);
                     --ply;
@@ -194,151 +204,39 @@ namespace QueemAI
                     continue;
                 }
 
-
-                if (depth > 1)
-                    value = -AlphaBetaPruning(-beta, -alpha, depth - 1, nextPlayer);
+                if (cni.Depth > 1)
+                {                    
+                    value = -AlphaBetaPruning(cni.GetNext());
+                }
 
                 provider.CancelLastPlayerMove(player.FiguresColor);
                 --ply;
 
-                if (value > alpha)
+                if (value > cni.Alpha)
                 {
                     // paste history heuristics here...
 
-                    if (value >= beta)
+                    if (value >= cni.Beta)
                     {
-                        DecPlayerDepth(currPlayer);
-                        return beta;
+                        DecPlayerDepth(cni.CurrPlayer);
+                        return cni.Beta;
                     }
 
-                    alpha = value;
+                    cni.Alpha = value;
                 }
             }
 
-            DecPlayerDepth(currPlayer);
-            return alpha;
+            DecPlayerDepth(cni.CurrPlayer);
+            return cni.Alpha;
         }
 
-        protected List<ChessMove> GetPlayerMoves(ChessPlayerBase player, ChessPlayerBase opponent)
+        protected int QuiescenceSearch(ChessNodeInfo cni)
         {
-            // in future, use sorted dictionary
-            var moves = new List<ChessMove>(30);
-            ChessMove move = new ChessMove();
+            var nextInfo = cni.GetNext();
+            nextInfo.Evaluator = PositionEvaluator.SophisticatedEvaluatePosition;
+            nextInfo.CanMakeNullMove = false;
 
-            var pMoves = new List<ChessMove>();
-            foreach (var pawn in player.FiguresManager.Pawns)
-            {
-                var pawnMoves = provider.GetFilteredCells(pawn.Coordinates, player, opponent);
-                move.Start = pawn.Coordinates;
-
-                for (int i = 0; i < pawnMoves.Count; ++i)
-                {
-                    move.End = pawnMoves[i];
-                    // pawn reached other board side
-                    if ((move.End.Y == 0) ||
-                        (move.End.Y == 7))
-                    {
-                        pMoves.Add(
-                            new PromotionMove(
-                                new ChessMove(move),
-                                PromotionType.Queen));
-
-                        pMoves.Add(
-                            new PromotionMove(
-                                new ChessMove(move),
-                                PromotionType.Rook));
-
-                        pMoves.Add(
-                            new PromotionMove(
-                                new ChessMove(move),
-                                PromotionType.Bishop));
-
-                        pMoves.Add(
-                            new PromotionMove(
-                                new ChessMove(move),
-                                PromotionType.Horse));
-                    }
-                    else
-                        pMoves.Add(new ChessMove(move));
-                }
-            }
-
-            moves.AddRange(pMoves);
-
-            foreach (var horse in player.FiguresManager.Horses)
-            {
-                move.Start = horse.Coordinates;
-                var horseMoves = provider.GetFilteredCells(horse.Coordinates, player, opponent);
-
-                for (int i = 0; i < horseMoves.Count; ++i)
-                {
-                    move.End = horseMoves[i];
-                    moves.Add(new ChessMove(move));
-                }
-            }
-
-            foreach (var bishop in player.FiguresManager.Bishops)
-            {
-                move.Start = bishop.Coordinates;
-                var bishopMoves = provider.GetFilteredCells(bishop.Coordinates, player, opponent);
-
-                for (int i = 0; i < bishopMoves.Count; ++i)
-                {
-                    move.End = bishopMoves[i];
-                    moves.Add(new ChessMove(move));
-                }
-            }
-
-            foreach (var rook in player.FiguresManager.Rooks)
-            {
-                move.Start = rook.Coordinates;
-                var rookMoves = provider.GetFilteredCells(rook.Coordinates, player, opponent);
-
-                for (int i = 0; i < rookMoves.Count; ++i)
-                {
-                    move.End = rookMoves[i];
-                    moves.Add(new ChessMove(move));
-                }
-            }
-
-            foreach (var queen in player.FiguresManager.Queens)
-            {
-                move.Start = queen.Coordinates;
-                var queenMoves = provider.GetFilteredCells(queen.Coordinates, player, opponent);
-
-                for (int i = 0; i < queenMoves.Count; ++i)
-                {
-                    move.End = queenMoves[i];
-                    moves.Add(new ChessMove(move));
-                }
-            }
-
-            move.Start = player.FiguresManager.Kings.King.Coordinates;
-            var kingMoves = provider.GetFilteredCells(move.Start, player, opponent);
-
-            for (int i = 0; i < kingMoves.Count; ++i)
-            {
-                move.End = kingMoves[i];
-                moves.Add(new ChessMove(move));
-            }
-
-            return moves;
-        }
-
-        public static List<ChessMove> GenerateAllMoves(MovesProvider provider,
-            FigureColor playerColor)
-        {
-            ChessSolver cs = new ChessSolver(provider);
-            ChessPlayerBase player = provider.Player1;
-            ChessPlayerBase opponent = provider.Player2;
-
-            if (player.FiguresColor != playerColor)
-            {
-                player = provider.Player2;
-                opponent = provider.Player1;
-            }
-
-            return cs.GetPlayerMoves(player, opponent);
+            return AlphaBetaPruning(nextInfo);
         }
     }
 }
