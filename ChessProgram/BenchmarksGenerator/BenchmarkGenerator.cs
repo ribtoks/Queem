@@ -22,7 +22,7 @@ namespace BenchmarksGenerator
 
             while (curr_depth < depth)
             {
-                List<ChessMove> moves = ChessSolver.GenerateAllMoves(mp, currColor);
+                List<ChessMove> moves = MovesGenerator.GenerateAllMoves(mp, currColor);
                 if (moves.Count == 0)
                 {
                     // some checkmate found

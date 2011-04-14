@@ -7,15 +7,6 @@ using System.IO;
 
 namespace BenchmarkManager
 {
-    public class SimpleMatrix<T>
-    {
-        List<List<T>> matr;
-
-        public SimpleMatrix(int w, int h)
-        {
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
