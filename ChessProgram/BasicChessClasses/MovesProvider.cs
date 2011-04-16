@@ -336,7 +336,11 @@ namespace BasicChessClasses
                 // if last move was a pawn move to in-passing state
 
                 // if last figure, that moved was a pawn
-                if ((movesCount > 0) && board[lastMove.End].Type == FigureType.Pawn)
+                // need to check a color also, cause of 
+                // null-move heuristics
+                var gf = board[lastMove.End];
+                if ((movesCount > 0) && (gf.Type == FigureType.Pawn)
+                    && (gf.Color == opponentPlayer.FiguresColor))
                 {
                     Pawn lastPawn = opponentManager.Pawns[lastMove.End];
 
@@ -879,7 +883,7 @@ namespace BasicChessClasses
             return false;
         }
 
-        protected virtual bool IsInCheck(ChessPlayerBase player, ChessPlayerBase opponentPlayer)
+        public virtual bool IsInCheck(ChessPlayerBase player, ChessPlayerBase opponentPlayer)
         {
             Coordinates coords = player.FiguresManager.Kings.King.Coordinates;
             return IsUnderPlayerControl(coords.X, coords.Y, opponentPlayer);
@@ -1043,7 +1047,15 @@ namespace BasicChessClasses
 
             Coordinates coords = myMove.Start;
 
-            return IsUnderAttackFromDirection(kingCoords, coords);
+            bool result = IsUnderAttackFromDirection(kingCoords, coords);
+
+#if DEBUG
+            // kind of test here
+            //if (result != IsInCheck(player, opponentPlayer))
+            //    throw new Exception();
+#endif
+
+            return result;
         }
 
         protected virtual bool IsInCheckAfterOpponentMove(ChessMove opponentMove, ChessPlayerBase player,
@@ -1123,8 +1135,15 @@ namespace BasicChessClasses
 
             ChessMove move = new ChessMove();
             move.Start = coords;
+            bool isInCheckNow = false;
 
-            if ((history.Count > 0) && IsInCheckAfterOpponentMove(history.LastMove, player, opponentPlayer))
+            if (history.Count > 0)
+            {
+                isInCheckNow = IsInCheckAfterOpponentMove(history.LastMove,
+                    player, opponentPlayer);
+            }
+
+            if (isInCheckNow)
             {
                 var lastMove = history.LastMove;
 

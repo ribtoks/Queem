@@ -94,7 +94,7 @@ namespace ChessBoardTest
 
             ChessMove move = cs.SolveProblem(mp,
                 chessBoardControl.CurrPlayerColor,
-                5);
+                6);
             e.Result = move;
         }
 

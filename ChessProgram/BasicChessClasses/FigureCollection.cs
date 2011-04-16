@@ -115,15 +115,31 @@ namespace BasicChessClasses
             }
         }
 
-        public int GetPositionValue(int[,] positionsValue)
+        public int GetPositionValue(int[,] positionsValue, 
+            FigureStartPosition startPos)
         {
             int value = 0;
+            int y = 0;
+
+            int sign = -1;
+            int val = 0;
+
+            if (startPos == FigureStartPosition.Up)
+            {
+                sign = 1;
+                val = 7;
+            }
+
             for (int i = 0; i < figureList.Count; ++i)
             {
                 var figure = figureList[i];
                 if (figureAccess[figure])
-                    value += positionsValue[figure.Coordinates.Y,
-                        figure.Coordinates.X];
+                {
+                    y = figure.Coordinates.Y;
+                    y = val - sign * y;
+
+                    value += positionsValue[y, figure.Coordinates.X];
+                }
             }
             return value;
         }

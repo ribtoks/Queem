@@ -133,6 +133,27 @@ namespace BasicChessClasses
             get { return queens.Count; }
         }
 
+        public int Count
+        {
+            get
+            {
+                return PawnCount + BishopCount +
+                    HorseCount + RookCount + QueenCount + 1;
+            }
+        }
+
+        /// <summary>
+        /// Gets number of rooks, horses, bishops and queens
+        /// </summary>
+        public int WorkingFiguresCount
+        {
+            get
+            {
+                return BishopCount + HorseCount +
+                    RookCount + QueenCount;
+            }
+        }
+
         #endregion
 
         public FiguresManager (FigureStartPosition startPos, FigureColor figuresColor)
@@ -262,19 +283,6 @@ namespace BasicChessClasses
 		}
 		
 		#endregion
-
-        public int GetPositionValue(int[,] positionValues)
-        {
-            int value = 0;
-
-            value += pawns.GetPositionValue(positionValues);
-            value += bishops.GetPositionValue(positionValues);
-            value += horses.GetPositionValue(positionValues);
-            value += rooks.GetPositionValue(positionValues);
-            value += queens.GetPositionValue(positionValues);
-
-            return value;
-        }
 		
 		public IEnumerator<Figure> GetEnumerator ()
 		{
