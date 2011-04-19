@@ -59,11 +59,16 @@ namespace BasicChessClasses
 				
 				// cannot go to cells, where stands
 				// figure with the same color
-				if (figure.Color == color)
-					map[figure] = 0;
-				else
-					// and can capture the opponent
-					map[figure] = 1;
+                if (figure.Color == color)
+                    map[figure] = 0;
+                else
+                {
+                    if (figure.Type != FigureType.King)
+                        // and can capture the opponent
+                        map[figure] = 1;
+                    else
+                        map[figure] = 0;
+                }
 			}
 		}
 		
@@ -79,7 +84,7 @@ namespace BasicChessClasses
 					continue;
 				}
 				
-				// can go to empty cell
+				// cannot go to empty cell
 				if (figure.Type == FigureType.Nobody) 
 				{
 					map[figure] = 0;
@@ -88,11 +93,14 @@ namespace BasicChessClasses
 				
 				// cannot go to cells, where stands
 				// figure with the same color
-				if (figure.Color == color)
-					map[figure] = 0;
-				else
-					// just can capture the opponent
-					map[figure] = 1;
+                if (figure.Color == color)
+                    map[figure] = 0;
+                else
+                    if (figure.Type != FigureType.King)
+                        // just can capture the opponent
+                        map[figure] = 1;
+                    else
+                        map[figure] = 0;
 			}
 		}
 		
