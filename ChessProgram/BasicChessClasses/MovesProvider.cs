@@ -1135,12 +1135,25 @@ namespace BasicChessClasses
 
             ChessMove move = new ChessMove();
             move.Start = coords;
+
             bool isInCheckNow = false;
 
             if (history.Count > 0)
             {
-                isInCheckNow = IsInCheckAfterOpponentMove(history.LastMove,
-                    player, opponentPlayer);
+                if (history.LastMoveResult == MoveResult.Castling)
+                {
+                    // king cannot check other king, that's why
+                    // need to check only rook move
+                    var rookChange = history.LastChanges.Changes.Peek();
+                    isInCheckNow = IsUnderAttackFromDirection(
+                        player.FiguresManager.Kings.King.Coordinates, 
+                        rookChange.AdditionalCoords);
+                }
+                else
+                {
+                    isInCheckNow = IsInCheckAfterOpponentMove(history.LastMove,
+                        player, opponentPlayer);
+                }
             }
 
             if (isInCheckNow)

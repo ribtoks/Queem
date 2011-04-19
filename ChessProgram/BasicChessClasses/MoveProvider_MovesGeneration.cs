@@ -231,6 +231,8 @@ namespace BasicChessClasses
 			int y = initY;
 			
 			List<Coordinates> destinationCells = new List<Coordinates> (8);
+
+            bool is_cell_ok = false;
 			
 			// up left
 			y = initY - 1;
@@ -239,7 +241,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -256,7 +262,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -273,7 +283,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -290,7 +304,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -312,6 +330,8 @@ namespace BasicChessClasses
 			
 			int x = initX;
 			int y = initY;
+
+            bool is_cell_ok = false;
 			
 			List<Coordinates> destinationCells = new List<Coordinates> (8);
 			
@@ -323,7 +343,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -338,7 +362,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -356,7 +384,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -371,7 +403,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -432,6 +468,8 @@ namespace BasicChessClasses
                 leftPassing = GetPassingPawnState(coords, -1);
                 rightPassing = GetPassingPawnState(coords, +1);
             }
+
+            // TODO write promotions code here
 			
 			return pp.GetMoves (coords, 
                 (byte)(map[ board[x - 1, y + dir] ] | leftPassing), 
@@ -483,7 +521,9 @@ namespace BasicChessClasses
 			int y = initY;
 			
 			List<Coordinates> destinationCells = new List<Coordinates> (4);
-			
+
+            bool is_cell_ok;
+
 			// up left
 			y = initY - 1;
 			x = initX - 1;
@@ -491,7 +531,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -506,7 +550,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -521,7 +569,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -536,7 +588,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -556,7 +612,9 @@ namespace BasicChessClasses
 			
 			int x = initX;
 			int y = initY;
-			
+
+            bool is_cell_ok = false;
+
 			List<Coordinates> destinationCells = new List<Coordinates> (4);
 			
 			// left
@@ -567,8 +625,12 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
-						destinationCells.Add (new Coordinates(x, y));
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
+                        destinationCells.Add(new Coordinates(x, y));
 					break;
 				}
 				--x;
@@ -580,7 +642,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -596,7 +662,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
@@ -609,7 +679,11 @@ namespace BasicChessClasses
 			{
 				if (board[(FieldLetter)x, y].Type != FigureType.Nobody)
 				{
-					if (board[(FieldLetter)x, y].Color != color)
+                    is_cell_ok = true;
+                    is_cell_ok &= (board[(FieldLetter)x, y].Color != color);
+                    //is_cell_ok &= (board[(FieldLetter)x, y].Type != FigureType.King);
+
+                    if (is_cell_ok)
 						destinationCells.Add (new Coordinates(x, y));
 					break;
 				}
