@@ -123,7 +123,11 @@ namespace QueemAI
             else
                 result += fm.Kings.GetPositionValue(KingMiddleGamePositionValues,
                     player.StartPos);
-            
+
+            // two bishops control disjoint sets of cells
+            if (player.FiguresManager.Bishops.Count == 2)
+                result += PositionEvaluator.PawnValue / 3;
+
             return result;
         }
 

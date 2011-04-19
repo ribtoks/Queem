@@ -15,6 +15,16 @@ namespace QueemAI
             var moves = new List<ChessMove>(30);
             ChessMove move = new ChessMove();
 
+            // take king moves first (when king is in check)
+            move.Start = player.FiguresManager.Kings.King.Coordinates;
+            var kingMoves = provider.GetFilteredCells(move.Start, player, opponent);
+
+            for (int i = 0; i < kingMoves.Count; ++i)
+            {
+                move.End = kingMoves[i];
+                moves.Add(new ChessMove(move));
+            }
+
             foreach (var pawn in player.FiguresManager.Pawns)
             {
                 var pawnMoves = provider.GetFilteredCells(pawn.Coordinates, player, opponent);
@@ -98,15 +108,6 @@ namespace QueemAI
                     move.End = queenMoves[i];
                     moves.Add(new ChessMove(move));
                 }
-            }
-
-            move.Start = player.FiguresManager.Kings.King.Coordinates;
-            var kingMoves = provider.GetFilteredCells(move.Start, player, opponent);
-
-            for (int i = 0; i < kingMoves.Count; ++i)
-            {
-                move.End = kingMoves[i];
-                moves.Add(new ChessMove(move));
             }
 
             return moves;
