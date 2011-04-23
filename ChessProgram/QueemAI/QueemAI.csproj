@@ -44,8 +44,10 @@
     <Compile Include="ChessSolver.cs" />
     <Compile Include="ChessSolver_Stuff.cs" />
     <Compile Include="CH_MovesProvider.cs" />
+    <Compile Include="CoordsTable.cs" />
     <Compile Include="EvaluatedMove.cs" />
     <Compile Include="MovesGenerator.cs" />
+    <Compile Include="MovesGenParams.cs" />
     <Compile Include="PositionEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TranspositionTable.cs" />
@@ -54,6 +56,10 @@
     <ProjectReference Include="..\BasicChessClasses\BasicChessClasses.csproj">
       <Project>{E4485A2E-85DF-4528-9E14-4CB306812C34}</Project>
       <Name>BasicChessClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DebutMovesHolder\DebutMovesHolder.csproj">
+      <Project>{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}</Project>
+      <Name>DebutMovesHolder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

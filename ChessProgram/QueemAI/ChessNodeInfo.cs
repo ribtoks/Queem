@@ -55,7 +55,7 @@ namespace QueemAI
             cni.Evaluator = this.Evaluator;
             cni.CurrPlayer = this.CurrPlayer.GetOppositePlayer();
 
-            cni.CanMakeNullMove = this.ableToMakeNullMoves;
+            cni.CanMakeNullMove =  this.ableToMakeNullMoves;
             cni.WasNullMoveDone = this.WasNullMoveDone;
 
             return cni;
@@ -80,7 +80,8 @@ namespace QueemAI
             QSNodeInfo qni = new QSNodeInfo();
             qni.Alpha = -this.Beta;
             qni.Beta = -this.Alpha;
-            qni.Depth = 0;// this.Depth - 1;
+            // max depth for quiescence
+            qni.Depth = 20; //this.Depth - 1;
             qni.Evaluator = PositionEvaluator.SimpleEvaluatePosition;
             qni.CurrPlayer = this.CurrPlayer.GetOppositePlayer();
             qni.ChecksCount = 0;

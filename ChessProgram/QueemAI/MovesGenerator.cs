@@ -6,8 +6,93 @@ using BasicChessClasses;
 
 namespace QueemAI
 {
+    internal delegate void QuickSortDelegate(List<EvaluatedMove> items, int first, int last);
+    internal delegate void QuickSortWithValueDelegate(List<ChessMove> items, List<int> values, int first, int last);
+
     public static class MovesGenerator
     {
+        internal static void SortEvaluatedMoves(List<EvaluatedMove> moves)
+        {
+            QuickSortDelegate quicksort = null;
+            quicksort =
+                (items, first, last) =>
+                {
+                    int left = first;
+                    int right = last;
+                    int mid = items[(left + right) >> 1].Value;
+
+                    while (left <= right)
+                    {
+                        while (items[left].Value > mid)
+                            ++left;
+
+                        while (items[right].Value < mid)
+                            --right;
+
+                        if (left <= right)
+                        {
+                            var tempItem = items[left];
+                            items[left] = items[right];
+                            items[right] = tempItem;
+
+                            ++left;
+                            --right;
+                        }
+                    }
+
+                    if (first < right)
+                        quicksort(items, first, right);
+
+                    if (left < last)
+                        quicksort(items, left, last);
+                };
+
+            quicksort(moves, 0, moves.Count - 1);
+        }
+
+        internal static void SortMovesWithValues(List<ChessMove> moves, List<int> moveValues)
+        {
+            QuickSortWithValueDelegate quicksort = null;
+            quicksort =
+                (items, values, first, last) =>
+                {
+                    int left = first;
+                    int right = last;
+                    int mid = values[(left + right) >> 1];
+
+                    while (left <= right)
+                    {
+                        while (values[left] > mid)
+                            ++left;
+
+                        while (values[right] < mid)
+                            --right;
+
+                        if (left <= right)
+                        {
+                            var tempItem = items[left];
+                            items[left] = items[right];
+                            items[right] = tempItem;
+
+                            var tempValue = values[left];
+                            values[left] = values[right];
+                            values[right] = tempValue;
+
+                            ++left;
+                            --right;
+                        }
+                    }
+
+                    if (first < right)
+                        quicksort(items, values, first, right);
+
+                    if (left < last)
+                        quicksort(items, values, left, last);
+                };
+
+            quicksort(moves, moveValues, 0, moves.Count - 1);
+        }
+
         internal static List<ChessMove> GetPlayerMoves(MovesProvider provider,
             ChessPlayerBase player, ChessPlayerBase opponent)
         {
@@ -233,20 +318,34 @@ namespace QueemAI
             return GetPlayerMoves(provider, player, opponent);
         }
 
-        public static List<ChessMove> GetSortedMoves(MovesProvider provider,
-            ChessPlayerBase player, ChessPlayerBase opponent)
+        internal static List<ChessMove> GetSortedMoves(MovesGenParams mgParams)
         {
-            var winningCaptures = new List<ChessMove>();
-            var valuablePromotions = new List<ChessMove>();
-            var equalCaptures = new List<ChessMove>();
-            var castlingMoves = new List<ChessMove>();
-            var minorPromotions = new List<ChessMove>();
-            var restMoves = new List<ChessMove>();
+            #region Reassigning
+
+            var provider = mgParams.Provider;
+            var player = mgParams.Player;
+            var opponent = mgParams.OpponentPlayer;
+            var historyTable = mgParams.HistoryTable;
+
+            #endregion
+
+            #region Initializations
+
+            var winningCaptures = new List<ChessMove>(5);
+            var valuablePromotions = new List<ChessMove>(2);
+            var equalCaptures = new List<ChessMove>(10);
+            var castlingMoves = new List<ChessMove>(2);
+            var minorPromotions = new List<ChessMove>(2);
+            var restMoves = new List<ChessMove>(20);
+            var restValues = new List<int>(20);
 
             var board = provider.ChessBoard;
 
-            var moves = new List<ChessMove>(30);
+            #endregion
+
+            var moves = new List<ChessMove>(40);
             ChessMove move = new ChessMove();
+            CoordsTable<int> historyPart;
 
             move.Start = player.FiguresManager.Kings.King.Coordinates;
             var kingMoves = provider.GetFilteredCells(move.Start, player, opponent);
@@ -255,11 +354,14 @@ namespace QueemAI
             {
                 move.End = kingMoves[i];
                 restMoves.Add(new ChessMove(move));
+                restValues.Add(historyTable[move.Start][move.End]);
             }
 
             foreach (var queen in player.FiguresManager.Queens)
             {
                 move.Start = queen.Coordinates;
+                historyPart = historyTable[move.Start];
+
                 var queenMoves = provider.GetFilteredCells(queen.Coordinates, player, opponent);
 
                 for (int i = 0; i < queenMoves.Count; ++i)
@@ -269,13 +371,18 @@ namespace QueemAI
                     if (board[move.End].Type == FigureType.Queen)
                         equalCaptures.Add(new ChessMove(move));
                     else
+                    {
                         restMoves.Add(new ChessMove(move));
+                        restValues.Add(historyPart[move.End] + 
+                            PositionEvaluator.QueenValue);       
+                    }
                 }
             }
 
             foreach (var rook in player.FiguresManager.Rooks)
             {
                 move.Start = rook.Coordinates;
+                historyPart = historyTable[move.Start];
                 var rookMoves = provider.GetFilteredCells(rook.Coordinates, player, opponent);
 
                 for (int i = 0; i < rookMoves.Count; ++i)
@@ -289,6 +396,8 @@ namespace QueemAI
                         case FigureType.Bishop:
                         case FigureType.Nobody:
                             restMoves.Add(new ChessMove(move));
+                            restValues.Add(historyPart[move.End] + 
+                                PositionEvaluator.RookValue);
                             break;
                         case FigureType.Rook:
                             equalCaptures.Add(new ChessMove(move));
@@ -303,6 +412,7 @@ namespace QueemAI
             foreach (var horse in player.FiguresManager.Horses)
             {
                 move.Start = horse.Coordinates;
+                historyPart = historyTable[move.Start];
                 var horseMoves = provider.GetFilteredCells(horse.Coordinates, player, opponent);
 
                 for (int i = 0; i < horseMoves.Count; ++i)
@@ -314,6 +424,8 @@ namespace QueemAI
                         case FigureType.Pawn:
                         case FigureType.Nobody:
                             restMoves.Add(new ChessMove(move));
+                            restValues.Add(historyPart[move.End] +
+                                PositionEvaluator.HorseValue);
                             break;
                         case FigureType.Horse:
                         case FigureType.Bishop:
@@ -330,6 +442,7 @@ namespace QueemAI
             foreach (var bishop in player.FiguresManager.Bishops)
             {
                 move.Start = bishop.Coordinates;
+                historyPart = historyTable[move.Start];
                 var bishopMoves = provider.GetFilteredCells(bishop.Coordinates, player, opponent);
 
                 for (int i = 0; i < bishopMoves.Count; ++i)
@@ -341,6 +454,8 @@ namespace QueemAI
                         case FigureType.Pawn:
                         case FigureType.Nobody:
                             restMoves.Add(new ChessMove(move));
+                            restValues.Add(historyPart[move.End] +
+                                PositionEvaluator.BishopValue);
                             break;
                         case FigureType.Horse:
                         case FigureType.Bishop:
@@ -358,6 +473,7 @@ namespace QueemAI
             {
                 var pawnMoves = provider.GetFilteredCells(pawn.Coordinates, player, opponent);
                 move.Start = pawn.Coordinates;
+                historyPart = historyTable[move.Start];
 
                 for (int i = 0; i < pawnMoves.Count; ++i)
                 {
@@ -399,7 +515,11 @@ namespace QueemAI
                                 equalCaptures.Add(new ChessMove(move));
                         }
                         else
+                        {
                             restMoves.Add(new ChessMove(move));
+                            restValues.Add(historyPart[move.End] +
+                                PositionEvaluator.PawnValue);
+                        }
                     }
                 }
             }
@@ -409,6 +529,10 @@ namespace QueemAI
             moves.AddRange(equalCaptures);
             moves.AddRange(castlingMoves);
             moves.AddRange(minorPromotions);
+
+            //if (restMoves.Count > 2)
+            //    MovesGenerator.SortMovesWithValues(restMoves, restValues);
+
             moves.AddRange(restMoves);
 
             return moves;

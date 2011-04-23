@@ -110,6 +110,10 @@
       <Project>{E4485A2E-85DF-4528-9E14-4CB306812C34}</Project>
       <Name>BasicChessClasses</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DebutMovesHolder\DebutMovesHolder.csproj">
+      <Project>{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}</Project>
+      <Name>DebutMovesHolder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QueemAI\QueemAI.csproj">
       <Project>{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}</Project>
       <Name>QueemAI</Name>

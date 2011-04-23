@@ -57,46 +57,5 @@ namespace QueemAI
         {
             playerDepth[(int)player] -= 1;
         }
-
-        protected delegate void QuickSortDelegate(List<EvaluatedMove> items, int first, int last);
-
-        protected void SortEvaluatedMoves(List<EvaluatedMove> moves)
-        {
-            QuickSortDelegate quicksort = null;
-            quicksort = 
-                (items, first, last) =>
-                {
-                    int left = first;
-                    int right = last;
-                    int mid = items[(left + right) >> 1].Value;
-
-                    while (left <= right)
-                    {
-                        while (items[left].Value > mid)
-                            ++left;
-
-                        while (items[right].Value < mid)
-                            --right;
-
-                        if (left <= right)
-                        {
-                            var tempItem = items[left];
-                            items[left] = items[right];
-                            items[right] = tempItem;
-
-                            ++left;
-                            --right;
-                        }
-                    }
-
-                    if (first < right)
-                        quicksort(items, first, right);
-
-                    if (left < last)
-                        quicksort(items, left, last);
-                };
-
-            quicksort(moves, 0, moves.Count - 1);
-        }
     }
 }

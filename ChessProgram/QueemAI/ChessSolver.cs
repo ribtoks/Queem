@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BasicChessClasses;
+using DebutMovesHolder;
 
 namespace QueemAI
 {
@@ -16,7 +17,9 @@ namespace QueemAI
         protected ChessMove bestMove = null;
         protected int bestMoveValue = 0;
         protected TranspositionTable cacheTable;
-        
+        protected CoordsTable<CoordsTable<int>> historyTable;
+        protected DebutGraph debutGraph;
+
         // constrains data
         protected int max_qs_checks = 4;
 
@@ -44,22 +47,61 @@ namespace QueemAI
         {
         }
 
+        public ChessSolver(DebutGraph graph)
+        {
+            this.debutGraph = graph;
+        }
+
+        /// <summary>
+        /// Tries to get predefined reply
+        /// on last opponents move
+        /// </summary>
+        /// <returns></returns>
+        protected bool FindDebutMove()
+        {
+            if (this.debutGraph == null)
+                return false;
+
+            var end_iter = DebutGraph.MoveIterator.End;
+            DebutGraph.MoveIterator mi = this.debutGraph.CheckMoves(
+                provider.History.Moves);
+
+            if (mi == end_iter)
+                return false;
+
+            // gets the random reply on this move
+            ++mi;
+
+            if (mi == end_iter)
+                return false;
+
+            this.bestMove = mi.CurrentNode.Move;
+            return true;
+        }
+
         public ChessMove SolveProblem(MovesProvider snapshot, FigureColor playerColor, int maxdepth)
         {
-            provider = snapshot;
-            bestMove = null;
+            #region Initializations
+
+            this.provider = snapshot;
             var player = provider.Player1;
-            var oppositePlayer = provider.Player2;
+            //var oppositePlayer = provider.Player2;
             CurrentPlayer currPlayer = CurrentPlayer.Me;
 
             if (playerColor != player.FiguresColor)
             {
-                player = provider.Player2;
-                oppositePlayer = provider.Player1;
+                //player = provider.Player2;
+                //oppositePlayer = provider.Player1;
                 currPlayer = CurrentPlayer.CPU;
             }
 
-            cacheTable = new TranspositionTable();
+            #endregion
+
+            if (FindDebutMove())
+                return this.bestMove;
+
+            this.cacheTable = new TranspositionTable();
+            this.historyTable = new CoordsTable<CoordsTable<int>>();
 
             this.nullMovesCutOffs = 0;
             this.nullMovesResearches = 0;
@@ -67,75 +109,90 @@ namespace QueemAI
 
             this.reusedPositions = 0;
 
-            //List<EvaluatedMove> evaluatedMoves = new List<EvaluatedMove>();
-            this.bestMoveValue = -PositionEvaluator.MateValue;
+            int firstguess = -PositionEvaluator.MateValue;
+            this.bestMoveValue = firstguess;            
+
+            if (maxdepth < 4)
+                maxdepth = 4;
+
+            this.bestMove = null;
+            bool isFirst = true;
+            // some statistics data
+            int all_nodes = 0;
+            
             for (int d = 3; d < maxdepth; d++)
             {
-                int value = Search(d, player, oppositePlayer, currPlayer);
+                this.ply = 0;
+                this.nodesSearched = 0;
+
+                int lower = -PositionEvaluator.MateValue;
+                int upper = PositionEvaluator.MateValue;
+
+                int window = PositionEvaluator.PawnValue;
+
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    lower = firstguess - window;
+                    upper = firstguess + window;
+                }
+
+                ChessNodeInfo cni = new ChessNodeInfo()
+                {
+                    Alpha = lower,
+                    Beta = upper,
+                    Evaluator = PositionEvaluator.SimpleEvaluatePosition,
+                    CanMakeNullMove = true,
+                    CurrPlayer = currPlayer,
+                    Depth = d
+                };
+
+                firstguess = this.Search(cni);
+
+                all_nodes += this.nodesSearched;
             }
 
-            //SortEvaluatedMoves(evaluatedMoves);
-
-            // of course, will be changed in future...
-            //return evaluatedMoves[0].Move;
             return bestMove;
         }
 
-        protected int Search(int maxdepth,
-            ChessPlayerBase player, ChessPlayerBase opponentPlayer,
-            CurrentPlayer currPlayer)
+        protected int Search(ChessNodeInfo cni)
         {
-            ply = 0;
-            nodesSearched = 0;
+            #region Initializations
 
-            ChessNodeInfo cni = new ChessNodeInfo()
+            var nextPlayer = cni.CurrPlayer.GetOppositePlayer();
+            //IncPlayerDepth(cni.CurrPlayer);
+            nodesSearched += 1;
+
+            ChessPlayerBase player = provider.Player1;
+            ChessPlayerBase opponentPlayer = provider.Player2;
+
+            if (cni.CurrPlayer == CurrentPlayer.CPU)
             {
-                Alpha = -PositionEvaluator.MateValue,
-                Beta = PositionEvaluator.MateValue,
-                Evaluator = PositionEvaluator.SimpleEvaluatePosition,
-                CanMakeNullMove = true,
-                CurrPlayer = currPlayer,
-                Depth = maxdepth
+                player = provider.Player2;
+                opponentPlayer = provider.Player1;
+            }
+
+            MovesGenParams movesGenParams = new MovesGenParams()
+            {
+                Provider = provider,
+                Player = player,
+                OpponentPlayer = opponentPlayer,
+                HistoryTable = historyTable
             };
 
-            int value = 0;
-            /*
-            bool wasOwnKingInCheck = provider.IsInCheck(player, opponentPlayer);
-            
-            #region Null move region
-
-            int r = 1;
-            // prepare values for null move
-            cni.CanMakeNullMove &= (wasOwnKingInCheck == false);
-
-            // TODO test if this "if" statement is needed
-            if (cni.CanMakeNullMove)
-            {
-                cni.CanMakeNullMove &= (player.FiguresManager.Count > 5);
-                cni.CanMakeNullMove &= (player.FiguresManager.WorkingFiguresCount != 0);
-            }
-
-            if (cni.CanMakeNullMove)
-            {
-                this.nullMovesCalls += 1;
-                value = -this.AlphaBetaPruning(cni.GetNextNullMove(r));
-                
-                this.nullMovesResearches += 1;
-
-                if (value > cni.Alpha)
-                {
-                    //cni.Depth -= 1 + r;
-                    cni.Alpha = value;
-                }
-            }
-
             #endregion
-            */
-            CurrentPlayer nextPlayer = currPlayer.GetOppositePlayer();
+
+            int value = 0;
+
+            //bool wasOwnKingInCheck = provider.IsInCheck(player, opponentPlayer);
+            
             MoveResult mr = MoveResult.Fail;
 
-            nodesSearched += 1;
-            var moves = MovesGenerator.GetPlayerMoves(provider, player, opponentPlayer);
+            var moves = MovesGenerator.GetSortedMoves(movesGenParams);
+
             for (int i = 0; i < moves.Count; ++i)
             {
                 var move = moves[i];
@@ -152,18 +209,24 @@ namespace QueemAI
                 value = cni.Evaluator(player, opponentPlayer) -
                     cni.Evaluator(opponentPlayer, player);
 
-                if (maxdepth > 1)
-                    value = -AlphaBetaPruning(cni.GetNext());
+                if (value <= cni.Alpha)
+                {
+                    provider.CancelLastPlayerMove(player.FiguresColor);
+                    --ply;
+
+                    continue;
+                }
+
+                value = -AlphaBetaPruning(cni.GetNext());
 
                 provider.CancelLastPlayerMove(player.FiguresColor);
                 --ply;
 
                 if (value > cni.Alpha)
                 {
-                    // paste history heuristics here...
                     cni.Alpha = value;
                 }
-                
+
                 if (value > bestMoveValue)
                 {
                     bestMoveValue = value;
@@ -200,10 +263,54 @@ namespace QueemAI
                 opponentPlayer = provider.Player1;
             }
 
+            MovesGenParams movesGenParams = new MovesGenParams()
+            {
+                Provider = provider,
+                Player = player,
+                OpponentPlayer = opponentPlayer,
+                HistoryTable = historyTable
+            };
+
             #endregion
 
+            TableValueType type;
             int value = 0;
-            
+            int depth = cni.Depth;
+            int alpha = cni.Alpha;
+            int beta = cni.Beta;
+
+            #region Depth finished stuff
+
+            if (cni.Depth <= 0)
+            {
+                if (cni.WasNullMoveDone)
+                {
+                    value = -this.QuiescenceSearch(cni.GetNextQS());
+                }
+                else
+                {
+                    value = cni.Evaluator(player, opponentPlayer) -
+                        cni.Evaluator(opponentPlayer, player);
+                }
+
+                type = TableValueType.Exact;
+                if (value <= cni.Alpha)
+                {
+                    type = TableValueType.LowerBound;
+                }
+                else if (value >= cni.Beta)
+                {
+                    type = TableValueType.UpperBound;
+                }
+
+                cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                        value, type, cni.Depth);
+
+                return value;
+            }
+
+            #endregion
+
             #region Transposition table stuff
 
             TableMoveInfo cachedValue = cacheTable[provider.ChessBoard.HashCode];
@@ -229,46 +336,18 @@ namespace QueemAI
             }
 
             #endregion
-            
-            #region Depth finished stuff
-
-            if (cni.Depth <= 0)
-            {
-                if (cni.WasNullMoveDone)
-                {
-                    value = -this.QuiescenceSearch(cni.GetNextQS());
-                }
-                else
-                {
-                    value = cni.Evaluator(player, opponentPlayer) -
-                        cni.Evaluator(opponentPlayer, player);
-                }
-
-                TableValueType type = TableValueType.Exact;
-                if (value <= cni.Alpha)
-                {
-                    type = TableValueType.LowerBound;
-                }
-                else if (value >= cni.Beta)
-                {
-                    type = TableValueType.UpperBound;
-                }
-
-                cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                        value, type, cni.Depth);
-
-                return value;
-            }
-
-            #endregion
 
             bool wasOwnKingInCheck = provider.IsInCheck(player, opponentPlayer);
 
-            #region Null move 
+            #region Null move
 
             int r = 1;
             // prepare values for null move
             cni.CanMakeNullMove &= (wasOwnKingInCheck == false);
+            cni.CanMakeNullMove &= (cni.Depth > 2);
+            // cannot use null move in end of game
+            cni.CanMakeNullMove &= ((player.FiguresManager.Count + 
+                opponentPlayer.FiguresManager.Count) > 7);
 
             // TODO test if this "if" statement is needed
             if (cni.CanMakeNullMove)
@@ -301,14 +380,13 @@ namespace QueemAI
                     cni.Alpha = value;
                 }
             }
-            
+
             #endregion
-
-            //var currBestMoves = bestMoves[(int)currPlayer];
-
+            
             MoveResult mr;
+            var moves = MovesGenerator.GetSortedMoves(movesGenParams);
 
-            var moves = MovesGenerator.GetSortedMoves(provider, player, opponentPlayer);
+            #region No moves region
 
             if (moves.Count == 0)
             {
@@ -317,19 +395,21 @@ namespace QueemAI
                     // checkmate
                     value = (-PositionEvaluator.MateValue + ply);
 
-                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                       value, TableValueType.Exact, cni.Depth);
+                    //cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                    //   value, TableValueType.Exact, cni.Depth);
 
                     return value;
                 }
                 else
                 {
-                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                       0, TableValueType.Exact, cni.Depth);
+                    //cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                    //   0, TableValueType.Exact, cni.Depth);
                     // position is a stalemate
                     return 0;
                 }
             }
+
+            #endregion
 
             ChessMove move = new ChessMove();
             for (int i = 0; i < moves.Count; ++i)
@@ -341,7 +421,6 @@ namespace QueemAI
                 mr = provider.ProvidePlayerMove(move, player.FiguresColor);
                 ++ply;
 
-
                 if ((mr == MoveResult.PawnReachedEnd) ||
                     (mr == MoveResult.CapturedAndPawnReachedEnd))
                 {
@@ -349,10 +428,12 @@ namespace QueemAI
                     provider.ReplacePawn(move.End,
                         (FigureType)promotionFigure);
 
-                    big_delta += PositionEvaluator.QueenValue - 
+                    // extension here
+                    cni.Depth += 1;
+
+                    big_delta += PositionEvaluator.QueenValue -
                         PositionEvaluator.PawnValue;
                 }
-
 
                 value = cni.Evaluator(player, opponentPlayer) -
                     cni.Evaluator(opponentPlayer, player);
@@ -362,18 +443,45 @@ namespace QueemAI
                 // move for current player
                 if (value <= cni.Alpha)
                 {
-                    cni.Depth -= 1;
+                    cni.Depth -= 1;                    
                 }
 
-                if (cni.Depth > 1)
+                #region Extensions/Reductions region
+
+                bool canMakeReduction = true;
+                canMakeReduction &= cni.CanMakeNullMove;
+                if (canMakeReduction)
+                {
+                    canMakeReduction &= (!wasOwnKingInCheck);
+                    canMakeReduction &= (mr == MoveResult.MoveOk);
+                    //canMakeReduction &= (depth > 2);
+                }
+                if (canMakeReduction)
+                    cni.Depth -= 1;
+
+                bool canMakeExtension = true;
+                canMakeExtension &= cni.CanMakeNullMove;
+                if (canMakeExtension)
+                {
+                    canMakeExtension &= wasOwnKingInCheck;
+                    canMakeExtension &= (mr == MoveResult.CaptureOk);
+                    canMakeExtension &= (depth > 2);
+                }
+                if (canMakeExtension)
+                    cni.Depth += 1;
+
+                #endregion
+
+                if (depth > 1)
                 {
                     value = -AlphaBetaPruning(cni.GetNext());
                 }
                 else
                 {
-                    if ((mr == MoveResult.CaptureOk) || 
+                    if ((mr == MoveResult.CaptureOk) ||
                         (mr == MoveResult.CapturedAndPawnReachedEnd) ||
-                        (mr == MoveResult.CapturedInPassing))
+                        (mr == MoveResult.CapturedInPassing) ||
+                        wasOwnKingInCheck)
                         value = -this.QuiescenceSearch(cni.GetNextQS());
                 }
 
@@ -382,12 +490,14 @@ namespace QueemAI
 
                 if (value > cni.Alpha)
                 {
-                    // paste history heuristics here...
-
                     if (value >= cni.Beta)
                     {
                         cacheTable.AddPosition(provider.ChessBoard.HashCode,
                             cni.Beta, TableValueType.UpperBound, cni.Depth);
+
+                        // save history move
+                        if (mr == MoveResult.MoveOk)
+                            historyTable[move.Start][move.End] += (1 << cni.Depth);
 
                         return cni.Beta;
                     }
@@ -408,7 +518,7 @@ namespace QueemAI
             }
 
             cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                    cni.Alpha, TableValueType.LowerBound, cni.Depth);
+                    cni.Alpha, TableValueType.Exact, cni.Depth);
 
             return cni.Alpha;
         }
@@ -431,6 +541,101 @@ namespace QueemAI
 
             #endregion
 
+            TableValueType type;
+
+            int value =  qni.Evaluator(player, opponentPlayer) -
+                 qni.Evaluator(opponentPlayer, player);
+
+            if (value > qni.Beta)
+            {
+                cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                    qni.Beta, TableValueType.UpperBound, qni.Depth);
+
+                return qni.Beta;
+            }
+
+            if (value > qni.Alpha)
+                qni.Alpha = value;
+
+            if (qni.Depth <= 0)
+            {
+                type = TableValueType.Exact;
+                if (value <= qni.Alpha)
+                {
+                    type = TableValueType.LowerBound;
+                }
+                else if (value >= qni.Beta)
+                {
+                    type = TableValueType.UpperBound;
+                }
+
+                cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                        value, type, qni.Depth);
+
+                return value;
+            }
+
+            bool wasOwnKingInCheck = provider.IsInCheck(player, opponentPlayer);
+
+            MoveResult mr;
+            List<ChessMove> moves = null;
+
+            #region Moves generation
+
+            if (wasOwnKingInCheck)
+            {
+                qni.ChecksCount += 1;
+                if (qni.ChecksCount > this.max_qs_checks)
+                {
+                    // if value > alpha, alpha was 
+                    // assigned to value before
+                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                        qni.Alpha, TableValueType.LowerBound, qni.Depth);
+
+                    return qni.Alpha;
+                }
+
+                moves = MovesGenerator.GetPlayerMoves(provider,
+                    player, opponentPlayer);
+
+                // checkmate
+                if (moves.Count == 0)
+                {
+                    value = (-PositionEvaluator.MateValue + ply);
+
+                    //cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                    //    value, TableValueType.Exact, qni.Depth);
+
+                    return value;
+                }
+            }
+            else
+            {
+                moves = MovesGenerator.GetAttackingPlayerMoves(provider,
+                    player, opponentPlayer);
+
+                // no moves left - end of quiescence
+                if (moves.Count == 0)
+                {
+                    type = TableValueType.Exact;
+                    if (value <= qni.Alpha)
+                    {
+                        type = TableValueType.LowerBound;
+                    }
+                    else if (value >= qni.Beta)
+                    {
+                        type = TableValueType.UpperBound;
+                    }
+
+                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
+                            value, type, qni.Depth);
+
+                    return value;
+                }
+            }
+
+            #endregion
+            
             #region Transposition table stuff
 
             TableMoveInfo cachedValue = cacheTable[provider.ChessBoard.HashCode];
@@ -458,72 +663,6 @@ namespace QueemAI
 
             #endregion
 
-            int value = qni.Evaluator(player, opponentPlayer) - 
-                qni.Evaluator(opponentPlayer, player);
-
-            if (value >= qni.Beta)
-            {
-                cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                    qni.Beta, TableValueType.UpperBound, qni.Depth);
-
-                return qni.Beta;
-            }
-
-            if (value > qni.Alpha)
-                qni.Alpha = value;
-
-            bool wasOwnKingInCheck = provider.IsInCheck(player, opponentPlayer);
-
-            //var currBestMoves = bestMoves[(int)currPlayer];
-
-            MoveResult mr;
-
-            List<ChessMove> moves = null;
-
-            #region Moves generagion
-
-            if (wasOwnKingInCheck)
-            {
-                qni.ChecksCount += 1;
-                if (qni.ChecksCount > this.max_qs_checks)
-                {
-                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                        qni.Alpha, TableValueType.LowerBound, qni.Depth);
-
-                    return qni.Alpha;
-                }
-
-                moves = MovesGenerator.GetPlayerMoves(provider,
-                    player, opponentPlayer);
-                
-                // checkmate
-                if (moves.Count == 0)
-                {
-                    value = (-PositionEvaluator.MateValue + ply);
-
-                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                        value, TableValueType.Exact, qni.Depth);
-
-                    return value;
-                }
-            }
-            else
-            {
-                moves = MovesGenerator.GetAttackingPlayerMoves(provider, 
-                    player, opponentPlayer);
-
-                // no moves left - end of quiescence
-                if (moves.Count == 0)
-                {
-                    cacheTable.AddPosition(provider.ChessBoard.HashCode,
-                        qni.Alpha, TableValueType.Exact, qni.Depth);
-
-                    return qni.Alpha;
-                }
-            }
-
-            #endregion
-
             ChessMove move = new ChessMove();
             for (int i = 0; i < moves.Count; ++i)
             {
@@ -539,7 +678,7 @@ namespace QueemAI
                     provider.ReplacePawn(move.End,
                         (FigureType)promotionFigure);
                 }
-                
+
                 value = -this.QuiescenceSearch(qni.GetNextQS());
 
                 provider.CancelLastPlayerMove(player.FiguresColor);
@@ -547,8 +686,6 @@ namespace QueemAI
 
                 if (value > qni.Alpha)
                 {
-                    // paste history heuristics here...
-
                     if (value >= qni.Beta)
                     {
                         cacheTable.AddPosition(provider.ChessBoard.HashCode,
@@ -560,10 +697,10 @@ namespace QueemAI
                     qni.Alpha = value;
                 }
             }
-            
+
             cacheTable.AddPosition(provider.ChessBoard.HashCode,
                     qni.Alpha, TableValueType.LowerBound, qni.Depth);
-            
+
             return qni.Alpha;
         }
     }

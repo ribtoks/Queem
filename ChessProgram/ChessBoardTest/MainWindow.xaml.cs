@@ -16,6 +16,7 @@ using System.Threading;
 using QueemAI;
 using System.ComponentModel;
 using System.IO;
+using DebutMovesHolder;
 
 namespace ChessBoardTest
 {
@@ -32,6 +33,7 @@ namespace ChessBoardTest
         List<MoveWithDecision> redoMoves;
         BackgroundWorker bw;
         bool solverDisabled = false;
+        DebutGraph simpleDebuts;
 
         #endregion
 
@@ -53,6 +55,9 @@ namespace ChessBoardTest
             chessBoardControl.PlayerMoveAnimationPreview += new EventHandler(chessBoardControl_PlayerMoveAnimationPreview);
             chessBoardControl.PawnChanged += new PawnChangedEventHandler(chessBoardControl_PawnChanged);
             #endregion
+
+            // TODO implement two difference debuts db (depends on start pos)
+            this.simpleDebuts = DebutsReader.ReadDebuts("simple_debut_moves", myStartPos);
         }
 
         void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -90,7 +95,7 @@ namespace ChessBoardTest
 
         void bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            ChessSolver cs = new ChessSolver();
+            ChessSolver cs = new ChessSolver(this.simpleDebuts);
 
             ChessMove move = cs.SolveProblem(mp,
                 chessBoardControl.CurrPlayerColor,
