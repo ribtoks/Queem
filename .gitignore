@@ -3,5 +3,6 @@ XAML_figures/
 ~*.*
 *~.*
 *~
+*.pidb
 bin/
 obj/
