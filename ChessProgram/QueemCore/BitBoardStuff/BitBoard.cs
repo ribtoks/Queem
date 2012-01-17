@@ -82,11 +82,13 @@ namespace QueemCore
 			return this;
 		}
 		
-		public BitBoard ToggleBit(int squareIndex)
+		public BitBoard ToggleBit (Square square)
 		{
-			ulong oneBitNumber = 1UL << squareIndex;
-			this.board = this.board ^ oneBitNumber;
-			
+			if (square != Square.NoSquare) 
+			{
+				ulong oneBitNumber = 1UL << (int)square;
+				this.board = this.board ^ oneBitNumber;
+			}
 			return this;
 		}
 		
@@ -104,8 +106,8 @@ namespace QueemCore
 		
 		public void DoMove(Move move)
 		{
-			this.ToggleBit((int)move.From);
-			this.ToggleBit((int)move.To);
+			this.ToggleBit(move.From);
+			this.ToggleBit(move.To);
 		}
 		
 		public BitBoard FlipVertical()

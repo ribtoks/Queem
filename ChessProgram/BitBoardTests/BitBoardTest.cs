@@ -20,15 +20,20 @@ namespace BitBoardTests
 		{
 			int count = 100000;
 			
-			while (count-- != 0)
-			{
-				string binaryString = this.Get64CharsString();
-				int onesCount = binaryString.Count( (c) => c == '1' );
+			while (count-- != 0) {
+				string binaryString = this.Get64CharsString ();
+				int onesCount = binaryString.Count ((c) => c == '1');
 				
-				ulong val = Convert.ToUInt64(binaryString, 2);
-				BitBoard bb = new BitBoard(val);
-				Assert.AreEqual(onesCount, bb.GetBitsCount());
+				ulong val = Convert.ToUInt64 (binaryString, 2);
+				BitBoard bb = new BitBoard (val);
+				Assert.AreEqual (onesCount, bb.GetBitsCount ());
 			}
+		}
+		
+		[Test()]
+		public void ToStringTest1 ()
+		{
+			
 		}
 	}
 }

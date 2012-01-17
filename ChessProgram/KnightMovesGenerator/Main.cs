@@ -90,7 +90,7 @@ namespace KnightMovesGenerator
 		{
 			ulong[] knightMoves = new ulong[64];
 			
-			/*
+			
 			for (int i = 0; i < 8; i++) 
 			{
 				for (int j = 0; j < 8; ++j)
@@ -99,13 +99,11 @@ namespace KnightMovesGenerator
 				}
 			}
 			
-			foreach (var p in knightMoves)
-			{
-				Console.WriteLine(GetBoardString(p));
-				Console.WriteLine ();
-			}
-			*/
-			Console.WriteLine (GetBoardString(GetKnightMoves(1, 1)));
+			Console.WriteLine (string.Join(", ", 
+			                               knightMoves.Select(u => "0x" + u.ToString("X") + "UL").ToArray())
+			                   );
+			
+			//Console.WriteLine (GetBoardString(GetKnightMoves(1, 1)));
 		}
 	}
 	

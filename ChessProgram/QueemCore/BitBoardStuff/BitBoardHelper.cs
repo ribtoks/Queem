@@ -41,6 +41,8 @@ namespace QueemCore
 		
 		public static readonly ulong NotAFile = 0xfefefefefefefefeUL;
 		public static readonly ulong NotHFile = 0x7f7f7f7f7f7f7f7fUL;
+		public static readonly ulong NotABFile = 0xfcfcfcfcfcfcfcfcUL;
+		public static readonly ulong NotGHFile = 0x3f3f3f3f3f3f3f3fUL;
 		
 		public static ulong ShiftEastOne (ulong b) {return (b & NotHFile) << 1;}
 		public static ulong ShiftNorthEastOne (ulong b) {return (b & NotHFile) << 9;}
