@@ -2,15 +2,16 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">Mixed Platforms</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>QueemCore</RootNamespace>
-    <AssemblyName>QueemCore</AssemblyName>
+    <ProjectGuid>{4DE2E085-2599-44F0-9759-3B2E5790CD12}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>KnightMovesGenerator</RootNamespace>
+    <AssemblyName>KnightMovesGenerator</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mixed Platforms' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -18,31 +19,23 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Mixed Platforms' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="Move.cs" />
-    <Compile Include="ChessBoard.cs" />
-    <Compile Include="Enumerations.cs" />
-    <Compile Include="BitBoardStuff\BitBoard.cs" />
-    <Compile Include="BitBoardStuff\BitBoardHelper.cs" />
-    <Compile Include="BitBoardStuff\PawnBitBoard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="BitBoardStuff\" />
-  </ItemGroup>
 </Project>

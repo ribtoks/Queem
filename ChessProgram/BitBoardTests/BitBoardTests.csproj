@@ -39,9 +39,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\QueemCore\QueemCore.csproj">
+    <ProjectReference Include="..\QueemCore\Queem.Core.csproj">
       <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
-      <Name>QueemCore</Name>
+      <Name>Queem.Core</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

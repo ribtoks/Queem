@@ -55,9 +55,9 @@
       <Project>{E4485A2E-85DF-4528-9E14-4CB306812C34}</Project>
       <Name>BasicChessClasses</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QueemAI\QueemAI.csproj">
+    <ProjectReference Include="..\QueemAI\Queem.AI.csproj">
       <Project>{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}</Project>
-      <Name>QueemAI</Name>
+      <Name>Queem.AI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

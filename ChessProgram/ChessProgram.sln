@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebutMovesHolder", "DebutMo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessBoardTest", "ChessBoardTest\ChessBoardTest.csproj", "{A47F3296-872F-4393-AD51-93C23F0F1266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueemAI", "QueemAI\QueemAI.csproj", "{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.AI", "QueemAI\Queem.AI.csproj", "{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueemTests", "QueemTests\QueemTests.csproj", "{CF3F4C2C-524D-451E-B194-345CD30886FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.Tests", "QueemTests\Queem.Tests.csproj", "{CF3F4C2C-524D-451E-B194-345CD30886FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueemSpeedBenchmark", "QueemSpeedBenchmark\QueemSpeedBenchmark.csproj", "{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}"
 EndProject
@@ -19,9 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarksGenerator", "Benc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarkManager", "BenchmarkManager\BenchmarkManager.csproj", "{FD8CF255-56C2-4E9E-AFE4-5557C0B59E98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueemCore", "QueemCore\QueemCore.csproj", "{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.Core", "QueemCore\Queem.Core.csproj", "{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardTests", "BitBoardTests\BitBoardTests.csproj", "{3CB8884B-341D-4DAB-90B5-96904353FC4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnightMovesGenerator", "KnightMovesGenerator\KnightMovesGenerator.csproj", "{4DE2E085-2599-44F0-9759-3B2E5790CD12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,20 @@ Global
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Release|x86.ActiveCfg = Release|Any CPU
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Any CPU.ActiveCfg = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Any CPU.Build.0 = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Mixed Platforms.ActiveCfg = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Mixed Platforms.Build.0 = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|x86.ActiveCfg = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|x86.Build.0 = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Default|Any CPU.ActiveCfg = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Default|Any CPU.Build.0 = Debug|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Any CPU.ActiveCfg = Release|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Any CPU.Build.0 = Release|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Mixed Platforms.ActiveCfg = Release|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Mixed Platforms.Build.0 = Release|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|x86.ActiveCfg = Release|Mixed Platforms
+		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|x86.Build.0 = Release|Mixed Platforms
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -152,7 +168,7 @@ Global
 		{FD8CF255-56C2-4E9E-AFE4-5557C0B59E98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = QueemCore\QueemCore.csproj
+		StartupItem = KnightMovesGenerator\KnightMovesGenerator.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

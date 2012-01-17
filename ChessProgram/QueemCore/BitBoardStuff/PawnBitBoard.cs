@@ -126,12 +126,7 @@ namespace QueemCore
 		{
 			return this.board & this.NorthWestAttacks ();
 		}
-		
-		public ulong DefendedUpFromWest ()
-		{
-			return this.board & this.NorthEastAttacks ();
-		}
-		
+				
 		public ulong DefendedDownFromEast ()
 		{
 			return this.board & this.SouthWestAttacks ();

@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using QueemCore.Extensions;
 
 namespace QueemCore
 {
@@ -180,6 +182,17 @@ namespace QueemCore
 		public BitBoard Rotate90CounterClockwise()
 		{
 			return this.FlipDiagonal_A1H8().FlipVertical();
+		}
+		
+		public override string ToString ()
+		{
+			return string.Join ("\n", BitConverter.GetBytes (this.board)
+						.Reverse ()
+						.Select (b => 
+					        Convert.ToString (b, 2)
+	           					.LJust (8, '0')
+	           					.MyReverse ())
+			            .ToArray ());
 		}
 	}
 }
