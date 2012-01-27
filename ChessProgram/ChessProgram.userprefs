@@ -2,22 +2,25 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
   <MonoDevelop.Ide.Workbench ActiveDocument="KnightMovesGenerator/Main.cs">
     <Files>
-      <File FileName="QueemCore/Square.cs" Line="7" Column="7" />
+      <File FileName="QueemCore/Square.cs" Line="16" Column="3" />
       <File FileName="QueemCore/Move.cs" Line="1" Column="1" />
       <File FileName="QueemCore/Enumerations.cs" Line="1" Column="1" />
-      <File FileName="BitBoardTests/BitBoardTest.cs" Line="22" Column="4" />
+      <File FileName="BitBoardTests/BitBoardTest.cs" Line="1" Column="1" />
       <File FileName="QueemCore/BitBoardStuff/BitBoardHelper.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/BitBoardStuff/PawnBitBoard.cs" Line="143" Column="4" />
-      <File FileName="QueemCore/BitBoardStuff/BitBoard.cs" Line="91" Column="19" />
-      <File FileName="QueemCore/BitBoardStuff/KnightBitBoard.cs" Line="8" Column="4" />
-      <File FileName="KnightMovesGenerator/Main.cs" Line="21" Column="1" />
-      <File FileName="QueemTests/CoordinatesTests.cs" Line="5" Column="7" />
+      <File FileName="QueemCore/BitBoardStuff/PawnBitBoard.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/BitBoardStuff/BitBoard.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/BitBoardStuff/KnightBitBoard.cs" Line="1" Column="1" />
+      <File FileName="KnightMovesGenerator/Main.cs" Line="50" Column="32" />
+      <File FileName="QueemTests/CoordinatesTests.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/BitBoardStuff/KnightsBoardHelper.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BitBoardTests" expanded="True" />
-          <Node name="KnightMovesGenerator" expanded="True" selected="True" />
+          <Node name="KnightMovesGenerator" expanded="True">
+            <Node name="Main.cs" selected="True" />
+          </Node>
           <Node name="Queem.AI" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="BitBoardStuff" expanded="True" />
