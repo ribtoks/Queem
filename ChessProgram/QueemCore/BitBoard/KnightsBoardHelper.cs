@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore
+namespace QueemCore.BitBoard
 {
 	public static class KnightsBoardHelper
 	{
@@ -21,7 +21,7 @@ namespace QueemCore
 			0x20400000000000UL};
 		
 		
-		public ulong KnightAttacks(Square square)
+		public static ulong KnightAttacks(Square square)
 		{
 			return KnightMoves[(int)square];
 		}

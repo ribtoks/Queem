@@ -23,9 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.Core", "QueemCore\Que
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardTests", "BitBoardTests\BitBoardTests.csproj", "{3CB8884B-341D-4DAB-90B5-96904353FC4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnightMovesGenerator", "KnightMovesGenerator\KnightMovesGenerator.csproj", "{4DE2E085-2599-44F0-9759-3B2E5790CD12}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingMovesGenerator", "KingMovesGenerator\KingMovesGenerator.csproj", "{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardGenerators", "MovesGenerators\BitBoardGenerators.csproj", "{71F04603-9D19-4169-A25E-05C91868E63B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,20 +36,6 @@ Global
 		Default|Any CPU = Default|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Debug|Any CPU.ActiveCfg = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Debug|Any CPU.Build.0 = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Debug|Mixed Platforms.ActiveCfg = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Debug|Mixed Platforms.Build.0 = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Debug|x86.ActiveCfg = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Debug|x86.Build.0 = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Default|Any CPU.ActiveCfg = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Default|Any CPU.Build.0 = Debug|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Release|Any CPU.ActiveCfg = Release|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Release|Any CPU.Build.0 = Release|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Release|Mixed Platforms.ActiveCfg = Release|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Release|Mixed Platforms.Build.0 = Release|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Release|x86.ActiveCfg = Release|Mixed Platforms
-		{0840B3E2-DCD2-4561-8F4D-228AC225EE5A}.Release|x86.Build.0 = Release|Mixed Platforms
 		{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -86,20 +70,6 @@ Global
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Release|x86.ActiveCfg = Release|Any CPU
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Any CPU.ActiveCfg = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Any CPU.Build.0 = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Mixed Platforms.ActiveCfg = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|Mixed Platforms.Build.0 = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|x86.ActiveCfg = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Debug|x86.Build.0 = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Default|Any CPU.ActiveCfg = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Default|Any CPU.Build.0 = Debug|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Any CPU.ActiveCfg = Release|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Any CPU.Build.0 = Release|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Mixed Platforms.ActiveCfg = Release|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|Mixed Platforms.Build.0 = Release|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|x86.ActiveCfg = Release|Mixed Platforms
-		{4DE2E085-2599-44F0-9759-3B2E5790CD12}.Release|x86.Build.0 = Release|Mixed Platforms
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -112,6 +82,20 @@ Global
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Release|x86.ActiveCfg = Release|Any CPU
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}.Release|x86.Build.0 = Release|Any CPU
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Debug|Any CPU.ActiveCfg = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Debug|Any CPU.Build.0 = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Debug|Mixed Platforms.ActiveCfg = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Debug|Mixed Platforms.Build.0 = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Debug|x86.ActiveCfg = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Debug|x86.Build.0 = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Default|Any CPU.ActiveCfg = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Default|Any CPU.Build.0 = Debug|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Release|Any CPU.ActiveCfg = Release|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Release|Any CPU.Build.0 = Release|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Release|Mixed Platforms.ActiveCfg = Release|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Release|Mixed Platforms.Build.0 = Release|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Release|x86.ActiveCfg = Release|Mixed Platforms
+		{71F04603-9D19-4169-A25E-05C91868E63B}.Release|x86.Build.0 = Release|Mixed Platforms
 		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -184,7 +168,7 @@ Global
 		{FD8CF255-56C2-4E9E-AFE4-5557C0B59E98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = QueemCore\Queem.Core.csproj
+		StartupItem = MovesGenerators\BitBoardGenerators.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

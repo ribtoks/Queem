@@ -14,5 +14,10 @@ namespace QueemCore
 	   	A8, B8, C8, D8, E8, F8, G8, H8,
 	   	NoSquare
 	}
+	
+	public enum File
+	{
+		A=0, B, C, D, E, F, G, H, NoFile
+	}
 }
 

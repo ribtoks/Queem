@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore
+namespace QueemCore.BitBoard
 {
 	public class PawnBitBoard : BitBoard
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using QueemCore.Extensions;
 
-namespace QueemCore
+namespace QueemCore.BitBoard
 {
 	public class BitBoard
 	{

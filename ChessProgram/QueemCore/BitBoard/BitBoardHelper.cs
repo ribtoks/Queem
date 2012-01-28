@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore
+namespace QueemCore.BitBoard
 {
 	public static class BitBoardHelper
 	{
@@ -51,6 +51,15 @@ namespace QueemCore
 		public static ulong ShiftSouthWestOne (ulong b) {return (b & NotAFile) >> 9;}
 		public static ulong ShiftNorhtWestOne (ulong b) {return (b & NotAFile) << 7;}
 		
+		public static ulong ShiftNorthNorthEast(ulong b) {return (b << 17) & NotAFile ;}
+		public static ulong ShiftNorthEastEast(ulong b) {return (b << 10) & NotABFile;}
+		public static ulong ShiftSouthEastEast(ulong b) {return (b >>  6) & NotABFile;}
+		public static ulong ShiftSouthSouthEast(ulong b) {return (b >> 15) & NotAFile ;}
+		public static ulong ShiftNorthNorthWest(ulong b) {return (b << 15) & NotHFile ;}
+		public static ulong ShiftNorthWestWest(ulong b) {return (b <<  6) & NotGHFile;}
+		public static ulong ShiftSouthWestWest(ulong b) {return (b >> 10) & NotGHFile;}
+		public static ulong ShiftSouthSouthWest(ulong b) {return (b >> 17) & NotHFile ;}
+		
 		/**
 		 * swap n none overlapping bits of bit-index i with j
 		 * @param b any bitboard
@@ -65,25 +74,17 @@ namespace QueemCore
 		   return  b ^  (x << i) ^ (x << j);
 		}
 		
-		public static ulong NorthPawnsFill(ulong gen)
+		public static ulong RankMask(int rank)
 		{
-			gen |= (gen <<  8);
-		   	gen |= (gen << 16);
-		   	gen |= (gen << 32);
-		   	return gen;
+			ulong oneByte = 0xffUL;
+			return (oneByte << rank);
 		}
 		
-		public static ulong SouthPawnsFill(ulong gen)
-		{
-			gen |= (gen >>  8);
-		   	gen |= (gen >> 16);
-		   	gen |= (gen >> 32);
-		   	return gen;
-		}
+		public static readonly ulong[] FileMasks = {0x1UL};
 		
-		public static ulong FilePawnFill(ulong gen)
+		public static ulong FileMask(File file)
 		{
-			return (NorthPawnsFill(gen) | SouthPawnsFill(gen));
+			return FileMasks[(int)file];
 		}
 	}
 }

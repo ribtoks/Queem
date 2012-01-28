@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore
+namespace QueemCore.BitBoard
 {
 	public static class KingBoardHelper
 	{
@@ -33,7 +33,7 @@ namespace QueemCore
 		   	// path at every step. Stop when fill reaches any set bit in sq2, or
 		   	// fill cannot progress any further
 			 
-		   	if (!(sq1 &= path) || !(sq2 &= path)) 
+		   	if ((~(sq1 &= path) | ~(sq2 &= path)) != 0) 
 					return false;
 		                      
 			// Drop bits not in path
@@ -44,7 +44,7 @@ namespace QueemCore
 		      	ulong temp = sq1;
 				// Set all 8 neighbours
 		      	sq1 |= BitBoardHelper.ShiftEastOne(sq1) | BitBoardHelper.ShiftWestOne(sq1);    
-		      	sq1 |= soutOne(sq1) | nortOne(sq1);
+		      	sq1 |= BitBoardHelper.ShiftSouthOne(sq1) | BitBoardHelper.ShiftNorthOne(sq1);
 				// Drop bits not in path
 		      	sq1 &= path;
 		      	if (sq1 == temp)

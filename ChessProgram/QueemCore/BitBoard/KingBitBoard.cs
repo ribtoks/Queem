@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore
+namespace QueemCore.BitBoard
 {
 	public class KingBitBoard : BitBoard
 	{
@@ -16,11 +16,10 @@ namespace QueemCore
 		
 		public ulong GetAttacks()
 		{
-			ulong attacks = ShiftEastOne(this.board) | ShiftWestOne(this.board);
+			ulong attacks = BitBoardHelper.ShiftEastOne(this.board) | BitBoardHelper.ShiftWestOne(this.board);
 			ulong temp = this.board | attacks;
-			attacks |= ShiftNorth(temp) | ShiftSouth(temp);
+			attacks |= BitBoardHelper.ShiftNorthOne(temp) | BitBoardHelper.ShiftSouthOne(temp);
 			return attacks;
 		}
 	}
 }
-

@@ -5,11 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">Mixed Platforms</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4DE2E085-2599-44F0-9759-3B2E5790CD12}</ProjectGuid>
+    <ProjectGuid>{71F04603-9D19-4169-A25E-05C91868E63B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>KnightMovesGenerator</RootNamespace>
-    <AssemblyName>KnightMovesGenerator</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>MovesGenerators</RootNamespace>
+    <AssemblyName>MovesGenerators</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Mixed Platforms' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +35,20 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="KingMovesGenerator.cs" />
+    <Compile Include="GeneratorFactory.cs" />
+    <Compile Include="KnightMovesGenerator.cs" />
+    <Compile Include="DummyGenerator.cs" />
+    <Compile Include="RookMovesGenerator.cs" />
+    <Compile Include="FileMasksGenerator.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="RankMasksGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\QueemCore\Queem.Core.csproj">
+      <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
+      <Name>Queem.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
