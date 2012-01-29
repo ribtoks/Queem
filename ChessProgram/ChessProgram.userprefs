@@ -1,18 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MovesGenerators/RankMasksGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MovesGenerators/FileMasksGenerator.cs">
     <Files>
-      <File FileName="MovesGenerators/RankMasksGenerator.cs" Line="15" Column="30" />
-      <File FileName="MovesGenerators/FileMasksGenerator.cs" Line="22" Column="21" />
+      <File FileName="MovesGenerators/RankMasksGenerator.cs" Line="10" Column="25" />
+      <File FileName="MovesGenerators/FileMasksGenerator.cs" Line="36" Column="110" />
       <File FileName="MovesGenerators/GeneratorFactory.cs" Line="20" Column="37" />
       <File FileName="MovesGenerators/Main.cs" Line="9" Column="64" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="BitBoardGenerators" expanded="True" selected="True" />
-          <Node name="Queem.Core" expanded="True">
-            <Node name="BitBoard" expanded="True" />
+          <Node name="BitBoardGenerators" expanded="True">
+            <Node name="FileMasksGenerator.cs" selected="True" />
           </Node>
         </State>
       </Pad>

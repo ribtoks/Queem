@@ -29,8 +29,11 @@ namespace MovesGenerators
 		
 		public override void WriteResults (System.IO.TextWriter tw)
 		{			
-			tw.WriteLine (string.Join("\n\n", 
-			                               ((ulong[])this.data).Select(u => this.GetBoardString(u)).ToArray()));
+			//tw.WriteLine (string.Join("\n\n", 
+			//                               ((ulong[])this.data).Select(u => this.GetBoardString(u)).ToArray()));
+			
+			tw.WriteLine (string.Join(", ", 
+			                               ((ulong[])this.data).Select(u => "0x" + u.ToString("X") + "UL").ToArray()));
 		}
 	}
 }

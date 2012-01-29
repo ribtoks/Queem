@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.Core", "QueemCore\Que
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardTests", "BitBoardTests\BitBoardTests.csproj", "{3CB8884B-341D-4DAB-90B5-96904353FC4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardGenerators", "MovesGenerators\BitBoardGenerators.csproj", "{71F04603-9D19-4169-A25E-05C91868E63B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardGenerators", "BitBoardGenerators\BitBoardGenerators.csproj", "{71F04603-9D19-4169-A25E-05C91868E63B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,7 +168,7 @@ Global
 		{FD8CF255-56C2-4E9E-AFE4-5557C0B59E98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MovesGenerators\BitBoardGenerators.csproj
+		StartupItem = BitBoardGenerators\BitBoardGenerators.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
