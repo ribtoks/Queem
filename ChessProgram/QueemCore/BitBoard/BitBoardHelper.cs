@@ -74,17 +74,36 @@ namespace QueemCore.BitBoard
 		   return  b ^  (x << i) ^ (x << j);
 		}
 		
-		public static ulong RankMask(int rank)
+		public static ulong FlipDiagonalA1H8(ulong board)
 		{
-			ulong oneByte = 0xffUL;
-			return (oneByte << rank);
+			ulong k1 = 0x5500550055005500UL;
+		   	ulong k2 = 0x3333000033330000UL;
+		   	ulong k4 = 0x0f0f0f0f00000000UL;
+			ulong x = board;
+		   	ulong t  = k4 & (x ^ (x << 28));
+		   	x ^= t ^ (t >> 28) ;
+		   	t = k2 & (x ^ (x << 14));
+		   	x ^= t ^ (t >> 14) ;
+		   	t = k1 & (x ^ (x <<  7));
+		   	x ^= t ^ (t >>  7) ;
+		   	return x;
 		}
 		
-		public static readonly ulong[] FileMasks = {0x1UL};
+		public static readonly ulong[] FilesMasks = 
+			{0x101010101010101UL, 0x202020202020202UL, 0x404040404040404UL, 0x808080808080808UL, 
+			0x1010101010101010UL, 0x2020202020202020UL, 0x4040404040404040UL, 0x8080808080808080UL};
+		public static readonly ulong[] RanksMasks = 
+			{0xFFUL, 0xFF00UL, 0xFF0000UL, 0xFF000000UL, 
+			0xFF00000000UL, 0xFF0000000000UL, 0xFF000000000000UL, 0xFF00000000000000UL};
 		
 		public static ulong FileMask(File file)
 		{
-			return FileMasks[(int)file];
+			return FilesMasks[(int)file];
+		}
+		
+		public static ulong RankMask(int rank)
+		{
+			return RanksMasks[rank];
 		}
 	}
 }

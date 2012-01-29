@@ -49,6 +49,7 @@
     <Compile Include="BitBoard\RookBitBoardHelper.cs" />
     <Compile Include="BitBoard\PawnBitBoardHelper.cs" />
     <Compile Include="BasicEnums.cs" />
+    <Compile Include="BitBoard\RookBitBoard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -139,18 +139,7 @@ namespace QueemCore.BitBoard
 		
 		public BitBoard FlipDiagonal_A1H8()
 		{
-		   	ulong k1 = 0x5500550055005500UL;
-		   	ulong k2 = 0x3333000033330000UL;
-		   	ulong k4 = 0x0f0f0f0f00000000UL;
-			ulong x = this.board;
-		   	ulong t  = k4 & (x ^ (x << 28));
-		   	x ^= t ^ (t >> 28) ;
-		   	t = k2 & (x ^ (x << 14));
-		   	x ^= t ^ (t >> 14) ;
-		   	t = k1 & (x ^ (x <<  7));
-		   	x ^= t ^ (t >>  7) ;
-		   	this.board = x;
-			
+		   	this.board = BitBoardHelper.FlipDiagonalA1H8(this.board);			
 			return this;
 		}
 		

@@ -6,7 +6,7 @@ namespace MovesGenerators
 	{
 		public static void Main (string[] args)
 		{
-			var movesGenerator = GeneratorFactory.CreateGenerator("ranks");
+			var movesGenerator = GeneratorFactory.CreateGenerator("rook");
 			movesGenerator.Run();
 			var results = movesGenerator.GetResults();
 			movesGenerator.WriteResults(Console.Out);
