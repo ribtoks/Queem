@@ -1,18 +1,17 @@
 using System;
-using QueemCore.BitBoard.Helpers;
 
 namespace QueemCore.BitBoard
 {
-	public class RookBitBoard : BitBoard
+	public class BishopBitBoard : BitBoard
 	{
-		public RookBitBoard ()
+		public BishopBitBoard ()
 			:base()
 		{
 		}
 		
-		public RookBitBoard(ulong val)
+		public BishopBitBoard(ulong val)
 			:base(val)
-		{
+		{					
 		}
 		
 		public ulong GetAttacks()

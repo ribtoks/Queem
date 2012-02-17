@@ -1,4 +1,5 @@
 using System;
+using QueemCore.BitBoard.Helpers;
 
 namespace QueemCore.BitBoard
 {

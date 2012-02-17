@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using QueemCore.Extensions;
+using QueemCore.BitBoard.Helpers;
 
 namespace QueemCore.BitBoard
 {
@@ -112,28 +113,13 @@ namespace QueemCore.BitBoard
 		
 		public BitBoard FlipVertical()
 		{
-			ulong k1 = 0x00FF00FF00FF00FFUL;
-			ulong k2 = 0x0000FFFF0000FFFFUL;
-			ulong x = this.board;
-			x = ((x >>  8) & k1) | ((x & k1) <<  8);
-   			x = ((x >> 16) & k2) | ((x & k2) << 16);
-   			x = ( x >> 32) | ( x << 32);
-			this.board = x;
-			
+			this.board = BitBoardHelper.FlipVertical(this.board);			
 			return this;
 		}
 		
-		public BitBoard FlipHorisontal()
+		public BitBoard FlipHorizontal()
 		{
-			ulong k1 = 0x5555555555555555UL;
-   			ulong k2 = 0x3333333333333333UL;
-   			ulong k4 = 0x0f0f0f0f0f0f0f0fUL;
-			ulong x = this.board;
-		   	x = ((x >> 1) & k1) +  2*(x & k1);
-		   	x = ((x >> 2) & k2) +  4*(x & k2);
-		   	x = ((x >> 4) & k4) + 16*(x & k4);
-		   	this.board = x;
-			
+			this.board = BitBoardHelper.FlipHorizontal(this.board);			
 			return this;
 		}
 		
@@ -145,18 +131,7 @@ namespace QueemCore.BitBoard
 		
 		public BitBoard FlipDiagonal_A8H1()
 		{
-			ulong k1 = 0xaa00aa00aa00aa00UL;
-		   	ulong k2 = 0xcccc0000cccc0000UL;
-		   	ulong k4 = 0xf0f0f0f00f0f0f0fUL;
-			ulong x = this.board;
-		   	ulong t =  x ^ (x << 36) ;
-		   	x ^= k4 & (t ^ (x >> 36));
-		   	t = k2 & (x ^ (x << 18));
-		   	x ^= t ^ (t >> 18) ;
-		   	t = k1 & (x ^ (x <<  9));
-		   	x ^= t ^ (t >>  9) ;
-		   	this.board = x;
-			
+			this.board = BitBoardHelper.FlipDiagonalA8H1(this.board);			
 			return this;
 		}
 		

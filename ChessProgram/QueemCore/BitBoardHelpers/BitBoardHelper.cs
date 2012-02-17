@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore.BitBoard
+namespace QueemCore.BitBoard.Helpers
 {
 	public static class BitBoardHelper
 	{
@@ -29,21 +29,13 @@ namespace QueemCore.BitBoard
 		 * 
 		*/
 		
-		public static ulong ShiftSouthOne(ulong b)
-		{
-			return b >> 8;
-		}
-		
-		public static ulong ShiftNorthOne(ulong b)
-		{
-			return b << 8;
-		}
-		
 		public static readonly ulong NotAFile = 0xfefefefefefefefeUL;
 		public static readonly ulong NotHFile = 0x7f7f7f7f7f7f7f7fUL;
 		public static readonly ulong NotABFile = 0xfcfcfcfcfcfcfcfcUL;
 		public static readonly ulong NotGHFile = 0x3f3f3f3f3f3f3f3fUL;
 		
+		public static ulong ShiftSouthOne(ulong b) { return b >> 8;	}		
+		public static ulong ShiftNorthOne(ulong b) { return b << 8;	}
 		public static ulong ShiftEastOne (ulong b) {return (b & NotHFile) << 1;}
 		public static ulong ShiftNorthEastOne (ulong b) {return (b & NotHFile) << 9;}
 		public static ulong ShiftSouthEastOne (ulong b) {return (b & NotHFile) >> 7;}
@@ -89,6 +81,44 @@ namespace QueemCore.BitBoard
 		   	return x;
 		}
 		
+		public static ulong FlipDiagonalA8H1(ulong board)
+		{
+			ulong k1 = 0xaa00aa00aa00aa00UL;
+		   	ulong k2 = 0xcccc0000cccc0000UL;
+		   	ulong k4 = 0xf0f0f0f00f0f0f0fUL;
+			ulong x = board;
+		   	ulong t =  x ^ (x << 36) ;
+		   	x ^= k4 & (t ^ (x >> 36));
+		   	t = k2 & (x ^ (x << 18));
+		   	x ^= t ^ (t >> 18) ;
+		   	t = k1 & (x ^ (x <<  9));
+		   	x ^= t ^ (t >>  9) ;
+		   	return x;
+		}
+		
+		public static ulong FlipVertical(ulong board)
+		{
+			ulong k1 = 0x00FF00FF00FF00FFUL;
+			ulong k2 = 0x0000FFFF0000FFFFUL;
+			ulong x = board;
+			x = ((x >>  8) & k1) | ((x & k1) <<  8);
+   			x = ((x >> 16) & k2) | ((x & k2) << 16);
+   			x = ( x >> 32) | ( x << 32);
+			return x;
+		}
+		
+		public static ulong FlipHorizontal(ulong board)
+		{
+			ulong k1 = 0x5555555555555555UL;
+   			ulong k2 = 0x3333333333333333UL;
+   			ulong k4 = 0x0f0f0f0f0f0f0f0fUL;
+			ulong x = board;
+		   	x = ((x >> 1) & k1) +  2*(x & k1);
+		   	x = ((x >> 2) & k2) +  4*(x & k2);
+		   	x = ((x >> 4) & k4) + 16*(x & k4);
+		   	return x;
+		}
+		
 		public static readonly ulong[] FilesMasks = 
 			{0x101010101010101UL, 0x202020202020202UL, 0x404040404040404UL, 0x808080808080808UL, 
 			0x1010101010101010UL, 0x2020202020202020UL, 0x4040404040404040UL, 0x8080808080808080UL};
@@ -104,6 +134,25 @@ namespace QueemCore.BitBoard
 		public static ulong RankMask(int rank)
 		{
 			return RanksMasks[rank];
+		}		
+		
+		public static readonly int[] lsb_64_table = 
+		{  63, 30,  3, 32, 59, 14, 11, 33,
+		   60, 24, 50,  9, 55, 19, 21, 34,
+		   61, 29,  2, 53, 51, 23, 41, 18,
+		   56, 28,  1, 43, 46, 27,  0, 35,
+		   62, 31, 58,  4,  5, 49, 54,  6,
+		   15, 52, 12, 40,  7, 42, 45, 16,
+		   25, 57, 48, 13, 10, 39,  8, 44,
+		   20, 47, 38, 22, 17, 37, 36, 26
+		};
+		
+		public static int BitScan(ulong number)
+		{
+			uint folded = 0;
+			folded  = (int)((bb ^ (bb-1)) >> 32);
+   			folded ^= (int)( bb ^ (bb-1)); // lea
+   			return lsb_64_table[folded * 0x78291ACF >> 26];			
 		}
 	}
 }

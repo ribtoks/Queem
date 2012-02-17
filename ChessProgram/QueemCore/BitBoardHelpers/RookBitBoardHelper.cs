@@ -3,15 +3,17 @@ using System.Linq;
 using System.Diagnostics;
 using QueemCore.BitBoard;
 
-namespace QueemCore
+namespace QueemCore.BitBoard.Helpers
 {
 	public static class RookBitBoardHelper
 	{
 		public static readonly byte[,] FirstRankAttacks;
+		public static readonly ulong[] RotatedBytes;
 		
 		static RookBitBoardHelper()
 		{
 			FirstRankAttacks = GenerateFirstRankAttacks();
+			RotatedBytes = GenerateRotatedRanks();
 		}
 		
 		public static byte[,] GenerateFirstRankAttacks()
@@ -76,14 +78,23 @@ namespace QueemCore
 		
 		public static ulong[] GenerateRotatedRanks()
 		{
-			return Enumerable.Range(0, 256)
+			return Enumerable.Range(0, 256) 
 						.Select(b => BitBoardHelper.FlipDiagonalA1H8((ulong)b))
 						.ToArray();
 		}
 		
 		public static ulong GetRookAttacks(int rank, File file, ulong otherFigures)
 		{
-			return 0;
+			int fileInt = (int)file;
+		
+			ulong otherFiguresFile = otherFigures << fileInt;
+			byte rotatedFile = (byte)BitBoardHelper.FlipDiagonalA1H8(otherFiguresFile);
+			ulong verticalAttacks = FirstRankAttacks[fileInt, rotatedFile] >> fileInt;
+			
+			ulong otherFiguresRank = otherFigures >> (8*rank);
+			ulong horizontalAttacks = FirstRankAttacks[rank, (byte)otherFiguresRank] << (8*rank);
+			
+			return verticalAttacks | horizontalAttacks;
 		}
 	}
 }

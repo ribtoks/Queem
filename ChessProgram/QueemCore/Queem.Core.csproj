@@ -40,20 +40,23 @@
     <Compile Include="Enumerations.cs" />
     <Compile Include="Extensions\MyStringExtensions.cs" />
     <Compile Include="BitBoard\BitBoard.cs" />
-    <Compile Include="BitBoard\BitBoardHelper.cs" />
     <Compile Include="BitBoard\PawnBitBoard.cs" />
     <Compile Include="BitBoard\KnightBitBoard.cs" />
-    <Compile Include="BitBoard\KnightsBoardHelper.cs" />
-    <Compile Include="BitBoard\KingBoardHelper.cs" />
     <Compile Include="BitBoard\KingBitBoard.cs" />
-    <Compile Include="BitBoard\RookBitBoardHelper.cs" />
-    <Compile Include="BitBoard\PawnBitBoardHelper.cs" />
     <Compile Include="BasicEnums.cs" />
     <Compile Include="BitBoard\RookBitBoard.cs" />
+    <Compile Include="BitBoard\BishopBitBoard.cs" />
+    <Compile Include="BitBoardHelpers\BishopBitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\BitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\KingBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\KnightsBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\PawnBitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\RookBitBoardHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="BitBoard\" />
+    <Folder Include="BitBoardHelpers\" />
   </ItemGroup>
 </Project>
