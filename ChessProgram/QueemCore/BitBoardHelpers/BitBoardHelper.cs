@@ -1,9 +1,30 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using QueemCore.Extensions;
+using System.Linq;
 
 namespace QueemCore.BitBoard.Helpers
 {
 	public static class BitBoardHelper
 	{
+		public static int BitsCount(ulong board)
+		{
+			ulong k1 = 0x5555555555555555UL;
+			ulong k2 = 0x3333333333333333UL;
+			ulong k4 = 0x0f0f0f0f0f0f0f0fUL;
+			
+			ulong x = board;
+			
+			x =  x - ((x >> 1)  & k1); /* put count of each 2 bits into those 2 bits */
+    		x = (x & k2) + ((x >> 2)  & k2); /* put count of each 4 bits into those 4 bits */
+    		x = (x + (x >> 4)) & k4 ; /* put count of each 8 bits into those 8 bits */
+    		x += x >>  8;  /* put count of each 16 bits into their lowest 8 bits */
+    		x += x >> 16;  /* put count of each 32 bits into their lowest 8 bits */
+    		x += x >> 32;  /* put count of the final 64 bits into the lowest 8 bits */
+    		return (int) x & 255;
+		}
+	
 		public static ulong RotateLeft(ulong x, int s)
 		{
 			return (x << s) | (x >> (64-s));
@@ -147,12 +168,58 @@ namespace QueemCore.BitBoard.Helpers
 		   20, 47, 38, 22, 17, 37, 36, 26
 		};
 		
-		public static int BitScan(ulong number)
+		public static int BitScan(ulong bb)
 		{
-			uint folded = 0;
+			int folded = 0;
 			folded  = (int)((bb ^ (bb-1)) >> 32);
    			folded ^= (int)( bb ^ (bb-1)); // lea
    			return lsb_64_table[folded * 0x78291ACF >> 26];			
+		}
+		
+		public static IEnumerable<string> SplitString(string str, int chunkSize)
+    	{
+        	return Enumerable.Range(0, str.Length / chunkSize)
+            	.Select(i => str.Substring(i * chunkSize, chunkSize));
+		}
+		
+		public static string ToString(ulong board, string separator)
+		{
+			return string.Join(separator, BitConverter.GetBytes(board)
+						.Reverse()
+						.Select(b => 
+					        new string(Convert.ToString(b, 2).LJust(8, '0').Reverse().ToArray())).ToArray());
+		}
+		
+		
+		/*
+		 * Indices structure
+		 * 
+		 * 56 57 58 59 60 61 62 63
+		 * 48 49 50 51 52 53 54 55
+		 * 40 41 42 43 44 45 46 47
+		 * 32 33 34 35 36 37 38 39
+		 * 24 25 26 27 28 29 30 31
+		 * 16 17 18 19 20 21 22 23
+		 * 8  9  10 11 12 13 14 15
+		 * 0  1  2  3  4  5  6  7
+		 * 
+		 * 63 62 61 60 59 ... 5 4 3 2 1 0
+		*/
+		public static ulong FromString(string s)
+		{
+			var chunks8 = SplitString(s, 8)
+				.Select(t => t.MyReverse());
+			var joined = string.Join(string.Empty, chunks8.ToArray());
+			var chunks32 = SplitString(joined, 32).ToArray();
+			// 63..32			
+			int firstPart = Convert.ToInt32(chunks32[0], 2);
+			// 31..0
+			int secondPart = Convert.ToInt32(chunks32[1], 2);
+			
+			ulong first = (ulong)firstPart << 32;
+			ulong second = (ulong)secondPart;
+			
+			return first | second;
 		}
 	}
 }

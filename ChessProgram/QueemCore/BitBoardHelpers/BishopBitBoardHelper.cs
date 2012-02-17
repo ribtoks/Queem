@@ -4,7 +4,7 @@ namespace QueemCore.BitBoard.Helpers
 {
 	public static class BishopBitBoardHelper
 	{
-		public BishopBitBoardHelper ()
+		static BishopBitBoardHelper ()
 		{
 		}
 	}

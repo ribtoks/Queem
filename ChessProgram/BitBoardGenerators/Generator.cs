@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using QueemCore.BitBoard.Helpers;
 using QueemCore.Extensions;
 
 namespace MovesGenerators
@@ -14,13 +15,8 @@ namespace MovesGenerators
 		
 		protected string GetBoardString(ulong board)
 		{
-			return string.Join("\n", BitConverter.GetBytes(board)
-						.Reverse()
-						.Select(b => 
-					        new string(Convert.ToString(b, 2).LJust(8, '0').Reverse().ToArray())).ToArray());
+			return BitBoardHelper.ToString(board);
 		}
-		
-		
 	}
 }
 

@@ -2,6 +2,8 @@ using System;
 using NUnit.Framework;
 using System.Linq;
 using QueemCore;
+using QueemCore.BitBoard.Helpers;
+using QueemCore.BitBoard;
 
 namespace BitBoardTests
 {
@@ -31,9 +33,23 @@ namespace BitBoardTests
 		}
 		
 		[Test()]
-		public void ToStringTest1 ()
+		public void FromStringTest ()
 		{
+			string boardString = 
+				"00000000" + 
+				"00101110" + 
+				"00001000" + 
+				"00010000" + 
+				"00010000" + 
+				"01000000" + 
+				"00100010" + 
+				"00100010";
 			
+			var board = BitBoardHelper.FromString(boardString);			
+			var newString = BitBoardHelper.ToString(board, string.Empty);
+			
+			Assert.AreEqual(boardString, newString);
+			//TODO test if bit is set
 		}
 	}
 }

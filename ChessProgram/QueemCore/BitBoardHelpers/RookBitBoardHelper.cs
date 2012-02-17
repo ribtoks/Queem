@@ -83,16 +83,17 @@ namespace QueemCore.BitBoard.Helpers
 						.ToArray();
 		}
 		
+		//TODO write tests for rook attacks
 		public static ulong GetRookAttacks(int rank, File file, ulong otherFigures)
 		{
 			int fileInt = (int)file;
 		
 			ulong otherFiguresFile = otherFigures << fileInt;
 			byte rotatedFile = (byte)BitBoardHelper.FlipDiagonalA1H8(otherFiguresFile);
-			ulong verticalAttacks = FirstRankAttacks[fileInt, rotatedFile] >> fileInt;
+			ulong verticalAttacks = (ulong)(FirstRankAttacks[fileInt, rotatedFile] >> fileInt);
 			
 			ulong otherFiguresRank = otherFigures >> (8*rank);
-			ulong horizontalAttacks = FirstRankAttacks[rank, (byte)otherFiguresRank] << (8*rank);
+			ulong horizontalAttacks = (ulong)(FirstRankAttacks[rank, (byte)otherFiguresRank] << (8*rank));
 			
 			return verticalAttacks | horizontalAttacks;
 		}

@@ -1,32 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/BitBoardHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/RookBitBoardHelper.cs">
     <Files>
-      <File FileName="BitBoardGenerators/Main.cs" Line="16" Column="1" />
-      <File FileName="BitBoardGenerators/FileMasksGenerator.cs" Line="1" Column="1" />
-      <File FileName="BitBoardGenerators/RankMasksGenerator.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="4" Column="34" />
-      <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="3" Column="37" />
-      <File FileName="QueemCore/BitBoardHelpers/BitBoardHelper.cs" Line="19" Column="9" />
-      <File FileName="QueemCore/BitBoardHelpers/KingBoardHelper.cs" Line="3" Column="37" />
-      <File FileName="QueemCore/BitBoardHelpers/KnightsBoardHelper.cs" Line="3" Column="37" />
-      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="3" Column="37" />
-      <File FileName="QueemCore/BitBoardHelpers/RookBitBoardHelper.cs" Line="6" Column="37" />
-      <File FileName="QueemCore/BitBoard/BishopBitBoard.cs" Line="14" Column="4" />
-      <File FileName="QueemCore/BitBoard/KingBitBoard.cs" Line="22" Column="48" />
-      <File FileName="QueemCore/BitBoard/KnightBitBoard.cs" Line="2" Column="34" />
-      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="2" Column="34" />
-      <File FileName="QueemCore/BitBoard/RookBitBoard.cs" Line="2" Column="34" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="128" Column="25" />
+      <File FileName="QueemTests/CoordinatesTests.cs" Line="5" Column="7" />
+      <File FileName="QueemCore/BitBoardHelpers/RookBitBoardHelper.cs" Line="86" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BitBoardGenerators" expanded="True" />
-          <Node name="BitBoardTests" selected="True" />
+          <Node name="BitBoardTests" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="BitBoard" expanded="True" />
-            <Node name="BitBoardHelpers" expanded="True" />
+            <Node name="BitBoardHelpers" expanded="True">
+              <Node name="RookBitBoardHelper.cs" selected="True" />
+            </Node>
+            <Node name="Extensions" expanded="True" />
           </Node>
+          <Node name="Queem.Tests" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

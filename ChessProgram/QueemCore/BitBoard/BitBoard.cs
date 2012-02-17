@@ -33,19 +33,7 @@ namespace QueemCore.BitBoard
 		
 		public int GetBitsCount()
 		{
-			ulong k1 = 0x5555555555555555UL;
-			ulong k2 = 0x3333333333333333UL;
-			ulong k4 = 0x0f0f0f0f0f0f0f0fUL;
-			
-			ulong x = this.board;
-			
-			x =  x - ((x >> 1)  & k1); /* put count of each 2 bits into those 2 bits */
-    		x = (x & k2) + ((x >> 2)  & k2); /* put count of each 4 bits into those 4 bits */
-    		x = (x + (x >> 4)) & k4 ; /* put count of each 8 bits into those 8 bits */
-    		x += x >>  8;  /* put count of each 16 bits into their lowest 8 bits */
-    		x += x >> 16;  /* put count of each 32 bits into their lowest 8 bits */
-    		x += x >> 32;  /* put count of the final 64 bits into the lowest 8 bits */
-    		return (int) x & 255;
+			return BitBoardHelper.BitsCount(this.board);
 		}
 		
 		public bool IsSubsetOf(BitBoard b)
@@ -137,7 +125,7 @@ namespace QueemCore.BitBoard
 		
 		public BitBoard Rotate180()
 		{
-			return this.FlipHorisontal().FlipVertical();
+			return this.FlipHorizontal().FlipVertical();
 		}
 		
 		public BitBoard Rotate90Clockwise()
