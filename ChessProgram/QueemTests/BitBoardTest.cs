@@ -1,11 +1,13 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using QueemCore;
 using QueemCore.BitBoard.Helpers;
 using QueemCore.BitBoard;
 using QueemCore.Extensions;
-using System.Collections.Generic;
+
 using System.Text;
 
 namespace BitBoardTests
@@ -127,7 +129,7 @@ namespace BitBoardTests
 				int x = rand.Next(8);
 				int y = rand.Next(8);
 				
-				indices.Add(new Tuple<int, int>(x, y));
+				indices.Add(Tuple.Create(x, y));
 			}
 			return indices;
 		}
@@ -183,6 +185,92 @@ namespace BitBoardTests
 					board.GetInnerValue(), 
 					BitBoardHelper.FromString(str.ToString()));
 			}
+		}
+		
+		[Test()]
+		public void TestByteMirror1()
+		{
+			byte b  = Convert.ToByte("00001111", 2);
+			byte r  = Convert.ToByte("11110000", 2);
+			Assert.AreEqual(r, BitBoardHelper.GetMirroredByte(b));
+		}
+		
+		[Test()]
+		public void TestByteMirror2()
+		{
+			byte b  = Convert.ToByte("00001101", 2);
+			byte r  = Convert.ToByte("10110000", 2);
+			Assert.AreEqual(r, BitBoardHelper.GetMirroredByte(b));
+		}
+		
+		[Test()]
+		public void TestByteMirror3()
+		{
+			byte b  = Convert.ToByte("01001101", 2);
+			byte r  = Convert.ToByte("10110010", 2);
+			Assert.AreEqual(r, BitBoardHelper.GetMirroredByte(b));
+		}
+		
+		[Test()]
+		public void TestByteMirror4()
+		{
+			byte b  = Convert.ToByte("10000000", 2);
+			byte r  = Convert.ToByte("00000001", 2);
+			Assert.AreEqual(r, BitBoardHelper.GetMirroredByte(b));
+		}
+		
+		[Test()]
+		public void TestFileToRank1()
+		{
+			string boardString = 
+				"10000000" + 
+				"10000000" + 
+				"00000000" + 
+				"10000000" + 
+				"00000000" + 
+				"00000000" + 
+				"10000000" + 
+				"10000000";
+			byte b = Convert.ToByte("11001011", 2);
+			ulong board = BitBoardHelper.FromString(boardString);
+			
+			Assert.AreEqual(b, BitBoardHelper.GetRankFromAFile(board));
+		}
+		
+		[Test()]
+		public void TestFileToRank2()
+		{
+			string boardString = 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"10000000";
+			byte b = Convert.ToByte("10000000", 2);
+			ulong board = BitBoardHelper.FromString(boardString);
+			
+			Assert.AreEqual(b, BitBoardHelper.GetRankFromAFile(board));
+		}
+		
+		[Test()]
+		public void TestFileToRank3()
+		{
+			string boardString = 
+				"10000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000";
+			byte b = Convert.ToByte("00000001", 2);
+			ulong board = BitBoardHelper.FromString(boardString);
+			
+			Assert.AreEqual(b, BitBoardHelper.GetRankFromAFile(board));
 		}
 	}
 }

@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarkManager", "Benchma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.Core", "QueemCore\Queem.Core.csproj", "{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardTests", "BitBoardTests\BitBoardTests.csproj", "{3CB8884B-341D-4DAB-90B5-96904353FC4E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardGenerators", "BitBoardGenerators\BitBoardGenerators.csproj", "{71F04603-9D19-4169-A25E-05C91868E63B}"
 EndProject
 Global
@@ -46,20 +44,6 @@ Global
 		{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}.Release|x86.ActiveCfg = Release|x86
 		{2E28A8AF-2E9B-4CE4-BA45-95AC6AEE633A}.Release|x86.Build.0 = Release|x86
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Debug|x86.Build.0 = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Default|Any CPU.Build.0 = Debug|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Release|x86.ActiveCfg = Release|Any CPU
-		{3CB8884B-341D-4DAB-90B5-96904353FC4E}.Release|x86.Build.0 = Release|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -168,7 +152,7 @@ Global
 		{FD8CF255-56C2-4E9E-AFE4-5557C0B59E98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BitBoardTests\BitBoardTests.csproj
+		StartupItem = QueemTests\Queem.Tests.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

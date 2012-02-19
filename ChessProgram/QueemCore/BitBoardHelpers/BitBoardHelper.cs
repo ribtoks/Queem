@@ -8,6 +8,76 @@ namespace QueemCore.BitBoard.Helpers
 {
 	public static class BitBoardHelper
 	{
+		static BitBoardHelper()
+		{
+			MirroredBytes = Enumerable.Range(0, 256)
+				.Select(rank => GenerateMirroredByte((byte)rank)).ToArray();
+		
+			RankToFileArray = Enumerable.Range(0, 256)
+				.Select(rank => GetFileFromRank((byte)rank)).ToArray();
+				
+			string mainDiagonalString = 
+				"00000001" + 
+				"00000010" + 
+				"00000100" + 
+				"00001000" + 
+				"00010000" + 
+				"00100000" + 
+				"01000000" + 
+				"10000000";
+			MainDiagonal = FromString(mainDiagonalString);
+		}
+		
+		public static ulong MainDiagonal;
+		
+		public static byte[] MirroredBytes;
+		
+		public static byte GenerateMirroredByte(byte b)
+		{
+			return (byte)(((((ulong)b * 0x80200802UL) & 0x0884422110UL) * 0x0101010101010101UL) >> 56);
+		}
+		
+		public static byte GetMirroredByte(byte b)
+		{
+			return MirroredBytes[b];
+		}
+		
+		public static ulong[] RankToFileArray;		
+		
+		public static ulong GetFileFromRank(byte rank)
+		{
+			ulong result = 0;
+			/*
+			 * 7 6 5 4 3 2 1 0
+			 * ---------------
+			 * 0 . . . . . . .
+			 * 1 . . . . . . .
+			 * 2 . . . . . . .
+			 * 3 . . . . . . .
+			 * 4 . . . . . . .
+			 * 5 . . . . . . .
+			 * 6 . . . . . . .
+			 * 7 . . . . . . .
+			 * 
+			*/
+			for (int i = 0; i < 8; ++i)
+			{
+				byte oneBit = (byte)(1 << i);
+				// if bit #i is set
+				if ((rank | oneBit) == rank)
+				{
+					ulong oneBitUL = 1UL << (8*(7 - i));
+					result |= oneBitUL;
+				}
+			}
+			return result;
+		}
+		
+		public static byte GetRankFromAFile(ulong A_File)
+		{
+			return (byte)((A_File * MainDiagonal) >> 56);
+		}
+			
 		public static int BitsCount(ulong board)
 		{
 			ulong k1 = 0x5555555555555555UL;
@@ -93,6 +163,7 @@ namespace QueemCore.BitBoard.Helpers
 		   	ulong k2 = 0x3333000033330000UL;
 		   	ulong k4 = 0x0f0f0f0f00000000UL;
 			ulong x = board;
+			
 		   	ulong t  = k4 & (x ^ (x << 28));
 		   	x ^= t ^ (t >> 28) ;
 		   	t = k2 & (x ^ (x << 14));
@@ -108,6 +179,7 @@ namespace QueemCore.BitBoard.Helpers
 		   	ulong k2 = 0xcccc0000cccc0000UL;
 		   	ulong k4 = 0xf0f0f0f00f0f0f0fUL;
 			ulong x = board;
+			
 		   	ulong t =  x ^ (x << 36) ;
 		   	x ^= k4 & (t ^ (x >> 36));
 		   	t = k2 & (x ^ (x << 18));
@@ -138,6 +210,16 @@ namespace QueemCore.BitBoard.Helpers
 		   	x = ((x >> 2) & k2) +  4*(x & k2);
 		   	x = ((x >> 4) & k4) + 16*(x & k4);
 		   	return x;
+		}
+		
+		public static ulong Rotate90Clockwise(ulong board)
+		{
+			return FlipVertical(FlipDiagonalA1H8(board));
+		}
+		
+		public static ulong Rotate90CounterClockwise(ulong board)
+		{
+			return FlipDiagonalA1H8(FlipVertical(board));
 		}
 		
 		public static readonly ulong[] FilesMasks = 

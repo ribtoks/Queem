@@ -36,7 +36,7 @@ namespace QueemCore.BitBoard.Helpers
 								
 				Array.ForEach(arr, 
 				              (otherFigures) => 
-				              situations[i, otherFigures] = 
+				              situations[7 - i, otherFigures] = 
 				              	GetByteRankMovesMask((byte)rookPos, otherFigures));
 			}
 			return situations;
@@ -81,19 +81,24 @@ namespace QueemCore.BitBoard.Helpers
 			return Enumerable.Range(0, 256) 
 						.Select(b => BitBoardHelper.FlipDiagonalA1H8((ulong)b))
 						.ToArray();
-		}
+		}		
 		
-		//TODO write tests for rook attacks
 		public static ulong GetRookAttacks(int rank, File file, ulong otherFigures)
 		{
 			int fileInt = (int)file;
 		
-			ulong otherFiguresFile = otherFigures << fileInt;
-			byte rotatedFile = (byte)BitBoardHelper.FlipDiagonalA1H8(otherFiguresFile);
-			ulong verticalAttacks = (ulong)(FirstRankAttacks[fileInt, rotatedFile] >> fileInt);
+			ulong otherFiguresFile = otherFigures >> fileInt;
+			ulong clearAFile = otherFiguresFile & (~BitBoardHelper.NotAFile);
+			byte rotatedFile = BitBoardHelper.GetRankFromAFile(clearAFile);
+			byte fileAttacks = FirstRankAttacks[rank, rotatedFile];
+			ulong verticalAttacks = BitBoardHelper.GetFileFromRank(fileAttacks) << fileInt;
 			
 			ulong otherFiguresRank = otherFigures >> (8*rank);
-			ulong horizontalAttacks = (ulong)(FirstRankAttacks[rank, (byte)otherFiguresRank] << (8*rank));
+			otherFiguresRank &= 255;
+			byte rankAttacks = FirstRankAttacks[7 - fileInt, otherFiguresRank];
+			// in real int64 lower byte has mirrored bits
+			// 7 6 5 4 3 2 1 0 and in this 0 1 2 3 4 5 6 7
+			ulong horizontalAttacks = (ulong)(rankAttacks) << (8*rank);
 			
 			return verticalAttacks | horizontalAttacks;
 		}
