@@ -4,7 +4,7 @@ using QueemCore.BitBoard;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
 
-namespace BitBoardTests
+namespace Queem.Tests
 {
 	[TestFixture()]
 	public class RookBitBoardTest

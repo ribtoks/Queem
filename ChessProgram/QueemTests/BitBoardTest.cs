@@ -7,10 +7,9 @@ using QueemCore;
 using QueemCore.BitBoard.Helpers;
 using QueemCore.BitBoard;
 using QueemCore.Extensions;
-
 using System.Text;
 
-namespace BitBoardTests
+namespace Queem.Tests
 {
 	[TestFixture()]
 	public class BitBoardTests
