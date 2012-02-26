@@ -15,7 +15,7 @@ namespace MovesGenerators
 		
 		protected string GetBoardString(ulong board)
 		{
-			return BitBoardHelper.ToString(board);
+			return BitBoardHelper.ToString(board, "\n");
 		}
 	}
 }

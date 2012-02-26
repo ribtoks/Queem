@@ -73,6 +73,11 @@ namespace QueemCore.BitBoard.Helpers
 			return result;
 		}
 		
+		public static ulong GetOneBitNumber(int rank, int file)
+		{
+			return 1UL << (rank * 8 + file);
+		}
+		
 		public static byte GetRankFromAFile(ulong A_File)
 		{
 			return (byte)((A_File * MainDiagonal) >> 56);

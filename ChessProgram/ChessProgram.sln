@@ -152,7 +152,7 @@ Global
 		{FD8CF255-56C2-4E9E-AFE4-5557C0B59E98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = QueemTests\Queem.Tests.csproj
+		StartupItem = BitBoardGenerators\BitBoardGenerators.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

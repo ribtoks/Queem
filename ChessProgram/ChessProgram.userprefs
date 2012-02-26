@@ -1,26 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BitBoardGenerators/BishopMovesGenerator.cs">
     <Files>
-      <File FileName="QueemCore/BitBoard/KnightBitBoard.cs" Line="18" Column="29" />
-      <File FileName="QueemCore/BitBoardHelpers/KingBoardHelper.cs" Line="30" Column="30" />
-      <File FileName="QueemCore/BitBoardHelpers/KnightsBoardHelper.cs" Line="26" Column="36" />
-      <File FileName="QueemTests/BitBoardTest.cs" Line="113" Column="18" />
-      <File FileName="QueemTests/RookBitBoardTest.cs" Line="7" Column="22" />
-      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="28" Column="2" />
-      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="67" Column="77" />
+      <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="57" Column="4" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="89" Column="4" />
+      <File FileName="BitBoardGenerators/BishopMovesGenerator.cs" Line="13" Column="62" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="BitBoardGenerators" expanded="True" />
+          <Node name="BenchmarkManager" expanded="True" />
+          <Node name="BitBoardGenerators" expanded="True" selected="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="BitBoard" expanded="True" />
-            <Node name="BitBoardHelpers" expanded="True">
-              <Node name="PawnBitBoardHelper.cs" selected="True" />
-            </Node>
+            <Node name="BitBoardHelpers" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
+          <Node name="QueemSpeedBenchmark" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
@@ -35,15 +31,7 @@
         <State selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True">
-          <Node name="Queem.Tests" expanded="True">
-            <Node name="Queem" expanded="True">
-              <Node name="Tests" expanded="True">
-                <Node name="KnightBitBoardTest" expanded="True" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

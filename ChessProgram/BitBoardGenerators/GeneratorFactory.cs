@@ -18,6 +18,8 @@ namespace MovesGenerators
 				return new FileMasksGenerator();
 			case "ranks":
 				return new RankMasksGenerator();
+			case "bishop":
+				return new BishopMovesGenerator();
 			default:
 				return new DummyGenerator();
 			}

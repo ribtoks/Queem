@@ -4,6 +4,7 @@ using System.Linq;
 using System.Diagnostics;
 using QueemCore.BitBoard;
 using QueemCore;
+using QueemCore.BitBoard.Helpers;
 
 namespace MovesGenerators
 {

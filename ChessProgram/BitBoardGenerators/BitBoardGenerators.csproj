@@ -43,6 +43,7 @@
     <Compile Include="FileMasksGenerator.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="RankMasksGenerator.cs" />
+    <Compile Include="BishopMovesGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
