@@ -3,20 +3,22 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="BitBoardGenerators/BishopMovesGenerator.cs">
     <Files>
       <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="57" Column="4" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="89" Column="4" />
-      <File FileName="BitBoardGenerators/BishopMovesGenerator.cs" Line="13" Column="62" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="1" Column="1" />
+      <File FileName="BitBoardGenerators/BishopMovesGenerator.cs" Line="25" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarkManager" expanded="True" />
-          <Node name="BitBoardGenerators" expanded="True" selected="True" />
+          <Node name="BitBoardGenerators" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="BitBoard" expanded="True" />
             <Node name="BitBoardHelpers" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
-          <Node name="QueemSpeedBenchmark" expanded="True" />
+          <Node name="QueemSpeedBenchmark" expanded="True">
+            <Node name="Program.cs" selected="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">

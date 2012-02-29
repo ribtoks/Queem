@@ -19,6 +19,8 @@ namespace MovesGenerators
 				tw.WriteLine(BitBoardHelper.ToString(item, "\n"));
 				tw.WriteLine();
 			}
+			
+			//tw.WriteLine(BitBoardHelper.ToString(0x0000000080402000UL, "\n"));
 		}
 	}
 }

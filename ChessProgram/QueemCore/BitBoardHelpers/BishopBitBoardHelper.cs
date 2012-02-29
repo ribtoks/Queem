@@ -76,6 +76,18 @@ namespace QueemCore.BitBoard.Helpers
 			
 			return arr;
 		}
+		
+		//public static ulong GetDiagonalMask(Square sq)
+		//{
+		//	
+		//}
+		
+		//public static ulong DiagonalAttacks(ulong otherFigures, Square sq)
+		//{
+		//	ulong pos = 1UL << (int)sq;
+			//ulong forward = otherFigures & ;
+						
+		//}
 	}
 }
 

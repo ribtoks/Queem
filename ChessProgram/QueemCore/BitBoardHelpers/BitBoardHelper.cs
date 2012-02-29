@@ -331,6 +331,16 @@ namespace QueemCore.BitBoard.Helpers
 			
 			return first | second;
 		}
+		
+		public static int RankFromSquare(Square sq)
+		{
+			return (int)sq >> 3;
+		}
+		
+		public static File FileFromSquare(Square sq)
+		{
+			return (File)((int)sq & 7);
+		}		
 	}
 }
 
