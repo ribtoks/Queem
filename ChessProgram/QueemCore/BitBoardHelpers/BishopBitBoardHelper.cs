@@ -105,6 +105,27 @@ namespace QueemCore.BitBoard.Helpers
 			forward &= diagonalMask;
 			return forward;
 		}
+		
+		public static ulong AntiDiagonalAttacks(ulong otherFigures, Square sq)
+		{
+			int rank = (int)sq >> 3;
+			int file = (int)sq & 7;
+			
+			ulong figurePos = 1UL << (int)sq;
+			ulong reversedFigurePos = 1UL << ((int)sq ^ 63);
+			
+			ulong antiDiagonalMask = AntiDiagonalsMasks[file + rank];
+
+			ulong forward = otherFigures & antiDiagonalMask;
+			ulong reverse = Int64Helper.GetReversedUlong(forward);
+
+			forward -= figurePos;
+			reverse -= reversedFigurePos;
+
+			forward ^= Int64Helper.GetReversedUlong(reverse);
+			forward &= antiDiagonalMask;
+			return forward;
+		}
 	}
 }
 
