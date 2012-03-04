@@ -112,7 +112,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000" + 
 				"00000100" + 
-				"00001000" + 
+				"00000000" + 
 				"00010000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);

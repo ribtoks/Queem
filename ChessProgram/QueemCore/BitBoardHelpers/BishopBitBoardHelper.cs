@@ -91,7 +91,7 @@ namespace QueemCore.BitBoard.Helpers
 			int file = (int)sq & 7;
 			
 			ulong figurePos = 1UL << (int)sq;
-			ulong reversedFigurePos = 1UL << ((int)sq ^ 56);
+			ulong reversedFigurePos = 1UL << ((int)sq ^ 63);
 			
 			ulong diagonalMask = DiagonalsMasks[7 + file - rank];
 
