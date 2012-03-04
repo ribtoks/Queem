@@ -26,11 +26,15 @@ namespace QueemCore.BitBoard.Helpers
 				"01000000" + 
 				"10000000";
 			MainDiagonal = FromString(mainDiagonalString);
+			
+			RealPositions = GenerateRealPositions();
 		}
 		
 		public static ulong MainDiagonal;
 		
 		public static byte[] MirroredBytes;
+		
+		public static ulong[] RealPositions;
 		
 		public static byte GenerateMirroredByte(byte b)
 		{
@@ -77,6 +81,21 @@ namespace QueemCore.BitBoard.Helpers
 		{
 			return 1UL << (rank * 8 + file);
 		}
+		
+		public static ulong[] GenerateRealPositions()
+		{
+			ulong[] realPositions = new ulong[64];
+			
+			for (int rank = 0; rank < 8; ++rank)
+			{
+				for (int file = 0; file < 8; ++file)
+				{
+					int index = rank * 8 + 7 - file;
+					realPositions[index] = 1UL << index;
+				}				
+			}
+			return realPositions;
+		}		
 		
 		public static byte GetRankFromAFile(ulong A_File)
 		{
@@ -280,6 +299,11 @@ namespace QueemCore.BitBoard.Helpers
 					        .MyReverse()).ToArray());
 		}
 		
+		public static string GetEmptyBoardString()
+		{
+			return new string('0', 64);
+		}
+		
 		public static ulong FromString(string s)
 		{
 			/*
@@ -332,12 +356,12 @@ namespace QueemCore.BitBoard.Helpers
 			return first | second;
 		}
 		
-		public static int RankFromSquare(Square sq)
+		public static int GetRankFromSquare(Square sq)
 		{
 			return (int)sq >> 3;
 		}
 		
-		public static File FileFromSquare(Square sq)
+		public static File GetFileFromSquare(Square sq)
 		{
 			return (File)((int)sq & 7);
 		}		

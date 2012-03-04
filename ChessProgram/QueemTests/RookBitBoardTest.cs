@@ -8,20 +8,7 @@ namespace Queem.Tests
 {
 	[TestFixture()]
 	public class RookBitBoardTest
-	{
-		private string GetEmptyBoard()
-		{
-			return
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-		}
-		
+	{		
 		[Test()]
 		public void ClearBytePosition1()
 		{		
@@ -138,7 +125,7 @@ namespace Queem.Tests
 			File file = File.C;
 			int rank = 5;
 			
-			string otherFiguresBoard = this.GetEmptyBoard();
+			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
 			
 			string resultBoard = 
 				"00100000" + 
@@ -173,7 +160,7 @@ namespace Queem.Tests
 			File file = File.A;
 			int rank = 7;
 			
-			string otherFiguresBoard = this.GetEmptyBoard();
+			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
 			
 			string resultBoard = 
 				"01111111" + 
@@ -208,7 +195,7 @@ namespace Queem.Tests
 			File file = File.H;
 			int rank = 2;
 			
-			string otherFiguresBoard = this.GetEmptyBoard();
+			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
 			
 			string resultBoard = 
 				"00000001" + 

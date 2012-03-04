@@ -68,7 +68,7 @@ namespace QueemCore.BitBoard.Helpers
 					
 					board |= BitBoardHelper.GetOneBitNumber(x, y);
 					minusBoard |= BitBoardHelper.GetOneBitNumber(7 - x, 7 - y);
-				}					
+				}
 				
 				arr[14 - i] = minusBoard;
 				arr[i] = board;
@@ -77,17 +77,34 @@ namespace QueemCore.BitBoard.Helpers
 			return arr;
 		}
 		
-		//public static ulong GetDiagonalMask(Square sq)
-		//{
-		//	
-		//}
+		public static ulong GetDiagonalMask(Square sq)
+		{
+			int rank = (int)sq >> 3;
+			int file = (int)sq & 7;
+			
+			return DiagonalsMasks[8 + file - rank];
+		}
 		
-		//public static ulong DiagonalAttacks(ulong otherFigures, Square sq)
-		//{
-		//	ulong pos = 1UL << (int)sq;
-			//ulong forward = otherFigures & ;
-						
-		//}
+		public static ulong DiagonalAttacks(ulong otherFigures, Square sq)
+		{	
+			int rank = (int)sq >> 3;
+			int file = (int)sq & 7;
+			
+			ulong figurePos = 1UL << (int)sq;
+			ulong reversedFigurePos = 1UL << ((int)sq ^ 56);
+			
+			ulong diagonalMask = DiagonalsMasks[7 + file - rank];
+
+			ulong forward = otherFigures & diagonalMask;
+			ulong reverse = Int64Helper.GetReversedUlong(forward);
+
+			forward -= figurePos;
+			reverse -= reversedFigurePos;
+
+			forward ^= Int64Helper.GetReversedUlong(reverse);
+			forward &= diagonalMask;
+			return forward;
+		}
 	}
 }
 

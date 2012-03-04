@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BitBoardGenerators/BishopMovesGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs">
     <Files>
-      <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="57" Column="4" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="1" Column="1" />
-      <File FileName="BitBoardGenerators/BishopMovesGenerator.cs" Line="25" Column="1" />
+      <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="95" Column="4" />
+      <File FileName="QueemTests/BishopBitBoardTest.cs" Line="209" Column="78" />
+      <File FileName="QueemCore/BitBoardHelpers/BitBoardHelper.cs" Line="113" Column="79" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="34" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,12 +14,13 @@
           <Node name="BitBoardGenerators" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="BitBoard" expanded="True" />
-            <Node name="BitBoardHelpers" expanded="True" />
+            <Node name="BitBoardHelpers" expanded="True">
+              <Node name="BishopBitBoardHelper.cs" selected="True" />
+            </Node>
+            <Node name="Extensions" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
-          <Node name="QueemSpeedBenchmark" expanded="True">
-            <Node name="Program.cs" selected="True" />
-          </Node>
+          <Node name="QueemSpeedBenchmark" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
@@ -33,13 +35,25 @@
         <State selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Queem.Tests" expanded="True">
+            <Node name="Queem" expanded="True">
+              <Node name="Tests" expanded="True">
+                <Node name="BishopBitBoardTest" expanded="True" />
+                <Node name="Int64HelperTest" expanded="True">
+                  <Node name="TestReverseUlong" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/taras/Projects/CSharp/Queem/ChessProgram/BitBoardTests/RookBitBoardTest.cs" line="162" />
+      <Breakpoint file="/home/taras/Projects/CSharp/Queem/ChessProgram/QueemTests/BishopBitBoardTest.cs" line="209" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
