@@ -45,7 +45,7 @@
     <Compile Include="BitBoardTest.cs" />
     <Compile Include="KnightBitBoardTest.cs" />
     <Compile Include="Int64HelperTest.cs" />
-    <Compile Include="BishopBitBoardTest.cs" />
+    <Compile Include="BishopDiagonalBitBoardTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

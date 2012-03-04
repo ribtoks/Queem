@@ -7,7 +7,7 @@ using QueemCore;
 namespace Queem.Tests
 {
 	[TestFixture]
-	public class BishopBitBoardTest
+	public class BishopDiagonalBitBoardTest
 	{
 		[Test]
 		public void TestDiagonalMoves1()
@@ -205,6 +205,66 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000" + 
 				"00000000";
+			ulong movesBoard = BitBoardHelper.FromString(moves);
+			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			Assert.AreEqual(movesBoard, diagonalAttacks);
+		}
+		
+		[Test]
+		public void TestDiagonalMoves8()
+		{
+			string boardString = 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000";
+			
+			ulong board = BitBoardHelper.FromString(boardString);
+			var coords = Square.H7;
+			
+			string moves = 
+				"00000000" + 
+				"00000000" + 
+				"00000010" + 
+				"00000100" + 
+				"00001000" + 
+				"00010000" + 
+				"00100000" + 
+				"01000000";
+			ulong movesBoard = BitBoardHelper.FromString(moves);
+			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			Assert.AreEqual(movesBoard, diagonalAttacks);
+		}
+		
+		[Test]
+		public void TestDiagonalMoves9()
+		{
+			string boardString = 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000" + 
+				"00000000";
+			
+			ulong board = BitBoardHelper.FromString(boardString);
+			var coords = Square.F6;
+			
+			string moves = 
+				"00000001" + 
+				"00000010" + 
+				"00000000" + 
+				"00001000" + 
+				"00010000" + 
+				"00100000" + 
+				"01000000" + 
+				"10000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
 			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
