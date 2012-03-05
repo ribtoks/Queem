@@ -1,28 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/MoveProviders/KingMovesProvider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/BitBoard.cs">
     <Files>
       <File FileName="QueemTests/PawnsTest.cs" Line="10" Column="3" />
-      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="16" Column="23" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="10" Column="23" />
-      <File FileName="QueemCore/BitBoard/KingBitBoard.cs" Line="15" Column="35" />
-      <File FileName="QueemCore/BitBoard/BishopBitBoard.cs" Line="15" Column="23" />
-      <File FileName="QueemCore/BitBoard/TwoPiecesBitBoard.cs" Line="49" Column="8" />
-      <File FileName="QueemCore/BitBoard/RookBitBoard.cs" Line="18" Column="4" />
-      <File FileName="QueemCore/MoveProviders/RookMovesProvider.cs" Line="14" Column="3" />
-      <File FileName="QueemCore/MoveProviders/KingMovesProvider.cs" Line="11" Column="32" />
+      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="108" Column="3" />
+      <File FileName="QueemCore/BitBoard/KnightBitBoard.cs" Line="6" Column="21" />
+      <File FileName="QueemCore/BitBoard/QueenBitBoard.cs" Line="7" Column="39" />
+      <File FileName="QueemCore/BitBoard/RookBitBoard.cs" Line="13" Column="4" />
+      <File FileName="QueemCore/BitBoard/BishopBitBoard.cs" Line="20" Column="1" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="54" Column="49" />
+      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="53" Column="53" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
-            <Node name="BitBoard" expanded="True" />
+            <Node name="BitBoard" expanded="True">
+              <Node name="BitBoard.cs" selected="True" />
+            </Node>
             <Node name="BitBoardHelpers" expanded="True" />
             <Node name="Constants" expanded="True" />
-            <Node name="MoveProviders" expanded="True">
-              <Node name="KingMovesProvider.cs" selected="True" />
-            </Node>
+            <Node name="MoveProviders" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
           <Node name="QueemSpeedBenchmark" expanded="True" />
@@ -40,7 +39,9 @@
         <State selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Queem.Tests" selected="True" />
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

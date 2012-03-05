@@ -7,7 +7,7 @@ using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public abstract class BitBoard
+	public class BitBoard
 	{
 		/*
 		 * Indices structure ((7 - y)*8 + x)
@@ -48,7 +48,21 @@ namespace QueemCore.BitBoard
 			this.movesProvider = provider;
 		}
 		
-		public abstract IEnumerable<ulong> GetAttacks(ulong otherFigures);
+		public virtual IEnumerable<ulong> GetAttacks(ulong otherFigures)
+		{
+			ulong bb = this.board;
+			for (int rank = 0; rank < 8; ++rank, bb >>= 8)
+			{
+				int rankByte = bb & 0xff;
+				if (rankByte == 0)
+					continue;
+					
+				var squares = BitBoardSerializer.Squares[rank][rankByte];
+				
+				foreach (var sq in squares)
+					yield return this.movesProvider.GetAttacks(sq, otherFigures);
+			}
+		}
 		
 		public int GetBitsCount()
 		{
