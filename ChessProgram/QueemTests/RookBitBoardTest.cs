@@ -111,17 +111,7 @@ namespace Queem.Tests
 		
 		[Test()]
 		public void ClearPosition1()
-		{
-			string rookBoard = 
-				"00000000" + 
-				"00000000" + 
-				"00100000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-			
+		{			
 			var coords = Square.C6;
 			
 			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
@@ -145,17 +135,7 @@ namespace Queem.Tests
 		
 		[Test()]
 		public void ClearPosition2()
-		{
-			string rookBoard = 
-				"10000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-			
+		{			
 			var coords = Square.A8;
 						
 			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
@@ -179,17 +159,7 @@ namespace Queem.Tests
 		
 		[Test()]
 		public void ClearPosition3()
-		{
-			string rookBoard = 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000001" + 
-				"00000000" + 
-				"00000000";
-			
+		{			
 			var coords = Square.H3;
 			
 			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
@@ -214,16 +184,6 @@ namespace Queem.Tests
 		[Test()]
 		public void RookPosition1()
 		{
-			string rookBoard = 
-				"00000000" + 
-				"00000000" + 
-				"00100000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-			
 			var coords = Square.C6;
 			
 			string otherFiguresBoard = 
@@ -256,16 +216,6 @@ namespace Queem.Tests
 		[Test()]
 		public void RookPosition2()
 		{
-			string rookBoard = 
-				"00000000" + 
-				"00000000" + 
-				"00100000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-			
 			var coords = Square.C6;
 			
 			string otherFiguresBoard = 
@@ -297,17 +247,7 @@ namespace Queem.Tests
 		
 		[Test()]
 		public void RookPosition3()
-		{
-			string rookBoard = 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"10000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-			
+		{			
 			var coords = Square.A5;
 			
 			string otherFiguresBoard = 
@@ -339,17 +279,7 @@ namespace Queem.Tests
 		
 		[Test()]
 		public void RookPosition4()
-		{
-			string rookBoard = 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000001";
-			
+		{			
 			var coords = Square.H1;
 			
 			string otherFiguresBoard = 

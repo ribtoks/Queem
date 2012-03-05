@@ -19,5 +19,23 @@ namespace QueemCore
 	{
 		A=0, B, C, D, E, F, G, H, NoFile
 	}
+	
+	public enum MoveType
+	{
+		Quiet,
+		DoublePawnPush,
+		KingCastle,
+		QueenCastle,
+		Captures,
+		EpCapture,
+		KnightPromotion,
+		BishopPromotion,
+		RookPromotion,
+		QueenPromotion,
+		KnightPromoCapture,
+		BishopPromoCapture,
+		RookPromoCapture,
+		QueenPromoCapture
+	}
 }
 

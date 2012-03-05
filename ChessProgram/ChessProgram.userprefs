@@ -1,18 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/PawnBitBoard.cs">
+    <Files>
+      <File FileName="QueemTests/PawnsTest.cs" Line="10" Column="3" />
+      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="16" Column="4" />
+      <File FileName="QueemTests/KnightBitBoardTest.cs" Line="82" Column="18" />
+      <File FileName="QueemCore/Constants/BasicEnums.cs" Line="38" Column="20" />
+      <File FileName="QueemTests/RookBitBoardTest.cs" Line="14" Column="6" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="BenchmarkManager" expanded="True" />
           <Node name="BitBoardGenerators" expanded="True" />
           <Node name="Queem.Core" expanded="True">
-            <Node name="BitBoard" expanded="True" />
+            <Node name="BitBoard" expanded="True">
+              <Node name="PawnBitBoard.cs" selected="True" />
+            </Node>
             <Node name="BitBoardHelpers" expanded="True" />
+            <Node name="Constants" expanded="True" />
+            <Node name="Extensions" expanded="True" />
           </Node>
-          <Node name="Queem.Tests" expanded="True">
-            <Node name="QueenTests.cs" selected="True" />
-          </Node>
+          <Node name="Queem.Tests" expanded="True" />
           <Node name="QueemSpeedBenchmark" expanded="True" />
         </State>
       </Pad>
@@ -30,10 +38,8 @@
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
           <Node name="Queem.Tests" expanded="True">
-            <Node name="Queem" expanded="True">
-              <Node name="Tests" expanded="True">
-                <Node name="QueenTests" expanded="True" selected="True" />
-              </Node>
+            <Node name="Queem" expanded="True" selected="True">
+              <Node name="Tests" expanded="True" />
             </Node>
           </Node>
         </State>

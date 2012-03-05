@@ -37,13 +37,11 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="ChessBoard.cs" />
-    <Compile Include="Enumerations.cs" />
     <Compile Include="Extensions\MyStringExtensions.cs" />
     <Compile Include="BitBoard\BitBoard.cs" />
     <Compile Include="BitBoard\PawnBitBoard.cs" />
     <Compile Include="BitBoard\KnightBitBoard.cs" />
     <Compile Include="BitBoard\KingBitBoard.cs" />
-    <Compile Include="BasicEnums.cs" />
     <Compile Include="BitBoard\RookBitBoard.cs" />
     <Compile Include="BitBoard\BishopBitBoard.cs" />
     <Compile Include="BitBoardHelpers\BishopBitBoardHelper.cs" />
@@ -56,11 +54,14 @@
     <Compile Include="BitBoard\BitBoardSerializer.cs" />
     <Compile Include="BitBoard\QueenBitBoard.cs" />
     <Compile Include="BitBoardHelpers\QueenBitBoardHelper.cs" />
+    <Compile Include="Constants\BasicEnums.cs" />
+    <Compile Include="Constants\Enumerations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="BitBoard\" />
     <Folder Include="BitBoardHelpers\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
 </Project>

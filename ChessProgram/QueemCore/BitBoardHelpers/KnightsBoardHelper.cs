@@ -21,7 +21,7 @@ namespace QueemCore.BitBoard.Helpers
 			0x20400000000000UL};
 		
 		
-		public static ulong KnightAttacks(Square square)
+		public static ulong GetKnightAttacks(Square square)
 		{
 			return KnightMoves[(int)square];
 		}

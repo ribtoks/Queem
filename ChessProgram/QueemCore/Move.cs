@@ -19,6 +19,11 @@ namespace QueemCore
 		{
 			get; set;
 		}
+		
+		public MoveType Type 
+		{ 
+			get; set; 
+		}
 	}
 }
 
