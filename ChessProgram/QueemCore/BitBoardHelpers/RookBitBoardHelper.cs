@@ -83,19 +83,20 @@ namespace QueemCore.BitBoard.Helpers
 						.ToArray();
 		}		
 		
-		public static ulong GetRookAttacks(int rank, File file, ulong otherFigures)
+		public static ulong GetRookAttacks(ulong otherFigures, Square sq)
 		{
-			int fileInt = (int)file;
+			int file = (int)sq & 7;
+			int rank = (int)sq >> 3;
 		
-			ulong otherFiguresFile = otherFigures >> fileInt;
+			ulong otherFiguresFile = otherFigures >> file;
 			ulong clearAFile = otherFiguresFile & (~BitBoardHelper.NotAFile);
 			byte rotatedFile = BitBoardHelper.GetRankFromAFile(clearAFile);
 			byte fileAttacks = FirstRankAttacks[rank, rotatedFile];
-			ulong verticalAttacks = BitBoardHelper.GetFileFromRank(fileAttacks) << fileInt;
+			ulong verticalAttacks = BitBoardHelper.GetFileFromRank(fileAttacks) << file;
 			
 			ulong otherFiguresRank = otherFigures >> (8*rank);
 			otherFiguresRank &= 255;
-			byte rankAttacks = FirstRankAttacks[7 - fileInt, otherFiguresRank];
+			byte rankAttacks = FirstRankAttacks[7 - file, otherFiguresRank];
 			// in real int64 lower byte has mirrored bits
 			// 7 6 5 4 3 2 1 0 and in this 0 1 2 3 4 5 6 7
 			ulong horizontalAttacks = (ulong)(rankAttacks) << (8*rank);

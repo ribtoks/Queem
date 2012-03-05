@@ -126,6 +126,11 @@ namespace QueemCore.BitBoard.Helpers
 			forward &= antiDiagonalMask;
 			return forward;
 		}
+		
+		public static ulong GetBishopAttacks(ulong otherFigures, Square sq)
+		{
+			return DiagonalAttacks(otherFigures, sq) | AntiDiagonalAttacks(otherFigures, sq);
+		}
 	}
 }
 

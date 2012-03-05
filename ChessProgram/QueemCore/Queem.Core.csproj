@@ -54,6 +54,8 @@
     <Compile Include="BitBoardHelpers\RookBitBoardHelper.cs" />
     <Compile Include="Int64Helper.cs" />
     <Compile Include="BitBoard\BitBoardSerializer.cs" />
+    <Compile Include="BitBoard\QueenBitBoard.cs" />
+    <Compile Include="BitBoardHelpers\QueenBitBoardHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -2,13 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
   <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/BitBoardSerializer.cs">
     <Files>
-      <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="87" Column="3" />
+      <File FileName="QueemCore/BitBoardHelpers/BishopBitBoardHelper.cs" Line="130" Column="32" />
       <File FileName="QueemCore/BitBoard/BishopBitBoard.cs" Line="18" Column="28" />
       <File FileName="QueemCore/BitBoard/RookBitBoard.cs" Line="16" Column="4" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="63" Column="3" />
-      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="53" Column="52" />
+      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="25" Column="45" />
       <File FileName="QueemCore/BitBoardHelpers/BitBoardHelper.cs" Line="371" Column="35" />
-      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="3" Column="33" />
+      <File FileName="QueemCore/BitBoardHelpers/QueenBitBoardHelper.cs" Line="11" Column="5" />
+      <File FileName="QueemCore/BitBoardHelpers/RookBitBoardHelper.cs" Line="100" Column="48" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
