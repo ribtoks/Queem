@@ -122,8 +122,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			
-			File file = File.C;
-			int rank = 5;
+			var coords = Square.C6;
 			
 			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
 			
@@ -141,7 +140,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 		
 		[Test()]
@@ -157,9 +156,8 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			
-			File file = File.A;
-			int rank = 7;
-			
+			var coords = Square.A8;
+						
 			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
 			
 			string resultBoard = 
@@ -176,7 +174,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 		
 		[Test()]
@@ -192,8 +190,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			
-			File file = File.H;
-			int rank = 2;
+			var coords = Square.H3;
 			
 			string otherFiguresBoard = BitBoardHelper.GetEmptyBoardString();
 			
@@ -211,7 +208,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 		
 		[Test()]
@@ -227,8 +224,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			
-			File file = File.C;
-			int rank = 5;
+			var coords = Square.C6;
 			
 			string otherFiguresBoard = 
 				"00000000" + 
@@ -254,7 +250,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 		
 		[Test()]
@@ -270,8 +266,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			
-			File file = File.C;
-			int rank = 5;
+			var coords = Square.C6;
 			
 			string otherFiguresBoard = 
 				"01100000" + 
@@ -297,7 +292,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 		
 		[Test()]
@@ -313,8 +308,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			
-			File file = File.A;
-			int rank = 4;
+			var coords = Square.A5;
 			
 			string otherFiguresBoard = 
 				"00100000" + 
@@ -340,7 +334,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 		
 		[Test()]
@@ -356,8 +350,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000001";
 			
-			File file = File.H;
-			int rank = 0;
+			var coords = Square.H1;
 			
 			string otherFiguresBoard = 
 				"00100001" + 
@@ -383,7 +376,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(rank, file, otherFigures));
+				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
 		}
 	}
 }

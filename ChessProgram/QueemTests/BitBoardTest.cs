@@ -34,7 +34,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000100";
 				
-			var board = new BitBoard();
+			var board = new RookBitBoard();
 			board.ToggleBit(Square.F1);
 			
 			Assert.AreEqual(boardString, 
@@ -54,7 +54,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 				
-			var board = new BitBoard();
+			var board = new RookBitBoard();
 			board.ToggleBit(Square.A7);
 			
 			Assert.AreEqual(boardString, 
@@ -74,7 +74,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"10011000";
 				
-			var board = new BitBoard();
+			var board = new RookBitBoard();
 			board.ToggleBit(0, 0);
 			board.ToggleBit(0, 3);
 			board.ToggleBit(0, 4);
@@ -95,7 +95,7 @@ namespace Queem.Tests
 				int onesCount = binaryString.Count ((c) => c == '1');
 				
 				ulong val = Convert.ToUInt64 (binaryString, 2);
-				BitBoard bb = new BitBoard (val);
+				BitBoard bb = new RookBitBoard (val);
 				Assert.AreEqual (onesCount, bb.GetBitsCount ());
 			}
 		}
@@ -141,7 +141,7 @@ namespace Queem.Tests
 						
 			while ((count--) > 0)
 			{
-				var board = new BitBoard();
+				var board = new RookBitBoard();
 				var str = new StringBuilder(64);
 				str.Append('0', 64);
 				
@@ -167,7 +167,7 @@ namespace Queem.Tests
 						
 			while ((count--) > 0)
 			{
-				var board = new BitBoard();
+				var board = new BishopBitBoard();
 				var str = new StringBuilder(64);
 				str.Append('0', 64);
 				
