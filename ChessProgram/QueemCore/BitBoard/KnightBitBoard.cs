@@ -1,5 +1,6 @@
 using System;
 using QueemCore.BitBoard.Helpers;
+using System.Collections.Generic;
 
 namespace QueemCore.BitBoard
 {
@@ -15,9 +16,9 @@ namespace QueemCore.BitBoard
 		{
 		}
 		
-		public ulong GetAttacks() 
+		public override IEnumerable<ulong> GetAttacks() 
 		{
-			return this.GetKnightAttacks(this.board);
+			yield return this.GetKnightAttacks(this.board);
 		}
 		
 		private ulong GetKnightAttacks(ulong board)

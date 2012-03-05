@@ -1,5 +1,6 @@
 using System;
 using QueemCore.BitBoard.Helpers;
+using System.Collections.Generic;
 
 namespace QueemCore.BitBoard
 {
@@ -136,6 +137,11 @@ namespace QueemCore.BitBoard
 		public ulong DefendedDownFromWest ()
 		{
 			return this.board & this.SouthEastAttacks ();
+		}
+		
+		public override IEnumerable<ulong> GetAttacks ()
+		{
+			throw new NotImplementedException ();
 		}
 	}
 }

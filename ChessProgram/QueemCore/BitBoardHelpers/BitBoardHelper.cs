@@ -364,7 +364,12 @@ namespace QueemCore.BitBoard.Helpers
 		public static File GetFileFromSquare(Square sq)
 		{
 			return (File)((int)sq & 7);
-		}		
+		}
+		
+		public static Square GetSquare(int rank, int file)
+		{
+			return (Square)(8*rank + file);
+		}
 	}
 }
 

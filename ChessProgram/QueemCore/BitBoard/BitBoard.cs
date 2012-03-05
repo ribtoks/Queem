@@ -2,10 +2,11 @@ using System;
 using System.Linq;
 using QueemCore.Extensions;
 using QueemCore.BitBoard.Helpers;
+using System.Collections.Generic;
 
 namespace QueemCore.BitBoard
 {
-	public class BitBoard
+	public abstract class BitBoard
 	{
 		/*
 		 * Indices structure ((7 - y)*8 + x)
@@ -59,12 +60,7 @@ namespace QueemCore.BitBoard
 		{
 			return (this.board & b.board) == 0;
 		}
-		
-		public BitBoard GetComplement()
-		{
-			return new BitBoard( ~(this.board) );
-		}
-		
+						
 		public bool IsBitZero(int rank, int file)
 		{
 			var oneBitNumber = this.GetOneBitNumber(rank, file);
@@ -93,6 +89,14 @@ namespace QueemCore.BitBoard
 			return this;
 		}
 		
+		public BitBoard UnsetBit(int rank, int file)
+		{
+			var oneBitNumber = this.GetOneBitNumber(rank, file);
+			this.board = this.board & (~oneBitNumber);
+			
+			return this;
+		}
+		
 		public BitBoard ToggleBit (Square square)
 		{
 			if (square != Square.NoSquare) 
@@ -114,6 +118,8 @@ namespace QueemCore.BitBoard
 		{
 			return this.board;
 		}
+		
+		public abstract IEnumerable<ulong> GetAttacks();
 		
 		public void DoMove(Move move)
 		{

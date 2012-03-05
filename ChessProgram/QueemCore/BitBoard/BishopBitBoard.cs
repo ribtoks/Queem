@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace QueemCore.BitBoard
 {
@@ -14,9 +15,9 @@ namespace QueemCore.BitBoard
 		{					
 		}
 		
-		public ulong GetAttacks()
+		public override IEnumerable<ulong> GetAttacks()
 		{
-			return 0;
+			yield return 0;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using QueemCore.BitBoard.Helpers;
+using System.Collections.Generic;
 
 namespace QueemCore.BitBoard
 {
@@ -15,12 +16,12 @@ namespace QueemCore.BitBoard
 		{
 		}
 		
-		public ulong GetAttacks()
+		public override IEnumerable<ulong> GetAttacks()
 		{
 			ulong attacks = BitBoardHelper.ShiftEastOne(this.board) | BitBoardHelper.ShiftWestOne(this.board);
 			ulong temp = this.board | attacks;
 			attacks |= BitBoardHelper.ShiftNorthOne(temp) | BitBoardHelper.ShiftSouthOne(temp);
-			return attacks;
+			yield return attacks;
 		}
 	}
 }
