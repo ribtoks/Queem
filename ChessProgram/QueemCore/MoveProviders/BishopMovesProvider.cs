@@ -5,7 +5,7 @@ namespace QueemCore.MovesProviders
 {
 	public class BishopMovesProvider : MovesProvider
 	{
-		protected ulong DiagonalAttacks(Square sq, ulong otherFigures)
+		public ulong DiagonalAttacks(Square sq, ulong otherFigures)
 		{	
 			int rank = (int)sq >> 3;
 			int file = (int)sq & 7;
@@ -26,7 +26,7 @@ namespace QueemCore.MovesProviders
 			return forward;
 		}
 		
-		protected ulong AntiDiagonalAttacks(Square sq, ulong otherFigures)
+		public ulong AntiDiagonalAttacks(Square sq, ulong otherFigures)
 		{
 			int rank = (int)sq >> 3;
 			int file = (int)sq & 7;

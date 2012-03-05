@@ -3,12 +3,15 @@ using NUnit.Framework;
 using QueemCore.BitBoard;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
+using QueemCore.MovesProviders;
 
 namespace Queem.Tests
 {
 	[TestFixture()]
 	public class RookBitBoardTest
-	{		
+	{
+		protected RookMovesProvider provider = new RookMovesProvider();
+		
 		[Test()]
 		public void ClearBytePosition1()
 		{		
@@ -130,7 +133,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 		
 		[Test()]
@@ -154,7 +157,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 		
 		[Test()]
@@ -178,7 +181,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 		
 		[Test()]
@@ -210,7 +213,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 		
 		[Test()]
@@ -242,7 +245,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 		
 		[Test()]
@@ -274,7 +277,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 		
 		[Test()]
@@ -306,7 +309,7 @@ namespace Queem.Tests
 			ulong result = BitBoardHelper.FromString(resultBoard);
 			
 			Assert.AreEqual(result, 
-				RookBitBoardHelper.GetRookAttacks(otherFigures, coords));
+				provider.GetAttacks(coords, otherFigures));
 		}
 	}
 }

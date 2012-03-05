@@ -3,12 +3,15 @@ using NUnit.Framework;
 using QueemCore.BitBoard;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
+using QueemCore.MovesProviders;
 
 namespace Queem.Tests
 {
 	[TestFixture]
 	public class BishopDiagonalBitBoardTest
 	{
+		protected BishopMovesProvider provider = new BishopMovesProvider();
+	
 		[Test]
 		public void TestDiagonalMoves1()
 		{
@@ -26,7 +29,7 @@ namespace Queem.Tests
 				"01000000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -56,7 +59,7 @@ namespace Queem.Tests
 				"01000000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board); 
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -86,7 +89,7 @@ namespace Queem.Tests
 				"00100000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -116,7 +119,7 @@ namespace Queem.Tests
 				"00010000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -146,7 +149,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -176,7 +179,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -206,7 +209,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -236,7 +239,7 @@ namespace Queem.Tests
 				"00100000" + 
 				"01000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 		
@@ -266,7 +269,7 @@ namespace Queem.Tests
 				"01000000" + 
 				"10000000";
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var diagonalAttacks = BishopBitBoardHelper.DiagonalAttacks(board, coords);
+			var diagonalAttacks = provider.DiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, diagonalAttacks);
 		}
 	}

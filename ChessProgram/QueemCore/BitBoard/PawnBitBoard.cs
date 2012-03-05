@@ -100,11 +100,13 @@ namespace QueemCore.BitBoard
 			return (this.SouthEastAttacks() ^ this.SouthWestAttacks());
 		}
 		
+		// all pawns that are blocked by the opponent's pawns
 		public ulong UpRam(PawnBitBoard opponentPawns)
 		{
 			return BitBoardHelper.ShiftSouthOne(opponentPawns.board) & this.board;
 		}
 		
+		// all pawns that are blocked by the opponent's pawns
 		public ulong DownRam(PawnBitBoard opponentPawns)
 		{
 			return BitBoardHelper.ShiftNorthOne(this.board) & opponentPawns.board;

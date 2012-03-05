@@ -55,13 +55,11 @@
     <Compile Include="BitBoard\QueenBitBoard.cs" />
     <Compile Include="Constants\BasicEnums.cs" />
     <Compile Include="Constants\Enumerations.cs" />
-    <Compile Include="BitBoard\TwoPiecesBitBoard.cs" />
     <Compile Include="MoveProviders\MovesProvider.cs" />
     <Compile Include="MoveProviders\KnightMovesProvider.cs" />
     <Compile Include="MoveProviders\BishopMovesProvider.cs" />
     <Compile Include="MoveProviders\RookMovesProvider.cs" />
     <Compile Include="MoveProviders\QueenMovesProvider.cs" />
-    <Compile Include="BitBoard\OnePieceBitBoard.cs" />
     <Compile Include="MoveProviders\KingMovesProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

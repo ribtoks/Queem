@@ -5,7 +5,7 @@ using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public class KnightBitBoard : TwoPiecesBitBoard
+	public class KnightBitBoard : BitBoard
 	{
 		public KnightBitBoard (MovesProvider provider)
 			:base(provider)

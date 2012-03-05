@@ -20,71 +20,7 @@ namespace Queem.Tests
 			int a1 = rand.Next(), a2 = rand.Next();
 			return Convert.ToString(a1, 2) + Convert.ToString(a2, 2);
 		}
-		
-		[Test()]
-		public void SimpleStringTest1()
-		{
-			string boardString = 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000100";
-				
-			var board = new RookBitBoard();
-			board.ToggleBit(Square.F1);
-			
-			Assert.AreEqual(boardString, 
-				BitBoardHelper.ToString(board.GetInnerValue(), string.Empty));
-		}
-		
-		[Test()]
-		public void SimpleStringTest2()
-		{
-			string boardString = 
-				"00000000" + 
-				"10000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000";
-				
-			var board = new RookBitBoard();
-			board.ToggleBit(Square.A7);
-			
-			Assert.AreEqual(boardString, 
-				BitBoardHelper.ToString(board.GetInnerValue(), string.Empty));
-		}
-		
-		[Test()]
-		public void SimpleStringTest3()
-		{
-			string boardString = 
-				"00000000" + 
-				"10000010" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"00000000" + 
-				"10011000";
-				
-			var board = new RookBitBoard();
-			board.ToggleBit(0, 0);
-			board.ToggleBit(0, 3);
-			board.ToggleBit(0, 4);
-			board.ToggleBit(6, 0);
-			board.ToggleBit(6, 6);
-			
-			Assert.AreEqual(boardString, 
-				BitBoardHelper.ToString(board.GetInnerValue(), string.Empty));
-		}
-		
+					
 		[Test()]
 		public void BitsCountTest ()
 		{
@@ -95,7 +31,7 @@ namespace Queem.Tests
 				int onesCount = binaryString.Count ((c) => c == '1');
 				
 				ulong val = Convert.ToUInt64 (binaryString, 2);
-				BitBoard bb = new RookBitBoard (val);
+				BitBoard bb = new RookBitBoard (val, null);
 				Assert.AreEqual (onesCount, bb.GetBitsCount ());
 			}
 		}
@@ -141,15 +77,15 @@ namespace Queem.Tests
 						
 			while ((count--) > 0)
 			{
-				var board = new RookBitBoard();
+				var board = new RookBitBoard(null);
 				var str = new StringBuilder(64);
 				str.Append('0', 64);
 				
 				var indices = GetRandomBits(rand.Next(64));
 				foreach (var point in indices)
 				{
-					board.SetBit(point.Item1, point.Item2);
-					
+					Square sq = (Square)(point.Item1*8 + point.Item2);
+					board.SetBit(sq);
 					int index = (7 - point.Item1)*8 + point.Item2;
 					str[index] = '1';
 				}
@@ -167,14 +103,15 @@ namespace Queem.Tests
 						
 			while ((count--) > 0)
 			{
-				var board = new BishopBitBoard();
+				var board = new BishopBitBoard(null);
 				var str = new StringBuilder(64);
 				str.Append('0', 64);
 				
 				var indices = GetRandomBits(rand.Next(64));
 				foreach (var point in indices)
 				{
-					board.SetBit(point.Item1, point.Item2);
+					
+					board.SetBit((Square)(point.Item1*8 + point.Item2));
 					
 					int index = (7 - point.Item1)*8 + point.Item2;
 					str[index] = '1';

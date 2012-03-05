@@ -5,7 +5,7 @@ using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public class KingBitBoard : OnePieceBitBoard
+	public class KingBitBoard : BitBoard
 	{
 		public KingBitBoard (MovesProvider provider)
 			:base(provider)
@@ -15,6 +15,6 @@ namespace QueemCore.BitBoard
 		public KingBitBoard(ulong val, MovesProvider provider)
 			:base(val, provider)
 		{
-		}
+		}		
 	}
 }

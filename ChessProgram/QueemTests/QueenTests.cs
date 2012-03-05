@@ -3,12 +3,15 @@ using NUnit.Framework;
 using QueemCore.BitBoard;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
+using QueemCore.MovesProviders;
 
 namespace Queem.Tests
 {
 	[TestFixture]
 	public class QueenTests
 	{
+		protected QueenMovesProvider provider = new QueenMovesProvider();
+	
 		[Test]
 		public void AttacksTest1()
 		{
@@ -36,7 +39,7 @@ namespace Queem.Tests
 				"11111110";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
+			var attacks = provider.GetAttacks(coords, board);
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -67,7 +70,7 @@ namespace Queem.Tests
 				"01111111";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
+			var attacks = provider.GetAttacks(coords, board);		
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -98,7 +101,7 @@ namespace Queem.Tests
 				"00100100";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
+			var attacks = provider.GetAttacks(coords, board);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -129,7 +132,7 @@ namespace Queem.Tests
 				"00100100";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
+			var attacks = provider.GetAttacks(coords, board);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -160,7 +163,7 @@ namespace Queem.Tests
 				"00000000";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
+			var attacks = provider.GetAttacks(coords, board);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 	}

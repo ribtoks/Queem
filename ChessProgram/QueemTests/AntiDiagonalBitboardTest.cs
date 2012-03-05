@@ -1,15 +1,17 @@
-
 using System;
 using NUnit.Framework;
 using QueemCore.BitBoard;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
+using QueemCore.MovesProviders;
 
 namespace Queem.Tests
 {
 	[TestFixture]
 	public class BishopAntiDiagonalBitBoardTest
 	{
+		protected BishopMovesProvider provider = new BishopMovesProvider();
+	
 		[Test]
 		public void TestAntiDiagonalMoves1()
 		{
@@ -37,7 +39,7 @@ namespace Queem.Tests
 				"00000000";
 				
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var antiDiagonalAttacks = BishopBitBoardHelper.AntiDiagonalAttacks(board, coords);
+			var antiDiagonalAttacks = provider.AntiDiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, antiDiagonalAttacks);
 		}
 		
@@ -68,7 +70,7 @@ namespace Queem.Tests
 				"00000000";
 				
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var antiDiagonalAttacks = BishopBitBoardHelper.AntiDiagonalAttacks(board, coords);
+			var antiDiagonalAttacks = provider.AntiDiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, antiDiagonalAttacks);
 		}
 		
@@ -99,7 +101,7 @@ namespace Queem.Tests
 				"00000000";
 				
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var antiDiagonalAttacks = BishopBitBoardHelper.AntiDiagonalAttacks(board, coords);
+			var antiDiagonalAttacks = provider.AntiDiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, antiDiagonalAttacks);
 		}
 		
@@ -130,7 +132,7 @@ namespace Queem.Tests
 				"00000000";
 				
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var antiDiagonalAttacks = BishopBitBoardHelper.AntiDiagonalAttacks(board, coords);
+			var antiDiagonalAttacks = provider.AntiDiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, antiDiagonalAttacks);
 		}
 		
@@ -161,7 +163,7 @@ namespace Queem.Tests
 				"00001000";
 				
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var antiDiagonalAttacks = BishopBitBoardHelper.AntiDiagonalAttacks(board, coords);
+			var antiDiagonalAttacks = provider.AntiDiagonalAttacks(coords, board);
 			Assert.AreEqual(movesBoard, antiDiagonalAttacks);
 		}
 	}

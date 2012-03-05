@@ -5,7 +5,7 @@ using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public class RookBitBoard : TwoPiecesBitBoard
+	public class RookBitBoard : BitBoard
 	{			
 		public RookBitBoard (MovesProvider provider)
 			:base(provider)

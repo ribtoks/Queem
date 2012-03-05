@@ -2,12 +2,15 @@ using System;
 using NUnit.Framework;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
+using QueemCore.MovesProviders;
 
 namespace Queem.Tests
 {
 	[TestFixture()]
 	public class KnightBitBoardTest
 	{
+		protected KnightMovesProvider provider = new KnightMovesProvider();
+	
 		[Test()]
 		public void KnightTest1()
 		{				
@@ -21,7 +24,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			ulong attacks = BitBoardHelper.FromString(knightAttacksBoard);
-			Assert.AreEqual(attacks, KnightsBoardHelper.GetKnightAttacks(Square.C6));
+			Assert.AreEqual(attacks, provider.GetAttacks(Square.C6, 0));
 		}
 		
 		[Test()]
@@ -37,7 +40,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00100000";
 			ulong attacks = BitBoardHelper.FromString(knightAttacksBoard);
-			Assert.AreEqual(attacks, KnightsBoardHelper.GetKnightAttacks(Square.A2));
+			Assert.AreEqual(attacks, provider.GetAttacks(Square.A2, 0));
 		}
 		
 		[Test()]
@@ -53,7 +56,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			ulong attacks = BitBoardHelper.FromString(knightAttacksBoard);
-			Assert.AreEqual(attacks, KnightsBoardHelper.GetKnightAttacks(Square.H8));
+			Assert.AreEqual(attacks, provider.GetAttacks(Square.H8, 0));
 		}
 		
 		[Test()]
@@ -69,7 +72,7 @@ namespace Queem.Tests
 				"10001000" + 
 				"00000000";
 			ulong attacks = BitBoardHelper.FromString(knightAttacksBoard);
-			Assert.AreEqual(attacks, KnightsBoardHelper.GetKnightAttacks(Square.C1));
+			Assert.AreEqual(attacks, provider.GetAttacks(Square.C1, 0));
 		}
 		
 		[Test()]
@@ -85,7 +88,7 @@ namespace Queem.Tests
 				"00000000" + 
 				"00000000";
 			ulong attacks = BitBoardHelper.FromString(knightAttacksBoard);
-			Assert.AreEqual(attacks, KnightsBoardHelper.GetKnightAttacks(Square.G5));
+			Assert.AreEqual(attacks, provider.GetAttacks(Square.G5, 0));
 		}
 	}
 }
