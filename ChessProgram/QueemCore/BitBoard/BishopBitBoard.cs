@@ -1,23 +1,19 @@
 using System;
 using System.Collections.Generic;
+using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public class BishopBitBoard : BitBoard
+	public class BishopBitBoard : TwoPiecesBitBoard
 	{
-		public BishopBitBoard ()
-			:base()
+		public BishopBitBoard (MovesProvider provider)
+			:base(provider)
 		{
 		}
 		
-		public BishopBitBoard(ulong val)
-			:base(val)
+		public BishopBitBoard(ulong val, MovesProvider provider)
+			:base(val, provider)
 		{					
-		}
-		
-		public override IEnumerable<ulong> GetAttacks()
-		{
-			yield return 0;
 		}
 	}
 }

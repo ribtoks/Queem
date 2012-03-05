@@ -3,6 +3,7 @@ using System.Linq;
 using QueemCore.Extensions;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
+using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
@@ -35,16 +36,19 @@ namespace QueemCore.BitBoard
 		*/
 		
 		protected ulong board;
+		protected MovesProvider movesProvider;
 		
-		public BitBoard()
-		{
-			this.board = 0;
-		}
+		public BitBoard(MovesProvider provider)
+			: this(0, provider)
+		{ }
 		
-		public BitBoard(ulong value)
+		public BitBoard(ulong value, MovesProvider provider)
 		{
 			this.board = value;
+			this.movesProvider = provider;
 		}
+		
+		public abstract IEnumerable<ulong> GetAttacks(ulong otherFigures);
 		
 		public int GetBitsCount()
 		{
@@ -68,42 +72,33 @@ namespace QueemCore.BitBoard
 			return (this.board & negativeOneBit) == this.board;
 		}
 		
-		public bool IsBitOne(int rank, int file)
+		public bool IsBitSet(int rank, int file)
 		{
 			return !(this.IsBitZero(rank, file));
 		}
 		
-		public BitBoard ToggleBit(int rank, int file)
+		public virtual BitBoard SetBit(Square sq)
 		{
-			var oneBitNumber = this.GetOneBitNumber(rank, file);	
-			this.board = this.board ^ oneBitNumber;
-			
-			return this;
-		}
-		
-		public BitBoard SetBit(int rank, int file)
-		{
-			var oneBitNumber = this.GetOneBitNumber(rank, file);
+			ulong oneBitNumber = 1UL << (int)sq;
 			this.board = this.board | oneBitNumber;
 			
 			return this;
 		}
 		
-		public BitBoard UnsetBit(int rank, int file)
+		public virtual BitBoard UnsetBit(Square sq)
 		{
-			var oneBitNumber = this.GetOneBitNumber(rank, file);
+			ulong oneBitNumber = 1UL << (int)sq;
 			this.board = this.board & (~oneBitNumber);
 			
 			return this;
 		}
 		
-		public BitBoard ToggleBit (Square square)
+		protected BitBoard ToggleBit (Square square)
 		{
-			if (square != Square.NoSquare) 
-			{
-				ulong oneBitNumber = 1UL << (int)square;
-				this.board = this.board ^ oneBitNumber;
-			}
+			// unpredictable if square is NoSquare
+			ulong oneBitNumber = 1UL << (int)square;
+			this.board = this.board ^ oneBitNumber;
+		
 			return this;
 		}
 		
@@ -117,11 +112,9 @@ namespace QueemCore.BitBoard
 		public ulong GetInnerValue()
 		{
 			return this.board;
-		}
+		}		
 		
-		public abstract IEnumerable<ulong> GetAttacks();
-		
-		public void DoMove(Move move)
+		public virtual void DoMove(Move move)
 		{
 			this.ToggleBit(move.From);
 			this.ToggleBit(move.To);

@@ -36,7 +36,7 @@ namespace Queem.Tests
 				"11111110";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetAttacks(board, coords);			
+			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -67,7 +67,7 @@ namespace Queem.Tests
 				"01111111";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetAttacks(board, coords);			
+			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -98,7 +98,7 @@ namespace Queem.Tests
 				"00100100";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetAttacks(board, coords);			
+			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -129,7 +129,7 @@ namespace Queem.Tests
 				"00100100";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetAttacks(board, coords);			
+			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 		
@@ -160,7 +160,7 @@ namespace Queem.Tests
 				"00000000";
 			
 			ulong movesBoard = BitBoardHelper.FromString(moves);
-			var attacks = QueenBitBoardHelper.GetAttacks(board, coords);			
+			var attacks = QueenBitBoardHelper.GetQueenAttacks(board, coords);			
 			Assert.AreEqual(movesBoard, attacks);
 		}
 	}

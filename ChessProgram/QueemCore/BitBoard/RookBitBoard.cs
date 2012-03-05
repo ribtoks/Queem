@@ -1,25 +1,21 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
+using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public class RookBitBoard : BitBoard
-	{
-		public RookBitBoard ()
-			:base()
+	public class RookBitBoard : TwoPiecesBitBoard
+	{			
+		public RookBitBoard (MovesProvider provider)
+			:base(provider)
 		{
 		}
 		
-		public RookBitBoard(ulong val)
-			:base(val)
+		public RookBitBoard(ulong val, MovesProvider provider)
+			:base(val, provider)
 		{
-		}
-		
-		public override IEnumerable<ulong> GetAttacks()
-		{
-			yield return 0;
-		}
+		}		
 	}
 }
 

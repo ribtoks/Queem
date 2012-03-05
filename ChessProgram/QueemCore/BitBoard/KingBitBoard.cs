@@ -1,27 +1,20 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
+using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
-	public class KingBitBoard : BitBoard
+	public class KingBitBoard : OnePieceBitBoard
 	{
-		public KingBitBoard ()
-			:base()
+		public KingBitBoard (MovesProvider provider)
+			:base(provider)
 		{
 		}
 		
-		public KingBitBoard(ulong val)
-			:base(val)
+		public KingBitBoard(ulong val, MovesProvider provider)
+			:base(val, provider)
 		{
-		}
-		
-		public override IEnumerable<ulong> GetAttacks()
-		{
-			ulong attacks = BitBoardHelper.ShiftEastOne(this.board) | BitBoardHelper.ShiftWestOne(this.board);
-			ulong temp = this.board | attacks;
-			attacks |= BitBoardHelper.ShiftNorthOne(temp) | BitBoardHelper.ShiftSouthOne(temp);
-			yield return attacks;
 		}
 	}
 }

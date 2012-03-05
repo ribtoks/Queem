@@ -1,23 +1,19 @@
 using System;
 using System.Collections.Generic;
+using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {	
-	public class QueenBitBoard : BitBoard
+	public class QueenBitBoard : OnePieceBitBoard
 	{
-		public QueenBitBoard ()
-			:base()
+		public QueenBitBoard (MovesProvider provider)
+			:base(provider)
 		{
 		}
 		
-		public QueenBitBoard (ulong val)
-			:base(val)
+		public QueenBitBoard (ulong val, MovesProvider provider)
+			:base(val, provider)
 		{
-		}
-		
-		public override IEnumerable<ulong> GetAttacks ()
-		{
-			throw new NotImplementedException ();
 		}
 	}
 }

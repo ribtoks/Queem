@@ -1,18 +1,19 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
+using QueemCore.MovesProviders;
 
 namespace QueemCore.BitBoard
 {
 	public class PawnBitBoard : BitBoard
 	{
-		public PawnBitBoard ()
-			:base()
+		public PawnBitBoard (MovesProvider provider)
+			:base(provider)
 		{
 		}
 		
-		public PawnBitBoard(ulong val)
-			:base(val)
+		public PawnBitBoard(ulong val, MovesProvider provider)
+			:base(val, provider)
 		{
 		}
 		
@@ -139,7 +140,7 @@ namespace QueemCore.BitBoard
 			return this.board & this.SouthEastAttacks ();
 		}
 		
-		public override IEnumerable<ulong> GetAttacks ()
+		public override IEnumerable<ulong> GetAttacks (ulong otherFigures)
 		{
 			throw new NotImplementedException ();
 		}
