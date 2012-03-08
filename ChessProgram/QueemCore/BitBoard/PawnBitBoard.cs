@@ -7,12 +7,12 @@ namespace QueemCore.BitBoard
 {
 	public class PawnBitBoard : BitBoard
 	{
-		public PawnBitBoard (MovesProvider provider)
+		public PawnBitBoard (AttacksGenerator provider)
 			:base(provider)
 		{
 		}
 		
-		public PawnBitBoard(ulong val, MovesProvider provider)
+		public PawnBitBoard(ulong val, AttacksGenerator provider)
 			:base(val, provider)
 		{
 		}

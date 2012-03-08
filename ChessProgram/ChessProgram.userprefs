@@ -1,27 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/BitBoard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/AttacksGenerators/QueenAttacksGenerator.cs">
     <Files>
       <File FileName="QueemTests/PawnsTest.cs" Line="10" Column="3" />
-      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="108" Column="3" />
-      <File FileName="QueemCore/BitBoard/KnightBitBoard.cs" Line="6" Column="21" />
-      <File FileName="QueemCore/BitBoard/QueenBitBoard.cs" Line="7" Column="39" />
-      <File FileName="QueemCore/BitBoard/RookBitBoard.cs" Line="13" Column="4" />
-      <File FileName="QueemCore/BitBoard/BishopBitBoard.cs" Line="20" Column="1" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="54" Column="49" />
-      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="53" Column="53" />
+      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="137" Column="49" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="51" Column="17" />
+      <File FileName="QueemCore/AttacksGenerators/BishopAttacksGenerator.cs" Line="6" Column="37" />
+      <File FileName="QueemCore/AttacksGenerators/KingAttacksGenerator.cs" Line="6" Column="35" />
+      <File FileName="QueemCore/AttacksGenerators/KnightAttacksGenerator.cs" Line="7" Column="37" />
+      <File FileName="QueemCore/AttacksGenerators/QueenAttacksGenerator.cs" Line="5" Column="36" />
+      <File FileName="QueemCore/AttacksGenerators/RookAttacksGenerator.cs" Line="8" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
-            <Node name="BitBoard" expanded="True">
-              <Node name="BitBoard.cs" selected="True" />
+            <Node name="AttacksGenerators" expanded="True">
+              <Node name="QueenAttacksGenerator.cs" selected="True" />
             </Node>
+            <Node name="BitBoard" expanded="True" />
             <Node name="BitBoardHelpers" expanded="True" />
             <Node name="Constants" expanded="True" />
-            <Node name="MoveProviders" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
           <Node name="QueemSpeedBenchmark" expanded="True" />

@@ -7,12 +7,12 @@ namespace QueemCore.BitBoard
 {
 	public class RookBitBoard : BitBoard
 	{			
-		public RookBitBoard (MovesProvider provider)
+		public RookBitBoard (AttacksGenerator provider)
 			:base(provider)
 		{
 		}
 		
-		public RookBitBoard(ulong val, MovesProvider provider)
+		public RookBitBoard(ulong val, AttacksGenerator provider)
 			:base(val, provider)
 		{
 		}		

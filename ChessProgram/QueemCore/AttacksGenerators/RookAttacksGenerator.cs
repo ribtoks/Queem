@@ -5,7 +5,7 @@ using QueemCore;
 
 namespace QueemCore.MovesProviders
 {
-	public class RookMovesProvider : MovesProvider
+	public class RookAttacksGenerator : AttacksGenerator
 	{
 		public override ulong GetAttacks (Square figureSquare, ulong otherFigures)
 		{

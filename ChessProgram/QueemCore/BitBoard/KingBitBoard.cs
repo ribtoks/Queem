@@ -9,12 +9,12 @@ namespace QueemCore.BitBoard
 	{
 		protected Square sq;
 	
-		public KingBitBoard (MovesProvider provider)
+		public KingBitBoard (AttacksGenerator provider)
 			:base(provider)
 		{
 		}
 		
-		public KingBitBoard(ulong val, MovesProvider provider)
+		public KingBitBoard(ulong val, AttacksGenerator provider)
 			:base(val, provider)
 		{
 		}

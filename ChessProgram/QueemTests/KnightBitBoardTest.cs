@@ -9,7 +9,7 @@ namespace Queem.Tests
 	[TestFixture()]
 	public class KnightBitBoardTest
 	{
-		protected KnightMovesProvider provider = new KnightMovesProvider();
+		protected KnightAttacksGenerator provider = new KnightAttacksGenerator();
 	
 		[Test()]
 		public void KnightTest1()

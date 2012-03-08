@@ -10,7 +10,7 @@ namespace Queem.Tests
 	[TestFixture]
 	public class QueenTests
 	{
-		protected QueenMovesProvider provider = new QueenMovesProvider();
+		protected QueenAttacksGenerator provider = new QueenAttacksGenerator();
 	
 		[Test]
 		public void AttacksTest1()

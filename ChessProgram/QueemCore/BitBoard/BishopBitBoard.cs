@@ -6,12 +6,12 @@ namespace QueemCore.BitBoard
 {
 	public class BishopBitBoard : BitBoard
 	{
-		public BishopBitBoard (MovesProvider provider)
+		public BishopBitBoard (AttacksGenerator provider)
 			:base(provider)
 		{
 		}
 		
-		public BishopBitBoard(ulong val, MovesProvider provider)
+		public BishopBitBoard(ulong val, AttacksGenerator provider)
 			:base(val, provider)
 		{					
 		}

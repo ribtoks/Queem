@@ -2,10 +2,10 @@ using System;
 
 namespace QueemCore.MovesProviders
 {
-	public class QueenMovesProvider : MovesProvider
+	public class QueenAttacksGenerator : AttacksGenerator
 	{
-		protected RookMovesProvider rookProvider = new RookMovesProvider();
-		protected BishopMovesProvider bishopProvider = new BishopMovesProvider();		
+		protected RookAttacksGenerator rookProvider = new RookAttacksGenerator();
+		protected BishopAttacksGenerator bishopProvider = new BishopAttacksGenerator();		
 	
 		public override ulong GetAttacks (Square figureSquare, ulong otherFigures)
 		{

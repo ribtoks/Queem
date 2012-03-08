@@ -3,7 +3,7 @@ using QueemCore.BitBoard.Helpers;
 
 namespace QueemCore.MovesProviders
 {
-	public class BishopMovesProvider : MovesProvider
+	public class BishopAttacksGenerator : AttacksGenerator
 	{
 		public ulong DiagonalAttacks(Square sq, ulong otherFigures)
 		{	

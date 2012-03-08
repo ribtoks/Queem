@@ -55,12 +55,12 @@
     <Compile Include="BitBoard\QueenBitBoard.cs" />
     <Compile Include="Constants\BasicEnums.cs" />
     <Compile Include="Constants\Enumerations.cs" />
-    <Compile Include="MoveProviders\MovesProvider.cs" />
-    <Compile Include="MoveProviders\KnightMovesProvider.cs" />
-    <Compile Include="MoveProviders\BishopMovesProvider.cs" />
-    <Compile Include="MoveProviders\RookMovesProvider.cs" />
-    <Compile Include="MoveProviders\QueenMovesProvider.cs" />
-    <Compile Include="MoveProviders\KingMovesProvider.cs" />
+    <Compile Include="AttacksGenerators\AttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\BishopAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\KingAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\KnightAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\QueenAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\RookAttacksGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -68,6 +68,6 @@
     <Folder Include="BitBoard\" />
     <Folder Include="BitBoardHelpers\" />
     <Folder Include="Constants\" />
-    <Folder Include="MoveProviders\" />
+    <Folder Include="AttacksGenerators\" />
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace Queem.Tests
 	[TestFixture()]
 	public class RookBitBoardTest
 	{
-		protected RookMovesProvider provider = new RookMovesProvider();
+		protected RookAttacksGenerator provider = new RookAttacksGenerator();
 		
 		[Test()]
 		public void ClearBytePosition1()

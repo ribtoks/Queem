@@ -4,7 +4,7 @@ using QueemCore.BitBoard.Helpers;
 
 namespace QueemCore.MovesProviders
 {
-	public class KnightMovesProvider : MovesProvider
+	public class KnightAttacksGenerator : AttacksGenerator
 	{
 		public override ulong GetAttacks (Square figureSquare, ulong otherFigures)
 		{

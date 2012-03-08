@@ -36,13 +36,13 @@ namespace QueemCore.BitBoard
 		*/
 		
 		protected ulong board;
-		protected MovesProvider movesProvider;
+		protected AttacksGenerator movesProvider;
 		
-		public BitBoard(MovesProvider provider)
+		public BitBoard(AttacksGenerator provider)
 			: this(0, provider)
 		{ }
 		
-		public BitBoard(ulong value, MovesProvider provider)
+		public BitBoard(ulong value, AttacksGenerator provider)
 		{
 			this.board = value;
 			this.movesProvider = provider;

@@ -10,7 +10,7 @@ namespace Queem.Tests
 	[TestFixture]
 	public class BishopAntiDiagonalBitBoardTest
 	{
-		protected BishopMovesProvider provider = new BishopMovesProvider();
+		protected BishopAttacksGenerator provider = new BishopAttacksGenerator();
 	
 		[Test]
 		public void TestAntiDiagonalMoves1()
