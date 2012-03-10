@@ -1,10 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/BitBoardSerializer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/QueenBitBoard.cs">
     <Files>
-      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="87" Column="3" />
-      <File FileName="QueemCore/Move.cs" Line="31" Column="9" />
-      <File FileName="QueemTests/SerializationTests.cs" Line="92" Column="9" />
+      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="10" Column="23" />
+      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="81" Column="28" />
+      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="15" Column="39" />
+      <File FileName="QueemCore/BitBoard/KnightBitBoard.cs" Line="14" Column="3" />
+      <File FileName="QueemCore/BitBoard/QueenBitBoard.cs" Line="3" Column="34" />
+      <File FileName="QueemCore/BitBoard/RookBitBoard.cs" Line="13" Column="4" />
+      <File FileName="QueemCore/BitBoard/KingBitBoard.cs" Line="13" Column="2" />
+      <File FileName="QueemCore/BitBoard/BishopBitBoard.cs" Line="3" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,10 +18,8 @@
           <Node name="Queem.Core" expanded="True">
             <Node name="AttacksGenerators" expanded="True" />
             <Node name="BitBoard" expanded="True">
-              <Node name="BitBoardSerializer.cs" selected="True" />
+              <Node name="QueenBitBoard.cs" selected="True" />
             </Node>
-            <Node name="BitBoardHelpers" expanded="True" />
-            <Node name="Constants" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
           <Node name="QueemSpeedBenchmark" expanded="True" />
@@ -34,17 +37,7 @@
         <State selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True">
-          <Node name="Queem.Tests" expanded="True">
-            <Node name="Queem" expanded="True">
-              <Node name="Tests" expanded="True">
-                <Node name="SerializationTests" expanded="True">
-                  <Node name="Test1ByteSquares" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

@@ -1,19 +1,19 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
-using QueemCore.MovesProviders;
+using QueemCore.AttacksGenerators;
 
 namespace QueemCore.BitBoard
 {
 	public class PawnBitBoard : BitBoard
 	{
-		public PawnBitBoard (AttacksGenerator provider)
-			:base(provider)
+		public PawnBitBoard (AttacksGenerator generator)
+			:base(generator)
 		{
 		}
 		
-		public PawnBitBoard(ulong val, AttacksGenerator provider)
-			:base(val, provider)
+		public PawnBitBoard(ulong val, AttacksGenerator generator)
+			:base(val, generator)
 		{
 		}
 		

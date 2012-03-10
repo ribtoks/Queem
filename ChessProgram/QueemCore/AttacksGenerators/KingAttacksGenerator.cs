@@ -1,7 +1,7 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 
-namespace QueemCore.MovesProviders
+namespace QueemCore.AttacksGenerators
 {
 	public class KingAttacksGenerator : AttacksGenerator
 	{

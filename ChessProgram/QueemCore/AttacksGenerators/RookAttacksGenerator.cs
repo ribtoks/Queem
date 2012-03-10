@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using QueemCore.BitBoard.Helpers;
 using QueemCore;
 
-namespace QueemCore.MovesProviders
+namespace QueemCore.AttacksGenerators
 {
 	public class RookAttacksGenerator : AttacksGenerator
 	{

@@ -69,6 +69,22 @@ namespace QueemCore
 			}
 		}
 		
+		public static IEnumerable<T> MapSquares<T>(ulong board, Func<Square, T> func)
+		{
+			int rankIndex = 0;
+			while (board != 0)
+			{
+				int rank = (int)(board & 0xff);
+				
+				if (rank != 0)				
+					foreach (var sq in Squares[rankIndex][rank])
+						yield return func(sq);
+				
+				board >>= 8;
+				rankIndex++;
+			}
+		}
+		
 		public static IEnumerable<Move> GetMoves(Square start, ulong board)
 		{
 			int rankIndex = 0;

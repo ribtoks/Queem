@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
-using QueemCore.MovesProviders;
+using QueemCore.AttacksGenerators;
 
 namespace QueemCore.BitBoard
 {
 	public class BishopBitBoard : BitBoard
 	{
-		public BishopBitBoard (AttacksGenerator provider)
-			:base(provider)
+		public BishopBitBoard (AttacksGenerator generator)
+			:base(generator)
 		{
 		}
 		
-		public BishopBitBoard(ulong val, AttacksGenerator provider)
-			:base(val, provider)
+		public BishopBitBoard(ulong val, AttacksGenerator generator)
+			:base(val, generator)
 		{					
 		}
 	}

@@ -1,7 +1,7 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
-using QueemCore.MovesProviders;
+using QueemCore.AttacksGenerators;
 
 namespace QueemCore.BitBoard
 {
@@ -9,13 +9,13 @@ namespace QueemCore.BitBoard
 	{
 		protected Square sq;
 	
-		public KingBitBoard (AttacksGenerator provider)
-			:base(provider)
+		public KingBitBoard (AttacksGenerator generator)
+			:base(generator)
 		{
 		}
 		
-		public KingBitBoard(ulong val, AttacksGenerator provider)
-			:base(val, provider)
+		public KingBitBoard(ulong val, AttacksGenerator generator)
+			:base(val, generator)
 		{
 		}
 		
@@ -40,7 +40,7 @@ namespace QueemCore.BitBoard
 		public override IEnumerable<ulong> GetAttacks (ulong otherFigures)
 		{
 			if (this.sq != Square.NoSquare)
-				yield return this.movesProvider.GetAttacks(this.sq, otherFigures);
+				yield return this.attacksGenerator.GetAttacks(this.sq, otherFigures);
 		}
 	}
 }

@@ -3,7 +3,7 @@ using System.Linq;
 using QueemCore.Extensions;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
-using QueemCore.MovesProviders;
+using QueemCore.AttacksGenerators;
 
 namespace QueemCore.BitBoard
 {
@@ -36,32 +36,25 @@ namespace QueemCore.BitBoard
 		*/
 		
 		protected ulong board;
-		protected AttacksGenerator movesProvider;
+		protected AttacksGenerator attacksGenerator;
 		
-		public BitBoard(AttacksGenerator provider)
-			: this(0, provider)
+		public BitBoard(AttacksGenerator generator)
+			: this(0, generator)
 		{ }
 		
-		public BitBoard(ulong value, AttacksGenerator provider)
+		public BitBoard(ulong value, AttacksGenerator generator)
 		{
 			this.board = value;
-			this.movesProvider = provider;
+			this.attacksGenerator = generator;
 		}
 		
 		public virtual IEnumerable<ulong> GetAttacks(ulong otherFigures)
 		{
-			ulong bb = this.board;
-			for (int rank = 0; rank < 8; ++rank, bb >>= 8)
-			{
-				int rankByte = (int)(bb & 0xff);
-				if (rankByte == 0)
-					continue;
-					
-				var squares = BitBoardSerializer.Squares[rank][rankByte];
-				
-				foreach (var sq in squares)
-					yield return this.movesProvider.GetAttacks(sq, otherFigures);
-			}
+			// TODO write tests to measure speed of 
+			// this map and big alternative with own foreach
+			return BitBoardSerializer
+				.MapSquares(this.board, 
+							(sq) => this.attacksGenerator.GetAttacks(sq, otherFigures));
 		}
 		
 		public int GetBitsCount()

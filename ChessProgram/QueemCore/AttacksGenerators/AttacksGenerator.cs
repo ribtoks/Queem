@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore.MovesProviders
+namespace QueemCore.AttacksGenerators
 {
 	public abstract class AttacksGenerator
 	{

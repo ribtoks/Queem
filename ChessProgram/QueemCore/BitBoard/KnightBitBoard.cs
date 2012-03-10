@@ -1,19 +1,19 @@
 using System;
 using QueemCore.BitBoard.Helpers;
 using System.Collections.Generic;
-using QueemCore.MovesProviders;
+using QueemCore.AttacksGenerators;
 
 namespace QueemCore.BitBoard
 {
 	public class KnightBitBoard : BitBoard
 	{
-		public KnightBitBoard (AttacksGenerator provider)
-			:base(provider)
+		public KnightBitBoard (AttacksGenerator generator)
+			:base(generator)
 		{
 		}
 		
-		public KnightBitBoard(ulong val, AttacksGenerator provider)
-			:base(val, provider)
+		public KnightBitBoard(ulong val, AttacksGenerator generator)
+			:base(val, generator)
 		{
 		}		
 	}

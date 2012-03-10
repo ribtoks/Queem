@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using QueemCore.BitBoard.Helpers;
 
-namespace QueemCore.MovesProviders
+namespace QueemCore.AttacksGenerators
 {
 	public class KnightAttacksGenerator : AttacksGenerator
 	{
