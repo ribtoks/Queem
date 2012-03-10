@@ -1,25 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/AttacksGenerators/QueenAttacksGenerator.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/BitBoardSerializer.cs">
     <Files>
-      <File FileName="QueemTests/PawnsTest.cs" Line="10" Column="3" />
-      <File FileName="QueemCore/BitBoard/PawnBitBoard.cs" Line="137" Column="49" />
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="51" Column="17" />
-      <File FileName="QueemCore/AttacksGenerators/BishopAttacksGenerator.cs" Line="6" Column="37" />
-      <File FileName="QueemCore/AttacksGenerators/KingAttacksGenerator.cs" Line="6" Column="35" />
-      <File FileName="QueemCore/AttacksGenerators/KnightAttacksGenerator.cs" Line="7" Column="37" />
-      <File FileName="QueemCore/AttacksGenerators/QueenAttacksGenerator.cs" Line="5" Column="36" />
-      <File FileName="QueemCore/AttacksGenerators/RookAttacksGenerator.cs" Line="8" Column="35" />
+      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="87" Column="3" />
+      <File FileName="QueemCore/Move.cs" Line="31" Column="9" />
+      <File FileName="QueemTests/SerializationTests.cs" Line="92" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
-            <Node name="AttacksGenerators" expanded="True">
-              <Node name="QueenAttacksGenerator.cs" selected="True" />
+            <Node name="AttacksGenerators" expanded="True" />
+            <Node name="BitBoard" expanded="True">
+              <Node name="BitBoardSerializer.cs" selected="True" />
             </Node>
-            <Node name="BitBoard" expanded="True" />
             <Node name="BitBoardHelpers" expanded="True" />
             <Node name="Constants" expanded="True" />
           </Node>
@@ -40,7 +35,15 @@
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="Queem.Tests" selected="True" />
+          <Node name="Queem.Tests" expanded="True">
+            <Node name="Queem" expanded="True">
+              <Node name="Tests" expanded="True">
+                <Node name="SerializationTests" expanded="True">
+                  <Node name="Test1ByteSquares" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>

@@ -53,7 +53,7 @@ namespace QueemCore.BitBoard
 			ulong bb = this.board;
 			for (int rank = 0; rank < 8; ++rank, bb >>= 8)
 			{
-				int rankByte = bb & 0xff;
+				int rankByte = (int)(bb & 0xff);
 				if (rankByte == 0)
 					continue;
 					
