@@ -9,6 +9,11 @@ namespace QueemCore.BitBoard
 	{
 		protected Square sq;
 	
+		public KingBitBoard()
+			:base()
+		{			
+		}
+	
 		public KingBitBoard (AttacksGenerator generator)
 			:base(generator)
 		{

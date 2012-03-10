@@ -7,6 +7,11 @@ namespace QueemCore.BitBoard
 {
 	public class KnightBitBoard : BitBoard
 	{
+		public KnightBitBoard()
+			:base()
+		{
+		}
+	
 		public KnightBitBoard (AttacksGenerator generator)
 			:base(generator)
 		{

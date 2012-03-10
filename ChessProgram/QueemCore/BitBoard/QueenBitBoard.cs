@@ -6,6 +6,11 @@ namespace QueemCore.BitBoard
 {	
 	public class QueenBitBoard : BitBoard
 	{
+		public QueenBitBoard()
+			:base()
+		{
+		}
+	
 		public QueenBitBoard (AttacksGenerator generator)
 			:base(generator)
 		{

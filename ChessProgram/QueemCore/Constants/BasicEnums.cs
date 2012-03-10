@@ -37,5 +37,10 @@ namespace QueemCore
 		RookPromoCapture,
 		QueenPromoCapture
 	}
+	
+	public enum PlayerPosition
+	{
+		Up, Down
+	}
 }
 

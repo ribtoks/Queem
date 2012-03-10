@@ -7,6 +7,11 @@ namespace QueemCore.BitBoard
 {
 	public class PawnBitBoard : BitBoard
 	{
+		public PawnBitBoard()
+			:base()
+		{
+		}
+			
 		public PawnBitBoard (AttacksGenerator generator)
 			:base(generator)
 		{

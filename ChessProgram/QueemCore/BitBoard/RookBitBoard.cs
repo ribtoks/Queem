@@ -6,7 +6,12 @@ using QueemCore.AttacksGenerators;
 namespace QueemCore.BitBoard
 {
 	public class RookBitBoard : BitBoard
-	{			
+	{
+		public RookBitBoard()
+			:base()
+		{
+		}
+		
 		public RookBitBoard (AttacksGenerator generator)
 			:base(generator)
 		{

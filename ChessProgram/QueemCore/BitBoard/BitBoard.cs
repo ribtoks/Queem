@@ -38,6 +38,11 @@ namespace QueemCore.BitBoard
 		protected ulong board;
 		protected AttacksGenerator attacksGenerator;
 		
+		public BitBoard()
+			:this(null)
+		{
+		}
+		
 		public BitBoard(AttacksGenerator generator)
 			: this(0, generator)
 		{ }

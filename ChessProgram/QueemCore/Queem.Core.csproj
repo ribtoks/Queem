@@ -61,6 +61,8 @@
     <Compile Include="AttacksGenerators\KnightAttacksGenerator.cs" />
     <Compile Include="AttacksGenerators\QueenAttacksGenerator.cs" />
     <Compile Include="AttacksGenerators\RookAttacksGenerator.cs" />
+    <Compile Include="ChessBoard\ChessBoard.cs" />
+    <Compile Include="ChessBoard\InitialFigureShuffler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,5 +71,6 @@
     <Folder Include="BitBoardHelpers\" />
     <Folder Include="Constants\" />
     <Folder Include="AttacksGenerators\" />
+    <Folder Include="ChessBoard\" />
   </ItemGroup>
 </Project>

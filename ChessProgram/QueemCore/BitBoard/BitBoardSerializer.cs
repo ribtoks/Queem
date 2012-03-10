@@ -101,7 +101,7 @@ namespace QueemCore
 			}
 		}
 		
-		public static List<Move>[][][] GenerateMoves()
+		private static List<Move>[][][] GenerateMoves()
 		{
 			List<Move>[][][] moves = new List<Move>[64][][];
 			for (int sq = 0; sq < 64; ++sq)
