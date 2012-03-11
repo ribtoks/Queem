@@ -37,12 +37,12 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Extensions\MyStringExtensions.cs" />
-    <Compile Include="BitBoard\BitBoard.cs" />
-    <Compile Include="BitBoard\PawnBitBoard.cs" />
-    <Compile Include="BitBoard\KnightBitBoard.cs" />
-    <Compile Include="BitBoard\KingBitBoard.cs" />
-    <Compile Include="BitBoard\RookBitBoard.cs" />
-    <Compile Include="BitBoard\BishopBitBoard.cs" />
+    <Compile Include="BitBoards\BitBoard.cs" />
+    <Compile Include="BitBoards\PawnBitBoard.cs" />
+    <Compile Include="BitBoards\KnightBitBoard.cs" />
+    <Compile Include="BitBoards\KingBitBoard.cs" />
+    <Compile Include="BitBoards\RookBitBoard.cs" />
+    <Compile Include="BitBoards\BishopBitBoard.cs" />
     <Compile Include="BitBoardHelpers\BishopBitBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\BitBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\KingBoardHelper.cs" />
@@ -50,8 +50,8 @@
     <Compile Include="BitBoardHelpers\PawnBitBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\RookBitBoardHelper.cs" />
     <Compile Include="Int64Helper.cs" />
-    <Compile Include="BitBoard\BitBoardSerializer.cs" />
-    <Compile Include="BitBoard\QueenBitBoard.cs" />
+    <Compile Include="BitBoards\BitBoardSerializer.cs" />
+    <Compile Include="BitBoards\QueenBitBoard.cs" />
     <Compile Include="Constants\BasicEnums.cs" />
     <Compile Include="Constants\Enumerations.cs" />
     <Compile Include="AttacksGenerators\AttacksGenerator.cs" />
@@ -63,13 +63,13 @@
     <Compile Include="ChessBoard\InitialFigureShuffler.cs" />
     <Compile Include="ChessBoard\BoardInitializer.cs" />
     <Compile Include="ChessBoard\PlayerBoard.cs" />
-    <Compile Include="BitBoard\BitBoardFactory.cs" />
+    <Compile Include="BitBoards\BitBoardFactory.cs" />
     <Compile Include="AttacksGenerators\AttacksGeneratorFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="BitBoard\" />
+    <Folder Include="BitBoards\" />
     <Folder Include="BitBoardHelpers\" />
     <Folder Include="Constants\" />
     <Folder Include="AttacksGenerators\" />
