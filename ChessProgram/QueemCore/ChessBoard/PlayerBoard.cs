@@ -133,11 +133,25 @@ namespace QueemCore.ChessBoard
 			return this.allFigures;
 		}
 		
-		protected List<List<Move>> GetKnightMoves(ulong opponentFigures)
+		public List<List<Move>> GetMoves(Figure figure, ulong opponentFigures)
 		{
 			var otherFigures = opponentFigures | this.allFigures;
 			var mask = ~this.allFigures;
-			return this.moveGenerators[(int)Figure.Knight].GetMoves(otherFigures, mask);
+			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
+		}
+		
+		protected List<List<Move>> GetAttacks(Figure figure, ulong opponentFigures)
+		{
+			var otherFigures = opponentFigures | this.allFigures;
+			var mask = opponentFigures;
+			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
+		}
+		
+		protected List<List<Move>> GetChecks(Figure figure, ulong opponentKing)
+		{
+			var otherFigures = opponentFigures | this.allFigures;
+			var mask = opponentKing;
+			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 		}
 	}
 }
