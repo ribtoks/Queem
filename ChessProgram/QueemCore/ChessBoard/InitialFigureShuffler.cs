@@ -1,5 +1,5 @@
 using System;
-using QueemCore.BitBoard;
+using QueemCore.BitBoards;
 
 namespace QueemCore.ChessBoard
 {	
@@ -8,9 +8,9 @@ namespace QueemCore.ChessBoard
 		public void Init(BitBoard board, PlayerPosition pos, Color playerColor)
 		{
 			if (pos == PlayerPosition.Up)
-				this.ShuffleUp(board);
+				this.ShuffleUp(board, playerColor);
 			else
-				this.ShuffleDown(board);
+				this.ShuffleDown(board, playerColor);
 		}
 		
 		protected abstract void ShuffleUp(BitBoard board, Color color);

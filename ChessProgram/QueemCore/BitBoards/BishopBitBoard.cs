@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using QueemCore.AttacksGenerators;
 
-namespace QueemCore.BitBoard
+namespace QueemCore.BitBoards
 {
 	public class BishopBitBoard : BitBoard
 	{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using QueemCore.Extensions;
 using System.Linq;
 
-namespace QueemCore.BitBoard.Helpers
+namespace QueemCore.BitBoards.Helpers
 {
 	public static class BitBoardHelper
 	{

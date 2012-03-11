@@ -1,7 +1,7 @@
 using System;
 using QueemCore.AttacksGenerators;
 
-namespace QueemCore.BitBoard
+namespace QueemCore.BitBoards
 {
 	public static class BitBoardFactory
 	{

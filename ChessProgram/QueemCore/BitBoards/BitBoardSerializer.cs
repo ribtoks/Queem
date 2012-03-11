@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using QueemCore.BitBoard.Helpers;
+using QueemCore.BitBoards.Helpers;
 
 namespace QueemCore
 {

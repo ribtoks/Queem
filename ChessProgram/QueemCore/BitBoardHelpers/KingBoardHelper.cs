@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore.BitBoard.Helpers
+namespace QueemCore.BitBoards.Helpers
 {
 	public static class KingBoardHelper
 	{

@@ -1,5 +1,5 @@
 using System;
-using QueemCore.BitBoard.Helpers;
+using QueemCore.BitBoards.Helpers;
 
 namespace QueemCore.AttacksGenerators
 {
