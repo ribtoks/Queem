@@ -1,23 +1,35 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoard/BitBoard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemTests/SerializationTests.cs">
     <Files>
-      <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="8" Column="30" />
-      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="15" Column="3" />
-      <File FileName="QueemCore/ChessBoard/InitialFigureShuffler.cs" Line="17" Column="52" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="140" Column="11" />
+      <File FileName="QueemCore/ChessBoard/InitialFigureShuffler.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/BitBoards/BitBoardSerializer.cs" Line="12" Column="34" />
+      <File FileName="QueemCore/BitBoards/BitBoardFactory.cs" Line="9" Column="7" />
+      <File FileName="QueemCore/MovesGenerators/MovesGenerator.cs" Line="48" Column="22" />
+      <File FileName="QueemTests/RookBitBoardTest.cs" Line="6" Column="34" />
+      <File FileName="QueemTests/BitBoardTest.cs" Line="106" Column="30" />
+      <File FileName="QueemTests/KnightBitBoardTest.cs" Line="5" Column="34" />
+      <File FileName="QueemTests/BishopDiagonalBitBoardTest.cs" Line="6" Column="34" />
+      <File FileName="QueemTests/AntiDiagonalBitboardTest.cs" Line="6" Column="34" />
+      <File FileName="QueemTests/QueenTests.cs" Line="6" Column="34" />
+      <File FileName="QueemTests/SerializationTests.cs" Line="67" Column="27" />
+      <File FileName="QueemTests/Int64HelperTest.cs" Line="6" Column="26" />
+      <File FileName="QueemTests/PawnsTest.cs" Line="3" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
-            <Node name="AttacksGenerators" expanded="True" />
-            <Node name="BitBoard" expanded="True" selected="True" />
+            <Node name="BitBoards" expanded="True" />
             <Node name="ChessBoard" expanded="True" />
             <Node name="Constants" expanded="True" />
+            <Node name="MovesGenerators" expanded="True" />
           </Node>
-          <Node name="Queem.Tests" expanded="True" />
+          <Node name="Queem.Tests" expanded="True">
+            <Node name="SerializationTests.cs" selected="True" />
+          </Node>
           <Node name="QueemSpeedBenchmark" expanded="True" />
         </State>
       </Pad>
@@ -33,7 +45,15 @@
         <State selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Queem.Tests" expanded="True">
+            <Node name="Queem" expanded="True">
+              <Node name="Tests" expanded="True" selected="True">
+                <Node name="SerializationTests" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

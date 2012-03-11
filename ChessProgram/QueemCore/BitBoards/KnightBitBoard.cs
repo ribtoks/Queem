@@ -11,16 +11,11 @@ namespace QueemCore.BitBoards
 			:base()
 		{
 		}
-	
-		public KnightBitBoard (AttacksGenerator generator)
-			:base(generator)
+		
+		public KnightBitBoard(ulong val)
+			:base(val)
 		{
 		}
-		
-		public KnightBitBoard(ulong val, AttacksGenerator generator)
-			:base(val, generator)
-		{
-		}		
 	}
 }
 

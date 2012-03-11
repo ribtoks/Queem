@@ -11,14 +11,9 @@ namespace QueemCore.BitBoards
 			:base()
 		{
 		}
-		
-		public RookBitBoard (AttacksGenerator generator)
-			:base(generator)
-		{
-		}
-		
-		public RookBitBoard(ulong val, AttacksGenerator generator)
-			:base(val, generator)
+				
+		public RookBitBoard(ulong val)
+			:base(val)
 		{
 		}		
 	}

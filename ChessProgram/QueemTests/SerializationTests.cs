@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using QueemCore.BitBoard;
+using QueemCore.BitBoards;
 using QueemCore;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace Queem.Tests
 			
 			while ((count--) > 0)
 			{
-				var board = new BitBoard(null);
+				var board = new BitBoard();
 				var randomSquares = GetRandomSquaresList(rand.Next(64));
 				
 				foreach (var sq in randomSquares)
@@ -62,7 +62,7 @@ namespace Queem.Tests
 			{
 				Square start = (Square)rand.Next(64);
 			
-				var board = new BitBoard(null);
+				var board = new BitBoard();
 				var randomSquares = GetRandomSquaresList(rand.Next(64));
 				var moves = new List<Move>();
 				

@@ -13,14 +13,9 @@ namespace QueemCore.BitBoards
 			:base()
 		{			
 		}
-	
-		public KingBitBoard (AttacksGenerator generator)
-			:base(generator)
-		{
-		}
-		
-		public KingBitBoard(ulong val, AttacksGenerator generator)
-			:base(val, generator)
+			
+		public KingBitBoard(ulong val)
+			:base(val)
 		{
 		}
 		
@@ -40,12 +35,6 @@ namespace QueemCore.BitBoards
 		{
 			this.sq = Square.NoSquare;
 			return base.UnsetBit (square);
-		}
-		
-		public override IEnumerable<ulong> GetAttacks (ulong otherFigures)
-		{
-			if (this.sq != Square.NoSquare)
-				yield return this.attacksGenerator.GetAttacks(this.sq, otherFigures);
 		}
 	}
 }

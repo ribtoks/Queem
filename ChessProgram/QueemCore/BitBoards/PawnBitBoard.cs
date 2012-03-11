@@ -11,14 +11,9 @@ namespace QueemCore.BitBoards
 			:base()
 		{
 		}
-			
-		public PawnBitBoard (AttacksGenerator generator)
-			:base(generator)
-		{
-		}
 		
-		public PawnBitBoard(ulong val, AttacksGenerator generator)
-			:base(val, generator)
+		public PawnBitBoard(ulong val)
+			:base(val)
 		{
 		}
 		
@@ -145,11 +140,6 @@ namespace QueemCore.BitBoards
 		public ulong DefendedDownFromWest ()
 		{
 			return this.board & this.SouthEastAttacks ();
-		}
-		
-		public override IEnumerable<ulong> GetAttacks (ulong otherFigures)
-		{
-			throw new NotImplementedException ();
 		}
 	}
 }

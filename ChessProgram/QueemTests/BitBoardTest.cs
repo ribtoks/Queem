@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 using QueemCore;
-using QueemCore.BitBoard.Helpers;
-using QueemCore.BitBoard;
+using QueemCore.BitBoards.Helpers;
+using QueemCore.BitBoards;
 using QueemCore.Extensions;
 using System.Text;
 
@@ -31,7 +31,7 @@ namespace Queem.Tests
 				int onesCount = binaryString.Count ((c) => c == '1');
 				
 				ulong val = Convert.ToUInt64 (binaryString, 2);
-				BitBoard bb = new RookBitBoard (val, null);
+				BitBoard bb = new BitBoard (val);
 				Assert.AreEqual (onesCount, bb.GetBitsCount ());
 			}
 		}
@@ -77,7 +77,7 @@ namespace Queem.Tests
 						
 			while ((count--) > 0)
 			{
-				var board = new RookBitBoard(null);
+				var board = new BitBoard();
 				var str = new StringBuilder(64);
 				str.Append('0', 64);
 				
@@ -103,7 +103,7 @@ namespace Queem.Tests
 						
 			while ((count--) > 0)
 			{
-				var board = new BishopBitBoard(null);
+				var board = new BitBoard();
 				var str = new StringBuilder(64);
 				str.Append('0', 64);
 				

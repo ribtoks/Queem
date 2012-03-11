@@ -65,6 +65,8 @@
     <Compile Include="ChessBoard\PlayerBoard.cs" />
     <Compile Include="BitBoards\BitBoardFactory.cs" />
     <Compile Include="AttacksGenerators\AttacksGeneratorFactory.cs" />
+    <Compile Include="MovesGenerators\MovesGenerator.cs" />
+    <Compile Include="MovesGenerators\MovesGeneratorFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -74,5 +76,6 @@
     <Folder Include="Constants\" />
     <Folder Include="AttacksGenerators\" />
     <Folder Include="ChessBoard\" />
+    <Folder Include="MovesGenerators\" />
   </ItemGroup>
 </Project>

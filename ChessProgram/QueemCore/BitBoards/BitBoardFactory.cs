@@ -6,23 +6,21 @@ namespace QueemCore.BitBoards
 	public static class BitBoardFactory
 	{
 		public static BitBoard CreateBitBoard(Figure figureType)
-		{
-			var generator = AttacksGeneratorFactory.CreateGenerator(figureType);
-			
+		{			
 			switch (figureType)
 			{
 			case Figure.Pawn:
-				return new PawnBitBoard(generator);
+				return new PawnBitBoard();
 			case Figure.Knight:
-				return new KnightBitBoard(generator);
+				return new KnightBitBoard();
 			case Figure.Bishop:
-				return new BishopBitBoard(generator);
+				return new BishopBitBoard();
 			case Figure.Rook:
-				return new RookBitBoard(generator);
+				return new RookBitBoard();
 			case Figure.Queen:
-				return new QueenBitBoard(generator);
+				return new QueenBitBoard();
 			case Figure.King:
-				return new KingBitBoard(generator);
+				return new KingBitBoard();
 			default:
 				return null;
 			}

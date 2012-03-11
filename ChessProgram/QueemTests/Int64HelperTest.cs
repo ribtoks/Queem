@@ -3,7 +3,7 @@ using System.Text;
 using QueemCore;
 using QueemCore.Extensions;
 using NUnit.Framework;
-using QueemCore.BitBoard.Helpers;
+using QueemCore.BitBoards.Helpers;
 
 namespace Queem.Tests
 {

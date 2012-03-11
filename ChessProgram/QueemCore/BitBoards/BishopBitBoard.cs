@@ -10,14 +10,9 @@ namespace QueemCore.BitBoards
 			:base()
 		{
 		}
-	
-		public BishopBitBoard (AttacksGenerator generator)
-			:base(generator)
-		{
-		}
 		
-		public BishopBitBoard(ulong val, AttacksGenerator generator)
-			:base(val, generator)
+		public BishopBitBoard(ulong val)
+			:base(val)
 		{					
 		}
 	}

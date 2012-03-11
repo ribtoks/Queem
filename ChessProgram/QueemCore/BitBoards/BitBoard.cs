@@ -36,30 +36,20 @@ namespace QueemCore.BitBoards
 		*/
 		
 		protected ulong board;
-		protected AttacksGenerator attacksGenerator;
 		
 		public BitBoard()
-			:this(null)
+			:this(0)
 		{
 		}
-		
-		public BitBoard(AttacksGenerator generator)
-			: this(0, generator)
-		{ }
-		
-		public BitBoard(ulong value, AttacksGenerator generator)
+				
+		public BitBoard(ulong value)
 		{
 			this.board = value;
-			this.attacksGenerator = generator;
 		}
-		
-		public virtual IEnumerable<ulong> GetAttacks(ulong otherFigures)
+				
+		public virtual IEnumerable<Square> GetOwnFigures()
 		{
-			// TODO write tests to measure speed of 
-			// this map and big alternative with own foreach
-			return BitBoardSerializer
-				.MapSquares(this.board, 
-							(sq) => this.attacksGenerator.GetAttacks(sq, otherFigures));
+			return BitBoardSerializer.GetSquares(this.board);
 		}
 		
 		public int GetBitsCount()

@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using QueemCore.BitBoard.Helpers;
+using QueemCore.BitBoards.Helpers;
 using QueemCore;
 
 namespace Queem.Tests

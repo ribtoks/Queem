@@ -8,8 +8,8 @@ namespace QueemCore
 	{
 		public static readonly List<Square>[][] Squares;
 		//  first dimension - move-from 
-		// second dimension - two-bytes rank
-		//  third dimension - twy-bytes
+		// second dimension - rank
+		//  third dimension - rank byte
 		public static readonly List<Move>[][][] Moves;
 		
 		static BitBoardSerializer()
