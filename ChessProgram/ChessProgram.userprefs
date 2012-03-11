@@ -1,19 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/ChessBoard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/PlayerBoard.cs">
     <Files>
       <File FileName="QueemCore/BitBoard/BitBoard.cs" Line="64" Column="1" />
-      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="25" Column="5" />
-      <File FileName="QueemCore/ChessBoard/ChessBoard.cs" Line="47" Column="4" />
-      <File FileName="QueemCore/ChessBoard/InitialFigureShuffler.cs" Line="5" Column="3" />
+      <File FileName="QueemCore/BitBoard/BitBoardSerializer.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="19" Column="4" />
+      <File FileName="QueemCore/ChessBoard/InitialFigureShuffler.cs" Line="147" Column="37" />
+      <File FileName="QueemCore/ChessBoard/BoardInitializer.cs" Line="13" Column="4" />
+      <File FileName="QueemCore/Constants/Enumerations.cs" Line="13" Column="7" />
+      <File FileName="QueemCore/BitBoard/BitBoardFactory.cs" Line="20" Column="21" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
+            <Node name="AttacksGenerators" expanded="True" />
+            <Node name="BitBoard" expanded="True" />
             <Node name="ChessBoard" expanded="True">
-              <Node name="ChessBoard.cs" selected="True" />
+              <Node name="PlayerBoard.cs" selected="True" />
             </Node>
             <Node name="Constants" expanded="True" />
           </Node>

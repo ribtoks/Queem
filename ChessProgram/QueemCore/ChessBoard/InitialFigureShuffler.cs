@@ -126,5 +126,29 @@ namespace QueemCore.ChessBoard
 				board.SetBit(Square.E1);
 		}
 	}
+	
+	public static class FigureShufflerFactory
+	{
+		public static InitialFigureShuffler CreateShuffler(Figure figureType)
+		{
+			switch (figureType)
+			{
+			case Figure.Pawn:
+				return new PawnFigureShuffler();
+			case Figure.Knight:
+				return new KnightFigureShuffler();
+			case Figure.Bishop:
+				return new BishopFigureShuffler();
+			case Figure.Rook:
+				return new RookFigureShuffler();
+			case Figure.Queen:
+				return new QueenFigureShuffler();
+			case Figure.King:
+				return new KingFigureShuffler();
+			default:
+				return null;
+			}
+		}
+	}
 }
 

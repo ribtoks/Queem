@@ -11,7 +11,7 @@ namespace QueemCore
 	public enum Figure
 	{
 		Pawn,
-		Horse,
+		Knight,
 		Bishop,
 		Rook,
 		Queen,

@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Move.cs" />
-    <Compile Include="ChessBoard.cs" />
     <Compile Include="Extensions\MyStringExtensions.cs" />
     <Compile Include="BitBoard\BitBoard.cs" />
     <Compile Include="BitBoard\PawnBitBoard.cs" />
@@ -61,8 +60,11 @@
     <Compile Include="AttacksGenerators\KnightAttacksGenerator.cs" />
     <Compile Include="AttacksGenerators\QueenAttacksGenerator.cs" />
     <Compile Include="AttacksGenerators\RookAttacksGenerator.cs" />
-    <Compile Include="ChessBoard\ChessBoard.cs" />
     <Compile Include="ChessBoard\InitialFigureShuffler.cs" />
+    <Compile Include="ChessBoard\BoardInitializer.cs" />
+    <Compile Include="ChessBoard\PlayerBoard.cs" />
+    <Compile Include="BitBoard\BitBoardFactory.cs" />
+    <Compile Include="AttacksGenerators\AttacksGeneratorFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
