@@ -6,11 +6,11 @@ namespace QueemCore
 {
 	public static class BitBoardSerializer
 	{
-		public static readonly List<Square>[][] Squares;
+		public static readonly Square[][][] Squares;
 		//  first dimension - move-from 
 		// second dimension - rank
 		//  third dimension - rank byte
-		public static readonly List<Move>[][][] Moves;
+		public static readonly Move[][][][] Moves;
 		
 		static BitBoardSerializer()
 		{
@@ -18,23 +18,23 @@ namespace QueemCore
 			Moves = GenerateMoves();
 		}
 		
-		private static List<Square>[][] GenerateSquares()
+		private static Square[][][] GenerateSquares()
 		{
-			List<Square>[][] squares = new List<Square>[8][];
+			Square[][][] squares = new Square[8][][];
 			for (int rank = 0; rank < 8; ++rank)
 			{
-				squares[rank] = new List<Square>[256];
+				squares[rank] = new Square[256][];
 				
 				for (int b = 0; b < 256; ++b)
 				{
-					squares[rank][b] = GetSquaresList(rank, (byte)b);
+					squares[rank][b] = GetSquaresArray(rank, (byte)b);
 				}
 			}
 			
 			return squares;
 		}
 				
-		private static List<Square> GetSquaresList(int rank, byte b)
+		private static Square[] GetSquaresArray(int rank, byte b)
 		{
 			var squares = new List<Square>();
 			
@@ -50,9 +50,9 @@ namespace QueemCore
 					squares.Add(BitBoardHelper.GetSquare(rank, i));
 			}
 			
-			return squares;
+			return squares.ToArray();
 		}
-						
+		
 		public static IEnumerable<Square> GetSquares(ulong board)
 		{
 			int rankIndex = 0;
@@ -101,20 +101,20 @@ namespace QueemCore
 			}
 		}
 		
-		private static List<Move>[][][] GenerateMoves()
+		private static Move[][][][] GenerateMoves()
 		{
-			List<Move>[][][] moves = new List<Move>[64][][];
+			Move[][][][] moves = new List<Move>[64][][][];
 			for (int sq = 0; sq < 64; ++sq)
 			{
-				moves[sq] = new List<Move>[8][];
+				moves[sq] = new Move[8][][];
 				
 				for (int rank = 0; rank < 8; ++rank)
 				{
-					moves[sq][rank] = new List<Move>[256];
+					moves[sq][rank] = new Move[256][];
 					
 					for (int b = 0; b < 256; ++b)
 					{
-						moves[sq][rank][b] = GetMovesList((Square)sq, rank, (byte)b);
+						moves[sq][rank][b] = GetMovesArray((Square)sq, rank, (byte)b);
 					}
 				}
 			}
@@ -122,14 +122,14 @@ namespace QueemCore
 			return moves;
 		}
 		
-		private static List<Move> GetMovesList(Square start, int rank, byte b)
+		private static List<Move> GetMovesArray(Square start, int rank, byte b)
 		{
 			var moves = new List<Move>();
 			
 			foreach (var sq in Squares[rank][b])
 				moves.Add(new Move(start, sq));
 			
-			return moves;
+			return moves.ToArray();
 		}
 	}
 }
