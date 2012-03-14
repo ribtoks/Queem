@@ -17,9 +17,9 @@ namespace QueemCore.MovesGenerators
 			this.generator = attacksgenerator;
 		}
 		
-		public virtual List<List<Move>> GetMoves(ulong otherFigures, ulong mask)
+		public virtual List<Move[]> GetMoves(ulong otherFigures, ulong mask)
 		{
-			var list = new List<List<Move>>(8);
+			var list = new List<Move[]>(8);
 						
 			ulong attacks;
 			
@@ -33,7 +33,7 @@ namespace QueemCore.MovesGenerators
 				if (myrank != 0)
 				{
 					var myfigures = BitBoardSerializer.Squares[myrankIndex][myrank];
-					for (int i = 0; i < myfigures.Count; ++i)
+					for (int i = 0; i < myfigures.Length; ++i)
 					{
 						var figureSquare = myfigures[i];
 						attacks = generator.GetAttacks(figureSquare, otherFigures);

@@ -103,7 +103,7 @@ namespace QueemCore
 		
 		private static Move[][][][] GenerateMoves()
 		{
-			Move[][][][] moves = new List<Move>[64][][][];
+			Move[][][][] moves = new Move[64][][][];
 			for (int sq = 0; sq < 64; ++sq)
 			{
 				moves[sq] = new Move[8][][];
@@ -122,7 +122,7 @@ namespace QueemCore
 			return moves;
 		}
 		
-		private static List<Move> GetMovesArray(Square start, int rank, byte b)
+		private static Move[] GetMovesArray(Square start, int rank, byte b)
 		{
 			var moves = new List<Move>();
 			
