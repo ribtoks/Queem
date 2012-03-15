@@ -50,6 +50,7 @@
     <Compile Include="QueenTests.cs" />
     <Compile Include="PawnsTest.cs" />
     <Compile Include="SerializationTests.cs" />
+    <Compile Include="PawnMovesGeneratorTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

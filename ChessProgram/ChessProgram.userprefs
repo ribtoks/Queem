@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/MovesGenerators/MovesGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/MovesGenerators/PawnMovesGenerator.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="152" Column="22" />
-      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="202" Column="44" />
-      <File FileName="QueemCore/BitBoards/BitBoardSerializer.cs" Line="125" Column="18" />
-      <File FileName="QueemCore/MovesGenerators/MovesGenerator.cs" Line="36" Column="42" />
-      <File FileName="QueemCore/Constants/BasicEnums.cs" Line="20" Column="35" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="135" Column="3" />
+      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="191" Column="31" />
+      <File FileName="QueemCore/BitBoards/BitBoardSerializer.cs" Line="135" Column="2" />
+      <File FileName="QueemCore/MovesGenerators/MovesGenerator.cs" Line="34" Column="6" />
+      <File FileName="QueemCore/MovesGenerators/PawnMovesGenerator.cs" Line="34" Column="13" />
+      <File FileName="QueemCore/BitBoards/PawnBitBoard.cs" Line="30" Column="16" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,7 +19,7 @@
             <Node name="ChessBoard" expanded="True" />
             <Node name="Constants" expanded="True" />
             <Node name="MovesGenerators" expanded="True">
-              <Node name="MovesGenerator.cs" selected="True" />
+              <Node name="PawnMovesGenerator.cs" selected="True" />
             </Node>
           </Node>
           <Node name="Queem.Tests" expanded="True" />

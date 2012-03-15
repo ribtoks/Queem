@@ -15,6 +15,7 @@ namespace QueemCore
 			:base(board, generator)
 		{
 			this.pawnMoves = new ulong[4];
+			this.PlayerPos = PlayerPosition.Up;
 		}		
 		
 		public PlayerPosition PlayerPos { get; set; }
