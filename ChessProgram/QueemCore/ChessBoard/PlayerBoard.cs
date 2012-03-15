@@ -132,7 +132,7 @@ namespace QueemCore.ChessBoard
 		{
 			return this.allFigures;
 		}
-		
+				
 		public List<Move[]> GetMoves(Figure figure, ulong opponentFigures)
 		{
 			var otherFigures = opponentFigures | this.allFigures;
