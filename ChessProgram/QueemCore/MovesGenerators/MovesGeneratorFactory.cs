@@ -14,11 +14,8 @@ namespace QueemCore.MovesGenerators
 			case Figure.Pawn:
 				return null;
 			case Figure.Knight:
-				return new MovesGenerator(bb, ag);
 			case Figure.Bishop:
-				return new MovesGenerator(bb, ag);
 			case Figure.Rook:
-				return null;
 			case Figure.Queen:
 				return new MovesGenerator(bb, ag);
 			case Figure.King:

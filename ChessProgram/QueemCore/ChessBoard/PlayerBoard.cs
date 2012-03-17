@@ -99,6 +99,14 @@ namespace QueemCore.ChessBoard
 					this.attacksGenerators[i]);
 		}
 		
+		protected ulong GetPawnAttacks()
+		{
+			if (this.position == PlayerPosition.Down)
+				return this.Pawns.AnyUpAttacks();
+			else
+				return this.Pawns.AnyDownAttacks();
+		}
+		
 		public void DoMove(Move move, Figure figure)
 		{
 			this.bitboards[(int)figure].DoMove(move);
@@ -132,6 +140,18 @@ namespace QueemCore.ChessBoard
 		{
 			return this.allFigures;
 		}
+		
+		protected ulong GetBishopsQueens()
+		{
+			return this.bitboards[(int)Figure.Bishop].GetInnerValue() | 
+				this.bitboards[(int)Figure.Queen].GetInnerValue();
+		}
+		
+		protected ulong GetRooksQueens()
+		{
+			return this.bitboards[(int)Figure.Rook].GetInnerValue() | 
+				this.bitboards[(int)Figure.Queen].GetInnerValue();
+		}
 				
 		public List<Move[]> GetMoves(Figure figure, ulong opponentFigures)
 		{
@@ -152,6 +172,42 @@ namespace QueemCore.ChessBoard
 			var otherFigures = this.allFigures;
 			var mask = opponentKing;
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
+		}
+		
+		protected bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
+		{
+			ulong occupied = 1UL << (int)sq;
+			
+			ulong pawnAttacks = opponentBoard.GetPawnAttacks();						
+			if ((occupied & pawnAttacks) != 0) 
+				return true;
+				
+			ulong rooksQueens = opponentBoard.GetRooksQueens();
+			ulong bishopsQueens = opponentBoard.GetBishopsQueens();
+			ulong knights = opponentBoard.bitboards[(int)Figure.Knight].GetInnerValue();
+			ulong king = opponentBoard.bitboards[(int)Figure.King].GetInnerValue();
+			ulong opponentAllFigures = opponentBoard.GetAllFigures();			
+			
+			var knightAttackGenerator = this.attacksGenerators[(int)Figure.Knight];
+			ulong occupiedKnightMoves = knightAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			if ((occupiedKnightMoves & knights) != 0)
+				return true;
+				
+			var kingAttackGenerator = this.attacksGenerators[(int)Figure.King];
+			ulong occupiedKingMoves = kingAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			if ((occupiedKingMoves & king) != 0)
+				return true;
+				
+			var rookAttackGenerator = this.attacksGenerators[(int)Figure.Rook];			
+			ulong occupiedRookMoves = rookAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			if ((occupiedRookMoves & rooksQueens) != 0)
+				return true;
+				
+			var bishopAttackGenerator = this.attacksGenerators[(int)Figure.Bishop];
+			ulong occupiedBishopMoves = bishopAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			if ((occupiedBishopMoves & bishopsQueens) != 0)
+				return true;
+			return false;
 		}
 	}
 }
