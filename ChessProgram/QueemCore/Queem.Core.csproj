@@ -69,6 +69,10 @@
     <Compile Include="MovesGenerators\KingMovesGenerator.cs" />
     <Compile Include="BitBoardHelpers\KingBitBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\KnightBitBoardHelper.cs" />
+    <Compile Include="ChessBoard\GameProvider.cs" />
+    <Compile Include="History\MovesHistory.cs" />
+    <Compile Include="History\Change.cs" />
+    <Compile Include="History\DeltaChange.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -79,5 +83,6 @@
     <Folder Include="AttacksGenerators\" />
     <Folder Include="ChessBoard\" />
     <Folder Include="MovesGenerators\" />
+    <Folder Include="History\" />
   </ItemGroup>
 </Project>
