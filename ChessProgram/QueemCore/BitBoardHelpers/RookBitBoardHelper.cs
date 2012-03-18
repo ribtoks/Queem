@@ -10,10 +10,16 @@ namespace QueemCore.BitBoards.Helpers
 		public static readonly byte[,] FirstRankAttacks;
 		public static readonly ulong[] RotatedBytes;
 		
+		public static readonly ulong LeftRookMask;
+		public static readonly ulong RightRookMask;
+		
 		static RookBitBoardHelper()
 		{
 			FirstRankAttacks = GenerateFirstRankAttacks();
 			RotatedBytes = GenerateRotatedRanks();
+			
+			LeftRookMask = GetLeftRookMask();
+			RightRookMask = GetRightRookMask();
 		}
 		
 		public static byte[,] GenerateFirstRankAttacks()
@@ -81,6 +87,22 @@ namespace QueemCore.BitBoards.Helpers
 			return Enumerable.Range(0, 256) 
 						.Select(b => BitBoardHelper.FlipDiagonalA1H8((ulong)b))
 						.ToArray();
+		}
+		
+		private static ulong GetLeftRookMask()
+		{
+			var bb = new BitBoard();
+			bb.SetBit(Square.A1);
+			bb.SetBit(Square.A8);
+			return bb.GetInnerValue();
+		}
+		
+		private static ulong GetRightRookMask()
+		{
+			var bb = new BitBoard();
+			bb.SetBit(Square.H1);
+			bb.SetBit(Square.H8);
+			return bb.GetInnerValue();
 		}
 	}
 }

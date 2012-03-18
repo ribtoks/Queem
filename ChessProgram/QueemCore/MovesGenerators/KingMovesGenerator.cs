@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using QueemCore.BitBoards;
 using QueemCore.AttacksGenerators;
+using QueemCore.BitBoards.Helpers;
 
 namespace QueemCore.MovesGenerators
 {
@@ -9,10 +10,10 @@ namespace QueemCore.MovesGenerators
 	{
 		protected KingBitBoard kingBoard;
 		
-		public KingMovesGenerator (KingBitBoard bitboard, AttacksGenerator attacksgenerator)
+		public KingMovesGenerator (BitBoard bitboard, AttacksGenerator attacksgenerator)
 			:base(bitboard, attacksgenerator)
 		{
-			this.kingBoard = bitboard;
+			this.kingBoard = (KingBitBoard)bitboard;
 		}
 		
 		public override List<Move[]> GetMoves (ulong otherFigures, ulong mask)
@@ -30,11 +31,11 @@ namespace QueemCore.MovesGenerators
 							
 				if (rank != 0)
 					list.Add(BitBoardSerializer.Moves[(int)figureSquare][rankIndex][rank]);
-							
+				
 				rankIndex++;
 				attacks >>= 8;
 			}
-			
+									
 			return list;
 		}
 	}

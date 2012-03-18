@@ -99,7 +99,7 @@ namespace QueemCore.ChessBoard
 					this.bitboards[i],
 					this.attacksGenerators[i]);
 					
-			PawnMovesGenerator pawnGenerator = (PawnMovesGenerator)this.moveGenerators[(int)Figure.Pawn];
+			var pawnGenerator = (PawnMovesGenerator)this.moveGenerators[(int)Figure.Pawn];
 			pawnGenerator.PlayerPos = this.position;
 		}
 		
@@ -166,18 +166,86 @@ namespace QueemCore.ChessBoard
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 		}
 		
-		protected List<Move[]> GetAttacks(Figure figure, ulong opponentFigures)
+		public List<Move[]> GetAttacks(Figure figure, ulong opponentFigures)
 		{
 			var otherFigures = opponentFigures | this.allFigures;
 			var mask = opponentFigures;
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 		}
 		
-		protected List<Move[]> GetChecks(Figure figure, ulong opponentKing)
+		public List<Move[]> GetChecks(Figure figure, ulong opponentKing)
 		{
 			var otherFigures = this.allFigures;
 			var mask = opponentKing;
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
+		}
+		
+		public List<Move[]> GetKingMoves(PlayerBoard opponent)
+		{
+			var otherFigures = opponent.allFigures | this.allFigures;
+			var mask = ~this.allFigures;
+			var list = this.moveGenerators[(int)Figure.King].GetMoves(otherFigures, mask);
+			
+			// ---------------------------------------------
+			
+			// castlings stuff
+			var allMasks = KingBitBoardHelper.CastlingMasks;
+			ulong[] castlingMasks = allMasks[(int)this.color][(int)this.position];
+			
+			bool leftIsNotEmpty = (castlingMasks[0] & otherFigures) != 0;
+			bool rightIsNotEmpty = (castlingMasks[1] & otherFigures) != 0;
+			
+			// check other figures
+			if (leftIsNotEmpty && rightIsNotEmpty)
+				return list;
+				
+			// check king can move
+			if (this.King.AlreadyMoved != 0)
+				return list;
+				
+			var rooks = this.Rooks;
+			// if rooks cannot move
+			if (rooks.GetInnerProperty() == 0)
+				return list;
+			
+			bool noCheck;
+			var squares = KingBitBoardHelper.CastlingSquares[(int)this.color][(int)this.position];
+			int resultIndex = -1;
+			// check checks
+			if (leftIsNotEmpty && (rooks.LeftNotMoved != 0))
+			{				
+				noCheck = true;
+				for (int i = 0; i < squares[0].Length; ++i)
+				{
+					if (this.IsUnderAttack(squares[0][i], opponent))
+					{
+						noCheck = false;
+						break;
+					}
+				}
+				if (noCheck)
+					resultIndex = 0;									
+			}
+			
+			if (rightIsNotEmpty && (rooks.RightNotMoved != 0))
+			{				
+				noCheck = true;
+				for (int i = 0; i < squares[1].Length; ++i)
+				{
+					if (this.IsUnderAttack(squares[1][i], opponent))
+					{
+						noCheck = false;
+						break;
+					}
+				}
+				if (noCheck)
+					resultIndex += 2;
+			}
+			
+			if (resultIndex != -1)
+				list.Add(KingBitBoardHelper.CastlingMoves[(int)this.color][(int)this.position][resultIndex]);
+			
+			return list;
 		}
 		
 		#endregion
@@ -188,10 +256,8 @@ namespace QueemCore.ChessBoard
 			
 			ulong pawnAttacks = opponentBoard.GetPawnAttacks();						
 			if ((occupied & pawnAttacks) != 0) 
-				return true;
-				
-			ulong rooksQueens = opponentBoard.GetRooksQueens();
-			ulong bishopsQueens = opponentBoard.GetBishopsQueens();
+				return true;				
+			
 			ulong knights = opponentBoard.bitboards[(int)Figure.Knight].GetInnerValue();
 			ulong king = opponentBoard.bitboards[(int)Figure.King].GetInnerValue();
 			ulong opponentAllFigures = opponentBoard.GetAllFigures();			
@@ -205,7 +271,10 @@ namespace QueemCore.ChessBoard
 			ulong occupiedKingMoves = kingAttackGenerator.GetAttacks(sq, opponentAllFigures);
 			if ((occupiedKingMoves & king) != 0)
 				return true;
-				
+			
+			ulong rooksQueens = opponentBoard.GetRooksQueens();
+			ulong bishopsQueens = opponentBoard.GetBishopsQueens();
+									
 			var rookAttackGenerator = this.attacksGenerators[(int)Figure.Rook];			
 			ulong occupiedRookMoves = rookAttackGenerator.GetAttacks(sq, opponentAllFigures);
 			if ((occupiedRookMoves & rooksQueens) != 0)

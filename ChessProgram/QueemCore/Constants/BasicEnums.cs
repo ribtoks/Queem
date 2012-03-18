@@ -43,4 +43,3 @@ namespace QueemCore
 		Up, Down
 	}
 }
-

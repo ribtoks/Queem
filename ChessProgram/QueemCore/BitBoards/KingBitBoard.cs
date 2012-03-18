@@ -8,6 +8,8 @@ namespace QueemCore.BitBoards
 	public class KingBitBoard : BitBoard
 	{
 		protected Square sq;
+		
+		public int AlreadyMoved { get; set; }
 	
 		public KingBitBoard()
 			:base()
@@ -19,10 +21,27 @@ namespace QueemCore.BitBoards
 		{
 		}
 		
+		public override int GetInnerProperty ()
+		{
+			return this.AlreadyMoved;
+		}
+		
+		public override void SetInnerProperty (int property)
+		{
+			 this.AlreadyMoved = property;
+		}
+		
 		public override void DoMove (Move move)
 		{
 			this.sq = move.To;
 			base.DoMove (move);
+			AlreadyMoved = 1;
+		}
+		
+		public override void UndoMove (Move move)
+		{
+			this.sq = move.From;
+			base.UndoMove (move);
 		}
 		
 		public override BitBoard SetBit (Square square)
@@ -40,6 +59,6 @@ namespace QueemCore.BitBoards
 		public Square GetSquare()
 		{
 			return this.sq;
-		}
+		}		
 	}
 }

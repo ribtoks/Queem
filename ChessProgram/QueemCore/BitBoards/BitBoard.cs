@@ -114,12 +114,33 @@ namespace QueemCore.BitBoards
 		public ulong GetInnerValue()
 		{
 			return this.board;
-		}		
+		}
+		
+		public virtual int GetInnerProperty()
+		{
+			return 0;
+		}
+		
+		public virtual void SetInnerProperty(int property)
+		{
+		}
 		
 		public virtual void DoMove(Move move)
 		{
-			this.ToggleBit(move.From);
-			this.ToggleBit(move.To);
+			ulong moveFrom = 1UL << (int)move.From;
+			ulong moveTo = 1UL << (int)move.To;
+			
+			this.board &= (~moveFrom);
+			this.board |= moveTo;
+		}
+		
+		public virtual void UndoMove(Move move)
+		{
+			ulong moveFrom = 1UL << (int)move.From;
+			ulong moveTo = 1UL << (int)move.To;
+			
+			this.board &= (~moveTo);
+			this.board |= moveFrom;
 		}
 		
 		public BitBoard FlipVertical()

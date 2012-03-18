@@ -11,7 +11,7 @@ namespace QueemCore
 	{
 		protected ulong[] pawnMoves;
 	
-		public PawnMovesGenerator (PawnBitBoard board, AttacksGenerator generator)
+		public PawnMovesGenerator (BitBoard board, AttacksGenerator generator)
 			:base(board, generator)
 		{
 			this.pawnMoves = new ulong[4];
@@ -22,7 +22,7 @@ namespace QueemCore
 		
 		public override List<Move[]> GetMoves (ulong otherFigures, ulong mask)
 		{
-			var list = new List<Move[]>(8);																														
+			var list = new List<Move[]>(8);	
 			var pawns = (PawnBitBoard) this.board;
 			ulong emptySquares = ~otherFigures;
 			int dir = (this.PlayerPos == PlayerPosition.Up) ? 1 : 0;																																				

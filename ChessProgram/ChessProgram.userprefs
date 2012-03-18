@@ -1,11 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/KingBitBoardHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoards/RookBitBoard.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="108" Column="45" />
-      <File FileName="QueemCore/MovesGenerators/PawnMovesGenerator.cs" Line="10" Column="15" />
-      <File FileName="QueemCore/MovesGenerators/KingMovesGenerator.cs" Line="23" Column="4" />
-      <File FileName="QueemCore/BitBoardHelpers/KingBitBoardHelper.cs" Line="5" Column="36" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="208" Column="36" />
+      <File FileName="QueemCore/BitBoards/RookBitBoard.cs" Line="39" Column="61" />
+      <File FileName="QueemCore/BitBoards/BitBoardSerializer.cs" Line="22" Column="4" />
+      <File FileName="QueemCore/BitBoardHelpers/KingBitBoardHelper.cs" Line="134" Column="19" />
+      <File FileName="QueemCore/BitBoards/KingBitBoard.cs" Line="38" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,10 +14,10 @@
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="AttacksGenerators" expanded="True" />
-            <Node name="BitBoardHelpers" expanded="True">
-              <Node name="KingBitBoardHelper.cs" selected="True" />
+            <Node name="BitBoardHelpers" expanded="True" />
+            <Node name="BitBoards" expanded="True">
+              <Node name="RookBitBoard.cs" selected="True" />
             </Node>
-            <Node name="BitBoards" expanded="True" />
             <Node name="ChessBoard" expanded="True" />
             <Node name="Constants" expanded="True" />
             <Node name="MovesGenerators" expanded="True" />
