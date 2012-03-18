@@ -2,7 +2,7 @@ using System;
 
 namespace QueemCore.BitBoards.Helpers
 {
-	public static class KingBoardHelper
+	public static class KingBitBoardHelper
 	{
 		public static readonly ulong[] KingMoves = 
 		{
@@ -18,15 +18,9 @@ namespace QueemCore.BitBoards.Helpers
 			0x507000000000000UL, 0xA0E000000000000UL, 0x141C000000000000UL, 0x2838000000000000UL, 0x5070000000000000UL, 
 			0xA0E0000000000000UL, 0x40C0000000000000UL
 		};
-		
-		public static ulong KingAttacks(Square square)
-		{
-			return KingMoves[(int)square];
-		}
-		
+				
 		// Returns true if a path of set bits in 'path' exists that 8-way connect
-		// any set bit in sq1 to any set bit of sq2
-		 
+		// any set bit in sq1 to any set bit of sq2		 
 		public static bool SquaresAreConnected(ulong sq1, ulong sq2, ulong path)
 		{
 		   	// With bitboard sq1, do an 8-way flood fill, masking off bits not in
@@ -53,7 +47,7 @@ namespace QueemCore.BitBoards.Helpers
 		   }
 			// Found a good path
 		   	return true;
-		}
+		}		
 	}
 }
 

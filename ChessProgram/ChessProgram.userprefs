@@ -1,29 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemTests/PawnsTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/KingBitBoardHelper.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="135" Column="3" />
-      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/BitBoards/BitBoardSerializer.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/MovesGenerators/MovesGenerator.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/MovesGenerators/PawnMovesGenerator.cs" Line="29" Column="4" />
-      <File FileName="QueemCore/BitBoards/PawnBitBoard.cs" Line="20" Column="16" />
-      <File FileName="QueemTests/PawnsTest.cs" Line="88" Column="18" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="108" Column="45" />
+      <File FileName="QueemCore/MovesGenerators/PawnMovesGenerator.cs" Line="10" Column="15" />
+      <File FileName="QueemCore/MovesGenerators/KingMovesGenerator.cs" Line="23" Column="4" />
+      <File FileName="QueemCore/BitBoardHelpers/KingBitBoardHelper.cs" Line="5" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="BenchmarksGenerator" expanded="True" />
           <Node name="Queem.Core" expanded="True">
-            <Node name="BitBoardHelpers" expanded="True" />
+            <Node name="AttacksGenerators" expanded="True" />
+            <Node name="BitBoardHelpers" expanded="True">
+              <Node name="KingBitBoardHelper.cs" selected="True" />
+            </Node>
             <Node name="BitBoards" expanded="True" />
             <Node name="ChessBoard" expanded="True" />
             <Node name="Constants" expanded="True" />
             <Node name="MovesGenerators" expanded="True" />
           </Node>
-          <Node name="Queem.Tests" expanded="True">
-            <Node name="PawnsTest.cs" selected="True" />
-          </Node>
+          <Node name="Queem.Tests" expanded="True" />
           <Node name="QueemSpeedBenchmark" expanded="True" />
         </State>
       </Pad>
@@ -39,15 +37,7 @@
         <State selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True">
-          <Node name="Queem.Tests" expanded="True">
-            <Node name="Queem" expanded="True">
-              <Node name="Tests" expanded="True">
-                <Node name="PawnTests" expanded="True" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

@@ -12,7 +12,7 @@ namespace QueemCore.MovesGenerators
 			switch (figureType)
 			{
 			case Figure.Pawn:
-				return null;
+				return new PawnMovesGenerator((PawnBitBoard)bb, ag);
 			case Figure.Knight:
 			case Figure.Bishop:
 			case Figure.Rook:

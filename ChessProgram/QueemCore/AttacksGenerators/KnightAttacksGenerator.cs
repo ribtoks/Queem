@@ -8,7 +8,7 @@ namespace QueemCore.AttacksGenerators
 	{
 		public override ulong GetAttacks (Square figureSquare, ulong otherFigures)
 		{
-			return KnightsBoardHelper.KnightMoves[(int)figureSquare];
+			return KnightBitBoardHelper.KnightMoves[(int)figureSquare];
 		}
 	}
 }

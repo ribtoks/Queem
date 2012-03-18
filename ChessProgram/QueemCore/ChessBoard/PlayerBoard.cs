@@ -86,7 +86,8 @@ namespace QueemCore.ChessBoard
 		{
 			this.attacksGenerators = new AttacksGenerator[6];
 			for (int i = 0; i < 6; ++i)
-				this.attacksGenerators[i] = AttacksGeneratorFactory.CreateGenerator((Figure)i);
+				this.attacksGenerators[i] = AttacksGeneratorFactory.CreateGenerator((Figure)i);			
+			
 		}
 		
 		protected void CreateMovesGenerators()
@@ -97,6 +98,9 @@ namespace QueemCore.ChessBoard
 					(Figure)i,
 					this.bitboards[i],
 					this.attacksGenerators[i]);
+					
+			PawnMovesGenerator pawnGenerator = (PawnMovesGenerator)this.moveGenerators[(int)Figure.Pawn];
+			pawnGenerator.PlayerPos = this.position;
 		}
 		
 		protected ulong GetPawnAttacks()
@@ -152,6 +156,8 @@ namespace QueemCore.ChessBoard
 			return this.bitboards[(int)Figure.Rook].GetInnerValue() | 
 				this.bitboards[(int)Figure.Queen].GetInnerValue();
 		}
+		
+		#region GetMoves
 				
 		public List<Move[]> GetMoves(Figure figure, ulong opponentFigures)
 		{
@@ -173,6 +179,8 @@ namespace QueemCore.ChessBoard
 			var mask = opponentKing;
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 		}
+		
+		#endregion
 		
 		protected bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
 		{
@@ -208,6 +216,11 @@ namespace QueemCore.ChessBoard
 			if ((occupiedBishopMoves & bishopsQueens) != 0)
 				return true;
 			return false;
+		}
+		
+		protected bool IsUnderCheck(PlayerBoard opponent)
+		{
+			return IsUnderAttack(this.King.GetSquare(), opponent);
 		}
 	}
 }

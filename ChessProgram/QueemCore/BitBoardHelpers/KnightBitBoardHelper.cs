@@ -2,7 +2,7 @@ using System;
 
 namespace QueemCore.BitBoards.Helpers
 {
-	public static class KnightsBoardHelper
+	public static class KnightBitBoardHelper
 	{
 		// precalculated moves
 		public static readonly ulong[] KnightMoves = 

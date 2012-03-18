@@ -17,15 +17,15 @@ namespace QueemCore
 			this.pawnMoves = new ulong[4];
 			this.PlayerPos = PlayerPosition.Up;
 		}		
-		
+																																																																																																																																																																																																																			
 		public PlayerPosition PlayerPos { get; set; }
 		
 		public override List<Move[]> GetMoves (ulong otherFigures, ulong mask)
 		{
-			var list = new List<Move[]>(8);
+			var list = new List<Move[]>(8);																														
 			var pawns = (PawnBitBoard) this.board;
 			ulong emptySquares = ~otherFigures;
-			int dir = (this.PlayerPos == PlayerPosition.Up) ? 1 : 0;
+			int dir = (this.PlayerPos == PlayerPosition.Up) ? 1 : 0;																																				
 			
 			if (this.PlayerPos == PlayerPosition.Down)
 			{

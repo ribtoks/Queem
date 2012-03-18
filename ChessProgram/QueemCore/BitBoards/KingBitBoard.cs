@@ -36,5 +36,10 @@ namespace QueemCore.BitBoards
 			this.sq = Square.NoSquare;
 			return base.UnsetBit (square);
 		}
+		
+		public Square GetSquare()
+		{
+			return this.sq;
+		}
 	}
 }

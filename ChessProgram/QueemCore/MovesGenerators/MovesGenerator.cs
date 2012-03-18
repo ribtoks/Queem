@@ -20,7 +20,7 @@ namespace QueemCore.MovesGenerators
 		public virtual List<Move[]> GetMoves(ulong otherFigures, ulong mask)
 		{
 			var list = new List<Move[]>(8);
-						
+			
 			ulong attacks;
 			
 			ulong myboard = board.GetInnerValue();

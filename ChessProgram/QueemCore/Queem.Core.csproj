@@ -45,8 +45,6 @@
     <Compile Include="BitBoards\BishopBitBoard.cs" />
     <Compile Include="BitBoardHelpers\BishopBitBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\BitBoardHelper.cs" />
-    <Compile Include="BitBoardHelpers\KingBoardHelper.cs" />
-    <Compile Include="BitBoardHelpers\KnightsBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\PawnBitBoardHelper.cs" />
     <Compile Include="BitBoardHelpers\RookBitBoardHelper.cs" />
     <Compile Include="Int64Helper.cs" />
@@ -68,6 +66,9 @@
     <Compile Include="MovesGenerators\MovesGenerator.cs" />
     <Compile Include="MovesGenerators\MovesGeneratorFactory.cs" />
     <Compile Include="MovesGenerators\PawnMovesGenerator.cs" />
+    <Compile Include="MovesGenerators\KingMovesGenerator.cs" />
+    <Compile Include="BitBoardHelpers\KingBitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\KnightBitBoardHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
