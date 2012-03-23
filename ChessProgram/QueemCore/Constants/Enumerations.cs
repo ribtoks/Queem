@@ -15,7 +15,8 @@ namespace QueemCore
 		Bishop,
 		Rook,
 		Queen,
-		King
+		King,
+		Nobody = -1
 	}
 }
 

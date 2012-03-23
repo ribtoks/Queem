@@ -73,6 +73,8 @@
     <Compile Include="History\MovesHistory.cs" />
     <Compile Include="History\Change.cs" />
     <Compile Include="History\DeltaChange.cs" />
+    <Compile Include="ChessBoard\MovesArray.cs" />
+    <Compile Include="AttacksGenerators\PawnAttacksGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

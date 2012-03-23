@@ -79,6 +79,12 @@ namespace QueemCore.BitBoards
 			return !(this.IsBitZero(rank, file));
 		}
 		
+		public bool IsBitSet(Square sq)
+		{
+			ulong oneBitNumber = 1UL << (int)sq;			
+			return (this.board & oneBitNumber) == oneBitNumber;
+		}
+		
 		public virtual BitBoard SetBit(Square sq)
 		{
 			ulong oneBitNumber = 1UL << (int)sq;

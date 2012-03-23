@@ -9,65 +9,46 @@ namespace QueemCore
 {
 	public class PawnMovesGenerator : MovesGenerator
 	{
-		protected ulong[] pawnMoves;
+		protected Move[][][][][] movesReferences;
 	
 		public PawnMovesGenerator (BitBoard board, AttacksGenerator generator)
 			:base(board, generator)
 		{
-			this.pawnMoves = new ulong[4];
-			this.PlayerPos = PlayerPosition.Up;
-		}		
-																																																																																																																																																																																																																			
-		public PlayerPosition PlayerPos { get; set; }
+			this.movesReferences = new Move[4][][][][];
+			this.movesReferences[(int)PawnTarget.SinglePush] = PawnBitBoardHelper.QuietMoves;
+			this.movesReferences[(int)PawnTarget.LeftAttack] = PawnBitBoardHelper.AttacksLeftMoves;
+			this.movesReferences[(int)PawnTarget.RightAttack] = PawnBitBoardHelper.AttacksRightMoves;
+			this.movesReferences[(int)PawnTarget.DoublePush] = PawnBitBoardHelper.DoublePushes;
+		}
 		
 		public override List<Move[]> GetMoves (ulong otherFigures, ulong mask)
 		{
-			var list = new List<Move[]>(8);	
-			var pawns = (PawnBitBoard) this.board;
-			ulong emptySquares = ~otherFigures;
-			int dir = (this.PlayerPos == PlayerPosition.Up) ? 1 : 0;																																				
+			var list = new List<Move[]>(8);				
+			var pawnGenerator = (PawnAttacksGenerator) this.generator;
+			int dir = pawnGenerator.Index;
 			
-			if (this.PlayerPos == PlayerPosition.Down)
+			ulong[] attacks = pawnGenerator.GetAttacks(this.board.GetInnerValue(), otherFigures);
+			attacks[(int)PawnTarget.LeftAttack] &= mask;
+			attacks[(int)PawnTarget.RightAttack] &= mask;
+									
+			int rankIndex = 0, rank;
+			for (int i = 0; i < 4; ++i)
 			{
-				this.pawnMoves[0] = pawns.SingleUpPushTargets(emptySquares);
-				// left
-				this.pawnMoves[1] = pawns.NorthWestAttacks();
-				// right
-				this.pawnMoves[2] = pawns.NorthEastAttacks();
-				this.pawnMoves[3] = pawns.DoubleUpPushTargets(emptySquares);
+				var board = attacks[i];
+				while (board != 0)
+				{
+					rank = (int)(board & 0xff);
+					
+					if (rank != 0)
+						list.Add(this.movesReferences[i][dir][rankIndex][rank]);
+				
+					rankIndex++;
+					board >>= 8;
+				}
 			}
-			else
-			{
-				this.pawnMoves[0] = pawns.SingleDownPushTargets(emptySquares);
-				// left
-				this.pawnMoves[1] = pawns.SouthWestAttacks();
-				// right
-				this.pawnMoves[2] = pawns.SouthEastAttacks();
-				this.pawnMoves[3] = pawns.DoubleDownPushTargets(emptySquares);
-			}
-			
-			this.AddMoves(this.pawnMoves[0], list, PawnBitBoardHelper.QuietMoves[dir]);
-			this.AddMoves(this.pawnMoves[1], list, PawnBitBoardHelper.AttacksLeftMoves[dir]);
-			this.AddMoves(this.pawnMoves[2], list, PawnBitBoardHelper.AttacksRightMoves[dir]);
-			this.AddMoves(this.pawnMoves[3], list, PawnBitBoardHelper.DoublePushes[dir]);
 			
 			return list;
-		}
-		
-		private void AddMoves(ulong board, List<Move[]> list, Move[][][] hardcodedMoves)
-		{
-			int rankIndex = 0, rank;
-			while (board != 0)
-			{
-				rank = (int)(board & 0xff);
-				
-				if (rank != 0)
-					list.Add(hardcodedMoves[rankIndex][rank]);
-			
-				rankIndex++;
-				board >>= 8;
-			}
-		}
+		}		
 	}
 }
 

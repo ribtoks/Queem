@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLProperties", "XMLProperties\XMLProperties.csproj", "{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicChessClasses", "BasicChessClasses\BasicChessClasses.csproj", "{E4485A2E-85DF-4528-9E14-4CB306812C34}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebutMovesHolder", "DebutMovesHolder\DebutMovesHolder.csproj", "{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessBoardTest", "ChessBoardTest\ChessBoardTest.csproj", "{A47F3296-872F-4393-AD51-93C23F0F1266}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.AI", "QueemAI\Queem.AI.csproj", "{41156AC3-E6DE-45E9-8E07-6B771E9FF43F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.Tests", "QueemTests\Queem.Tests.csproj", "{CF3F4C2C-524D-451E-B194-345CD30886FA}"
 EndProject

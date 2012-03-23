@@ -4,7 +4,7 @@ namespace QueemCore.AttacksGenerators
 {
 	public class AttacksGeneratorFactory
 	{
-		public static AttacksGenerator CreateGenerator(Figure figureType)
+		public static AttacksGenerator CreateGenerator(Figure figureType, PlayerPosition position)
 		{
 			switch (figureType)
 			{			
@@ -18,6 +18,8 @@ namespace QueemCore.AttacksGenerators
 				return new QueenAttacksGenerator();
 			case Figure.King:
 				return new KingAttacksGenerator();
+			case Figure.Pawn:
+				return new PawnAttacksGenerator(position);
 			default:
 				return null;
 			}

@@ -18,12 +18,12 @@ namespace QueemCore
 		
 		public Square From
 		{
-			get; private set;
+			get; set;
 		}
 		
 		public Square To
 		{
-			get; private set;
+			get; set;
 		}
 		
 		public MoveType Type 

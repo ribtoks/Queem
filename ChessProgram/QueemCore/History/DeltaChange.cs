@@ -9,20 +9,22 @@ namespace QueemCore.History
 		
 		public DeltaChange()
 		{
-			this.changes = new Change[10];
-			this.lastIndex = 0;
+			this.changes = new Change[5];
+			this.lastIndex = -1;
 		}
 		
-		public Change GetNext()
+		public Change GetNext(MoveAction action)
 		{
 #if DEBUG
 			if (lastIndex == (changes.Length - 1))
 				throw new InvalidOperationException();
 #endif		
-			return this.changes[++lastIndex];
+			lastIndex++;
+			this.changes[lastIndex].Action = action;
+			return this.changes[lastIndex];
 		}
 		
-		public Change PickLast()
+		public Change GetCurrent()
 		{
 			return this.changes[this.lastIndex];
 		}
@@ -35,6 +37,11 @@ namespace QueemCore.History
 		public void RemoveLast()
 		{
 			this.lastIndex--;
+		}
+		
+		public void AddItem()
+		{
+			this.lastIndex++;
 		}
 	}
 }

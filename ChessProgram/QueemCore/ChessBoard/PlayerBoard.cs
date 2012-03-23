@@ -17,7 +17,26 @@ namespace QueemCore.ChessBoard
 		protected AttacksGenerator[] attacksGenerators;
 		protected MovesGenerator[] moveGenerators;
 		
+		protected Figure[] figures;
 		protected ulong allFigures;
+		
+		public static readonly Figure[] KnightBishopRookQueen = 
+			new Figure[] {Figure.Knight, Figure.Bishop, Figure.Rook, Figure.Queen};
+		
+		public Figure[] Figures
+		{
+			get { return this.figures; }
+		}
+		
+		public Color FigureColor
+		{
+			get { return this.color; }
+		}
+		
+		public PlayerPosition Position
+		{
+			get { return this.position; }
+		}
 		
 		#region Boards
 		
@@ -53,17 +72,29 @@ namespace QueemCore.ChessBoard
 		
 		#endregion
 					
+		#region Initializations
+		
 		public PlayerBoard (PlayerPosition playerPosition, Color playerColor)
 		{
 			this.position = playerPosition;
 			this.color = playerColor;
 			
-			this.CreateBitBoards();	
+			this.CreateBitBoards();			
 			this.FillBitBoards();
 			this.RefreshAllFiguresBoard();
 			
+			this.CreateFiguresArray();
+			this.FillFiguresArray();
+			
 			this.CreateAttacksGenerators();
 			this.CreateMovesGenerators();
+		}
+		
+		protected void CreateFiguresArray()
+		{
+			this.figures = new Figure[64];
+			for (int i = 0; i < this.figures.Length; ++i)
+				this.figures[i] = Figure.Nobody;
 		}
 		
 		protected void CreateBitBoards()
@@ -77,7 +108,15 @@ namespace QueemCore.ChessBoard
 		protected void FillBitBoards()
 		{
 			for (int i = 0; i < 6; ++i)
-				BoardInitializer.Shufflers[i].Init(this.bitboards[i], 
+				BoardInitializer.Shufflers[i].Init((sq) => this.bitboards[i].SetBit(sq), 
+												   this.position,
+												   this.color);
+		}
+		
+		protected void FillFiguresArray()
+		{
+			for (int i = 0; i < 6; ++i)
+				BoardInitializer.Shufflers[i].Init((sq) => this.figures[(int)sq] = (Figure)i, 
 												   this.position,
 												   this.color);
 		}
@@ -86,7 +125,7 @@ namespace QueemCore.ChessBoard
 		{
 			this.attacksGenerators = new AttacksGenerator[6];
 			for (int i = 0; i < 6; ++i)
-				this.attacksGenerators[i] = AttacksGeneratorFactory.CreateGenerator((Figure)i);			
+				this.attacksGenerators[i] = AttacksGeneratorFactory.CreateGenerator((Figure)i, this.position);
 			
 		}
 		
@@ -97,11 +136,10 @@ namespace QueemCore.ChessBoard
 				this.moveGenerators[i] = MovesGeneratorFactory.CreateGenerator(
 					(Figure)i,
 					this.bitboards[i],
-					this.attacksGenerators[i]);
-					
-			var pawnGenerator = (PawnMovesGenerator)this.moveGenerators[(int)Figure.Pawn];
-			pawnGenerator.PlayerPos = this.position;
+					this.attacksGenerators[i]);			
 		}
+		
+		#endregion
 		
 		protected ulong GetPawnAttacks()
 		{
@@ -111,24 +149,41 @@ namespace QueemCore.ChessBoard
 				return this.Pawns.AnyDownAttacks();
 		}
 		
-		public void DoMove(Move move, Figure figure)
+		public void ProcessMove(Move move, Figure figure)
 		{
 			this.bitboards[(int)figure].DoMove(move);
 			
 			this.allFigures |= (1UL << (int)move.To);
 			this.allFigures &= (~(1UL << (int)move.From));
+			
+			this.figures[(int)move.From] = Figure.Nobody;
+			this.figures[(int)move.To] = figure;
 		}
-		
+				
 		public void AddFigure(Square sq, Figure figure)
 		{
 			this.bitboards[(int)figure].SetBit(sq);
 			this.allFigures |= (1UL << (int)sq);
+			
+			this.figures[(int)sq] = figure;
 		}
 		
 		public void RemoveFigure(Square sq, Figure figure)
 		{			
 			this.bitboards[(int)figure].UnsetBit(sq);
 			this.allFigures &= (~(1UL << (int)sq));
+			
+			this.figures[(int)sq] = Figure.Nobody;
+		}
+		
+		public int GetBoardProperty(Figure figure)
+		{
+			return this.bitboards[(int)figure].GetInnerProperty();
+		}
+		
+		public void SetProperty(Figure figure, int property)
+		{
+			this.bitboards[(int)figure].SetInnerProperty(property);
 		}
 		
 		public void RefreshAllFiguresBoard()
@@ -158,22 +213,110 @@ namespace QueemCore.ChessBoard
 		}
 		
 		#region GetMoves
+		
+		public FixedArray GetMoves(PlayerBoard opponent, Move lastMove)
+		{
+			FixedArray moves = MovesArray.New();
+			var innerArray = moves.InnerArray;
+			int index = 0;
+			
+			var opponentFigures = opponent.allFigures;
+			var otherFigures = opponentFigures | this.allFigures;
+			var mask = ~this.allFigures;
+			
+			// add knight, bishop, rook, queen moves
+			for (int i = 0; i < PlayerBoard.KnightBishopRookQueen.Length; ++i)
+			{
+				var figure = PlayerBoard.KnightBishopRookQueen[i];
+				var newMovesList = this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 				
-		public List<Move[]> GetMoves(Figure figure, ulong opponentFigures)
+				for (int j = 0; j < newMovesList.Count; ++j)
+				{
+					var newMovesArray = newMovesList[j];					
+					
+					for (int k = 0; j < newMovesArray.Length; ++k)
+					{
+						var item = newMovesArray[k];
+						innerArray[index].From = item.From;
+						innerArray[index].To = item.To;
+						innerArray[index].Type = 
+							BitBoardHelper.MoveTypes[(int)figure][j][(int)item.From][(int)item.To];
+						
+						index++;
+					}
+				}
+			}
+			
+			// add king moves
+			var kingMoves = this.GetKingMoves(opponent);
+			
+			for (int j = 0; j < kingMoves.Count; ++j)
+			{
+				var newMovesArray = kingMoves[j];
+				
+				for (int k = 0; j < newMovesArray.Length; ++k)
+				{
+					var item = newMovesArray[k];
+					innerArray[index].From = item.From;
+					innerArray[index].To = item.To;
+					
+					if (Math.Abs((int)item.From - (int)item.To) == 2)
+						innerArray[index].Type = MoveType.KingCastle;
+					else
+						innerArray[index].Type = 
+							BitBoardHelper.MoveTypes[(int)Figure.King][j][(int)item.From][(int)item.To];
+					
+					index++;
+				}
+			}
+			
+			// add to mask value 
+			// pawn in passing state bit
+			int lastFrom = (int)lastMove.From;
+			int lastTo = (int)lastMove.To;
+			
+			if (Math.Abs(lastFrom - lastTo) == 16)
+				if (opponent.Pawns.IsBitSet(lastMove.To))
+					mask |= 1UL << ((lastFrom + lastTo) >> 1);
+			
+			// add pawns moves
+			var pawnMoves = this.moveGenerators[(int)Figure.Pawn].GetMoves(otherFigures, mask);
+			
+			for (int j = 0; j < pawnMoves.Count; ++j)
+			{
+				var newMovesArray = pawnMoves[j];
+				
+				for (int k = 0; j < newMovesArray.Length; ++k)
+				{
+					innerArray[index].From = newMovesArray[k].From;
+					innerArray[index].To = newMovesArray[k].To;
+					
+					
+					
+					innerArray[index].Type = newMovesArray[k].Type;
+					
+					index++;
+				}
+			}
+			
+			return moves;
+		}
+				
+		protected List<Move[]> GetMoves(Figure figure, ulong opponentFigures)
 		{
 			var otherFigures = opponentFigures | this.allFigures;
 			var mask = ~this.allFigures;
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 		}
 		
-		public List<Move[]> GetAttacks(Figure figure, ulong opponentFigures)
+		protected List<Move[]> GetAttacks(Figure figure, ulong opponentFigures)
 		{
 			var otherFigures = opponentFigures | this.allFigures;
-			var mask = opponentFigures;
+			var mask = opponentFigures;	
 			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
 		}
 		
-		public List<Move[]> GetChecks(Figure figure, ulong opponentKing)
+		protected List<Move[]> GetChecks(Figure figure, ulong opponentKing)
 		{
 			var otherFigures = this.allFigures;
 			var mask = opponentKing;
@@ -247,7 +390,7 @@ namespace QueemCore.ChessBoard
 			
 			return list;
 		}
-		
+						
 		#endregion
 		
 		protected bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
@@ -284,6 +427,7 @@ namespace QueemCore.ChessBoard
 			ulong occupiedBishopMoves = bishopAttackGenerator.GetAttacks(sq, opponentAllFigures);
 			if ((occupiedBishopMoves & bishopsQueens) != 0)
 				return true;
+				
 			return false;
 		}
 		

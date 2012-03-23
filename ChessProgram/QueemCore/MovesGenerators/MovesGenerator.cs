@@ -51,7 +51,7 @@ namespace QueemCore.MovesGenerators
 							rankIndex++;
 							attacks >>= 8;
 						}
-					}					
+					}
 				}
 				
 				myrankIndex++;

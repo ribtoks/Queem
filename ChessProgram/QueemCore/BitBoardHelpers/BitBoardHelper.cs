@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using QueemCore.Extensions;
 using System.Linq;
+using QueemCore.ChessBoard;
 
 namespace QueemCore.BitBoards.Helpers
 {
@@ -28,7 +29,11 @@ namespace QueemCore.BitBoards.Helpers
 			MainDiagonal = FromString(mainDiagonalString);
 			
 			RealPositions = GenerateRealPositions();
+			MoveTypes = GenerateMoveTypes();
 		}
+		
+		// figureMoving - destinationFigure - start - end
+		public static MoveType[][][][] MoveTypes;
 		
 		public static ulong MainDiagonal;
 		
@@ -48,6 +53,87 @@ namespace QueemCore.BitBoards.Helpers
 		
 		public static ulong[] RankToFileArray;		
 		
+		private static MoveType[][][][] GenerateMoveTypes()
+		{
+			var moveTypes = CreateMoveTypes();
+			
+			// fill
+			FillAllButPawns(moveTypes);
+			FillPawns(moveTypes);
+			
+			return moveTypes;
+		}
+		
+		private static MoveType[][][][] CreateMoveTypes()
+		{
+			int figuresCount = Enum.GetValues(typeof(Figure)).Length;
+			MoveType[][][][] moveTypes = new MoveType[figuresCount][][][];
+			
+			// create
+			for (int i = 0; i < figuresCount; ++i)
+				moveTypes[i] = new MoveType[figuresCount][][];
+			
+			return moveTypes;
+		}
+		
+		private static void FillAllButPawns(MoveType[][][][] moveTypes)
+		{
+			int figuresCount = Enum.GetValues(typeof(Figure)).Length;
+			var figures = new Figure[] {Figure.Bishop, Figure.King, 
+				Figure.Knight, Figure.Queen, Figure.Rook};
+		
+			for (int i = 0; i < figures.Length; ++i)
+			{
+				var startFigure = figures[i];
+				
+				for (int j = 0; j < figuresCount; ++j)
+				{
+					var destinationFigure = (Figure)j;
+					
+					if (destinationFigure == Figure.Nobody)
+						moveTypes[(int)startFigure][j] = GetSameMoveTypes(MoveType.Quiet);
+					else
+						moveTypes[(int)startFigure][j] = GetSameMoveTypes(MoveType.Captures);
+				}
+			}
+		}
+		
+		private static MoveType[][] GetSameMoveTypes(MoveType type)
+		{
+			var moveTypes = new MoveType[64][];
+			for (int i = 0; i < 64; ++i)
+			{
+				moveTypes[i] = new MoveType[64];
+				
+				for (int j = 0; j < 64; ++j)
+					moveTypes[i][j] = type;
+			}
+			
+			return moveTypes;
+		}		
+		
+		private static void FillPawns(MoveType[][][][] moveTypes)
+		{
+			var startFigure = Figure.Pawn;
+			var startTypes = moveTypes[(int)startFigure];
+			int figuresCount = Enum.GetValues(typeof(Figure)).Length;
+			
+			for (int j = 0; j < figuresCount; ++j)
+			{
+				var destinationFigure = (Figure)j;
+				
+				moveTypes[(int)startFigure][j] = GetSameMoveTypes(MoveType.Quiet);
+				
+				for (int m = 0; m < 64; ++m)
+				{
+					for (int n = 0; n < 64; ++n)
+					{
+						
+					}
+				}
+			}
+		}
+				
 		public static ulong GetFileFromRank(byte rank)
 		{
 			ulong result = 0;

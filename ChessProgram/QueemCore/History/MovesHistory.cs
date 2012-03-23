@@ -17,7 +17,7 @@ namespace QueemCore.History
 			this.moves = new List<Move>(maxlength);
 			this.deltaChanges = new List<DeltaChange>(maxlength);
 			this.moveResults = new List<MoveType>(maxlength);
-			this.lastIndex = 0;
+			this.lastIndex = -1;
 			this.FillCache();
 		}
 		
