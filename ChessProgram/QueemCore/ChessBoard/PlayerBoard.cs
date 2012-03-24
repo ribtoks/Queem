@@ -8,6 +8,8 @@ using QueemCore.BitBoards.Helpers;
 
 namespace QueemCore.ChessBoard
 {
+	public enum MovesMask { AllMoves, Attacks}
+	
 	public class PlayerBoard
 	{
 		protected PlayerPosition position;	
@@ -226,15 +228,20 @@ namespace QueemCore.ChessBoard
 		
 		#region GetMoves
 		
-		public FixedArray GetMoves(PlayerBoard opponent, Move lastMove)
+		public FixedArray GetMoves(PlayerBoard opponent, Move lastMove, MovesMask movesMask)
 		{
 			FixedArray moves = MovesArray.New();
 			var innerArray = moves.InnerArray;
 			int index = 0;
 			
+			ulong mask = 0;
+			if (movesMask == MovesMask.AllMoves)
+				mask = ~this.allFigures;
+			else
+				mask = opponent.allFigures;
+			
 			var opponentFigures = opponent.allFigures;
 			var otherFigures = opponentFigures | this.allFigures;
-			var mask = ~this.allFigures;
 			
 			// add knight, bishop, rook, queen moves
 			for (int i = 0; i < PlayerBoard.KnightBishopRookQueen.Length; ++i)
@@ -260,7 +267,7 @@ namespace QueemCore.ChessBoard
 			}
 			
 			// add king moves
-			var kingMoves = this.GetKingMoves(opponent);
+			var kingMoves = this.GetKingMoves(opponent, mask);
 			
 			for (int j = 0; j < kingMoves.Count; ++j)
 			{
@@ -322,36 +329,24 @@ namespace QueemCore.ChessBoard
 			return moves;
 		}
 				
-		protected List<Move[]> GetMoves(Figure figure, ulong opponentFigures)
-		{
-			var otherFigures = opponentFigures | this.allFigures;
-			var mask = ~this.allFigures;
-			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
-		}
-		
-		protected List<Move[]> GetAttacks(Figure figure, ulong opponentFigures)
-		{
-			var otherFigures = opponentFigures | this.allFigures;
-			var mask = opponentFigures;	
-			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
-		}
-		
-		protected List<Move[]> GetChecks(Figure figure, ulong opponentKing)
-		{
-			var otherFigures = this.allFigures;
-			var mask = opponentKing;
-			return this.moveGenerators[(int)figure].GetMoves(otherFigures, mask);
-		}
-		
-		public List<Move[]> GetKingMoves(PlayerBoard opponent)
+		public List<Move[]> GetKingMoves(PlayerBoard opponent, ulong mask)
 		{
 			var otherFigures = opponent.allFigures | this.allFigures;
-			var mask = ~this.allFigures;
 			var list = this.moveGenerators[(int)Figure.King].GetMoves(otherFigures, mask);
 			
 			// ---------------------------------------------
 			
 			// castlings stuff
+			
+			// check king can move
+			if (this.King.AlreadyMoved != 0)
+				return list;
+				
+			var rooks = this.Rooks;
+			// if rooks cannot move
+			if (rooks.GetInnerProperty() == 0)
+				return list;
+						
 			var allMasks = KingBitBoardHelper.CastlingMasks;
 			ulong[] castlingMasks = allMasks[(int)this.color][(int)this.position];
 			
@@ -361,16 +356,7 @@ namespace QueemCore.ChessBoard
 			// check other figures
 			if (leftIsNotEmpty && rightIsNotEmpty)
 				return list;
-				
-			// check king can move
-			if (this.King.AlreadyMoved != 0)
-				return list;
-				
-			var rooks = this.Rooks;
-			// if rooks cannot move
-			if (rooks.GetInnerProperty() == 0)
-				return list;
-			
+						
 			bool noCheck;
 			var squares = KingBitBoardHelper.CastlingSquares[(int)this.color][(int)this.position];
 			int resultIndex = -1;

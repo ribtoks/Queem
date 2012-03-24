@@ -1,24 +1,28 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/GameProvider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/PlayerBoard.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="175" Column="15" />
-      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="169" Column="5" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="345" Column="27" />
+      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="52" Column="50" />
       <File FileName="QueemCore/Constants/BasicEnums.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/History/MovesHistory.cs" Line="34" Column="14" />
-      <File FileName="QueemCore/BitBoards/BitBoard.cs" Line="143" Column="23" />
-      <File FileName="QueemCore/History/DeltaChange.cs" Line="32" Column="17" />
+      <File FileName="QueemCore/History/MovesHistory.cs" Line="39" Column="40" />
+      <File FileName="QueemCore/BitBoards/BitBoard.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/History/DeltaChange.cs" Line="1" Column="1" />
+      <File FileName="QueemCore/MovesGenerators/MovesGenerator.cs" Line="20" Column="31" />
+      <File FileName="QueemCore/MovesGenerators/PawnMovesGenerator.cs" Line="32" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Queem.Core" expanded="True">
+            <Node name="AttacksGenerators" expanded="True" />
             <Node name="BitBoards" expanded="True" />
             <Node name="ChessBoard" expanded="True">
-              <Node name="GameProvider.cs" selected="True" />
+              <Node name="PlayerBoard.cs" selected="True" />
             </Node>
             <Node name="Constants" expanded="True" />
             <Node name="History" expanded="True" />
+            <Node name="MovesGenerators" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
         </State>
