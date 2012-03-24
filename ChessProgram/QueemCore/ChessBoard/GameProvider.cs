@@ -63,7 +63,7 @@ namespace QueemCore.ChessBoard
 			
 			this.History.AddItem(move);
 
-			var deltaChange = this.History.GetCurrentDeltaChange();
+			var deltaChange = this.History.GetLastDeltaChange();
 			var moveChange = deltaChange.GetNext(MoveAction.Move);
 			
 			moveChange.Square = move.From;
@@ -167,6 +167,25 @@ namespace QueemCore.ChessBoard
 					playerBoard1.RemoveFigure(change.Square, change.FigureType);
 				}
 			}
+		}
+		
+		public void PromotePawn(Color color, Square square, Figure newFigure)
+		{
+			var playerBoard = this.playerBoards[(int)color];			
+			var deltaChanges = this.History.GetLastDeltaChange();
+			
+			var deleteChange = deltaChanges.GetNext(MoveAction.PawnChange);
+			deleteChange.Square = square;
+			deleteChange.FigureType = Figure.Pawn;
+			deleteChange.FigureColor = color;
+			
+			var createChange = deltaChanges.GetNext(MoveAction.Creation);
+			createChange.Square = square;
+			createChange.FigureType = newFigure;
+			createChange.FigureColor = color;
+			
+			playerBoard.RemoveFigure(square, Figure.Pawn);
+			playerBoard.AddFigure(square, newFigure);
 		}
 	}
 }
