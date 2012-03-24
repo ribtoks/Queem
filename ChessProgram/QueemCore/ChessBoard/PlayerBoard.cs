@@ -274,10 +274,15 @@ namespace QueemCore.ChessBoard
 			// pawn in passing state bit
 			int lastFrom = (int)lastMove.From;
 			int lastTo = (int)lastMove.To;
+			int middle = (lastFrom + lastTo) >> 1;
+			bool wasLastMovePassing = false;
 			
 			if (Math.Abs(lastFrom - lastTo) == 16)
 				if (opponent.Pawns.IsBitSet(lastMove.To))
-					mask |= 1UL << ((lastFrom + lastTo) >> 1);
+				{
+					mask |= 1UL << middle;
+					wasLastMovePassing = true;
+				}
 			
 			// add pawns moves
 			var pawnMoves = this.moveGenerators[(int)Figure.Pawn].GetMoves(otherFigures, mask);
@@ -288,12 +293,15 @@ namespace QueemCore.ChessBoard
 				
 				for (int k = 0; j < newMovesArray.Length; ++k)
 				{
-					innerArray[index].From = newMovesArray[k].From;
-					innerArray[index].To = newMovesArray[k].To;
+					var item = innerArray[index];
+					item.From = newMovesArray[k].From;
+					item.To = newMovesArray[k].To;
 					
+					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][j][(int)item.From][(int)item.To];
 					
-					
-					innerArray[index].Type = newMovesArray[k].Type;
+					if (wasLastMovePassing)
+						if (item.To == (Square)middle)
+							item.Type = MoveType.EpCapture;
 					
 					index++;
 				}
