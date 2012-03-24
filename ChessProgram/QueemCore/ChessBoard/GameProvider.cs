@@ -49,7 +49,7 @@ namespace QueemCore.ChessBoard
          *  2. kill a pawn in a passing state
          *  3. kill a rook in a castling state
         */
-		public MoveType ProcessMove(Move move, Color color)
+		public void ProcessMove(Move move, Color color)
 		{
 			var oppositeColor = (Color)(1 - (int)color);
 			
@@ -59,7 +59,9 @@ namespace QueemCore.ChessBoard
 			var figureMoving = playerBoard1.Figures[(int)move.From];
 			var destinationFigure = playerBoard2.Figures[(int)move.To];
 			
-			this.History.AddItem();
+			var lastMove = this.History.GetLastMove();
+			
+			this.History.AddItem(move);
 
 			var deltaChange = this.History.GetCurrentDeltaChange();
 			var moveChange = deltaChange.GetNext(MoveAction.Move);
@@ -68,6 +70,7 @@ namespace QueemCore.ChessBoard
 			moveChange.AdditionalSquare = move.To;
 			moveChange.FigureColor = color;
 			moveChange.FigureType = figureMoving;
+			moveChange.Data = playerBoard1.GetBoardProperty(figureMoving);
 			
 			playerBoard1.ProcessMove(move, figureMoving);
 			
@@ -82,17 +85,51 @@ namespace QueemCore.ChessBoard
 				
 				playerBoard2.RemoveFigure(move.To, destinationFigure);
 				
-				if (figureMoving == Figure.Pawn)
-					if (((int)move.To < 8) || 
-						((int)move.To > 55))
-						return MoveType.PromoCapture;
-				
-				return MoveType.Captures;
+				return;
 			}
 			
-			throw new NotImplementedException();
-		}
-		
+			if (move.Type == MoveType.EpCapture)
+			{
+				var passingKillChange = deltaChange.GetNext(MoveAction.Deletion);
+				
+				passingKillChange.Square = lastMove.To;
+				passingKillChange.FigureType = Figure.Pawn;
+				passingKillChange.FigureColor = oppositeColor;
+				
+				playerBoard2.RemoveFigure(passingKillChange.Square, Figure.Pawn);
+				
+				return;
+			}
+			
+			if (move.Type == MoveType.KingCastle)
+			{
+				int moveTo = (int)move.To;
+				int moveFrom = (int)move.From;				
+				// will be +2 or -2
+				int difference = moveTo - moveFrom;
+				// same as sign of difference
+				difference = difference / 2;
+				var rookMoveChange = deltaChange.GetNext(MoveAction.Move);
+				
+				// rook target
+				rookMoveChange.AdditionalSquare = moveTo - difference;
+				
+				// rook source
+				// diff -> [1 -> 1, -1 -> 0]
+				difference = (difference + 1) / 2;
+				rookMoveChange.Square = (Square)((moveFrom / 8) * 8 + difference*7);
+				
+				rookMoveChange.FigureType = Figure.Rook;
+				rookMoveChange.FigureColor = color;
+				rookMoveChange.Data = playerBoard1.GetBoardProperty(Figure.Rook);
+				
+				playerBoard1.ProcessMove(
+					new Move(rookMoveChange.Square, rookMoveChange.AdditionalSquare),
+					Figure.Rook);
+					
+				return;
+			}
+		}		
 	}
 }
 

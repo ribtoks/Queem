@@ -1,27 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/BitBoardHelpers/BitBoardHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/GameProvider.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="393" Column="3" />
-      <File FileName="QueemCore/BitBoardHelpers/BitBoardHelper.cs" Line="129" Column="74" />
-      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="85" Column="29" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="181" Column="46" />
+      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="60" Column="11" />
       <File FileName="QueemCore/Constants/BasicEnums.cs" Line="31" Column="13" />
-      <File FileName="QueemCore/BitBoards/BitBoard.cs" Line="123" Column="4" />
+      <File FileName="QueemCore/History/MovesHistory.cs" Line="63" Column="16" />
+      <File FileName="QueemCore/BitBoards/BitBoard.cs" Line="22" Column="24" />
+      <File FileName="QueemCore/History/DeltaChange.cs" Line="16" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Queem.Core" expanded="True">
-            <Node name="AttacksGenerators" expanded="True" />
-            <Node name="BitBoardHelpers" expanded="True">
-              <Node name="BitBoardHelper.cs" selected="True" />
-            </Node>
             <Node name="BitBoards" expanded="True" />
-            <Node name="ChessBoard" expanded="True" />
+            <Node name="ChessBoard" expanded="True">
+              <Node name="GameProvider.cs" selected="True" />
+            </Node>
             <Node name="Constants" expanded="True" />
-            <Node name="Extensions" expanded="True" />
             <Node name="History" expanded="True" />
-            <Node name="MovesGenerators" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />
         </State>

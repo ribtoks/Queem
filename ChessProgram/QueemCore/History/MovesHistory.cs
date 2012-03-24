@@ -9,14 +9,12 @@ namespace QueemCore.History
 		protected readonly int maxlength = 10000;
 		protected List<Move> moves;
 		protected List<DeltaChange> deltaChanges;
-		protected List<MoveType> moveResults;
 		protected int lastIndex;
 	
 		public MovesHistory ()
 		{
 			this.moves = new List<Move>(maxlength);
-			this.deltaChanges = new List<DeltaChange>(maxlength);
-			this.moveResults = new List<MoveType>(maxlength);
+			this.deltaChanges = new List<DeltaChange>(maxlength);			
 			this.lastIndex = -1;
 			this.FillCache();
 		}
@@ -44,7 +42,7 @@ namespace QueemCore.History
 			return this.deltaChanges[lastIndex];
 		}
 		
-		public Move GetCurrentMove()
+		public Move GetLastMove()
 		{
 			return this.moves[lastIndex];
 		}
@@ -59,15 +57,14 @@ namespace QueemCore.History
 		{
 			return this.moveResults[lastIndex];
 		}
-		
-		public void SetMoveResult(MoveType result)
-		{
-			this.moveResults[lastIndex] = result;
-		}
-		
-		public void AddItem()
+						
+		public void AddItem(Move move)
 		{
 			lastIndex++;
+			
+			this.moves[lastIndex].From = move.From;
+			this.moves[lastIndex].To = move.To;
+			this.moves[lastIndex].Type = move.Type;
 		}
 		
 		public void RemoveLastItem()
