@@ -110,8 +110,12 @@ namespace QueemCore.BitBoards.Helpers
 			}
 			
 			return moveTypes;
-		}		
+		}
 		
+		
+		/*
+		 * capture promotion promocapture
+		*/
 		private static void FillPawns(MoveType[][][][] moveTypes)
 		{
 			var startFigure = Figure.Pawn;
@@ -122,16 +126,37 @@ namespace QueemCore.BitBoards.Helpers
 			{
 				var destinationFigure = (Figure)j;
 				
-				moveTypes[(int)startFigure][j] = GetSameMoveTypes(MoveType.Quiet);
+				moveTypes[(int)startFigure][j] = GetPawnMoveTypes(destinationFigure);
+			}
+		}
+		
+		private static MoveType[][] GetPawnMoveTypes(Figure destinationFigure)
+		{
+			var moveTypes = new MoveType[64][];
+			for (int i = 0; i < 64; ++i)
+			{
+				moveTypes[i] = new MoveType[64];
 				
-				for (int m = 0; m < 64; ++m)
+				for (int j = 0; j < 64; ++j)
 				{
-					for (int n = 0; n < 64; ++n)
+					if ((j < 8) || (j >= 56))
 					{
-						
+						if (destinationFigure != Figure.Nobody)
+							moveTypes[i][j] = MoveType.PromoCapture;
+						else
+							moveTypes[i][j] = MoveType.Promotion;
+					}
+					else
+					{
+						if (destinationFigure != Figure.Nobody)
+							moveTypes[i][j] = MoveType.Captures;
+						else
+							moveTypes[i][j] = MoveType.Promotion;
 					}
 				}
 			}
+			
+			return moveTypes;
 		}
 				
 		public static ulong GetFileFromRank(byte rank)

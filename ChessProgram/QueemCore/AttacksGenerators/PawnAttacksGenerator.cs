@@ -55,8 +55,8 @@ namespace QueemCore.AttacksGenerators
 			this.attacks[(int)PawnTarget.RightAttack] = this.cases[this.index];
 			
 			// ordinal move
-			this.cases[0] = (figures & BitBoardHelper.NotHFile) << 8;
-			this.cases[1] = (figures & BitBoardHelper.NotHFile) >> 8;
+			this.cases[0] = figures << 8;
+			this.cases[1] = figures >> 8;
 			this.attacks[(int)PawnTarget.SinglePush] = this.cases[this.index] & emptySquares;
 			
 			// double push
