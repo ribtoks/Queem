@@ -165,7 +165,7 @@ namespace QueemCore.ChessBoard
 		public void CancelMove(int sqFrom, int sqTo)
 		{
 			var figure = this.figures[sqTo];
-			this.bitboards[(int)figure].UndoMove(move);
+			this.bitboards[(int)figure].UndoMove(sqFrom, sqTo);
 			
 			this.allFigures |= (1UL << sqFrom);
 			this.allFigures &= (~(1UL << sqTo));

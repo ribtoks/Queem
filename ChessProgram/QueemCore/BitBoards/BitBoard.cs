@@ -140,10 +140,10 @@ namespace QueemCore.BitBoards
 			this.board |= moveTo;
 		}
 		
-		public virtual void UndoMove(Move move)
+		public virtual void UndoMove(int sqFrom, int sqTo)
 		{
-			ulong moveFrom = 1UL << (int)move.From;
-			ulong moveTo = 1UL << (int)move.To;
+			ulong moveFrom = 1UL << sqFrom;
+			ulong moveTo = 1UL << sqTo;
 			
 			this.board &= (~moveTo);
 			this.board |= moveFrom;

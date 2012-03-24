@@ -38,10 +38,10 @@ namespace QueemCore.BitBoards
 			AlreadyMoved = 1;
 		}
 		
-		public override void UndoMove (Move move)
+		public override void UndoMove (int sqFrom, int sqTo)
 		{
-			this.sq = move.From;
-			base.UndoMove (move);
+			this.sq = (Square)sqFrom;
+			base.UndoMove (sqFrom, sqTo);
 		}
 		
 		public override BitBoard SetBit (Square square)

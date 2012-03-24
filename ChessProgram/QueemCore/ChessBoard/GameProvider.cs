@@ -112,7 +112,7 @@ namespace QueemCore.ChessBoard
 				var rookMoveChange = deltaChange.GetNext(MoveAction.Move);
 				
 				// rook target
-				rookMoveChange.AdditionalSquare = moveTo - difference;
+				rookMoveChange.AdditionalSquare = (Square)(moveTo - difference);
 				
 				// rook source
 				// diff -> [1 -> 1, -1 -> 0]
@@ -165,6 +165,7 @@ namespace QueemCore.ChessBoard
 					
 				case MoveAction.Creation:
 					playerBoard1.RemoveFigure(change.Square, change.FigureType);
+					break;
 				}
 			}
 		}

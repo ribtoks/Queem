@@ -27,7 +27,6 @@ namespace QueemCore.History
 			{
 				moves.Add(new Move(Square.A1, Square.A1));
 				deltaChanges.Add(new DeltaChange());
-				moveResults.Add(MoveType.Quiet);
 			}
 		}
 		
@@ -58,11 +57,6 @@ namespace QueemCore.History
 			return this.moves[lastIndex];
 		}
 		
-		public MoveType GetCurrentMoveResult()
-		{
-			return this.moveResults[lastIndex];
-		}
-						
 		public void AddItem(Move move)
 		{
 			lastIndex++;
