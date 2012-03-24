@@ -129,7 +129,45 @@ namespace QueemCore.ChessBoard
 					
 				return;
 			}
-		}		
+		}	
+		
+		public void CancelLastMove(Color color)
+		{
+			var oppositeColor = (Color)(1 - (int)color);
+			
+			var playerBoard1 = this.playerBoards[(int)color];
+			var playerBoard2 = this.playerBoards[(int)oppositeColor];
+			
+			var deltaChanges = this.History.PopLastDeltaChange();
+			
+			while (deltaChanges.HasItems())
+			{
+				var change = deltaChanges.PopLast();
+				
+				switch (change.Action)
+				{
+				case MoveAction.PawnChange:
+					playerBoard1.AddFigure(change.Square, change.FigureType);
+					playerBoard1.SetProperty(change.FigureType, change.Data);
+					break;
+					
+				case MoveAction.Deletion:
+				
+					playerBoard2.AddFigure(change.Square, change.FigureType);
+					playerBoard2.SetProperty(change.FigureType, change.Data);
+					break;
+					
+				case MoveAction.Move:
+				
+					playerBoard1.CancelMove((int)change.Square, (int)change.AdditionalSquare);
+					playerBoard1.SetProperty(change.FigureType, change.Data);
+					break;
+					
+				case MoveAction.Creation:
+					playerBoard1.RemoveFigure(change.Square, change.FigureType);
+				}
+			}
+		}
 	}
 }
 

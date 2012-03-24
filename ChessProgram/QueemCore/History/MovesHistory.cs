@@ -31,6 +31,11 @@ namespace QueemCore.History
 			}
 		}
 		
+		public DeltaChange PopLastDeltaChange()
+		{
+			return this.deltaChanges[lastIndex--];
+		}
+		
 		public DeltaChange GetCurrentDeltaChange()
 		{
 			return this.deltaChanges[lastIndex];

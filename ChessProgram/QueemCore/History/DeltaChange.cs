@@ -43,6 +43,11 @@ namespace QueemCore.History
 		{
 			this.lastIndex++;
 		}
+		
+		public bool HasItems()
+		{
+			return this.lastIndex >= 0;
+		}
 	}
 }
 

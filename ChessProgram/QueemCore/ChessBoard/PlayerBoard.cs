@@ -159,7 +159,19 @@ namespace QueemCore.ChessBoard
 			this.figures[(int)move.From] = Figure.Nobody;
 			this.figures[(int)move.To] = figure;
 		}
-				
+		
+		public void CancelMove(int sqFrom, int sqTo)
+		{
+			var figure = this.figures[sqTo];
+			this.bitboards[(int)figure].UndoMove(move);
+			
+			this.allFigures |= (1UL << sqFrom);
+			this.allFigures &= (~(1UL << sqTo));
+			
+			this.figures[sqFrom] = figure;
+			this.figures[sqTo] = Figure.Nobody;
+		}
+		
 		public void AddFigure(Square sq, Figure figure)
 		{
 			this.bitboards[(int)figure].SetBit(sq);
