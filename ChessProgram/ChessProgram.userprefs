@@ -1,28 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/History/MovesHistory.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/PlayerBoard.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="168" Column="54" />
-      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="168" Column="12" />
-      <File FileName="QueemCore/Constants/BasicEnums.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/History/MovesHistory.cs" Line="60" Column="1" />
-      <File FileName="QueemCore/BitBoards/BitBoard.cs" Line="146" Column="28" />
-      <File FileName="QueemCore/History/DeltaChange.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/MovesGenerators/MovesGenerator.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/MovesGenerators/PawnMovesGenerator.cs" Line="1" Column="1" />
-      <File FileName="QueemCore/BitBoards/KingBitBoard.cs" Line="43" Column="22" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="356" Column="21" />
+      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="170" Column="5" />
+      <File FileName="QueemCore/Constants/BasicEnums.cs" Line="33" Column="12" />
+      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="20" Column="52" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Queem.Core" expanded="True">
-            <Node name="AttacksGenerators" expanded="True" />
-            <Node name="BitBoards" expanded="True" />
-            <Node name="ChessBoard" expanded="True" />
-            <Node name="Constants" expanded="True" />
-            <Node name="History" expanded="True">
-              <Node name="MovesHistory.cs" selected="True" />
+            <Node name="BitBoardHelpers" expanded="True" />
+            <Node name="ChessBoard" expanded="True">
+              <Node name="PlayerBoard.cs" selected="True" />
             </Node>
+            <Node name="Constants" expanded="True" />
             <Node name="MovesGenerators" expanded="True" />
           </Node>
           <Node name="Queem.Tests" expanded="True" />

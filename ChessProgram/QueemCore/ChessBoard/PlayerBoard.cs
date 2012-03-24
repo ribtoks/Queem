@@ -253,7 +253,7 @@ namespace QueemCore.ChessBoard
 				{
 					var newMovesArray = newMovesList[j];					
 					
-					for (int k = 0; j < newMovesArray.Length; ++k)
+					for (int k = 0; k < newMovesArray.Length; ++k)
 					{
 						var item = newMovesArray[k];
 						innerArray[index].From = item.From;
@@ -273,7 +273,7 @@ namespace QueemCore.ChessBoard
 			{
 				var newMovesArray = kingMoves[j];
 				
-				for (int k = 0; j < newMovesArray.Length; ++k)
+				for (int k = 0; k < newMovesArray.Length; ++k)
 				{
 					var item = newMovesArray[k];
 					innerArray[index].From = item.From;
@@ -305,28 +305,63 @@ namespace QueemCore.ChessBoard
 			
 			// add pawns moves
 			var pawnMoves = this.moveGenerators[(int)Figure.Pawn].GetMoves(otherFigures, mask);
-			
+			int moveTo;
 			for (int j = 0; j < pawnMoves.Count; ++j)
 			{
 				var newMovesArray = pawnMoves[j];
 				
-				for (int k = 0; j < newMovesArray.Length; ++k)
+				for (int k = 0; k < newMovesArray.Length; ++k)
 				{
 					var item = innerArray[index];
+					
 					item.From = newMovesArray[k].From;
 					item.To = newMovesArray[k].To;
 					
-					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][j][(int)item.From][(int)item.To];
+					moveTo = (int)item.To;
+					
+					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][j][(int)item.From][moveTo];
 					
 					if (wasLastMovePassing)
 						if (item.To == (Square)middle)
 							item.Type = MoveType.EpCapture;
 					
+					if ((moveTo < 8) ||
+						(moveTo >= 56))
+					{
+						// add 4 moves
+						for (int m = 1; m < 4; ++m)
+						{
+							innerArray[index + m].From = item.From;
+							innerArray[index + m].To = item.To;
+						}
+						
+						this.AddPromotionMoves(innerArray, index, (Figure)j);
+						index += 3;
+					}
+															
 					index++;
 				}
 			}
 			
 			return moves;
+		}
+		
+		protected void AddPromotionMoves(Move[] innerArray, int index, Figure destinationFigure)
+		{			
+			if (destinationFigure != Figure.Nobody)
+			{
+				innerArray[index].Type = MoveType.KnightPromoCapture;
+				innerArray[index + 1].Type = MoveType.BishopPromoCapture;
+				innerArray[index + 2].Type = MoveType.RookPromoCapture;
+				innerArray[index + 3].Type = MoveType.QueenPromoCapture;
+			}
+			else
+			{
+				innerArray[index].Type = MoveType.KnightPromotion;
+				innerArray[index + 1].Type = MoveType.BishopPromotion;
+				innerArray[index + 2].Type = MoveType.RookPromotion;
+				innerArray[index + 3].Type = MoveType.QueenPromotion;
+			}			
 		}
 				
 		public List<Move[]> GetKingMoves(PlayerBoard opponent, ulong mask)
