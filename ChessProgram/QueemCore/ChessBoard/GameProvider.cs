@@ -5,10 +5,10 @@ namespace QueemCore.ChessBoard
 {
 	public class GameProvider
 	{
-		protected PlayerBoard PlayerBoard1 { get; private set; }
-		protected PlayerBoard PlayerBoard2 { get; private set; }
+		public PlayerBoard PlayerBoard1 { get; private set; }
+		public PlayerBoard PlayerBoard2 { get; private set; }
 				
-		protected MovesHistory History { get; private set; }
+		public MovesHistory History { get; private set; }
 		
 		protected PlayerBoard[] playerBoards;
 	

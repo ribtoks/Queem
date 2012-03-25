@@ -119,7 +119,6 @@ namespace QueemCore.BitBoards.Helpers
 		private static void FillPawns(MoveType[][][][] moveTypes)
 		{
 			var startFigure = Figure.Pawn;
-			var startTypes = moveTypes[(int)startFigure];
 			int figuresCount = Enum.GetValues(typeof(Figure)).Length;
 			
 			for (int j = 0; j < figuresCount; ++j)

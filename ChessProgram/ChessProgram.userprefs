@@ -1,24 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueemCore/ChessBoard/PlayerBoard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Queem.CoreInterface/Interface/MovesProvider.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="356" Column="21" />
-      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="170" Column="5" />
-      <File FileName="QueemCore/Constants/BasicEnums.cs" Line="33" Column="12" />
-      <File FileName="QueemCore/BitBoardHelpers/PawnBitBoardHelper.cs" Line="20" Column="52" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="13" Column="15" />
+      <File FileName="Queem.CoreInterface/Adapters/MovesProviderAdapter.cs" Line="8" Column="47" />
+      <File FileName="Queem.CoreInterface/Adapters/ChessBoardAdapter.cs" Line="24" Column="46" />
+      <File FileName="Queem.CoreInterface/Adapters/PlayerAdapter.cs" Line="43" Column="30" />
+      <File FileName="Queem.CoreInterface/Interface/Player.cs" Line="10" Column="18" />
+      <File FileName="Queem.CoreInterface/Interface/MovesProvider.cs" Line="8" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Queem.Core" expanded="True">
-            <Node name="BitBoardHelpers" expanded="True" />
-            <Node name="ChessBoard" expanded="True">
-              <Node name="PlayerBoard.cs" selected="True" />
-            </Node>
-            <Node name="Constants" expanded="True" />
-            <Node name="MovesGenerators" expanded="True" />
+            <Node name="ChessBoard" expanded="True" />
           </Node>
-          <Node name="Queem.Tests" expanded="True" />
+          <Node name="Queem.CoreInterface" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Adapters" expanded="True" />
+            <Node name="Interface" expanded="True">
+              <Node name="MovesProvider.cs" selected="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">

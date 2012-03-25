@@ -16,7 +16,7 @@ namespace QueemCore
 		Rook,
 		Queen,
 		King,
-		Nobody = -1
+		Nobody
 	}
 }
 

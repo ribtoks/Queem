@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FD83AA55-A614-435F-9A0A-79CEBC26BEEA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Queem.CoreInterface</RootNamespace>
+    <AssemblyName>Queem.CoreInterface</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Interface\" />
+    <Folder Include="Adapters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\ChessBoard.cs" />
+    <Compile Include="Interface\Coordinates.cs" />
+    <Compile Include="Interface\ChessMove.cs" />
+    <Compile Include="Interface\GeneralFigure.cs" />
+    <Compile Include="Interface\MovesProvider.cs" />
+    <Compile Include="Interface\Figure.cs" />
+    <Compile Include="Adapters\CoordinatesAdapter.cs" />
+    <Compile Include="Adapters\GeneralFigureAdapter.cs" />
+    <Compile Include="Adapters\ChessMoveAdapter.cs" />
+    <Compile Include="Adapters\FigureAdapter.cs" />
+    <Compile Include="Adapters\ChessBoardAdapter.cs" />
+    <Compile Include="Adapters\MovesProviderAdapter.cs" />
+    <Compile Include="Interface\Player.cs" />
+    <Compile Include="Adapters\PlayerAdapter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QueemCore\Queem.Core.csproj">
+      <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
+      <Name>Queem.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

@@ -45,12 +45,6 @@
     <Compile Include="DebutsReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BasicChessClasses\BasicChessClasses.csproj">
-      <Project>{E4485A2E-85DF-4528-9E14-4CB306812C34}</Project>
-      <Name>BasicChessClasses</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="bin\simple_debut_moves" />
   </ItemGroup>
