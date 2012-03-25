@@ -1,7 +1,7 @@
 using System;
-using QueemCore.ChessBoard;
+using Queem.Core.ChessBoard;
 
-namespace QueemCore
+namespace Queem.Core
 {
 	public static class BoardInitializer
 	{

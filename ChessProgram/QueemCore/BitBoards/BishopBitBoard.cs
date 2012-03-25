@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using QueemCore.AttacksGenerators;
+using Queem.Core.AttacksGenerators;
 
-namespace QueemCore.BitBoards
+namespace Queem.Core.BitBoards
 {
 	public class BishopBitBoard : BitBoard
 	{

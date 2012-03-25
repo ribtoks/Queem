@@ -1,12 +1,12 @@
 using System;
-using QueemCore;
-using QueemCore.BitBoards;
-using QueemCore.AttacksGenerators;
-using QueemCore.MovesGenerators;
+using Queem.Core;
+using Queem.Core.BitBoards;
+using Queem.Core.AttacksGenerators;
+using Queem.Core.MovesGenerators;
 using System.Collections.Generic;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.BitBoards.Helpers;
 
-namespace QueemCore.ChessBoard
+namespace Queem.Core.ChessBoard
 {
 	public enum MovesMask { AllMoves, Attacks}
 	

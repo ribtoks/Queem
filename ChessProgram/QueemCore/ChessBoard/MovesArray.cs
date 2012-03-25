@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore.ChessBoard
+namespace Queem.Core.ChessBoard
 {
 	public class FixedArray
 	{

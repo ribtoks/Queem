@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using QueemCore.Extensions;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.Extensions;
+using Queem.Core.BitBoards.Helpers;
 using System.Collections.Generic;
-using QueemCore.AttacksGenerators;
+using Queem.Core.AttacksGenerators;
 
-namespace QueemCore.BitBoards
+namespace Queem.Core.BitBoards
 {
 	public class BitBoard
 	{

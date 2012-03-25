@@ -1,9 +1,9 @@
 using System;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.BitBoards.Helpers;
 using System.Collections.Generic;
-using QueemCore.AttacksGenerators;
+using Queem.Core.AttacksGenerators;
 
-namespace QueemCore.BitBoards
+namespace Queem.Core.BitBoards
 {
 	public class KnightBitBoard : BitBoard
 	{

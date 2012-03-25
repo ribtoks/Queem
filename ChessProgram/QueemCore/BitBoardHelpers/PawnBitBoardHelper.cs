@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace QueemCore.BitBoards.Helpers
+namespace Queem.Core.BitBoards.Helpers
 {
 	public static class PawnBitBoardHelper
 	{

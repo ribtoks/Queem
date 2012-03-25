@@ -1,8 +1,8 @@
 using System;
 using NUnit.Framework;
-using QueemCore.BitBoards.Helpers;
-using QueemCore;
-using QueemCore.AttacksGenerators;
+using Queem.Core.BitBoards.Helpers;
+using Queem.Core;
+using Queem.Core.AttacksGenerators;
 
 namespace Queem.Tests
 {

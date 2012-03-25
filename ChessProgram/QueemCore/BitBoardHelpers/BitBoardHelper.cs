@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using QueemCore.Extensions;
+using Queem.Core.Extensions;
 using System.Linq;
-using QueemCore.ChessBoard;
+using Queem.Core.ChessBoard;
 
-namespace QueemCore.BitBoards.Helpers
+namespace Queem.Core.BitBoards.Helpers
 {
 	public static class BitBoardHelper
 	{

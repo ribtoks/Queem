@@ -1,5 +1,5 @@
 using System;
-using QueemCore.BitBoard.Helpers;
+using Queem.Core.BitBoard.Helpers;
 
 namespace MovesGenerators
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore
+namespace Queem.Core
 {
 	public static class Int64Helper
 	{

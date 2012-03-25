@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using QueemCore.BitBoards.Helpers;
-using QueemCore;
+using Queem.Core.BitBoards.Helpers;
+using Queem.Core;
 
-namespace QueemCore.AttacksGenerators
+namespace Queem.Core.AttacksGenerators
 {
 	public class RookAttacksGenerator : AttacksGenerator
 	{

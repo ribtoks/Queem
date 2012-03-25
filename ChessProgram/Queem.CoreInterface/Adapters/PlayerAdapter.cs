@@ -1,8 +1,8 @@
 using System;
 using Queem.CoreInterface.Interface;
-using QueemCore.ChessBoard;
+using Queem.Core.ChessBoard;
 using System.Collections.Generic;
-using QueemCore;
+using Queem.Core;
 
 namespace Queem.CoreInterface.Adapters
 {
@@ -26,7 +26,7 @@ namespace Queem.CoreInterface.Adapters
 				for (int i = 0; i < figures.Length; ++i)
 				{
 				
-					if (figures[i] != QueemCore.Figure.Nobody)
+					if (figures[i] != Queem.Core.Figure.Nobody)
 						yield return new FigureAdapter(
 							new GeneralFigureAdapter(this.innerBoard.FigureColor, figures[i]),
 							new CoordinatesAdapter((Square)i));

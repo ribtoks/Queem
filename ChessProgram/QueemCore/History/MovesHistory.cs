@@ -1,8 +1,8 @@
 using System;
-using QueemCore;
+using Queem.Core;
 using System.Collections.Generic;
 
-namespace QueemCore.History
+namespace Queem.Core.History
 {
 	public class MovesHistory
 	{

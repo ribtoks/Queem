@@ -1,25 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Queem.CoreInterface/Interface/MovesProvider.cs">
-    <Files>
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="13" Column="15" />
-      <File FileName="Queem.CoreInterface/Adapters/MovesProviderAdapter.cs" Line="8" Column="47" />
-      <File FileName="Queem.CoreInterface/Adapters/ChessBoardAdapter.cs" Line="24" Column="46" />
-      <File FileName="Queem.CoreInterface/Adapters/PlayerAdapter.cs" Line="43" Column="30" />
-      <File FileName="Queem.CoreInterface/Interface/Player.cs" Line="10" Column="18" />
-      <File FileName="Queem.CoreInterface/Interface/MovesProvider.cs" Line="8" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Queem.Core" expanded="True">
-            <Node name="ChessBoard" expanded="True" />
-          </Node>
-          <Node name="Queem.CoreInterface" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="Adapters" expanded="True" />
-            <Node name="Interface" expanded="True">
-              <Node name="MovesProvider.cs" selected="True" />
+            <Node name="AttacksGenerators" expanded="True">
+              <Node name="AttacksGenerator.cs" selected="True" />
             </Node>
           </Node>
         </State>

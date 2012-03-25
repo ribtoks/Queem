@@ -1,7 +1,7 @@
 using System;
-using QueemCore;
+using Queem.Core;
 
-namespace QueemCore.BitBoards.Helpers
+namespace Queem.Core.BitBoards.Helpers
 {
 
 	public static class KingBitBoardHelper

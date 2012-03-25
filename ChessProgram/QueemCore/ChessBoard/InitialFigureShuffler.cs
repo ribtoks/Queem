@@ -1,7 +1,7 @@
 using System;
-using QueemCore.BitBoards;
+using Queem.Core.BitBoards;
 
-namespace QueemCore.ChessBoard
+namespace Queem.Core.ChessBoard
 {	
 	public abstract class InitialFigureShuffler
 	{	

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitBoardGenerators", "BitBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.CoreInterface", "Queem.CoreInterface\Queem.CoreInterface.csproj", "{FD83AA55-A614-435F-9A0A-79CEBC26BEEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queem.AI", "Queem.AI\Queem.AI.csproj", "{E94ED089-692E-411E-943D-2EB3E4304E87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,20 @@ Global
 		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Release|x86.ActiveCfg = Release|x86
 		{D1ABF00C-CF14-4245-A8C9-2757A6E225A7}.Release|x86.Build.0 = Release|x86
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|x86.Build.0 = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Release|x86.ActiveCfg = Release|Any CPU
+		{E94ED089-692E-411E-943D-2EB3E4304E87}.Release|x86.Build.0 = Release|Any CPU
 		{FD83AA55-A614-435F-9A0A-79CEBC26BEEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD83AA55-A614-435F-9A0A-79CEBC26BEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD83AA55-A614-435F-9A0A-79CEBC26BEEA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

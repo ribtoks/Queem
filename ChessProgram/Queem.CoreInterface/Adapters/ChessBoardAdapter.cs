@@ -1,5 +1,5 @@
 using System;
-using QueemCore.ChessBoard;
+using Queem.Core.ChessBoard;
 using Queem.CoreInterface.Interface;
 
 namespace Queem.CoreInterface.Adapters
@@ -20,7 +20,7 @@ namespace Queem.CoreInterface.Adapters
 				int square = j*8 + i;
 				var board = this.innerProvider.PlayerBoard1;
 				
-				if (board.Figures[square] == QueemCore.Figure.Nobody)
+				if (board.Figures[square] == Queem.Core.Figure.Nobody)
 					board = this.innerProvider.PlayerBoard2;
 				
 				return new GeneralFigureAdapter(board.FigureColor, board.Figures[square]);

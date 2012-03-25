@@ -1,7 +1,7 @@
 using System;
-using QueemCore.History;
+using Queem.Core.History;
 
-namespace QueemCore.ChessBoard
+namespace Queem.Core.ChessBoard
 {
 	public class GameProvider
 	{

@@ -1,5 +1,5 @@
 using System;
-using QueemCore;
+using Queem.Core;
 using Queem.CoreInterface;
 using Queem.CoreInterface.Interface;
 

@@ -1,9 +1,9 @@
 using System;
 using System.Text;
-using QueemCore;
-using QueemCore.Extensions;
+using Queem.Core;
+using Queem.Core.Extensions;
 using NUnit.Framework;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.BitBoards.Helpers;
 
 namespace Queem.Tests
 {

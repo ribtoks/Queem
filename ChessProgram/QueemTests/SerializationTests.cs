@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
-using QueemCore.BitBoards;
-using QueemCore;
+using Queem.Core.BitBoards;
+using Queem.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

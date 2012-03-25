@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Diagnostics;
-using QueemCore.BitBoards;
+using Queem.Core.BitBoards;
 
-namespace QueemCore.BitBoards.Helpers
+namespace Queem.Core.BitBoards.Helpers
 {
 	public static class RookBitBoardHelper
 	{

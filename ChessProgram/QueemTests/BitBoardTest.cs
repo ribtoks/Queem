@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
-using QueemCore;
-using QueemCore.BitBoards.Helpers;
-using QueemCore.BitBoards;
-using QueemCore.Extensions;
+using Queem.Core;
+using Queem.Core.BitBoards.Helpers;
+using Queem.Core.BitBoards;
+using Queem.Core.Extensions;
 using System.Text;
 
 namespace Queem.Tests

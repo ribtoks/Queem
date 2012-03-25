@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore.History
+namespace Queem.Core.History
 {
 	public enum MoveAction { Creation, Move, Deletion, PawnChange }
 

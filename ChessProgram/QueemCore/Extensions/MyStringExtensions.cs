@@ -1,6 +1,6 @@
 using System;
 
-namespace QueemCore.Extensions
+namespace Queem.Core.Extensions
 {
 	public static class MyStringExtensions
 	{

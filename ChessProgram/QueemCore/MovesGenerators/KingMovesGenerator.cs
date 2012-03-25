@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using QueemCore.BitBoards;
-using QueemCore.AttacksGenerators;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.BitBoards;
+using Queem.Core.AttacksGenerators;
+using Queem.Core.BitBoards.Helpers;
 
-namespace QueemCore.MovesGenerators
+namespace Queem.Core.MovesGenerators
 {
 	public class KingMovesGenerator : MovesGenerator
 	{

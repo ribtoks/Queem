@@ -1,11 +1,11 @@
 using System;
-using QueemCore.MovesGenerators;
-using QueemCore.BitBoards;
-using QueemCore.AttacksGenerators;
+using Queem.Core.MovesGenerators;
+using Queem.Core.BitBoards;
+using Queem.Core.AttacksGenerators;
 using System.Collections.Generic;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.BitBoards.Helpers;
 
-namespace QueemCore
+namespace Queem.Core
 {
 	public class PawnMovesGenerator : MovesGenerator
 	{

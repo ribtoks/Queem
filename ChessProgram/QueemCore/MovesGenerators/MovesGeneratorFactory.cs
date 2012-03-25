@@ -1,9 +1,9 @@
 using System;
-using QueemCore;
-using QueemCore.BitBoards;
-using QueemCore.AttacksGenerators;
+using Queem.Core;
+using Queem.Core.BitBoards;
+using Queem.Core.AttacksGenerators;
 
-namespace QueemCore.MovesGenerators
+namespace Queem.Core.MovesGenerators
 {
 	public static class MovesGeneratorFactory
 	{

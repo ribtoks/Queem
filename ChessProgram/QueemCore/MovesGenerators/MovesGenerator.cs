@@ -1,10 +1,10 @@
 using System;
-using QueemCore.BitBoards;
-using QueemCore.AttacksGenerators;
+using Queem.Core.BitBoards;
+using Queem.Core.AttacksGenerators;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QueemCore.MovesGenerators
+namespace Queem.Core.MovesGenerators
 {
 	public class MovesGenerator
 	{

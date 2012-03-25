@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using QueemCore.BitBoards.Helpers;
+using Queem.Core.BitBoards.Helpers;
 
-namespace QueemCore
+namespace Queem.Core
 {
 	public static class BitBoardSerializer
 	{

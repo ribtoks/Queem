@@ -1,6 +1,6 @@
 using System;
 using Queem.CoreInterface.Interface;
-using QueemCore.ChessBoard;
+using Queem.Core.ChessBoard;
 using System.Collections.Generic;
 
 namespace Queem.CoreInterface.Adapters
