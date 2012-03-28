@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BasicChessClasses;
+using Queem.Core;
 
 namespace ChessBoardTest
 {
@@ -10,15 +10,15 @@ namespace ChessBoardTest
 
     public class PlayerMoveEventArgs : EventArgs
     {
-        public Coordinates MoveStart { get; set; }
-        public Coordinates MoveEnd { get; set; }
-        public FigureColor PlayerColor { get; set; }
+        public Square MoveStart { get; set; }
+        public Square MoveEnd { get; set; }
+        public Color PlayerColor { get; set; }
     }
 
     public class PawnChangedEventArgs : EventArgs
     {
-        public FigureType Type { get; set; }
-        public Coordinates Coords { get; set; }
+        public Figure FigureType { get; set; }
+        public Square Square { get; set; }
     }
 
     public delegate void PawnChangedEventHandler(object source, PawnChangedEventArgs e);

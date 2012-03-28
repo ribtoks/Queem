@@ -15,6 +15,18 @@ namespace Queem.Core
 			this.To = end;
 			this.Type = MoveType.Quiet;
 		}
+
+        public Move(string str)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Move(Move from)
+        {
+            this.From = from.From;
+            this.To = from.To;
+            this.Type = from.Type;
+        }
 		
 		public Square From
 		{

@@ -11,8 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BasicChessClasses;
 using System.Windows.Media.Animation;
+using Queem.CoreInterface.Interface;
+using Queem.CoreInterface.Adapters;
 
 namespace ChessBoardTest
 {
@@ -42,13 +43,13 @@ namespace ChessBoardTest
         protected int animationsDone = 0;
 
         protected Coordinates pawnChangeCoords;
-        protected FigureType[] pawnReplacementTypes = new FigureType[] { FigureType.Horse, FigureType.Bishop, FigureType.Rook, FigureType.Queen };
+        protected FigureType[] pawnReplacementTypes = new FigureType[] { FigureType.Knight, FigureType.Bishop, FigureType.Rook, FigureType.Queen };
 
         #endregion
 
-        public FigureColor CurrPlayerColor
+        public Queem.Core.Color CurrPlayerColor
         {
-            get { return currPlayerColor; }
+            get { return (currPlayerColor == FigureColor.White) ? Queem.Core.Color.White : Queem.Core.Color.Black; }
         }
 
         #region Events
@@ -103,7 +104,7 @@ namespace ChessBoardTest
             if (PawnChanged != null)
             {
                 PawnChanged(this, new PawnChangedEventArgs() 
-                { Type = changeType, Coords = pawnChangeCoords });
+                { FigureType = changeType, Square = pawnChangeCoords });
             }
         }
 
@@ -122,8 +123,8 @@ namespace ChessBoardTest
             InitializeBoard();
             BindBoardHandlers();
 
-            startCoord = new Coordinates();
-            endCoord = new Coordinates();
+            startCoord = new CoordinatesAdapter(Queem.Core.Square.NoSquare);
+            endCoord = new CoordinatesAdapter(Queem.Core.Square.NoSquare);
         }
 
         protected Grid CreateFigureGrid(FigureType type)

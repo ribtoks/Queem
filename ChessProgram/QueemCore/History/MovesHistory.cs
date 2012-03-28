@@ -74,6 +74,16 @@ namespace Queem.Core.History
 #endif
 			lastIndex--;
 		}
+
+        public bool HasItems()
+        {
+            return this.lastIndex > 0;
+        }
+
+        public void ClearAll()
+        {
+            this.lastIndex = 0;
+        }
 	}
 }
 

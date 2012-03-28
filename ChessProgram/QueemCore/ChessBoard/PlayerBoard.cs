@@ -460,6 +460,7 @@ namespace Queem.Core.ChessBoard
 				{
 					innerArray[squeezed_index].From = move.From;
 					innerArray[squeezed_index].To = move.To;
+                    innerArray[squeezed_index].Type = move.Type;
 					++squeezed_index;
 				}
 				

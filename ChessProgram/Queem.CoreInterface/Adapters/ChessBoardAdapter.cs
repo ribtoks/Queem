@@ -17,7 +17,7 @@ namespace Queem.CoreInterface.Adapters
 		{
 			get 
 			{
-				int square = j*8 + i;
+				int square = (7 - j)*8 + i;
 				var board = this.innerProvider.PlayerBoard1;
 				
 				if (board.Figures[square] == Queem.Core.Figure.Nobody)
@@ -26,6 +26,14 @@ namespace Queem.CoreInterface.Adapters
 				return new GeneralFigureAdapter(board.FigureColor, board.Figures[square]);
 			}
 		}
+
+        public override GeneralFigure this[Coordinates coords]
+        {
+            get 
+            {
+                return this[coords.X, coords.Y];
+            }
+        }
 	}
 }
 

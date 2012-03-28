@@ -11,8 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BasicChessClasses;
 using System.Windows.Media.Animation;
+using Queem.CoreInterface.Interface;
+using Queem.Core.History;
+using Queem.Core;
+using Queem.CoreInterface.Adapters;
 
 namespace ChessBoardTest
 {
@@ -160,7 +163,7 @@ namespace ChessBoardTest
             story.Completed += new EventHandler((sender, e) =>
             {
                 Panel.SetZIndex(startBorder, zIndex);
-                ReplaceAnimationFigures(new ChessMove(move));
+                ReplaceAnimationFigures(new Move(move));
 
                 animationsDone += 1;
                 if (animationsDone == animationEventsCount)
@@ -300,55 +303,54 @@ namespace ChessBoardTest
             chessBoardGrid.IsHitTestVisible = true;
         }
 
-        public void AnimateFigureMove(DeltaChanges dc, ChessMove move, MoveResult moveResult)
+        public void AnimateFigureMove(DeltaChange dc, Move move, MoveType moveResult)
         {
             OnPlayerMoveAnimationPreview();
 
             chessBoardGrid.IsHitTestVisible = false;
-            if (moveResult == MoveResult.Castling)
+            if (moveResult == MoveType.KingCastle)
                 animationEventsCount = 2;
             else
                 animationEventsCount = 1;
             animationsDone = 0;
 
-            while (dc.Changes.Count > 0)
+            while (dc.HasItems())
             {
-                Change change = dc.Changes.Pop();
+                Change change = dc.PopLast();
                 switch (change.Action)
                 {
                     case MoveAction.Move:
                         chessBoardGrid.IsHitTestVisible = false;
-                        innerAnimateFigureMove(new ChessMove(change.Coords,
-    change.AdditionalCoords));    
+                        innerAnimateFigureMove(new ChessMoveAdapter(new Move(change.Square,
+    change.AdditionalSquare)));
                         break;
                     case MoveAction.Deletion:
                         // delete figure image only when 
                         // processing in passing capture
-                        if (change.Coords != move.End)
-                            deleteFigureImageAt(change.Coords);
+                        if (change.Square != move.To)
+                            deleteFigureImageAt(new CoordinatesAdapter(change.Square));
                         break;
                     case MoveAction.Creation:
-                        addFigureImageAt(change.Coords,
-                            new GeneralFigure(change.FigureType, 
-                                change.FigureColor));
+                        addFigureImageAt(new CoordinatesAdapter(change.Square),
+                            new GeneralFigureAdapter(change.FigureColor, change.FigureType));
                         break;
                 }
             }
         }
 
-        public void AnimateCancelFigureMove(DeltaChanges dc, ChessMove move, MoveResult moveResult)
+        public void AnimateCancelFigureMove(DeltaChange dc, ChessMove move, MoveType moveResult)
         {
             OnPlayerMoveAnimationPreview();
 
             chessBoardGrid.IsHitTestVisible = false;
 
-            if (moveResult == MoveResult.Castling)
+            if (moveResult == MoveType.KingCastle)
                 animationEventsCount = 2;
             else
                 animationEventsCount = 1;
             animationsDone = 0;
 
-            GeneralFigure figureDied = new GeneralFigure();
+            GeneralFigure figureDied;
             // select figure that was taken directly 
             // by move, but not passing pawn
             var deadFigures = dc.Changes.Where((x) => (x.Action == MoveAction.Deletion) && // was taken
@@ -357,16 +359,16 @@ namespace ChessBoardTest
             if (deadFigures.Count() == 1)
             {
                 var firstChange = deadFigures.First();
-                figureDied = new GeneralFigure(firstChange.FigureType, firstChange.FigureColor);
+                figureDied = new GeneralFigureAdapter(firstChange.FigureColor, firstChange.FigureType);
             }
 #if DEBUG
             else if (deadFigures.Count() > 1)
                 throw new Exception("Something strange here");
 #endif
 
-            while (dc.Changes.Count > 0)
+            while (dc.HasItems())
             {
-                Change change = dc.Changes.Pop();
+                Change change = dc.PopLast();
                 switch (change.Action)
                 {
                     case MoveAction.Move:
@@ -382,10 +384,9 @@ namespace ChessBoardTest
                         //deleteFigureImageAt(change.Coords);
                         break;
                     case MoveAction.Deletion:
-                        if (move.End != change.Coords)
-                            addFigureImageAt(change.Coords,
-                                new GeneralFigure(change.FigureType,
-                                    change.FigureColor));
+                        if (move.End != change.Square)
+                            addFigureImageAt(new CoordinatesAdapter(change.Square),
+                                new GeneralFigureAdapter(change.FigureColor, change.FigureType));
                         break;
                 }
             }
@@ -400,7 +401,7 @@ namespace ChessBoardTest
             Grid grid = (Grid)border.Child;
 
             // TODO move such colors to resources
-            grid.Background = new SolidColorBrush(Color.FromArgb(0x19, 0xff, 0xff, 0xff));
+            grid.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x19, 0xff, 0xff, 0xff));
         }
 
         protected void unhightlightBorder(object sender)

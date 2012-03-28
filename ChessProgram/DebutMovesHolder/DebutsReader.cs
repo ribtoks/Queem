@@ -1,12 +1,12 @@
 using System;
 using System.IO;
-using BasicChessClasses;
+using Queem.Core;
 
 namespace DebutMovesHolder
 {
 	public static class DebutsReader
 	{
-		public static DebutGraph ReadDebuts (string fileName, FigureStartPosition whitePos)
+		public static DebutGraph ReadDebuts (string fileName, PlayerPosition whitePos)
 		{
 			FileStream fs = new FileStream (fileName, FileMode.Open, FileAccess.Read);			
 			StreamReader sr = new StreamReader (fs);

@@ -11,12 +11,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BasicChessClasses;
 using System.Threading;
-using QueemAI;
 using System.ComponentModel;
 using System.IO;
+using Queem.CoreInterface;
+using Queem.Core.ChessBoard;
 using DebutMovesHolder;
+using Queem.Core;
+using Queem.CoreInterface.Adapters;
+using Queem.AI;
+using Queem.Core.History;
 
 namespace ChessBoardTest
 {
@@ -27,9 +31,9 @@ namespace ChessBoardTest
     {
         #region Data
 
-        CH_MovesProvider mp;
-        FigureColor myColor = FigureColor.White;
-        FigureStartPosition myStartPos = FigureStartPosition.Down;
+        GameProvider gameProvider;
+        Queem.Core.Color myColor = Queem.Core.Color.White;
+        PlayerPosition myStartPos = PlayerPosition.Down;
         List<MoveWithDecision> redoMoves;
         BackgroundWorker bw;
         bool solverDisabled = false;
@@ -41,15 +45,15 @@ namespace ChessBoardTest
         {
             InitializeComponent();
 
-            mp = new CH_MovesProvider(myColor, myStartPos);
-            redoMoves = new List<MoveWithDecision>();
-            bw = new BackgroundWorker();
+            this.gameProvider = new GameProvider();
+            this.redoMoves = new List<MoveWithDecision>();
+            this.bw = new BackgroundWorker();
 
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            this.bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            this.bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 
             #region ChessBoard Events Handlers
-            chessBoardControl.InitializeControl(mp);
+            chessBoardControl.InitializeControl(new MovesProviderAdapter(this.gameProvider));
             chessBoardControl.PlayerMoveFinished += new PlayerMoveEventHandler(chessBoardControl_PlayerMoveFinished);
             chessBoardControl.PlayerMoveAnimationFinished += new EventHandler(chessBoardControl_PlayerMoveAnimationFinished);
             chessBoardControl.PlayerMoveAnimationPreview += new EventHandler(chessBoardControl_PlayerMoveAnimationPreview);
@@ -71,12 +75,12 @@ namespace ChessBoardTest
                 return;
             }
 
-            ChessMove move = (ChessMove)e.Result;
+            Move move = (Move)e.Result;
 
-            MoveResult mr = mp.ProvideOpponetMove(move);
+            this.gameProvider.ProcessMove(move, chessBoardControl.CurrPlayerColor);
 
             chessBoardControl.AnimateFigureMove(
-                new DeltaChanges(mp.History.LastChanges),
+                new DeltaChange(mp.History.LastChanges),
                 mp.History.LastMove,
                 mp.History.LastMoveResult);
 
@@ -97,7 +101,7 @@ namespace ChessBoardTest
         {
             ChessSolver cs = new ChessSolver(this.simpleDebuts);
 
-            ChessMove move = cs.SolveProblem(mp,
+            Move move = cs.SolveProblem(this.gameProvider,
                 chessBoardControl.CurrPlayerColor,
                 6);
             e.Result = move;
@@ -105,9 +109,7 @@ namespace ChessBoardTest
 
         protected void chessBoardControl_PawnChanged(object source, PawnChangedEventArgs e)
         {
-            mp.ReplacePawn(e.Coords, e.Type,
-                chessBoardControl.CurrPlayerColor);
-            chessBoardControl.ChangePlayer();
+            this.gameProvider.PromotePawn(chessBoardControl.CurrPlayerColor, e.Square, e.FigureType);
 
             solverDisabled = false;
             StartSolver();
@@ -125,13 +127,13 @@ namespace ChessBoardTest
 
             if (chessBoardControl.CurrPlayerColor != myColor)
             {
-                if (mp.IsCheckmate(mp.Player2, mp.Player1))
+                if (this.gameProvider.IsCheckmate(chessBoardControl.CurrPlayerColor))
                 {
                     MessageBox.Show("You checkmated computer.");
                     return;
                 }
 
-                if (mp.IsStalemate(mp.Player2, mp.Player1))
+                if (this.gameProvider.IsStalemate(chessBoardControl.CurrPlayerColor))
                 {
                     MessageBox.Show("Computer is in stalemate.");
                 }
@@ -139,7 +141,7 @@ namespace ChessBoardTest
                 bw.RunWorkerAsync();
             }
 
-            if (mp.History.Count > 0)
+            if (this.gameProvider.History.HasItems())
                 cancelButton.IsEnabled = true;
         }
 
@@ -154,7 +156,8 @@ namespace ChessBoardTest
 
             if (e.PlayerColor == myColor)
             {
-                mr = mp.ProvideMyMove(new ChessMove(e.MoveStart, e.MoveEnd));
+                this.gameProvider.ProcessMove(
+                mr = mp.ProvideMyMove(new Move(e.MoveStart, e.MoveEnd));
             }
             else
             {
@@ -186,10 +189,11 @@ namespace ChessBoardTest
 
         protected void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mp.History.Count == 0)
+            /*
+            if (!this.gameProvider.History.HasItems())
                 return;
 
-            ChessMove lastMove = new ChessMove(mp.History.LastMove);
+            Move lastMove = new ChessMove(mp.History.LastMove);
             DeltaChanges lastChanges = new DeltaChanges(mp.History.LastChanges);
             MoveResult lastResult = mp.History.LastMoveResult;
 
@@ -211,10 +215,12 @@ namespace ChessBoardTest
 
             if (mp.History.Count == 0)
                 cancelButton.IsEnabled = false;
+             */
         }
 
         protected void redoButton_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (redoMoves.Count == 0)
                 return;
 
@@ -249,30 +255,31 @@ namespace ChessBoardTest
                 redoButton.IsEnabled = false;
             }
             cancelButton.IsEnabled = true;
+             * */
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             string path = Directory.GetCurrentDirectory() + System.IO.Path.DirectorySeparatorChar + "chess.game";
 
-            File.WriteAllLines(path, mp.History.Moves.Select(x => x.ToString()).ToArray());
+            System.IO.File.WriteAllLines(path, mp.History.Moves.Select(x => x.ToString()).ToArray());
         }
 
         private void readButton_Click(object sender, RoutedEventArgs e)
         {
-            mp.ResetAll();
+            this.gameProvider.History.ClearAll();
             redoMoves = new List<MoveWithDecision>();
 
             string path = Directory.GetCurrentDirectory() + System.IO.Path.DirectorySeparatorChar + "chess.game";
 
-            string[] lines = File.ReadAllLines(path);
+            string[] lines = System.IO.File.ReadAllLines(path);
             int i = 0;
             foreach (var line in lines)
             {
                 if ((i % 2) == 0)
-                    mp.ProvideMyMove(new ChessMove(line));
+                    this.gameProvider.ProcessMove(new Move(line), Queem.Core.Color.White);
                 else
-                    mp.ProvideOpponetMove(new ChessMove(line));
+                    this.gameProvider.ProcessMove(new Move(line), Queem.Core.Color.Black);
                 i += 1;
             }
             chessBoardControl.RedrawAll();

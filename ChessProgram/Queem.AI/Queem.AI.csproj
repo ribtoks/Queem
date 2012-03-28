@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Queem.AI</RootNamespace>
     <AssemblyName>Queem.AI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +35,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\DebutMovesHolder\DebutMovesHolder.csproj">
+      <Project>{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}</Project>
+      <Name>DebutMovesHolder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QueemCore\Queem.Core.csproj">
       <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
       <Name>Queem.Core</Name>

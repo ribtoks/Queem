@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BasicChessClasses;
+using Queem.Core;
 
 namespace DebutMovesHolder
 {
@@ -10,18 +10,18 @@ namespace DebutMovesHolder
     public class MoveNode
     {
         //current root on this level
-        ChessMove currentMove;
+        Move currentMove;
 
         //moves-replies on currentMove
         Dictionary<MoveNode, MoveNode> replies;
         
-        public ChessMove Move
+        public Move Move
         {
             get { return currentMove; }
             set 
             {
-                currentMove.End = value.End;
-                currentMove.Start = value.Start;
+                currentMove.To = value.To;
+                currentMove.From = value.From;
             }
         }
 
@@ -32,9 +32,9 @@ namespace DebutMovesHolder
 
         #region Constructors
         
-        public MoveNode(ChessMove from)
+        public MoveNode(Move from)
         {
-            currentMove = new ChessMove(from);
+            currentMove = new Move(from);
             replies = new Dictionary<MoveNode, MoveNode>();
         }
 
@@ -47,14 +47,14 @@ namespace DebutMovesHolder
             }
             else
             {
-                currentMove = new ChessMove(from.currentMove);
+                currentMove = new Move(from.currentMove);
                 replies = new Dictionary<MoveNode, MoveNode>(from.replies);
             }
         }
 
-        public MoveNode(string from, FigureStartPosition whitePos)
+        public MoveNode(string from, PlayerPosition whitePos)
         {
-            currentMove = new ChessMove(from, whitePos);
+            currentMove = new Move(from, whitePos);
             replies = new Dictionary<MoveNode, MoveNode>();
         }
 
@@ -65,7 +65,7 @@ namespace DebutMovesHolder
         /// </summary>
         /// <param name="moveReply">Move-reply to add</param>
         /// <returns>Move node, that points to added move</returns>
-        public MoveNode Add(ChessMove moveReply)
+        public MoveNode Add(Move moveReply)
         {
             MoveNode temp = new MoveNode(moveReply);
 
@@ -81,7 +81,7 @@ namespace DebutMovesHolder
         /// <param name="moveReply">Move, represented by System.String</param>
         /// <param name="whitePos">Position of White figures on board</param>
         /// <returns>Move node, that points to added move</returns>
-        public MoveNode Add(string moveReply, FigureStartPosition whitePos)
+        public MoveNode Add(string moveReply, PlayerPosition whitePos)
         {
             MoveNode tempNode = new MoveNode(moveReply, whitePos);
             if (!replies.ContainsKey(tempNode))
@@ -258,9 +258,9 @@ namespace DebutMovesHolder
         /// </summary>
         /// <param name="whitePos">Position of white figures on board</param>
         /// <param name="moves">Pairs of moves and replies e.g. ("e2 -> e4", "e7 -> e5")</param>
-        public void AddMoves(FigureStartPosition whitePos, params string[] moves)
+        public void AddMoves(PlayerPosition whitePos, params string[] moves)
         {
-            ChessMove temp = new ChessMove(moves[0], whitePos);
+            Move temp = new Move(moves[0]);
             MoveNode tempNode = new MoveNode(temp);
 
             //iterator, that will add move to tree
@@ -271,7 +271,7 @@ namespace DebutMovesHolder
             if (!rootMoves.ContainsKey(tempNode))
             {
                 rootMoves.Add(tempNode, tempNode);
-                next = rootMoves[tempNode].Add(new ChessMove(moves[1], whitePos));
+                next = rootMoves[tempNode].Add(new Move(moves[1]));
             }
             else
             {
