@@ -54,7 +54,7 @@ namespace DebutMovesHolder
 
         public MoveNode(string from, PlayerPosition whitePos)
         {
-            currentMove = new Move(from, whitePos);
+            currentMove = new Move(from);
             replies = new Dictionary<MoveNode, MoveNode>();
         }
 
@@ -275,7 +275,7 @@ namespace DebutMovesHolder
             }
             else
             {
-                next = rootMoves[tempNode].Add(new ChessMove(moves[1], whitePos));
+                next = rootMoves[tempNode].Add(new Move(moves[1]));
             }
 
             pushingIterator = GetIterator(tempNode);
@@ -295,7 +295,7 @@ namespace DebutMovesHolder
         /// </summary>
         /// <param name="moves">List of all moves</param>
         /// <returns>MoveIterator that points on certain node, or End iterator if there no answer</returns>
-        public MoveIterator CheckMoves(List<ChessMove> moves)
+        public MoveIterator CheckMoves(List<Move> moves)
         {
             //there no so long combinations in tree :(
             if (moves.Count > 10)

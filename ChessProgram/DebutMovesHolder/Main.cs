@@ -1,5 +1,4 @@
 using System;
-using BasicChessClasses;
 
 namespace DebutMovesHolder
 {
@@ -7,7 +6,7 @@ namespace DebutMovesHolder
 	{
 		public static void Main (string[] args)
 		{
-			DebutGraph dg = DebutsReader.ReadDebuts ("../simple_debut_moves", FigureStartPosition.Up);
+			DebutGraph dg = DebutsReader.ReadDebuts ("../simple_debut_moves", Queem.Core.PlayerPosition.Down);
 			Console.WriteLine (dg.ToString ());
 		}
 	}

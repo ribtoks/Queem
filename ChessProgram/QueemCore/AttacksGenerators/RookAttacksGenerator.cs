@@ -20,7 +20,7 @@ namespace Queem.Core.AttacksGenerators
 			
 			ulong otherFiguresRank = otherFigures >> (8*rank);
 			otherFiguresRank &= 255;
-			byte rankAttacks = RookBitBoardHelper.FirstRankAttacks[7 - file, otherFiguresRank];
+			byte rankAttacks = RookBitBoardHelper.FirstRankAttacks[7 - file, (int)otherFiguresRank];
 			// in real int64 lower byte has mirrored bits
 			// 7 6 5 4 3 2 1 0 and in this 0 1 2 3 4 5 6 7
 			ulong horizontalAttacks = (ulong)(rankAttacks) << (8*rank);
