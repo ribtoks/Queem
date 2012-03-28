@@ -180,7 +180,7 @@ Global
 		{E4485A2E-85DF-4528-9E14-4CB306812C34}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Queem.CoreInterface\Queem.CoreInterface.csproj
+		StartupItem = Queem.AI\Queem.AI.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

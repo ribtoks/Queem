@@ -188,6 +188,54 @@ namespace Queem.Core.ChessBoard
 			playerBoard.RemoveFigure(square, Figure.Pawn);
 			playerBoard.AddFigure(square, newFigure);
 		}
+		
+		public bool IsUnderCheck(Color color)
+		{
+			var oppositeColor = 1 - (int)color;
+			
+			var player = this.playerBoards[(int)color];
+			var opponent = this.playerBoards[oppositeColor];
+			
+			return player.IsUnderCheck(opponent);
+		}
+		
+		public bool IsCheckmate(Color color)
+		{
+			var oppositeColor = 1 - (int)color;
+			
+			var player = this.playerBoards[(int)color];
+			var opponent = this.playerBoards[oppositeColor];
+			
+			if(!player.IsUnderCheck(opponent))
+				return false;
+		
+			return this.AreNoMoves(player, opponent);
+		}		
+		
+		public bool IsStalemate(Color color)
+		{
+			var oppositeColor = 1 - (int)color;
+			
+			var player = this.playerBoards[(int)color];
+			var opponent = this.playerBoards[oppositeColor];
+			
+			if(player.IsUnderCheck(opponent))
+				return false;
+		
+			return this.AreNoMoves(player, opponent);
+		}
+		
+		private bool AreNoMoves(PlayerBoard player, PlayerBoard opponent)
+		{
+			var moves = player.GetMoves(opponent, 
+										this.History.GetLastMove(), 
+										MovesMask.AllMoves);
+			
+			player.FilterMoves(opponent, moves);
+			bool result = (moves.Size == 0);
+			MovesArray.ReleaseLast();
+			return result;
+		}
 	}
 }
 

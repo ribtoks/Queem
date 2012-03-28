@@ -434,13 +434,48 @@ namespace Queem.Core.ChessBoard
 						
 		#endregion
 		
+		public void FilterMoves(PlayerBoard opponent, FixedArray moves)
+		{
+			var kingSquare = this.King.GetSquare();
+			int index = 0;
+			int squeezed_index = 0;
+			var innerArray = moves.InnerArray;
+			int size = moves.Size;
+			
+			while (index < size)
+			{
+				var move = innerArray[index];
+				var figure = this.figures[(int)move.From];
+				
+				if (move.Type == MoveType.KingCastle)
+				{
+					index++;
+					continue;
+				}
+				
+				this.ProcessMove(move, figure);
+				
+				// TODO write "from direction" method
+				if (!this.IsUnderAttack(kingSquare, opponent))
+				{
+					innerArray[squeezed_index].From = move.From;
+					innerArray[squeezed_index].To = move.To;
+					++squeezed_index;
+				}
+				
+				this.CancelMove((int)move.From, (int)move.To);
+				
+				++index;
+			}
+		}
+		
 		protected bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
 		{
 			ulong occupied = 1UL << (int)sq;
 			
 			ulong pawnAttacks = opponentBoard.GetPawnAttacks();						
 			if ((occupied & pawnAttacks) != 0) 
-				return true;				
+				return true;
 			
 			ulong knights = opponentBoard.bitboards[(int)Figure.Knight].GetInnerValue();
 			ulong king = opponentBoard.bitboards[(int)Figure.King].GetInnerValue();
@@ -472,7 +507,7 @@ namespace Queem.Core.ChessBoard
 			return false;
 		}
 		
-		protected bool IsUnderCheck(PlayerBoard opponent)
+		public bool IsUnderCheck(PlayerBoard opponent)
 		{
 			return IsUnderAttack(this.King.GetSquare(), opponent);
 		}

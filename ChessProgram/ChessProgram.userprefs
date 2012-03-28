@@ -4,11 +4,8 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Queem.Core" expanded="True">
-            <Node name="AttacksGenerators" expanded="True">
-              <Node name="AttacksGenerator.cs" selected="True" />
-            </Node>
-          </Node>
+          <Node name="Queem.AI" expanded="True" />
+          <Node name="Queem.Core" expanded="True" selected="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

@@ -8,7 +8,7 @@
     <ProjectGuid>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>QueemCore</RootNamespace>
-    <AssemblyName>QueemCore</AssemblyName>
+    <AssemblyName>Queem.Core</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
