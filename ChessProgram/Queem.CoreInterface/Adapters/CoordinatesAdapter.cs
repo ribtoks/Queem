@@ -17,7 +17,7 @@ namespace Queem.CoreInterface.Adapters
 		{
 			get 
 			{
-				return (int)this.square >> 3;
+				return 7 - ((int)this.square >> 3);
 			}
 		}
 		
@@ -39,7 +39,7 @@ namespace Queem.CoreInterface.Adapters
 		
 		public override void Set (int x, int y)
 		{
-			this.square = (Square)(8*y + x);
+			this.square = (Square)(8*(7 - y) + x);
 		}
 	}
 }

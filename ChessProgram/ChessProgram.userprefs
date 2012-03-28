@@ -1,11 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Queem.AI/ChessSolver.cs">
+    <Files>
+      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="238" Column="4" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="17" Column="3" />
+      <File FileName="QueemCore/ChessBoard/MovesArray.cs" Line="1" Column="1" />
+      <File FileName="Queem.AI/ChessSolver.cs" Line="4" Column="3" />
+      <File FileName="DebutMovesHolder/DebutGraph.cs" Line="3" Column="25" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Queem.AI" expanded="True" />
-          <Node name="Queem.Core" expanded="True" selected="True" />
+          <Node name="DebutMovesHolder" expanded="True" />
+          <Node name="Queem.AI" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="ChessSolver.cs" selected="True" />
+          </Node>
+          <Node name="Queem.Core" expanded="True">
+            <Node name="ChessBoard" expanded="True" />
+          </Node>
+          <Node name="Queem.CoreInterface" expanded="True">
+            <Node name="Adapters" expanded="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">

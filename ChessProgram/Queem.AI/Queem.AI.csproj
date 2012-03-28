@@ -37,10 +37,6 @@
       <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
       <Name>Queem.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DebutMovesHolder\DebutMovesHolder.csproj">
-      <Project>{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}</Project>
-      <Name>DebutMovesHolder</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChessSolver.cs" />
