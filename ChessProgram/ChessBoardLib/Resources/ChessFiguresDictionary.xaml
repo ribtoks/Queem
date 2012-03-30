@@ -23,7 +23,7 @@
             </Canvas>
         </VisualBrush.Visual>
     </VisualBrush>
-    <VisualBrush x:Key="BlackHorse">
+    <VisualBrush x:Key="BlackKnight">
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M22,10C32.5,11,38.5,18,38,39L15,39C15,30,25,32.5,23,18" Fill="{StaticResource BlackBrush}" StrokeDashCap="Round"
@@ -149,7 +149,7 @@
             </Canvas>
         </VisualBrush.Visual>
     </VisualBrush>
-    <VisualBrush x:Key="WhiteHorse">
+    <VisualBrush x:Key="WhiteKnight">
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M22,10C32.5,11,38.5,18,38,39L15,39C15,30,25,32.5,23,18" Fill="{StaticResource WhiteBrush}" StrokeDashCap="Round"

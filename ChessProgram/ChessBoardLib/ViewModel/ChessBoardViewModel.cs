@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Queem.Core.ChessBoard;
 using Queem.Core;
+using System.Collections.ObjectModel;
 
 namespace ChessBoardVisualLib.ViewModel
 {
     public class ChessBoardViewModel : ObservableObject
     {
         private GameProvider provider;
+        private ObservableCollection<SquareItem> squareItems;
 
         public ChessBoardViewModel(GameProvider gameProvider)
         {
@@ -28,6 +30,11 @@ namespace ChessBoardVisualLib.ViewModel
                     OnPropertyChanged("IsFigureMoving");
                 }
             }
+        }
+
+        public ObservableCollection<SquareItem> Items
+        {
+            get { return this.squareItems; }
         }
 
         public Color CurrentPlayerColor

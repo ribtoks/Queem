@@ -27,7 +27,22 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Click" Grid.Row="1" Grid.Column="1"/>
+                <ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="8" Rows="8" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <DataTemplate>
+                        <ContentControl Background="{Binding }">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ContentControl>
+                    </DataTemplate>
+                </ItemsControl>
             </Grid>
         </Controls:SquareContainer>
     </Grid>
