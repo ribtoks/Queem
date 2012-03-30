@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SquareContainer.cs" />
     <Compile Include="ViewModel\ChessBoardViewModel.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="View\ChessBoardControl.xaml.cs">
