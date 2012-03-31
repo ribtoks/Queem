@@ -8,7 +8,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Resources\ChessFiguresDictionary.xaml" />
                 <ResourceDictionary Source="..\Resources\ChessBoardDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -37,6 +36,18 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="8*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="6*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="1" Grid.Column="1"
+                                        Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

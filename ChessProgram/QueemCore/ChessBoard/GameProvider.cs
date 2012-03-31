@@ -44,7 +44,7 @@ namespace Queem.Core.ChessBoard
             }
         }
 
-        public void ForEachFigureReal(Action<Square, Figure> action)
+        public void ForEachFigureReal(Action<Square, Figure, Color> action)
         {
             for (int rank = 7; rank >= 0; rank--)
             {
@@ -62,9 +62,9 @@ namespace Queem.Core.ChessBoard
 #endif
 
                     if (figure1 != Figure.Nobody)
-                        action((Square)index, figure1);
+                        action((Square)index, figure1, this.PlayerBoard1.FigureColor);
                     else
-                        action((Square)index, figure2);
+                        action((Square)index, figure2, this.PlayerBoard2.FigureColor);
                 }
             }
         }

@@ -5,15 +5,17 @@ using System.Text;
 using System.Windows;
 using Queem.Core;
 using Queem.Core.BitBoards.Helpers;
+using ChessBoardVisualLib.Enums;
 
 namespace ChessBoardVisualLib.ViewModel
-{
+{    
     public class SquareItem : DependencyObject
     {
-        public SquareItem(Square square, Figure figure)
+        public SquareItem(Square square, Figure figure, Color color)
         {
             this.SetColor(square);
             this.FigureType = figure;
+            this.ColoredFigure = ColoredFigureHelper.Create(color, figure);
         }
 
         public void SetColor(Square square)
@@ -43,6 +45,15 @@ namespace ChessBoardVisualLib.ViewModel
         {
             get { return (Figure)GetValue(FigureTypeProperty); }
             set { SetValue(FigureTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ColoredFigureProperty =
+            DependencyProperty.Register("ColoredFigure", typeof(ColoredFigure), typeof(SquareItem));
+
+        public ColoredFigure ColoredFigure
+        {
+            get { return (ColoredFigure)GetValue(ColoredFigureProperty); }
+            set { SetValue(ColoredFigureProperty, value); }
         }
     }
 }

@@ -23,9 +23,10 @@ namespace ChessBoardVisualLib.ViewModel
         private void InitItems()
         {
             this.squareItems = new ObservableCollection<SquareItem>();
-            this.provider.ForEachFigureReal((square, figure) =>
+            this.provider.ForEachFigureReal((square, figure, color) =>
                 {
-                    this.squareItems.Add(new SquareItem(square, figure));
+                    this.squareItems.Add(
+                        new SquareItem(square, figure, color));
                 });
         }
 
