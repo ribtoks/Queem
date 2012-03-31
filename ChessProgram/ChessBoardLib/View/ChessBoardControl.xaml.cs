@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ChessBoardVisualLib.ViewModel;
+using Queem.Core.ChessBoard;
 
 namespace ChessBoardVisualLib.View
 {
@@ -19,9 +21,17 @@ namespace ChessBoardVisualLib.View
     /// </summary>
     public partial class ChessBoardControl : UserControl
     {
+        private ChessBoardViewModel viewModel;
+
         public ChessBoardControl()
         {
             InitializeComponent();
+        }
+
+        public void SetupGameProvider(GameProvider provider)
+        {
+            this.viewModel = new ChessBoardViewModel(provider);
+            this.DataContext = this.viewModel;            
         }
     }
 }

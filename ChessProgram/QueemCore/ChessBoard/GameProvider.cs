@@ -25,6 +25,50 @@ namespace Queem.Core.ChessBoard
 		}
 		
 		
+        public void ForEachFigure(Action<Square, Figure> action)
+        {
+            for (int i = 0; i < 64; ++i)
+            {
+                var figure1 = this.PlayerBoard1.Figures[i];
+                var figure2 = this.PlayerBoard2.Figures[i];
+
+#if DEBUG
+                if ((figure1 != Figure.Nobody) &&
+                    (figure2 != Figure.Nobody))
+                    throw new InvalidOperationException();
+#endif
+                if (figure1 != Figure.Nobody)
+                    action((Square)i, figure1);
+                else
+                    action((Square)i, figure2);
+            }
+        }
+
+        public void ForEachFigureReal(Action<Square, Figure> action)
+        {
+            for (int rank = 7; rank >= 0; rank--)
+            {
+                for (int file = 0; file < 8; ++file)
+                {
+                    int index = rank * 8 + file;
+
+                    var figure1 = this.PlayerBoard1.Figures[index];
+                    var figure2 = this.PlayerBoard2.Figures[index];
+
+#if DEBUG
+                    if ((figure1 != Figure.Nobody) &&
+                        (figure2 != Figure.Nobody))
+                        throw new InvalidOperationException();
+#endif
+
+                    if (figure1 != Figure.Nobody)
+                        action((Square)index, figure1);
+                    else
+                        action((Square)index, figure2);
+                }
+            }
+        }
+
 		/*
          * Possible problematic situations
          * 

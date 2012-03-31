@@ -102,9 +102,9 @@ namespace Queem.Core.ChessBoard
 		protected override void ShuffleUp (Action<Square> action, Color color)
 		{
 			if (color == Color.White)
-				action(Square.E1);
+				action(Square.E8);
 			else
-				action(Square.D1);
+				action(Square.D8);
 		}
 	}
 	
@@ -121,9 +121,9 @@ namespace Queem.Core.ChessBoard
 		protected override void ShuffleUp (Action<Square> action, Color color)
 		{
 			if (color == Color.White)
-				action(Square.D1);
+				action(Square.D8);
 			else
-				action(Square.E1);
+				action(Square.E8);
 		}
 	}
 	

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Queem.Core.ChessBoard;
 
 namespace ChessBoardVisualTest
 {
@@ -19,9 +20,13 @@ namespace ChessBoardVisualTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GameProvider provider;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.provider = new GameProvider();
+            this.chessBoardControl.SetupGameProvider(this.provider);
         }
     }
 }

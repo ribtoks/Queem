@@ -13,10 +13,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Controls:SquareContainer Background="Red">
-            <Grid x:Name="wrapperGrid" 
-              Background="#ff065E8C">
+    <Grid Background="#ff065E8C">
+        <Controls:SquareContainer>
+            <Grid x:Name="wrapperGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
                     <RowDefinition Height="*" />
@@ -27,21 +26,20 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
-                <ItemsControl>
+                <ItemsControl BorderBrush="Wheat" BorderThickness="1" 
+                              Grid.Row="1" Grid.Column="1" 
+                              ItemsSource="{Binding Squares}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="8" Rows="8" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <DataTemplate>
-                        <ContentControl Background="{Binding }">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    
-                                </Grid.ColumnDefinitions>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}">
                             </Grid>
-                        </ContentControl>
-                    </DataTemplate>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
         </Controls:SquareContainer>

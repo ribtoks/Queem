@@ -5,6 +5,7 @@ using System.Text;
 using Queem.Core.ChessBoard;
 using Queem.Core;
 using System.Collections.ObjectModel;
+using System.Windows.Markup;
 
 namespace ChessBoardVisualLib.ViewModel
 {
@@ -16,6 +17,16 @@ namespace ChessBoardVisualLib.ViewModel
         public ChessBoardViewModel(GameProvider gameProvider)
         {
             this.provider = gameProvider;
+            this.InitItems();
+        }
+
+        private void InitItems()
+        {
+            this.squareItems = new ObservableCollection<SquareItem>();
+            this.provider.ForEachFigureReal((square, figure) =>
+                {
+                    this.squareItems.Add(new SquareItem(square, figure));
+                });
         }
 
         private bool isFigureMoving;
@@ -32,7 +43,7 @@ namespace ChessBoardVisualLib.ViewModel
             }
         }
 
-        public ObservableCollection<SquareItem> Items
+        public ObservableCollection<SquareItem> Squares
         {
             get { return this.squareItems; }
         }
