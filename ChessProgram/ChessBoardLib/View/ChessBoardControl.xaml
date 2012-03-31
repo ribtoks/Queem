@@ -43,7 +43,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="6*" />
+                                    <ColumnDefinition Width="{Binding FigureType, Converter={StaticResource figureToGridLengthConverter}}" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Row="1" Grid.Column="1"

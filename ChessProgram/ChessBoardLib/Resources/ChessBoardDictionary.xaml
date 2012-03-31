@@ -9,6 +9,8 @@
     <SolidColorBrush x:Key="BlackBrush" Color="Black" />
     <SolidColorBrush x:Key="WhiteBrush" Color="White" />
 
+    <Converters:FigureToGridLengthConverter x:Key="figureToGridLengthConverter" />
+
     <Converters:DictionaryValueConverter x:Key="colorToBackgroundConverter">
         <Converters:DictionaryValueConverter.Values>
             <SolidColorBrush x:Key="{x:Static QueemCore:Color.White}" Color="#ff3980a6" />
