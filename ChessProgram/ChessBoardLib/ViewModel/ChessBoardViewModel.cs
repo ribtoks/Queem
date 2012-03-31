@@ -111,10 +111,12 @@ namespace ChessBoardVisualLib.ViewModel
         {
             if (this.IsFigureMoving)
             {
-                this.StopFigureMoving();
+                this.IsFigureMoving = false;
 
                 if (this.TryFinishMove(item))
                     return MouseClickResults.MoveFinished;
+
+                this.ClearHighligtedSquares();
 
                 if (item.FigureType == Figure.Nobody)
                     return MouseClickResults.MoveCanceled;
@@ -136,7 +138,10 @@ namespace ChessBoardVisualLib.ViewModel
         private bool TryFinishMove(SquareItem item)
         {
             if (!this.IsLegalMoveEnd(item.Square))
+            {
+                this.ClearHighligtedSquares();
                 return false;
+            }
 
             this.MoveEnd = item.Square;
             Move move = new Move(this.moveStart, item.Square);

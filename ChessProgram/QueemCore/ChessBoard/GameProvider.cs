@@ -102,9 +102,7 @@ namespace Queem.Core.ChessBoard
 			var playerBoard2 = this.playerBoards[(int)oppositeColor];
 			
 			var figureMoving = playerBoard1.Figures[(int)move.From];
-			var destinationFigure = playerBoard2.Figures[(int)move.To];
-			
-			var lastMove = this.History.GetLastMove();
+			var destinationFigure = playerBoard2.Figures[(int)move.To];			
 			
 			this.History.AddItem(move);
 
@@ -135,7 +133,9 @@ namespace Queem.Core.ChessBoard
 			
 			if (move.Type == MoveType.EpCapture)
 			{
-				var passingKillChange = deltaChange.GetNext(MoveAction.Deletion);
+                var lastMove = this.History.GetLastMove();
+				
+                var passingKillChange = deltaChange.GetNext(MoveAction.Deletion);
 				
 				passingKillChange.Square = lastMove.To;
 				passingKillChange.FigureType = Figure.Pawn;

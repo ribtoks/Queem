@@ -9,7 +9,11 @@ namespace Queem.Core.History
 		
 		public DeltaChange()
 		{
-			this.changes = new Change[5];
+            int changesCount = 5;
+			this.changes = new Change[changesCount];
+            for (int i = 0; i < changesCount; ++i)
+                this.changes[i] = new Change();
+
 			this.lastIndex = -1;
 		}
 		

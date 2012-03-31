@@ -343,7 +343,8 @@ namespace Queem.Core.ChessBoard
 					index++;
 				}
 			}
-			
+
+            moves.Size = index;
 			return moves;
 		}
 		

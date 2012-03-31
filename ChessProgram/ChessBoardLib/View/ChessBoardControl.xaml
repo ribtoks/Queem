@@ -13,68 +13,63 @@
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type ViewModels:ChessBoardViewModel}">
                 <Controls:SquareContainer>
-            <Grid x:Name="wrapperGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="10" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                </Grid.ColumnDefinitions>
-                <ItemsControl BorderBrush="Wheat" BorderThickness="1" 
+                    <Grid x:Name="wrapperGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
+                        <ItemsControl BorderBrush="Wheat" BorderThickness="1" 
                               Grid.Row="1" Grid.Column="1" 
                               ItemsSource="{Binding Squares}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="8" Rows="8" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid x:Name="squareGrid" Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}"
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="8" Rows="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="squareGrid" Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}"
                                   MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="8*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="{Binding FigureType, Converter={StaticResource figureToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="backgroundRect" Fill="#ffffff" Opacity="0" />
-                                <Border Grid.Row="1" Grid.Column="1"
-                                        x:Name="figureBoard"
-                                        Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}">
-                                    <Border.RenderTransform>
-                                        <TransformGroup>
-                                            <TranslateTransform x:Name="moveTransform" X="0" Y="0" />
-                                        </TransformGroup>
-                                    </Border.RenderTransform>
-                                </Border>
-                            </Grid>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
-                                    <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
-                                    <Setter Property="Fill" Value="Aqua" TargetName="backgroundRect" />
-                                </DataTrigger>
-                                <MultiDataTrigger>                                    
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Path=DataContext.IsFigureMoving, RelativeSource= {RelativeSource AncestorType={x:Type UserControl}}}" Value="True" />
-                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
-                                </MultiDataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </Controls:SquareContainer>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="8*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="{Binding FigureType, Converter={StaticResource figureToGridLengthConverter}}" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="backgroundRect" Fill="#ffffff" Opacity="0" />
+                                        <Border Grid.Row="1" Grid.Column="1"
+                                            x:Name="figureBoard"
+                                            Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}">
+                                        </Border>
+                                    </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                            <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
+                                            <Setter Property="Fill" Value="Aqua" TargetName="backgroundRect" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Path=DataContext.IsFigureMoving, RelativeSource= {RelativeSource AncestorType={x:Type UserControl}}}" Value="True" />
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
+                                        </MultiDataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Controls:SquareContainer>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
