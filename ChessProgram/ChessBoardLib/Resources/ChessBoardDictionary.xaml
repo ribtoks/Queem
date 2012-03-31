@@ -9,6 +9,24 @@
     <SolidColorBrush x:Key="BlackBrush" Color="Black" />
     <SolidColorBrush x:Key="WhiteBrush" Color="White" />
 
+    <Converters:DummyConverter x:Key="dummyConverter" />
+    
+    <Style x:Key="figureGridStyle" TargetType="{x:Type Grid}">
+        <Style.Triggers>
+            <!--<MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    
+                    <Condition Binding="{Binding Path=IsMouseOver, Converter={StaticResource dummyConverter}}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Opacity" Value="0.7" />
+            </MultiDataTrigger>-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
     <Converters:FigureToGridLengthConverter x:Key="figureToGridLengthConverter" />
 
     <Converters:DictionaryValueConverter x:Key="colorToBackgroundConverter">

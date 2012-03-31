@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Controls\SquareContainer.cs" />
     <Compile Include="Converters\DictionaryValueConverter.cs" />
+    <Compile Include="Converters\DummyConverter.cs" />
     <Compile Include="Converters\FigureToGridLengthConverter.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="ViewModel\ChessBoardViewModel.cs" />

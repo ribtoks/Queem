@@ -31,7 +31,8 @@ namespace ChessBoardVisualLib.View
         public void SetupGameProvider(GameProvider provider)
         {
             this.viewModel = new ChessBoardViewModel(provider);
-            this.DataContext = this.viewModel;            
+            this.DataContext = this.viewModel;
+            this.viewModel.IsFigureMoving = true;
         }
     }
 }
