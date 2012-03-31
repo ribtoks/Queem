@@ -4,16 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="clr-namespace:ChessBoardVisualLib.Controls"
+             xmlns:ViewModels="clr-namespace:ChessBoardVisualLib.ViewModel"
              mc:Ignorable="d" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\Resources\ChessBoardDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid Background="#ff065E8C">
-        <Controls:SquareContainer>
+            <DataTemplate DataType="{x:Type ViewModels:ChessBoardViewModel}">
+                <Controls:SquareContainer>
             <Grid x:Name="wrapperGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
@@ -35,7 +34,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}"
+                            <Grid x:Name="squareGrid" Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}"
                                   MouseLeftButtonDown="Grid_MouseLeftButtonDown">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -70,43 +69,16 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
                                 </MultiDataTrigger>
-                                <DataTrigger Binding="{Binding MoveAnimationState}" Value="Start">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="moveTransform"
-                                                                 Storyboard.TargetProperty="X"
-                                                                 From="0">
-                                                    <DoubleAnimation.To>
-                                                        <MultiBinding Converter="{StaticResource moveToDeltaXConverter}">
-                                                            <Binding Path="MoveStart" />
-                                                            <Binding Path="MoveEnd" />
-                                                            <Binding Path="ActualWidth" 
-                                                                     RelativeSource="{RelativeSource AncestorType={x:Type Grid}}" />
-                                                        </MultiBinding>
-                                                    </DoubleAnimation.To>
-                                                </DoubleAnimation>
-                                                <DoubleAnimation Storyboard.TargetName="moveTransform"
-                                                                 Storyboard.TargetProperty="Y"
-                                                                 From="0">
-                                                    <DoubleAnimation.To>
-                                                        <MultiBinding Converter="{StaticResource moveToDeltaYConverter}">
-                                                            <Binding Path="MoveStart" />
-                                                            <Binding Path="MoveEnd" />
-                                                            <Binding Path="ActualHeight" 
-                                                                     RelativeSource="{RelativeSource AncestorType={x:Type Grid}}" />
-                                                        </MultiBinding>
-                                                    </DoubleAnimation.To>
-                                                </DoubleAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
-                                </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
         </Controls:SquareContainer>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="#ff065E8C">
+        <ContentControl Content="{Binding}" />
     </Grid>
 </UserControl>

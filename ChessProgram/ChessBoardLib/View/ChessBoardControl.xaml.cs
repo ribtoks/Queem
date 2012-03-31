@@ -39,7 +39,15 @@ namespace ChessBoardVisualLib.View
             var element = sender as Grid;
             var squareItem = element.DataContext as SquareItem;
 
-            this.viewModel.MouseClick(squareItem);
+            var result = this.viewModel.MouseClick(squareItem);
+
+            if (result == Enums.MouseClickResults.MoveFinished)
+                this.AnimateLastMove();
+        }
+
+        private void AnimateLastMove()
+        {
+            
         }
     }
 }

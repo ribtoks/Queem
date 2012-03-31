@@ -107,17 +107,17 @@ namespace ChessBoardVisualLib.ViewModel
             set;
         }
 
-        public void MouseClick(SquareItem item)
+        public MouseClickResults MouseClick(SquareItem item)
         {
             if (this.IsFigureMoving)
             {
                 this.StopFigureMoving();
 
                 if (this.TryFinishMove(item))
-                    return;
+                    return MouseClickResults.MoveFinished;
 
                 if (item.FigureType == Figure.Nobody)
-                    return;
+                    return MouseClickResults.MoveCanceled;
 
                 if (item.FigureColor == this.CurrentPlayerColor)
                     this.InitFigureMoveBegin(item);
@@ -125,10 +125,12 @@ namespace ChessBoardVisualLib.ViewModel
             else
             {
                 if (item.FigureType == Figure.Nobody)
-                    return;
+                    return MouseClickResults.MoveCanceled;
 
                 this.InitFigureMoveBegin(item);
             }
+
+            return MouseClickResults.NewMove;
         }
 
         private bool TryFinishMove(SquareItem item)
