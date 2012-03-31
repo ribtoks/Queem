@@ -32,7 +32,14 @@ namespace ChessBoardVisualLib.View
         {
             this.viewModel = new ChessBoardViewModel(provider);
             this.DataContext = this.viewModel;
-            this.viewModel.IsFigureMoving = true;
+        }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var element = sender as Grid;
+            var squareItem = element.DataContext as SquareItem;
+
+            this.viewModel.MouseClick(squareItem);
         }
     }
 }

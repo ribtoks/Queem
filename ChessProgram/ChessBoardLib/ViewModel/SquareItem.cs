@@ -8,20 +8,40 @@ using Queem.Core.BitBoards.Helpers;
 using ChessBoardVisualLib.Enums;
 
 namespace ChessBoardVisualLib.ViewModel
-{    
+{
+    public static class SquareExtension
+    {
+        public static int GetRealIndex(this Square sq)
+        {
+            int file = (int)BitBoardHelper.GetFileFromSquare(sq);
+            int rank = BitBoardHelper.GetRankFromSquare(sq);
+
+            return (7 - rank) * 8 + file;
+        }
+    }
+
     public class SquareItem : DependencyObject
     {
+        private Square innerSquare;
+
         public SquareItem(Square square, Figure figure, Color color)
         {
-            this.SetColor(square);
+            this.innerSquare = square;
+            this.SetBackgroundColor(square);
             this.FigureType = figure;
+            this.FigureColor = color;
             this.ColoredFigure = ColoredFigureHelper.Create(color, figure);
         }
 
-        public void SetColor(Square square)
+        public Square Square
+        {
+            get { return this.innerSquare; }           
+        }
+
+        public void SetBackgroundColor(Square square)
         {
             int file = (int)BitBoardHelper.GetFileFromSquare(square);
-            int rank = (int)BitBoardHelper.GetRankFromSquare(square);
+            int rank = BitBoardHelper.GetRankFromSquare(square);
 
             if (0 == ((7 - file) + rank) % 2)
                 this.SquareColor = Color.White;
@@ -54,6 +74,24 @@ namespace ChessBoardVisualLib.ViewModel
         {
             get { return (ColoredFigure)GetValue(ColoredFigureProperty); }
             set { SetValue(ColoredFigureProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsHighlightedProperty =
+            DependencyProperty.Register("IsHighlighted", typeof(bool), typeof(SquareItem));
+
+        public bool IsHighlighted
+        {
+            get { return (bool)GetValue(IsHighlightedProperty); }
+            set { SetValue(IsHighlightedProperty, value); }
+        }
+
+        public static readonly DependencyProperty FigureColorProperty =
+            DependencyProperty.Register("FigureColor", typeof(Color), typeof(SquareItem));
+
+        public Color FigureColor
+        {
+            get { return (Color)GetValue(FigureColorProperty); }
+            set { SetValue(FigureColorProperty, value); }
         }
     }
 }

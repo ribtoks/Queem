@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Queem.Core.History;
+using System.Collections.Generic;
 
 namespace Queem.Core.ChessBoard
 {
@@ -22,8 +24,7 @@ namespace Queem.Core.ChessBoard
 			this.playerBoards = new PlayerBoard[2];
 			this.playerBoards[(int)Color.White] = this.PlayerBoard1;
 			this.playerBoards[(int)Color.Black] = this.PlayerBoard2;
-		}
-		
+		}		
 		
         public void ForEachFigure(Action<Square, Figure> action)
         {
@@ -280,6 +281,26 @@ namespace Queem.Core.ChessBoard
 			MovesArray.ReleaseLast();
 			return result;
 		}
+
+        public List<Square> GetTargetSquares(Square square, Color playerColor)
+        {
+            var oppositeColor = 1 - (int)playerColor;
+            var player = this.playerBoards[(int)playerColor];
+            var opponent = this.playerBoards[oppositeColor];
+
+            Move lastMove;
+            if (this.History.HasItems())
+                lastMove = this.History.GetLastMove();
+            else
+                lastMove = new Move(Square.A1, Square.A8);
+
+            var moves = player.GetMoves(opponent, lastMove, MovesMask.AllMoves);
+
+            player.FilterMoves(opponent, moves);
+
+            return moves.InnerArray.Where((move) => move.From == square)
+                .Select((move) => move.To).ToList();
+        }
 	}
 }
 

@@ -36,6 +36,7 @@ namespace Queem.Core
 			for (int i = 0; i < 4; ++i)
 			{
 				var board = attacks[i];
+                rankIndex = 0;
 				while (board != 0)
 				{
 					rank = (int)(board & 0xff);

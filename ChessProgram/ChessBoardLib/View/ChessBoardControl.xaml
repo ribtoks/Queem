@@ -35,7 +35,8 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}">                                
+                            <Grid Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}"
+                                  MouseLeftButtonDown="Grid_MouseLeftButtonDown">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="8*" />
@@ -46,18 +47,22 @@
                                     <ColumnDefinition Width="{Binding FigureType, Converter={StaticResource figureToGridLengthConverter}}" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="backGroundRect" Fill="#ffffff" Opacity="0" />
+                                <Rectangle Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="backgroundRect" Fill="#ffffff" Opacity="0" />
                                 <Border Grid.Row="1" Grid.Column="1"
                                         Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}">
                                 </Border>
                             </Grid>
                             <DataTemplate.Triggers>
-                                <MultiDataTrigger>
+                                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                    <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
+                                    <Setter Property="Fill" Value="Aqua" TargetName="backgroundRect" />
+                                </DataTrigger>
+                                <MultiDataTrigger>                                    
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding Path=DataContext.IsFigureMoving, RelativeSource= {RelativeSource AncestorType={x:Type UserControl}}}" Value="True" />
-                                        <Condition Binding="{Binding IsMouseOver, Converter={StaticResource dummyConverter}, RelativeSource={RelativeSource Self}}" Value="True" />
+                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="Opacity" Value="0.15" TargetName="backGroundRect" />
+                                    <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
                                 </MultiDataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

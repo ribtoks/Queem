@@ -28,6 +28,7 @@ namespace Queem.Core.AttacksGenerators
 			}
 			
 			this.cases = new ulong[2];
+            this.attacks = new ulong[4];
 		}
 		
 		public int Index
