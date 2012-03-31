@@ -28,9 +28,9 @@ namespace Queem.Core
 			int dir = pawnGenerator.Index;
 			
 			ulong[] attacks = pawnGenerator.GetAttacks(this.board.GetInnerValue(), otherFigures);
-			
-			for (int i = 0; i < attacks.Length; ++i)
-				attacks[i] &= mask;
+
+            attacks[(int)PawnTarget.LeftAttack] &= mask;
+            attacks[(int)PawnTarget.RightAttack] &= mask;
 									
 			int rankIndex = 0, rank;
 			for (int i = 0; i < 4; ++i)

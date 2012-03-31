@@ -22,4 +22,9 @@ namespace ChessBoardVisualLib.Enums
             throw new InvalidOperationException();
         }
     }
+
+    public enum MoveAnimationState
+    {
+        Start, End
+    }
 }

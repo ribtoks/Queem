@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Markup;
 using System.Windows.Input;
 using ChessBoardVisualLib.Commands;
+using ChessBoardVisualLib.Enums;
 
 namespace ChessBoardVisualLib.ViewModel
 {
@@ -17,6 +18,7 @@ namespace ChessBoardVisualLib.ViewModel
         private ObservableCollection<SquareItem> squareItems;
 
         private Square moveStart;
+        private Square moveEnd;
 
         private List<Square> lastHighlightedSquares;
 
@@ -25,6 +27,9 @@ namespace ChessBoardVisualLib.ViewModel
             this.provider = gameProvider;
             this.InitItems();
             this.lastHighlightedSquares = new List<Square>();
+
+            // TODO remove this in future
+            this.CurrentPlayerColor = Color.White;
         }
 
         private void InitItems()
@@ -47,6 +52,46 @@ namespace ChessBoardVisualLib.ViewModel
                 {
                     this.isFigureMoving = value;
                     OnPropertyChanged("IsFigureMoving");
+                }
+            }
+        }
+
+        private MoveAnimationState moveAnimationState;
+        public MoveAnimationState MoveAnimationState
+        {
+            get { return this.moveAnimationState; }
+            set
+            {
+                if (this.moveAnimationState != value)
+                {
+                    this.moveAnimationState = value;
+                    OnPropertyChanged("MoveAnimationState");
+                }
+            }
+        }
+
+        public Square MoveStart
+        {
+            get { return this.moveStart; }
+            set
+            {
+                if (this.moveStart != value)
+                {
+                    this.moveStart = value;
+                    OnPropertyChanged("MoveStart");
+                }
+            }
+        }
+
+        public Square MoveEnd
+        {
+            get { return this.moveEnd; }
+            set
+            {
+                if (this.moveEnd != value)
+                {
+                    this.moveEnd = value;
+                    OnPropertyChanged("MoveEnd");
                 }
             }
         }
@@ -91,8 +136,10 @@ namespace ChessBoardVisualLib.ViewModel
             if (!this.IsLegalMoveEnd(item.Square))
                 return false;
 
+            this.MoveEnd = item.Square;
             Move move = new Move(this.moveStart, item.Square);
             this.provider.ProcessMove(move, this.CurrentPlayerColor);
+            this.moveAnimationState = MoveAnimationState.Start;
             return true;
         }
 
@@ -109,7 +156,7 @@ namespace ChessBoardVisualLib.ViewModel
 
         public void InitFigureMoveBegin(SquareItem item)
         {
-            this.moveStart = item.Square;
+            this.MoveStart = item.Square;
             this.IsFigureMoving = true;
             this.UpdateHighlightedSquares(item.Square, item.FigureColor);
         }
@@ -136,8 +183,12 @@ namespace ChessBoardVisualLib.ViewModel
                 this.squareItems[item.GetRealIndex()].IsHighlighted = true;
         }
 
-        private void GetPossibleMoves(SquareItem item)
-        {            
+        public void ChangeCurrentPlayer()
+        {
+            if (this.CurrentPlayerColor == Color.White)
+                this.CurrentPlayerColor = Color.Black;
+            else
+                this.CurrentPlayerColor = Color.White;
         }
     }
 }

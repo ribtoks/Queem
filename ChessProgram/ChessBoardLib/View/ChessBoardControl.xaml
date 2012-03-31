@@ -49,7 +49,13 @@
                                 </Grid.ColumnDefinitions>
                                 <Rectangle Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="backgroundRect" Fill="#ffffff" Opacity="0" />
                                 <Border Grid.Row="1" Grid.Column="1"
+                                        x:Name="figureBoard"
                                         Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform x:Name="moveTransform" X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
                                 </Border>
                             </Grid>
                             <DataTemplate.Triggers>
@@ -64,6 +70,38 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
                                 </MultiDataTrigger>
+                                <DataTrigger Binding="{Binding MoveAnimationState}" Value="Start">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="moveTransform"
+                                                                 Storyboard.TargetProperty="X"
+                                                                 From="0">
+                                                    <DoubleAnimation.To>
+                                                        <MultiBinding Converter="{StaticResource moveToDeltaXConverter}">
+                                                            <Binding Path="MoveStart" />
+                                                            <Binding Path="MoveEnd" />
+                                                            <Binding Path="ActualWidth" 
+                                                                     RelativeSource="{RelativeSource AncestorType={x:Type Grid}}" />
+                                                        </MultiBinding>
+                                                    </DoubleAnimation.To>
+                                                </DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="moveTransform"
+                                                                 Storyboard.TargetProperty="Y"
+                                                                 From="0">
+                                                    <DoubleAnimation.To>
+                                                        <MultiBinding Converter="{StaticResource moveToDeltaYConverter}">
+                                                            <Binding Path="MoveStart" />
+                                                            <Binding Path="MoveEnd" />
+                                                            <Binding Path="ActualHeight" 
+                                                                     RelativeSource="{RelativeSource AncestorType={x:Type Grid}}" />
+                                                        </MultiBinding>
+                                                    </DoubleAnimation.To>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

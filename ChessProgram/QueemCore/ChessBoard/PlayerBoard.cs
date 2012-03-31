@@ -304,6 +304,7 @@ namespace Queem.Core.ChessBoard
 				}
 			
 			// add pawns moves
+            mask = opponent.allFigures;
 			var pawnMoves = this.moveGenerators[(int)Figure.Pawn].GetMoves(otherFigures, mask);
 			int moveTo;
 			for (int j = 0; j < pawnMoves.Count; ++j)

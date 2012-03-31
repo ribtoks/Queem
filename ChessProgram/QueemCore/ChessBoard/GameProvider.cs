@@ -298,8 +298,13 @@ namespace Queem.Core.ChessBoard
 
             player.FilterMoves(opponent, moves);
 
-            return moves.InnerArray.Where((move) => move.From == square)
+            var result = moves.InnerArray.Take(moves.Size)
+                .Where((move) => move.From == square)
                 .Select((move) => move.To).ToList();
+
+            MovesArray.ReleaseLast();
+
+            return result;
         }
 	}
 }
