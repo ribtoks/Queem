@@ -39,6 +39,7 @@ namespace ChessBoardVisualLib.ViewModel
             this.CurrentPlayerColor = Color.White;
 
             this.promotionViewModel = new PawnPromotionViewModel();
+            this.showOverlayState = Enums.ShowOverlayState.Nothing;
         }
 
         private void InitItems()
@@ -49,6 +50,11 @@ namespace ChessBoardVisualLib.ViewModel
                     this.squareItems.Add(
                         new SquareItem(square, figure, color));
                 });
+        }
+
+        public GameProvider GameProvider
+        {
+            get { return this.GameProvider; }
         }
 
         public PawnPromotionViewModel PromotionContext
@@ -244,7 +250,7 @@ namespace ChessBoardVisualLib.ViewModel
             item.UpdateChessFigure(Figure.Nobody, this.CurrentPlayerColor);
         }
 
-        public void CreateFigure(Square square, Figure figure, Color color)
+        public void UpdateFigure(Square square, Figure figure, Color color)
         {
             var item = this.squareItems[square.GetRealIndex()];
             item.UpdateChessFigure(figure, color);
@@ -253,6 +259,12 @@ namespace ChessBoardVisualLib.ViewModel
         public void UpdateLayout()
         {
             this.InitItems();
+        }
+
+        public void PromotePawn(Color color, Square square, Figure newFigure)
+        {
+            this.GameProvider.PromotePawn(color, square, newFigure);
+            this.UpdateFigure(square, newFigure, color);
         }
     }
 }

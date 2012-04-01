@@ -80,6 +80,14 @@ namespace ChessBoardVisualLib.View
                 this.MoveFinished(this, EventArgs.Empty);
         }
 
+        public event EventHandler PawnPromoted;
+
+        private void OnPawnPromoted()
+        {
+            if (this.PawnPromoted != null)
+                this.PawnPromoted(this, EventArgs.Empty);
+        }
+
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var element = sender as Grid;
@@ -100,6 +108,12 @@ namespace ChessBoardVisualLib.View
 
             if (result == Enums.MouseOperationResults.MoveFinished)
                 this.OnMoveFinished();            
+        }
+
+        public void AnimateLast()
+        {
+            var history = this.viewModel.GameProvider.History;
+            this.AnimateMove(history.GetLastDeltaChange(), history.GetLastMove());
         }
         
         public void AnimateMove(DeltaChange dc, Move move)
@@ -124,7 +138,7 @@ namespace ChessBoardVisualLib.View
                         break;
 
                     case MoveAction.Creation:
-                        this.viewModel.CreateFigure(change.Square,
+                        this.viewModel.UpdateFigure(change.Square,
                             change.FigureType, change.FigureColor);
                         break;
                 }
@@ -192,7 +206,7 @@ namespace ChessBoardVisualLib.View
 
                     case MoveAction.Deletion:
                         if (move.To != change.Square)
-                            this.viewModel.CreateFigure(change.Square, 
+                            this.viewModel.UpdateFigure(change.Square, 
                                 change.FigureType, change.FigureColor);
                         break;
                 }
@@ -204,7 +218,22 @@ namespace ChessBoardVisualLib.View
             var grid = e.OriginalSource as Grid;
             var promotionItem = grid.DataContext as PawnPromotionItem;
 
+            var square = this.viewModel.MoveEnd;
+
             this.viewModel.ShowOverlayState = Enums.ShowOverlayState.Hide;
+            this.viewModel.PromotePawn(promotionItem.FigureColor, square, promotionItem.FigureType);
+
+            this.OnPawnPromoted();
+        }
+
+        public void PromotePawn(Queem.Core.Color color, Square square, Queem.Core.Figure figure)
+        {
+            this.viewModel.PromotePawn(color, square, figure);
+        }
+
+        public void UserPromotePawn()
+        {
+            this.viewModel.ShowOverlayState = Enums.ShowOverlayState.Show;
         }
     }
 }
