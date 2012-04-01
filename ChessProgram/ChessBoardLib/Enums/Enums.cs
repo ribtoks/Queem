@@ -25,7 +25,7 @@ namespace ChessBoardVisualLib.Enums
 
     public enum MoveAnimationState
     {
-        Start, End
+        Start, End, Nothing
     }
 
     public enum MouseClickResults

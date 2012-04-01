@@ -5,12 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="clr-namespace:ChessBoardVisualLib.Controls"
              xmlns:ViewModels="clr-namespace:ChessBoardVisualLib.ViewModel"
+             xmlns:main="clr-namespace:ChessBoardVisualLib"
              mc:Ignorable="d" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\Resources\ChessBoardDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ViewModels:AnimationValue x:Key="deltaXValue" ToValue="15.0" />
             <DataTemplate DataType="{x:Type ViewModels:ChessBoardViewModel}">
                 <Controls:SquareContainer>
                     <Grid x:Name="wrapperGrid">
@@ -34,8 +36,24 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
+                                    <DataTemplate.Resources>
+                                        <Storyboard x:Key="moveStoryboard">
+                                            <ParallelTimeline>
+                                                <DoubleAnimation x:Name="xAnimation" 
+                                                                 Storyboard.TargetName="moveTransform"
+                                                                 Storyboard.TargetProperty="X"
+                                                                 Duration="0:0:0.5" 
+                                                                 From="0" To="15" />
+                                                <DoubleAnimation x:Name="yAnimation"
+                                                                 Storyboard.TargetName="moveTransform"
+                                                                 Storyboard.TargetProperty="Y"
+                                                                 Duration="0:0:0.5"
+                                                                 From="0" To="15"/>
+                                            </ParallelTimeline>
+                                        </Storyboard>
+                                    </DataTemplate.Resources>
                                     <Grid x:Name="squareGrid" Background="{Binding SquareColor, Converter={StaticResource colorToBackgroundConverter}}"
-                                  MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+                                  MouseLeftButtonDown="Grid_MouseLeftButtonDown" MouseLeftButtonUp="squareGrid_MouseLeftButtonUp">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="8*" />
@@ -50,6 +68,11 @@
                                         <Border Grid.Row="1" Grid.Column="1"
                                             x:Name="figureBoard"
                                             Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}">
+                                            <Border.RenderTransform>
+                                                <TransformGroup>
+                                                    <TranslateTransform x:Name="moveTransform" X="{Binding DeltaXTransform}" Y="{Binding DeltaYTransform}" />
+                                                </TransformGroup>
+                                            </Border.RenderTransform>
                                         </Border>
                                     </Grid>
                                     <DataTemplate.Triggers>
@@ -64,13 +87,18 @@
                                             </MultiDataTrigger.Conditions>
                                             <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
                                         </MultiDataTrigger>
+                                        <DataTrigger Binding="{Binding MoveAnimationState}" Value="Start">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource moveStoryboard}" />
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Grid>
                 </Controls:SquareContainer>
-            </DataTemplate>
+            </DataTemplate>            
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="#ff065E8C">

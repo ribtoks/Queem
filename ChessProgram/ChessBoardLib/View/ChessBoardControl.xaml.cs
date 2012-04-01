@@ -22,7 +22,7 @@ namespace ChessBoardVisualLib.View
     public partial class ChessBoardControl : UserControl
     {
         private ChessBoardViewModel viewModel;
-        private Grid moveFromGrid;
+        private SquareItem moveFromItem;
 
         public ChessBoardControl()
         {
@@ -45,22 +45,39 @@ namespace ChessBoardVisualLib.View
             switch (result)
             {
                 case Enums.MouseClickResults.NewMove:
-                    this.moveFromGrid = element;
+                    this.moveFromItem = squareItem;
                     break;
 
                 case Enums.MouseClickResults.MoveFinished:
-                    this.AnimateLastMove();
+                    this.AnimateLastMove(element);
                     break;
 
                 case Enums.MouseClickResults.MoveCanceled:
-                    this.moveFromGrid = null;
+                    this.moveFromItem = null;
                     break;
             }
         }
 
-        private void AnimateLastMove()
+        private void AnimateLastMove(Grid figureGrid)
         {
-            
+            int zIndex = Panel.GetZIndex(figureGrid);
+            this.moveFromItem.MoveAnimationFinished += (sender, e) =>
+                {
+                    Panel.SetZIndex(figureGrid, zIndex);
+                    this.viewModel.ReplaceLastMoveFigure();
+                    this.viewModel.ChangeCurrentPlayer();
+                };
+
+            double deltaX = this.viewModel.GetLastMoveDeltaX() * figureGrid.ActualWidth;
+            double deltaY = this.viewModel.GetLastMoveDeltaY() * figureGrid.ActualHeight;
+
+            this.moveFromItem.AnimateShift(deltaX, deltaY);                
+        }
+
+        private void squareGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var element = sender as Grid;
+            var squareItem = element.DataContext as SquareItem;
         }
     }
 }

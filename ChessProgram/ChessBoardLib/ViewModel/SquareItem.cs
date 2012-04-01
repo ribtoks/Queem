@@ -6,6 +6,7 @@ using System.Windows;
 using Queem.Core;
 using Queem.Core.BitBoards.Helpers;
 using ChessBoardVisualLib.Enums;
+using System.Windows.Media.Animation;
 
 namespace ChessBoardVisualLib.ViewModel
 {
@@ -31,6 +32,7 @@ namespace ChessBoardVisualLib.ViewModel
             this.FigureType = figure;
             this.FigureColor = color;
             this.ColoredFigure = ColoredFigureHelper.Create(color, figure);
+            this.MoveAnimationState = Enums.MoveAnimationState.Nothing;
         }
 
         public Square Square
@@ -64,7 +66,16 @@ namespace ChessBoardVisualLib.ViewModel
         public Figure FigureType
         {
             get { return (Figure)GetValue(FigureTypeProperty); }
-            set { SetValue(FigureTypeProperty, value); }
+            set
+            {
+                SetValue(FigureTypeProperty, value);
+                this.UpdateColoredFigure();
+            }
+        }
+
+        private void UpdateColoredFigure()
+        {
+            this.ColoredFigure = ColoredFigureHelper.Create(this.FigureColor, this.FigureType);
         }
 
         public static readonly DependencyProperty ColoredFigureProperty =
@@ -91,7 +102,82 @@ namespace ChessBoardVisualLib.ViewModel
         public Color FigureColor
         {
             get { return (Color)GetValue(FigureColorProperty); }
-            set { SetValue(FigureColorProperty, value); }
+            set
+            {
+                SetValue(FigureColorProperty, value);
+                this.UpdateColoredFigure();
+            }
+        }
+
+        public static readonly DependencyProperty MoveAnimationStateProperty =
+            DependencyProperty.Register("MoveAnimationState", typeof(MoveAnimationState), typeof(SquareItem));
+
+        public MoveAnimationState MoveAnimationState
+        {
+            get { return (Enums.MoveAnimationState)GetValue(MoveAnimationStateProperty); }
+            set { SetValue(MoveAnimationStateProperty, value); }
+        }
+
+        public static readonly DependencyProperty DeltaXTransformProperty =
+            DependencyProperty.Register("DeltaXTransform", typeof(double), typeof(SquareItem));
+
+        public double DeltaXTransform
+        {
+            get { return (double)GetValue(DeltaXTransformProperty); }
+            set { SetValue(DeltaXTransformProperty, value); }
+        }
+
+        public static readonly DependencyProperty DeltaYTransformProperty =
+                    DependencyProperty.Register("DeltaYTransform", typeof(double), typeof(SquareItem));
+
+        public double DeltaYTransform
+        {
+            get { return (double)GetValue(DeltaYTransformProperty); }
+            set { SetValue(DeltaYTransformProperty, value); }
+        }
+
+        public event EventHandler MoveAnimationFinished;
+
+        private void OnAnimationFinished()
+        {
+            if (this.MoveAnimationFinished != null)
+                this.MoveAnimationFinished(this, EventArgs.Empty);
+        }
+
+        public void AnimateShift(double deltaX, double deltaY)
+        {
+            DoubleAnimation shiftX = new DoubleAnimation();
+            shiftX.From = 0;
+            shiftX.To = deltaX;
+            shiftX.Duration = new Duration(TimeSpan.FromSeconds(0.6));
+
+            DoubleAnimation shiftY = new DoubleAnimation();
+            shiftY.From = 0;
+            shiftY.To = deltaY;
+            shiftY.Duration = shiftX.Duration;
+
+            ParallelTimeline timeline = new ParallelTimeline();
+            timeline.Children.Add(shiftX);
+            timeline.Children.Add(shiftY);
+
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(timeline);
+
+            Storyboard.SetTarget(shiftX, this);
+            Storyboard.SetTarget(shiftY, this);
+
+            Storyboard.SetTargetProperty(shiftX, new PropertyPath("DeltaXTransform"));
+            Storyboard.SetTargetProperty(shiftY, new PropertyPath("DeltaYTransform"));
+
+            storyboard.Completed += new EventHandler((sender, e) => OnAnimationFinished());
+
+            storyboard.Begin();
+        }
+
+        public void ResetTransform()
+        {
+            this.DeltaXTransform = 0;
+            this.DeltaYTransform = 0;
         }
     }
 }
