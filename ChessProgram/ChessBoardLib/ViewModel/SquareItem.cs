@@ -66,15 +66,13 @@ namespace ChessBoardVisualLib.ViewModel
         public Figure FigureType
         {
             get { return (Figure)GetValue(FigureTypeProperty); }
-            set
-            {
-                SetValue(FigureTypeProperty, value);
-                this.UpdateColoredFigure();
-            }
+            set { SetValue(FigureTypeProperty, value); }
         }
 
-        private void UpdateColoredFigure()
+        private void UpdateColoredFigure(Figure newFigure, Color newColor)
         {
+            this.FigureType = newFigure;
+            this.FigureColor = newColor;
             this.ColoredFigure = ColoredFigureHelper.Create(this.FigureColor, this.FigureType);
         }
 
@@ -102,11 +100,7 @@ namespace ChessBoardVisualLib.ViewModel
         public Color FigureColor
         {
             get { return (Color)GetValue(FigureColorProperty); }
-            set
-            {
-                SetValue(FigureColorProperty, value);
-                this.UpdateColoredFigure();
-            }
+            set { SetValue(FigureColorProperty, value); }
         }
 
         public static readonly DependencyProperty MoveAnimationStateProperty =

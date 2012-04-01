@@ -16,6 +16,16 @@ namespace Queem.Core.History
 
 			this.lastIndex = -1;
 		}
+
+        public DeltaChange(DeltaChange from)
+        {
+            int changesCount = from.changes.Length;
+            this.changes = new Change[changesCount];
+            for (int i = 0; i < changesCount; ++i)
+                this.changes[i] = new Change(from.changes[i]);
+
+            this.lastIndex = from.lastIndex;
+        }
 		
 		public Change GetNext(MoveAction action)
 		{
@@ -52,6 +62,11 @@ namespace Queem.Core.History
 		{
 			return this.lastIndex >= 0;
 		}
+
+        public DeltaChange GetCopy()
+        {
+            return new DeltaChange(this);
+        }
 	}
 }
 
