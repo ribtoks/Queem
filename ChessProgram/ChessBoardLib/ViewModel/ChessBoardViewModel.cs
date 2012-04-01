@@ -12,6 +12,7 @@ using ChessBoardVisualLib.Enums;
 using System.Windows.Data;
 using ChessBoardVisualLib.Converters;
 using Queem.Core.BitBoards.Helpers;
+using ChessBoardVisualLib.Extensions;
 
 namespace ChessBoardVisualLib.ViewModel
 {
@@ -96,7 +97,7 @@ namespace ChessBoardVisualLib.ViewModel
             set;
         }
 
-        public MouseClickResults MouseClick(SquareItem item)
+        public MouseOperationResults MouseClick(SquareItem item)
         {
             if (this.IsFigureMoving)
             {
@@ -104,10 +105,10 @@ namespace ChessBoardVisualLib.ViewModel
                 this.UnHighlightSquares();
 
                 if (this.TryFinishMove(item))
-                    return MouseClickResults.MoveFinished;
+                    return MouseOperationResults.MoveFinished;
 
                 if (item.FigureType == Figure.Nobody)
-                    return MouseClickResults.MoveCanceled;
+                    return MouseOperationResults.MoveCanceled;
 
                 if (item.FigureColor == this.CurrentPlayerColor)
                     this.InitFigureMoveBegin(item);
@@ -115,12 +116,26 @@ namespace ChessBoardVisualLib.ViewModel
             else
             {
                 if (item.FigureType == Figure.Nobody)
-                    return MouseClickResults.MoveCanceled;
+                    return MouseOperationResults.MoveCanceled;
 
                 this.InitFigureMoveBegin(item);
             }
 
-            return MouseClickResults.NewMove;
+            return MouseOperationResults.NewMove;
+        }
+
+        public MouseOperationResults MouseUp(SquareItem item)
+        {
+            if (this.IsFigureMoving)
+            {
+                this.IsFigureMoving = false;
+                this.UnHighlightSquares();
+
+                if (this.TryFinishMove(item))
+                    return MouseOperationResults.MoveFinished;
+            }
+
+            return MouseOperationResults.MoveCanceled;
         }
 
         private bool TryFinishMove(SquareItem item)
@@ -180,38 +195,36 @@ namespace ChessBoardVisualLib.ViewModel
             else
                 this.CurrentPlayerColor = Color.White;
         }
-
-        public int GetLastMoveDeltaX()
+        
+        public void AnimateMove(Move move, double width, Action<SquareItem> animationFinishedAction)
         {
-            int fileStart = (int)BitBoardHelper.GetFileFromSquare(this.MoveStart);
-            int fileEnd = (int)BitBoardHelper.GetFileFromSquare(this.MoveEnd);
+            double deltaX = move.GetDeltaX() * width;
+            double deltaY = -move.GetDeltaY() * width;
 
-            return fileEnd - fileStart;
+            var sourceItem = this.squareItems[move.From.GetRealIndex()];
+            var targetItem = this.squareItems[move.To.GetRealIndex()];
+            var figureMoving = sourceItem.FigureType;
+
+            sourceItem.AnimateShift(deltaX, deltaY, (item) =>
+                {
+                    targetItem.UpdateChessFigure(figureMoving, this.CurrentPlayerColor);
+                    sourceItem.UpdateChessFigure(Figure.Nobody, this.CurrentPlayerColor);
+                    sourceItem.ResetTransform();
+
+                    animationFinishedAction(item);
+                });
         }
 
-        public int GetLastMoveDeltaY()
+        public void RemoveFigure(Square square)
         {
-            int rankStart = BitBoardHelper.GetRankFromSquare(this.MoveStart);
-            int rankEnd = BitBoardHelper.GetRankFromSquare(this.MoveEnd);
-
-            return rankStart - rankEnd;
+            var item = this.squareItems[square.GetRealIndex()];
+            item.UpdateChessFigure(Figure.Nobody, this.CurrentPlayerColor);
         }
 
-        public void ReplaceLastMoveFigure()
+        public void CreateFigure(Square square, Figure figure, Color color)
         {
-            Figure figureMoved = this.squareItems[this.moveStart.GetRealIndex()].FigureType;
-
-            this.SetFigure(this.moveEnd, figureMoved, this.CurrentPlayerColor);
-            this.SetFigure(this.moveStart, Figure.Nobody, this.CurrentPlayerColor);
-            
-            this.squareItems[this.moveStart.GetRealIndex()].ResetTransform();
-        }
-
-        private void SetFigure(Square square, Figure figure, Color color)
-        {
-            int index = square.GetRealIndex();
-            this.squareItems[index].FigureType = figure;
-            this.squareItems[index].FigureColor = color;
+            var item = this.squareItems[square.GetRealIndex()];
+            item.UpdateChessFigure(figure, color);
         }
     }
 }

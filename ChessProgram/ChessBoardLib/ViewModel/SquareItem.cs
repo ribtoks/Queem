@@ -10,17 +10,6 @@ using System.Windows.Media.Animation;
 
 namespace ChessBoardVisualLib.ViewModel
 {
-    public static class SquareExtension
-    {
-        public static int GetRealIndex(this Square sq)
-        {
-            int file = (int)BitBoardHelper.GetFileFromSquare(sq);
-            int rank = BitBoardHelper.GetRankFromSquare(sq);
-
-            return (7 - rank) * 8 + file;
-        }
-    }
-
     public class SquareItem : DependencyObject
     {
         private Square innerSquare;
@@ -69,7 +58,7 @@ namespace ChessBoardVisualLib.ViewModel
             set { SetValue(FigureTypeProperty, value); }
         }
 
-        private void UpdateColoredFigure(Figure newFigure, Color newColor)
+        public void UpdateChessFigure(Figure newFigure, Color newColor)
         {
             this.FigureType = newFigure;
             this.FigureColor = newColor;
@@ -138,7 +127,7 @@ namespace ChessBoardVisualLib.ViewModel
                 this.MoveAnimationFinished(this, EventArgs.Empty);
         }
 
-        public void AnimateShift(double deltaX, double deltaY)
+        public void AnimateShift(double deltaX, double deltaY, Action<SquareItem> action)
         {
             DoubleAnimation shiftX = new DoubleAnimation();
             shiftX.From = 0;
@@ -163,7 +152,7 @@ namespace ChessBoardVisualLib.ViewModel
             Storyboard.SetTargetProperty(shiftX, new PropertyPath("DeltaXTransform"));
             Storyboard.SetTargetProperty(shiftY, new PropertyPath("DeltaYTransform"));
 
-            storyboard.Completed += new EventHandler((sender, e) => OnAnimationFinished());
+            storyboard.Completed += new EventHandler((sender, e) => action(this));
 
             storyboard.Begin();
         }

@@ -101,7 +101,7 @@
             </DataTemplate>            
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="#ff065E8C">
+    <Grid x:Name="mainGrid" Background="#ff065E8C">
         <ContentControl Content="{Binding}" />
     </Grid>
 </UserControl>

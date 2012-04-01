@@ -51,6 +51,10 @@
     <Compile Include="Converters\MoveToDeltaXConverter.cs" />
     <Compile Include="Converters\MoveToDeltaYConverter.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="Extensions\MoveExtension.cs" />
+    <Compile Include="Extensions\SquareExtensions.cs" />
+    <Compile Include="Helpers\MyVisualTreeHelper.cs" />
     <Compile Include="Proxy.cs" />
     <Compile Include="ViewModel\AnimationValue.cs" />
     <Compile Include="ViewModel\ChessBoardViewModel.cs" />

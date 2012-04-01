@@ -28,7 +28,7 @@ namespace ChessBoardVisualLib.Enums
         Start, End, Nothing
     }
 
-    public enum MouseClickResults
+    public enum MouseOperationResults
     {
         MoveFinished, NewMove, MoveCanceled
     }

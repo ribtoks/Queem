@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Queem.Core.History
 {
@@ -66,6 +67,15 @@ namespace Queem.Core.History
         public DeltaChange GetCopy()
         {
             return new DeltaChange(this);
+        }
+
+        public IEnumerable<Change> Filter(Func<Change, bool> predicate)
+        {
+            for (int i = 0; i <= this.lastIndex; ++i)
+            {
+                if (predicate(this.changes[i]))
+                    yield return this.changes[i];
+            }
         }
 	}
 }
