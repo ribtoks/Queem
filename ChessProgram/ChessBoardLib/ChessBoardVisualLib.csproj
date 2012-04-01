@@ -55,8 +55,6 @@
     <Compile Include="Extensions\MoveExtension.cs" />
     <Compile Include="Extensions\SquareExtensions.cs" />
     <Compile Include="Helpers\MyVisualTreeHelper.cs" />
-    <Compile Include="Proxy.cs" />
-    <Compile Include="ViewModel\AnimationValue.cs" />
     <Compile Include="ViewModel\ChessBoardViewModel.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\SquareItem.cs" />
