@@ -69,29 +69,117 @@
                                             </MultiDataTrigger.Conditions>
                                             <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
                                         </MultiDataTrigger>
-                                        <DataTrigger Binding="{Binding MoveAnimationState}" Value="Start">
-                                            <DataTrigger.EnterActions>
-                                                <BeginStoryboard Storyboard="{StaticResource moveStoryboard}" />
-                                            </DataTrigger.EnterActions>
-                                        </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Grid>
                 </Controls:SquareContainer>
-            </DataTemplate>            
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:PawnPromotionViewModel}">
+                <ItemsControl ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" Columns="4" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="promotionGrid" Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="8*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="{Binding FigureType, Converter={StaticResource figureToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="backgroundRect" Fill="SteelBlue"
+                                           RadiusX="2.5" RadiusY="2.5" Stroke="White" StrokeThickness="1" />
+                                <Border Grid.Row="1" Grid.Column="1"
+                                            Background="{Binding ColoredFigure, Converter={StaticResource coloredFigureToBrushConverter}}" />
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation 
+                                                    Storyboard.TargetName="promotionGrid"
+                                                    Storyboard.TargetProperty="Margin"
+                                                    From="5" To="0" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation 
+                                                    Storyboard.TargetName="promotionGrid"
+                                                    Storyboard.TargetProperty="Margin"
+                                                    From="0" To="5" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DataTemplate>
+            <Style x:Key="overlayGridStyle" TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ShowOverlayState}" Value="Show">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard x:Name="showOverlay">
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ShowOverlayState}" Value="Hide">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard x:Name="hideOverlay">
+                                    <DoubleAnimation 
+                                        BeginTime="0:0:0.4"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="1" To="0" Duration="0:0:0.5" />
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.7"
+                                           Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Collapsed</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="mainGrid" Background="#ff065E8C">
         <ContentControl Content="{Binding}" />
-        <Grid x:Name="overlayGrid"
+        <Grid x:Name="overlayGrid" Style="{StaticResource overlayGridStyle}"
               Panel.ZIndex="100" Opacity="0" Visibility="Collapsed"
               Background="#70000000">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="60" />
-                <RowDefinition Height="*" />                
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -101,14 +189,7 @@
             <Border Grid.Column="1" Grid.Row="1"
                     BorderThickness="2" BorderBrush="White"
                     CornerRadius="5">
-                <UniformGrid x:Name="alternativesGrid" Rows="1" Columns="4"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <UniformGrid.Resources>
-                        <DataTemplate DataType="{x:Type ViewModels:PawnPromotionViewModel}">
-                            
-                        </DataTemplate>
-                    </UniformGrid.Resources>
-                </UniformGrid>
+                <ContentControl Content="{Binding PromotionContext}" />
             </Border>
         </Grid>
     </Grid>

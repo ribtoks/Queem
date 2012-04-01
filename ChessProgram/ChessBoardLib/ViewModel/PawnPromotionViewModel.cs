@@ -16,12 +16,20 @@ namespace ChessBoardVisualLib.ViewModel
 
         public PawnPromotionViewModel()
         {
-
+            this.promotionItems = new ObservableCollection<PawnPromotionItem>();
+            foreach (var figure in this.promotionFigures)
+                this.promotionItems.Add(new PawnPromotionItem(figure, Color.White));
         }
 
         public ObservableCollection<PawnPromotionItem> Items
         {
             get { return this.promotionItems; }
+        }
+
+        public void SetColor(Color color)
+        {
+            foreach (var item in this.promotionItems)
+                item.UpdateChessFigure(item.FigureType, color);
         }
     }
 }

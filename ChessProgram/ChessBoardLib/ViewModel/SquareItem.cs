@@ -21,7 +21,6 @@ namespace ChessBoardVisualLib.ViewModel
             this.FigureType = figure;
             this.FigureColor = color;
             this.ColoredFigure = ColoredFigureHelper.Create(color, figure);
-            this.MoveAnimationState = Enums.MoveAnimationState.Nothing;
         }
 
         public Square Square
@@ -90,15 +89,6 @@ namespace ChessBoardVisualLib.ViewModel
         {
             get { return (Color)GetValue(FigureColorProperty); }
             set { SetValue(FigureColorProperty, value); }
-        }
-
-        public static readonly DependencyProperty MoveAnimationStateProperty =
-            DependencyProperty.Register("MoveAnimationState", typeof(MoveAnimationState), typeof(SquareItem));
-
-        public MoveAnimationState MoveAnimationState
-        {
-            get { return (Enums.MoveAnimationState)GetValue(MoveAnimationStateProperty); }
-            set { SetValue(MoveAnimationStateProperty, value); }
         }
 
         public static readonly DependencyProperty DeltaXTransformProperty =

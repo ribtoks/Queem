@@ -26,6 +26,9 @@ namespace ChessBoardVisualLib.ViewModel
 
         private List<Square> lastHighlightedSquares;
 
+        private PawnPromotionViewModel promotionViewModel;
+        private ShowOverlayState showOverlayState;
+
         public ChessBoardViewModel(GameProvider gameProvider)
         {
             this.provider = gameProvider;
@@ -34,6 +37,8 @@ namespace ChessBoardVisualLib.ViewModel
 
             // TODO remove this in future
             this.CurrentPlayerColor = Color.White;
+
+            this.promotionViewModel = new PawnPromotionViewModel();
         }
 
         private void InitItems()
@@ -44,6 +49,11 @@ namespace ChessBoardVisualLib.ViewModel
                     this.squareItems.Add(
                         new SquareItem(square, figure, color));
                 });
+        }
+
+        public PawnPromotionViewModel PromotionContext
+        {
+            get { return this.promotionViewModel; }
         }
 
         private bool isFigureMoving;
@@ -95,6 +105,19 @@ namespace ChessBoardVisualLib.ViewModel
         {
             get;
             set;
+        }
+
+        public ShowOverlayState ShowOverlayState
+        {
+            get { return this.showOverlayState; }
+            set
+            {
+                if (this.showOverlayState != value)
+                {
+                    this.showOverlayState= value;
+                    OnPropertyChanged("ShowOverlayState");
+                }
+            }
         }
 
         public MouseOperationResults MouseClick(SquareItem item)
@@ -225,6 +248,11 @@ namespace ChessBoardVisualLib.ViewModel
         {
             var item = this.squareItems[square.GetRealIndex()];
             item.UpdateChessFigure(figure, color);
+        }
+
+        public void UpdateLayout()
+        {
+            this.InitItems();
         }
     }
 }
