@@ -85,5 +85,31 @@
     </UserControl.Resources>
     <Grid x:Name="mainGrid" Background="#ff065E8C">
         <ContentControl Content="{Binding}" />
+        <Grid x:Name="overlayGrid"
+              Panel.ZIndex="100" Opacity="0" Visibility="Collapsed"
+              Background="#70000000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />                
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" Grid.Row="1"
+                    BorderThickness="2" BorderBrush="White"
+                    CornerRadius="5">
+                <UniformGrid x:Name="alternativesGrid" Rows="1" Columns="4"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <UniformGrid.Resources>
+                        <DataTemplate DataType="{x:Type ViewModels:PawnPromotionViewModel}">
+                            
+                        </DataTemplate>
+                    </UniformGrid.Resources>
+                </UniformGrid>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

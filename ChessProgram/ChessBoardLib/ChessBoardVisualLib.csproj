@@ -57,6 +57,8 @@
     <Compile Include="Helpers\MyVisualTreeHelper.cs" />
     <Compile Include="ViewModel\ChessBoardViewModel.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
+    <Compile Include="ViewModel\PawnPromotionItem.cs" />
+    <Compile Include="ViewModel\PawnPromotionViewModel.cs" />
     <Compile Include="ViewModel\SquareItem.cs" />
     <Compile Include="View\ChessBoardControl.xaml.cs">
       <DependentUpon>ChessBoardControl.xaml</DependentUpon>
