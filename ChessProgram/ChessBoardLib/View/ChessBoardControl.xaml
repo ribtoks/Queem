@@ -5,7 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="clr-namespace:ChessBoardVisualLib.Controls"
              xmlns:ViewModels="clr-namespace:ChessBoardVisualLib.ViewModel"
+             xmlns:Commands="clr-namespace:ChessBoardVisualLib.Commands"
              mc:Ignorable="d" >
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static Commands:Commands.PromotePawnCommand}"
+                        Executed="PromotePawn_Executed" />
+    </UserControl.CommandBindings>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -86,6 +91,10 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid x:Name="promotionGrid" Margin="5">
+                                <Grid.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick" 
+                                                  Command="{x:Static Commands:Commands.PromotePawnCommand}"/>
+                                </Grid.InputBindings>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="8*" />

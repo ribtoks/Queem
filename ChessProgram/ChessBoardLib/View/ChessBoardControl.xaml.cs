@@ -198,5 +198,13 @@ namespace ChessBoardVisualLib.View
                 }
             }
         }
+
+        private void PromotePawn_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var grid = e.OriginalSource as Grid;
+            var promotionItem = grid.DataContext as PawnPromotionItem;
+
+            this.viewModel.ShowOverlayState = Enums.ShowOverlayState.Hide;
+        }
     }
 }

@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Controls\SquareContainer.cs" />
     <Compile Include="Converters\DictionaryValueConverter.cs" />
