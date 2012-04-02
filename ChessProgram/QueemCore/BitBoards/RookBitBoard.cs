@@ -10,11 +10,13 @@ namespace Queem.Core.BitBoards
 		public RookBitBoard()
 			:base()
 		{
+            this.LeftNotMoved = this.RightNotMoved = 1;
 		}
 				
 		public RookBitBoard(ulong val)
 			:base(val)
 		{
+            this.LeftNotMoved = this.RightNotMoved = 1;
 		}
 		
 		public int LeftNotMoved { get; set; }

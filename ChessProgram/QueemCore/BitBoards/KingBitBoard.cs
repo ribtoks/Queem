@@ -13,12 +13,14 @@ namespace Queem.Core.BitBoards
 	
 		public KingBitBoard()
 			:base()
-		{			
+		{
+            this.AlreadyMoved = 0;
 		}
 			
 		public KingBitBoard(ulong val)
 			:base(val)
 		{
+            this.AlreadyMoved = 0;
 		}
 		
 		public override int GetInnerProperty ()
