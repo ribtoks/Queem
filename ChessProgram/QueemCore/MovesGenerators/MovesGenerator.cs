@@ -36,7 +36,8 @@ namespace Queem.Core.MovesGenerators
 					for (int i = 0; i < myfigures.Length; ++i)
 					{
 						var figureSquare = myfigures[i];
-						attacks = generator.GetAttacks(figureSquare, otherFigures);
+                        var notFigure = ~(1UL << (int)figureSquare);
+						attacks = generator.GetAttacks(figureSquare, otherFigures & notFigure);
 						
 						attacks &= mask;
 						
