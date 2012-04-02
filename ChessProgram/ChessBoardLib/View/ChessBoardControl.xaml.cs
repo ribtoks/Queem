@@ -107,7 +107,7 @@ namespace ChessBoardVisualLib.View
             var result = this.viewModel.MouseUp(squareItem);
 
             if (result == Enums.MouseOperationResults.MoveFinished)
-                this.OnMoveFinished();            
+                this.OnMoveFinished();
         }
 
         public void AnimateLast()
@@ -148,9 +148,9 @@ namespace ChessBoardVisualLib.View
         private void InnerAnimateMove(Move move, Queem.Core.Figure figureDied)
         {
             var uniformGrid = mainGrid.FindChild<UniformGrid>();
-            var moveGrid = uniformGrid.Children.OfType<Grid>()
-                .Where((grid) =>
-                    (grid.DataContext as SquareItem).Square == move.From)
+            var moveGrid = uniformGrid.Children.OfType<ContentPresenter>()
+                .Where((child) =>
+                    (child.DataContext as SquareItem).Square == move.From)
                 .First();
 
 
@@ -162,8 +162,9 @@ namespace ChessBoardVisualLib.View
                 moveGrid.ActualWidth,
                 (sourceItem) =>
                 {
-                    sourceItem.UpdateChessFigure(figureDied,
-                        this.viewModel.CurrentPlayerColor.GetOpposite());
+                    if (figureDied != Queem.Core.Figure.Nobody)
+                        sourceItem.UpdateChessFigure(figureDied,
+                            this.viewModel.CurrentPlayerColor.GetOpposite());
 
                     Panel.SetZIndex(moveGrid, zIndex);
                     this.animationsDone += 1;
@@ -179,6 +180,8 @@ namespace ChessBoardVisualLib.View
                 this.desiredAnimationsCount = 2;
             else
                 this.desiredAnimationsCount = 1;
+
+            this.animationsDone = 0;
         }
 
         public void AnimateCancelMove(DeltaChange dc, Move move)

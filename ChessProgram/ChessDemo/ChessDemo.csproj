@@ -39,10 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -96,9 +93,9 @@
       <Project>{E0345AB8-3057-48BE-8A25-98F94B3A2A2B}</Project>
       <Name>ChessBoardVisualLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DebutMovesHolder\DebutMovesHolder.csproj">
-      <Project>{798AAC57-A4F3-4084-A8F8-8B5C6C3DD8A1}</Project>
-      <Name>DebutMovesHolder</Name>
+    <ProjectReference Include="..\DebutsLib\DebutsLib.csproj">
+      <Project>{ACD58B44-CEB6-4102-833E-599D99F03013}</Project>
+      <Name>DebutsLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Queem.AI\Queem.AI.csproj">
       <Project>{E94ED089-692E-411E-943D-2EB3E4304E87}</Project>

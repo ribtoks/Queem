@@ -1,7 +1,7 @@
 using System;
 using Queem.Core;
 using Queem.Core.ChessBoard;
-using DebutMovesHolder;
+using DebutsLib;
 
 namespace Queem.AI
 {
@@ -31,16 +31,16 @@ namespace Queem.AI
 			FixedArray moves;
 				
 			if (provider.PlayerBoard1.FigureColor == color)
-				moves = provider.PlayerBoard1.GetMoves(provider.PlayerBoard2, 
+				moves = provider.PlayerBoard1.GetMoves(provider.PlayerBoard1, 
 					provider.History.GetLastMove(), 
 					MovesMask.AllMoves);
 			else
-				moves = provider.PlayerBoard1.GetMoves(provider.PlayerBoard1, 
+				moves = provider.PlayerBoard2.GetMoves(provider.PlayerBoard2, 
 					provider.History.GetLastMove(), 
 					MovesMask.AllMoves);
 					
 			Random rand = new Random(DateTime.Now.Millisecond);
-			return moves.InnerArray[rand.Next(moves.InnerArray.Length)];
+			return moves.InnerArray[rand.Next(moves.Size)];
 		}
 	}
 }

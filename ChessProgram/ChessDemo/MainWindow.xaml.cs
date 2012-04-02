@@ -16,7 +16,7 @@ using Queem.Core.ChessBoard;
 using Queem.Core;
 using Queem.AI;
 using Queem.Core.Extensions;
-using DebutMovesHolder;
+using DebutsLib;
 
 namespace ChessDemo
 {
@@ -72,7 +72,11 @@ namespace ChessDemo
 
                 if (needPawnPromotion)
                     this.chessboardControl.PromotePawn(Queem.Core.Color.Black, move.To, move.Type.GetPromotionFigure());
+
+                this.chessboardControl.ChangeCurrentPlayer();
             }
+
+            this.canSolverStart = false;
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -149,7 +153,7 @@ namespace ChessDemo
                 return false;
             }
 
-            return false;
+            return true;
         }
     }
 }

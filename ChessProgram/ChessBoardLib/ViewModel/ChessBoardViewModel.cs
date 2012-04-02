@@ -54,7 +54,7 @@ namespace ChessBoardVisualLib.ViewModel
 
         public GameProvider GameProvider
         {
-            get { return this.GameProvider; }
+            get { return this.provider; }
         }
 
         public PawnPromotionViewModel PromotionContext
@@ -157,6 +157,9 @@ namespace ChessBoardVisualLib.ViewModel
         {
             if (this.IsFigureMoving)
             {
+                if (item.Square == this.moveStart)
+                    return MouseOperationResults.NewMove;
+
                 this.IsFigureMoving = false;
                 this.UnHighlightSquares();
 
@@ -236,8 +239,8 @@ namespace ChessBoardVisualLib.ViewModel
 
             sourceItem.AnimateShift(deltaX, deltaY, (item) =>
                 {
-                    targetItem.UpdateChessFigure(figureMoving, this.CurrentPlayerColor);
-                    sourceItem.UpdateChessFigure(Figure.Nobody, this.CurrentPlayerColor);
+                    targetItem.UpdateChessFigure(figureMoving, sourceItem.FigureColor);
+                    sourceItem.UpdateChessFigure(Figure.Nobody, sourceItem.FigureColor);
                     sourceItem.ResetTransform();
 
                     animationFinishedAction(item);
