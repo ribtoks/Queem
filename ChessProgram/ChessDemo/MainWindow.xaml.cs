@@ -130,6 +130,7 @@ namespace ChessDemo
         private void chessboardControl_PawnPromoted(object sender, EventArgs e)
         {
             this.canSolverStart = true;
+            this.StartSolver();
         }
 
         private void StartSolver()

@@ -13,6 +13,7 @@ using System.Windows.Data;
 using ChessBoardVisualLib.Converters;
 using Queem.Core.BitBoards.Helpers;
 using ChessBoardVisualLib.Extensions;
+using QueemCore;
 
 namespace ChessBoardVisualLib.ViewModel
 {
@@ -24,7 +25,7 @@ namespace ChessBoardVisualLib.ViewModel
         private Square moveStart;
         private Square moveEnd;
 
-        private List<Square> lastHighlightedSquares;
+        private List<HighlightedSquare> lastHighlightedSquares;
 
         private PawnPromotionViewModel promotionViewModel;
         private ShowOverlayState showOverlayState;
@@ -35,7 +36,7 @@ namespace ChessBoardVisualLib.ViewModel
             this.squareItems = new ObservableCollection<SquareItem>();
 
             this.InitItems();
-            this.lastHighlightedSquares = new List<Square>();
+            this.lastHighlightedSquares = new List<HighlightedSquare>();
 
             // TODO remove this in future
             this.CurrentPlayerColor = Color.White;
@@ -174,18 +175,25 @@ namespace ChessBoardVisualLib.ViewModel
 
         private bool TryFinishMove(SquareItem item)
         {
-            if (!this.IsLegalMoveEnd(item.Square))
+            MoveType type;
+            if (!this.IsLegalMoveEnd(item.Square, out type))
                 return false;
 
             this.MoveEnd = item.Square;
-            Move move = new Move(this.moveStart, item.Square);
+            Move move = new Move(this.moveStart, item.Square, type);
             this.provider.ProcessMove(move, this.CurrentPlayerColor);
             return true;
         }
         
-        private bool IsLegalMoveEnd(Square moveEnd)
+        private bool IsLegalMoveEnd(Square moveEnd, out MoveType type)
         {
-            return this.lastHighlightedSquares.Contains(moveEnd);
+            var result = this.lastHighlightedSquares.Where((hs) => hs.Square == moveEnd);
+
+            type = MoveType.Quiet;
+            if (result.Count() > 0)
+                type = result.First().MoveType;
+
+            return result.Count() > 0;
         }
 
         public void InitFigureMoveBegin(SquareItem item)
@@ -210,7 +218,7 @@ namespace ChessBoardVisualLib.ViewModel
         private void UnHighlightSquares()
         {
             foreach (var item in this.lastHighlightedSquares)
-                this.squareItems[item.GetRealIndex()].IsHighlighted = false;
+                this.squareItems[item.Square.GetRealIndex()].IsHighlighted = false;
         }
 
         private void SetHighlightedSquares(Square square, Color color)
@@ -219,7 +227,7 @@ namespace ChessBoardVisualLib.ViewModel
                             square, color);
 
             foreach (var item in this.lastHighlightedSquares)
-                this.squareItems[item.GetRealIndex()].IsHighlighted = true;
+                this.squareItems[item.Square.GetRealIndex()].IsHighlighted = true;
         }
 
         public void ChangeCurrentPlayer()

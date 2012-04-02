@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Queem.Core.History;
 using System.Collections.Generic;
+using QueemCore;
 
 namespace Queem.Core.ChessBoard
 {
@@ -282,7 +283,7 @@ namespace Queem.Core.ChessBoard
 			return result;
 		}
 
-        public List<Square> GetTargetSquares(Square square, Color playerColor)
+        public List<HighlightedSquare> GetTargetSquares(Square square, Color playerColor)
         {
             var oppositeColor = 1 - (int)playerColor;
             var player = this.playerBoards[(int)playerColor];
@@ -300,7 +301,9 @@ namespace Queem.Core.ChessBoard
 
             var result = moves.InnerArray.Take(moves.Size)
                 .Where((move) => move.From == square)
-                .Select((move) => move.To).ToList();
+                .Select((move) => new HighlightedSquare() { Square = move.To, MoveType = move.Type })
+                .GroupBy((hs) => hs.Square).Select((item) => item.First()) // for promotion moves
+                .ToList();
 
             MovesArray.ReleaseLast();
 

@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Extensions\PawnPromotionExtension.cs" />
+    <Compile Include="HighlightedSquare.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Extensions\MyStringExtensions.cs" />
     <Compile Include="BitBoards\BitBoard.cs" />

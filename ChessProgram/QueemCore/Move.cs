@@ -24,7 +24,7 @@ namespace Queem.Core
 		{
 			this.From = start;
 			this.To = end;
-			this.Type = MoveType.Quiet;
+			this.Type = type;
 		}
 
         public Move(string str)
