@@ -21,6 +21,7 @@ namespace Queem.Core
 			this.movesReferences[(int)PawnTarget.DoublePush] = PawnBitBoardHelper.DoublePushes;
 		}
 		
+        // mask - opponent figures | 1 bit of passing move
 		public override List<Move[]> GetMoves (ulong otherFigures, ulong mask)
 		{
 			var list = new List<Move[]>(8);				
@@ -28,9 +29,10 @@ namespace Queem.Core
 			int dir = pawnGenerator.Index;
 			
 			ulong[] attacks = pawnGenerator.GetAttacks(this.board.GetInnerValue(), otherFigures);
-
-            attacks[(int)PawnTarget.LeftAttack] &= mask;
-            attacks[(int)PawnTarget.RightAttack] &= mask;
+            ulong notMineFigures = ~(otherFigures & (~mask));
+            
+            attacks[(int)PawnTarget.LeftAttack] &= mask & notMineFigures;
+            attacks[(int)PawnTarget.RightAttack] &= mask & notMineFigures;
 									
 			int rankIndex = 0, rank;
 			for (int i = 0; i < 4; ++i)

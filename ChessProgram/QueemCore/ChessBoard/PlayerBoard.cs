@@ -251,7 +251,7 @@ namespace Queem.Core.ChessBoard
 				
 				for (int j = 0; j < newMovesList.Count; ++j)
 				{
-					var newMovesArray = newMovesList[j];					
+					var newMovesArray = newMovesList[j];	
 					
 					for (int k = 0; k < newMovesArray.Length; ++k)
 					{
@@ -290,6 +290,7 @@ namespace Queem.Core.ChessBoard
 			}
 			
 			// add to mask value 
+            mask = opponent.allFigures;
 			// pawn in passing state bit
 			int lastFrom = (int)lastMove.From;
 			int lastTo = (int)lastMove.To;
@@ -300,11 +301,11 @@ namespace Queem.Core.ChessBoard
 				if (opponent.Pawns.IsBitSet(lastMove.To))
 				{
 					mask |= 1UL << middle;
+                    otherFigures |= mask;
 					wasLastMovePassing = true;
 				}
 			
-			// add pawns moves
-            mask = opponent.allFigures;
+			// add pawns moves            
 			var pawnMoves = this.moveGenerators[(int)Figure.Pawn].GetMoves(otherFigures, mask);
 			int moveTo;
 			for (int j = 0; j < pawnMoves.Count; ++j)
