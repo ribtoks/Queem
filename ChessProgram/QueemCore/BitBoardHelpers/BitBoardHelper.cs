@@ -150,7 +150,7 @@ namespace Queem.Core.BitBoards.Helpers
 						if (destinationFigure != Figure.Nobody)
 							moveTypes[i][j] = MoveType.Captures;
 						else
-							moveTypes[i][j] = MoveType.Promotion;
+							moveTypes[i][j] = MoveType.Quiet;
 					}
 				}
 			}

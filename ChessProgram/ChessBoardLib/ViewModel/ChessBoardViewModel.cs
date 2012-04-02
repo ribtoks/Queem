@@ -32,6 +32,8 @@ namespace ChessBoardVisualLib.ViewModel
         public ChessBoardViewModel(GameProvider gameProvider)
         {
             this.provider = gameProvider;
+            this.squareItems = new ObservableCollection<SquareItem>();
+
             this.InitItems();
             this.lastHighlightedSquares = new List<Square>();
 
@@ -44,7 +46,7 @@ namespace ChessBoardVisualLib.ViewModel
 
         private void InitItems()
         {
-            this.squareItems = new ObservableCollection<SquareItem>();
+            this.squareItems.Clear();
             this.provider.ForEachFigureReal((square, figure, color) =>
                 {
                     this.squareItems.Add(

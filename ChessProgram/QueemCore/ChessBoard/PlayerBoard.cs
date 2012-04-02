@@ -285,12 +285,13 @@ namespace Queem.Core.ChessBoard
 					var item = newMovesArray[k];
 					innerArray[index].From = item.From;
 					innerArray[index].To = item.To;
+                    int destinationFigure = (int)opponent.figures[(int)item.To];
 					
 					if (Math.Abs((int)item.From - (int)item.To) == 2)
 						innerArray[index].Type = MoveType.KingCastle;
 					else
 						innerArray[index].Type = 
-							BitBoardHelper.MoveTypes[(int)Figure.King][j][(int)item.From][(int)item.To];
+							BitBoardHelper.MoveTypes[(int)Figure.King][destinationFigure][(int)item.From][(int)item.To];
 					
 					index++;
 				}
@@ -327,8 +328,8 @@ namespace Queem.Core.ChessBoard
 					item.To = newMovesArray[k].To;
 					
 					moveTo = (int)item.To;
-					
-					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][j][(int)item.From][moveTo];
+					int destinationFigure = (int)opponent.figures[(int)item.To];
+					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][destinationFigure][(int)item.From][moveTo];
 					
 					if (wasLastMovePassing)
 						if (item.To == (Square)middle)
@@ -478,6 +479,8 @@ namespace Queem.Core.ChessBoard
 				
 				++index;
 			}
+
+            moves.Size = squeezed_index;
 		}
 		
 		protected bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
@@ -490,15 +493,15 @@ namespace Queem.Core.ChessBoard
 			
 			ulong knights = opponentBoard.bitboards[(int)Figure.Knight].GetInnerValue();
 			ulong king = opponentBoard.bitboards[(int)Figure.King].GetInnerValue();
-			ulong opponentAllFigures = opponentBoard.GetAllFigures();			
+			ulong otherFigures = opponentBoard.allFigures | this.allFigures;
 			
 			var knightAttackGenerator = this.attacksGenerators[(int)Figure.Knight];
-			ulong occupiedKnightMoves = knightAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			ulong occupiedKnightMoves = knightAttackGenerator.GetAttacks(sq, otherFigures);
 			if ((occupiedKnightMoves & knights) != 0)
 				return true;
 				
 			var kingAttackGenerator = this.attacksGenerators[(int)Figure.King];
-			ulong occupiedKingMoves = kingAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			ulong occupiedKingMoves = kingAttackGenerator.GetAttacks(sq, otherFigures);
 			if ((occupiedKingMoves & king) != 0)
 				return true;
 			
@@ -506,12 +509,12 @@ namespace Queem.Core.ChessBoard
 			ulong bishopsQueens = opponentBoard.GetBishopsQueens();
 									
 			var rookAttackGenerator = this.attacksGenerators[(int)Figure.Rook];			
-			ulong occupiedRookMoves = rookAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			ulong occupiedRookMoves = rookAttackGenerator.GetAttacks(sq, otherFigures);
 			if ((occupiedRookMoves & rooksQueens) != 0)
 				return true;
 				
 			var bishopAttackGenerator = this.attacksGenerators[(int)Figure.Bishop];
-			ulong occupiedBishopMoves = bishopAttackGenerator.GetAttacks(sq, opponentAllFigures);
+			ulong occupiedBishopMoves = bishopAttackGenerator.GetAttacks(sq, otherFigures);
 			if ((occupiedBishopMoves & bishopsQueens) != 0)
 				return true;
 				
