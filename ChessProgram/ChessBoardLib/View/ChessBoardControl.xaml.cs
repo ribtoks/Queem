@@ -238,5 +238,10 @@ namespace ChessBoardVisualLib.View
         {
             this.viewModel.ShowOverlayState = Enums.ShowOverlayState.Show;
         }
+
+        public void RedrawAll()
+        {
+            this.viewModel.UpdateLayout();
+        }
     }
 }

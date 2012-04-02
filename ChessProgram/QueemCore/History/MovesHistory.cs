@@ -1,5 +1,6 @@
 using System;
 using Queem.Core;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Queem.Core.History
@@ -18,6 +19,11 @@ namespace Queem.Core.History
 			this.lastIndex = -1;
 			this.FillCache();
 		}
+
+        public void Reset()
+        {
+            this.lastIndex = -1;
+        }
 		
 		protected void FillCache()
 		{
@@ -29,6 +35,12 @@ namespace Queem.Core.History
 				deltaChanges.Add(new DeltaChange());
 			}
 		}
+
+        public string[] GetMovesArray()
+        {
+            return this.moves.Take(this.lastIndex + 1)
+                .Select((move) => move.ToString()).ToArray();
+        }
 		
 		public DeltaChange PopLastDeltaChange()
 		{

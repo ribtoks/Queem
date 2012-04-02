@@ -80,17 +80,22 @@ namespace Queem.Core.ChessBoard
 		{
 			this.position = playerPosition;
 			this.color = playerColor;
-			
-			this.CreateBitBoards();			
-			this.FillBitBoards();
-			this.RefreshAllFiguresBoard();
-			
-			this.CreateFiguresArray();
-			this.FillFiguresArray();
-			
-			this.CreateAttacksGenerators();
-			this.CreateMovesGenerators();
+
+            this.ResetAll();
 		}
+
+        public void ResetAll()
+        {
+            this.CreateBitBoards();
+            this.FillBitBoards();
+            this.RefreshAllFiguresBoard();
+
+            this.CreateFiguresArray();
+            this.FillFiguresArray();
+
+            this.CreateAttacksGenerators();
+            this.CreateMovesGenerators();
+        }
 		
 		protected void CreateFiguresArray()
 		{
@@ -255,11 +260,13 @@ namespace Queem.Core.ChessBoard
 					
 					for (int k = 0; k < newMovesArray.Length; ++k)
 					{
-						var item = newMovesArray[k];
+                        var item = newMovesArray[k];
 						innerArray[index].From = item.From;
 						innerArray[index].To = item.To;
+
+                        int destinationFigure = (int)opponent.figures[(int)item.To];
 						innerArray[index].Type = 
-							BitBoardHelper.MoveTypes[(int)figure][j][(int)item.From][(int)item.To];
+							BitBoardHelper.MoveTypes[(int)figure][destinationFigure][(int)item.From][(int)item.To];
 						
 						index++;
 					}

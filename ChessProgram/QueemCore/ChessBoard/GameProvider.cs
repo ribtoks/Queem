@@ -24,7 +24,7 @@ namespace Queem.Core.ChessBoard
 			this.playerBoards = new PlayerBoard[2];
 			this.playerBoards[(int)Color.White] = this.PlayerBoard1;
 			this.playerBoards[(int)Color.Black] = this.PlayerBoard2;
-		}		
+		}
 		
         public void ForEachFigure(Action<Square, Figure> action)
         {
@@ -305,6 +305,13 @@ namespace Queem.Core.ChessBoard
             MovesArray.ReleaseLast();
 
             return result;
+        }
+
+        public void ResetAll()
+        {
+            this.PlayerBoard1.ResetAll();
+            this.PlayerBoard2.ResetAll();
+            this.History.Reset();
         }
 	}
 }

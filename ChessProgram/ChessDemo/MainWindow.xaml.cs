@@ -17,6 +17,7 @@ using Queem.Core;
 using Queem.AI;
 using Queem.Core.Extensions;
 using DebutsLib;
+using System.IO;
 
 namespace ChessDemo
 {
@@ -117,6 +118,7 @@ namespace ChessDemo
 
         private void chessboardControl_MoveAnimationFinished(object sender, EventArgs e)
         {
+            this.buttonsPanel.IsEnabled = true;
             this.StartSolver();
         }
 
@@ -155,5 +157,37 @@ namespace ChessDemo
 
             return true;
         }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string path = Directory.GetCurrentDirectory() +
+                System.IO.Path.DirectorySeparatorChar + "chess.game";
+
+            System.IO.File.WriteAllLines(path,
+                this.gameProvider.History.GetMovesArray());
+
+            MessageBox.Show("Game saved");
+        }
+
+        private void readButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.gameProvider.ResetAll();
+            this.redoMoves = new List<MoveWithDecision>();
+
+            string path = Directory.GetCurrentDirectory() + 
+                System.IO.Path.DirectorySeparatorChar + "chess.game";
+
+            string[] lines = System.IO.File.ReadAllLines(path);
+            Queem.Core.Color color = Queem.Core.Color.White;
+            foreach (var line in lines)
+            {
+                var move = new Move(line);
+                this.gameProvider.ProcessMove(move, color);
+
+                color = (Queem.Core.Color)(1 - (int)color);
+            }
+
+            this.chessboardControl.RedrawAll();
+        }        
     }
 }

@@ -17,19 +17,17 @@
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel x:Name="buttonsPanel" IsEnabled="False" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+        <StackPanel x:Name="buttonsPanel" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
             <Button x:Name="cancelButton" Width="50"
                     Content="Undo" Margin="5" IsEnabled="False" />
             <Button x:Name="redoButton" Width="50" Content="Redo"
                     Margin="5"
                     IsEnabled="False" />
             <Button x:Name="saveButton" Width="50" Content="Save"
-                    Margin="5"
-                    IsEnabled="True" />
+                    Margin="5" Click="saveButton_Click" />
             <Button x:Name="readButton" Width="50" Content="Read"
-                    Margin="5"
-                    IsEnabled="True" />
-        </StackPanel>
+                    Margin="5" Click="readButton_Click" />
+            </StackPanel>
 
         <BoardControl:ChessBoardControl x:Name="chessboardControl" Grid.Row="2" Grid.Column="1"
                                         MoveFinished="chessboardControl_MoveFinished" 
