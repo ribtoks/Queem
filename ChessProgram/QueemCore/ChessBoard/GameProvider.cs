@@ -15,6 +15,11 @@ namespace Queem.Core.ChessBoard
 		public MovesHistory History { get; private set; }
 		
 		protected PlayerBoard[] playerBoards;
+
+        public PlayerBoard[] PlayerBoards
+        {
+            get { return this.playerBoards; }
+        }
 	
 		public GameProvider ()
 		{

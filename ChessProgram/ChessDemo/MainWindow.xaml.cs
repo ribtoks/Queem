@@ -182,6 +182,11 @@ namespace ChessDemo
             foreach (var line in lines)
             {
                 var move = new Move(line);
+                
+                if (this.gameProvider.PlayerBoards[(int)color].Figures[(int)move.From] == Queem.Core.Figure.King)
+                    if (Math.Abs((int)move.From - (int)move.To) == 2)
+                        move.Type = MoveType.KingCastle;
+
                 this.gameProvider.ProcessMove(move, color);
                 /*this.Dispatcher.BeginInvoke(new Action(() =>
                 {

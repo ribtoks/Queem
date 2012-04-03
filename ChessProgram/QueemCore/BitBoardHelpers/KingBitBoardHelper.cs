@@ -153,6 +153,7 @@ namespace Queem.Core.BitBoards.Helpers
 		private static ulong[] GetLowerLongShortMasks()
 		{
 			var leftLongBoard = new BitBoard();
+            leftLongBoard.SetBit(Square.B1);
 			leftLongBoard.SetBit(Square.C1);
 			leftLongBoard.SetBit(Square.D1);
 			
@@ -173,6 +174,7 @@ namespace Queem.Core.BitBoards.Helpers
 			var rightLongBoard = new BitBoard();
 			rightLongBoard.SetBit(Square.E1);
 			rightLongBoard.SetBit(Square.F1);
+            rightLongBoard.SetBit(Square.G1);
 			
 			return new ulong[] {leftShortBoard.GetInnerValue(), 
 					rightLongBoard.GetInnerValue()};
@@ -181,6 +183,7 @@ namespace Queem.Core.BitBoards.Helpers
 		private static ulong[] GetUpperLongShortMasks()
 		{
 			var leftLongBoard = new BitBoard();
+            leftLongBoard.SetBit(Square.B8);
 			leftLongBoard.SetBit(Square.C8);
 			leftLongBoard.SetBit(Square.D8);
 			
@@ -201,6 +204,7 @@ namespace Queem.Core.BitBoards.Helpers
 			var rightLongBoard = new BitBoard();
 			rightLongBoard.SetBit(Square.E8);
 			rightLongBoard.SetBit(Square.F8);
+            rightLongBoard.SetBit(Square.G8);
 			
 			return new ulong[] {leftShortBoard.GetInnerValue(), 
 					rightLongBoard.GetInnerValue()};
