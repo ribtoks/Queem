@@ -113,7 +113,7 @@ namespace ChessBoardVisualLib.View
         public void AnimateLast()
         {
             var history = this.viewModel.GameProvider.History;
-            this.AnimateMove(history.GetLastDeltaChange(), history.GetLastMove());
+            this.AnimateMove(history.GetLastDeltaChange().GetCopy(), history.GetLastMove());
         }
         
         public void AnimateMove(DeltaChange dc, Move move)

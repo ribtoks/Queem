@@ -14,6 +14,7 @@ using ChessBoardVisualLib.Converters;
 using Queem.Core.BitBoards.Helpers;
 using ChessBoardVisualLib.Extensions;
 using QueemCore;
+using System.Windows.Threading;
 
 namespace ChessBoardVisualLib.ViewModel
 {
@@ -30,6 +31,8 @@ namespace ChessBoardVisualLib.ViewModel
         private PawnPromotionViewModel promotionViewModel;
         private ShowOverlayState showOverlayState;
 
+        private Dispatcher dispatcher;
+
         public ChessBoardViewModel(GameProvider gameProvider)
         {
             this.provider = gameProvider;
@@ -43,6 +46,8 @@ namespace ChessBoardVisualLib.ViewModel
 
             this.promotionViewModel = new PawnPromotionViewModel();
             this.showOverlayState = Enums.ShowOverlayState.Nothing;
+
+            this.dispatcher = Dispatcher.CurrentDispatcher;
         }
 
         private void InitItems()
@@ -249,11 +254,14 @@ namespace ChessBoardVisualLib.ViewModel
 
             sourceItem.AnimateShift(deltaX, deltaY, (item) =>
                 {
-                    targetItem.UpdateChessFigure(figureMoving, sourceItem.FigureColor);
-                    sourceItem.UpdateChessFigure(Figure.Nobody, sourceItem.FigureColor);
-                    sourceItem.ResetTransform();
+                    this.dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            targetItem.UpdateChessFigure(figureMoving, sourceItem.FigureColor);
+                            sourceItem.UpdateChessFigure(Figure.Nobody, sourceItem.FigureColor);
+                            sourceItem.ResetTransform();
 
-                    animationFinishedAction(item);
+                            animationFinishedAction(item);
+                        }), DispatcherPriority.Render);                    
                 });
         }
 

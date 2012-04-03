@@ -104,7 +104,6 @@ namespace ChessDemo
             }
 
             this.chessboardControl.ChangeCurrentPlayer();
-            this.chessboardControl.RedrawAll();
             this.UpdateRedoStatus();
         }
 
