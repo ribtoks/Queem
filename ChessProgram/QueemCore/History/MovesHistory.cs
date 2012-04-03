@@ -62,6 +62,11 @@ namespace Queem.Core.History
 		{
 			return this.moves[lastIndex];
 		}
+
+        public Move GetPreLastMove()
+        {
+            return this.moves[lastIndex - 1];
+        }
 		
 		public Move GetNextMove()
 		{

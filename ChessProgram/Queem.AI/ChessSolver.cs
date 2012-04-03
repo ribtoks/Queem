@@ -18,8 +18,7 @@ namespace Queem.AI
 		{
 			debutMove = null;
             return false;
-		}
-		
+		}		
 		
 		public Move SolveProblem(GameProvider provider, Color color, int maxdepth)
 		{

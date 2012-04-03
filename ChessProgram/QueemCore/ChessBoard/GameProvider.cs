@@ -140,7 +140,7 @@ namespace Queem.Core.ChessBoard
 			
 			if (move.Type == MoveType.EpCapture)
 			{
-                var lastMove = this.History.GetLastMove();
+                var lastMove = this.History.GetPreLastMove();
 				
                 var passingKillChange = deltaChange.GetNext(MoveAction.Deletion);
 				
