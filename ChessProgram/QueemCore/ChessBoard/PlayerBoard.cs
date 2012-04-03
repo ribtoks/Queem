@@ -396,18 +396,18 @@ namespace Queem.Core.ChessBoard
 			var allMasks = KingBitBoardHelper.CastlingMasks;
 			ulong[] castlingMasks = allMasks[(int)this.color][(int)this.position];
 			
-			bool leftIsNotEmpty = (castlingMasks[0] & otherFigures) != 0;
-			bool rightIsNotEmpty = (castlingMasks[1] & otherFigures) != 0;
+			bool leftIsEmpty = (castlingMasks[0] & otherFigures) == 0;
+			bool rightIsEmpty = (castlingMasks[1] & otherFigures) == 0;
 			
 			// check other figures
-			if (leftIsNotEmpty && rightIsNotEmpty)
+			if (!(leftIsEmpty || rightIsEmpty))
 				return list;
 						
 			bool noCheck;
 			var squares = KingBitBoardHelper.CastlingSquares[(int)this.color][(int)this.position];
 			int resultIndex = -1;
 			// check checks
-			if (leftIsNotEmpty && (rooks.LeftNotMoved != 0))
+			if (leftIsEmpty && (rooks.LeftNotMoved != 0))
 			{				
 				noCheck = true;
 				for (int i = 0; i < squares[0].Length; ++i)
@@ -422,7 +422,7 @@ namespace Queem.Core.ChessBoard
 					resultIndex = 0;									
 			}
 			
-			if (rightIsNotEmpty && (rooks.RightNotMoved != 0))
+			if (rightIsEmpty && (rooks.RightNotMoved != 0))
 			{				
 				noCheck = true;
 				for (int i = 0; i < squares[1].Length; ++i)
