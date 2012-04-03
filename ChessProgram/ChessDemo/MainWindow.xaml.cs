@@ -184,7 +184,11 @@ namespace ChessDemo
             {
                 var move = new Move(line);
                 this.gameProvider.ProcessMove(move, color);
-
+                /*this.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    this.chessboardControl.RedrawAll();
+                }));
+                System.Threading.Thread.Sleep(1000);*/
                 color = (Queem.Core.Color)(1 - (int)color);
             }
 

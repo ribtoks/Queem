@@ -35,7 +35,7 @@ namespace Queem.Core
             this.To = (Square)Enum.Parse(typeof(Square), parts[1].ToUpper());
 
             if (str.Length == 6)
-                this.Type = promotionDict[str[5]];
+                this.Type = promotionDict[str.ToLower()[5]];
         }
 
         public Move(Move from)

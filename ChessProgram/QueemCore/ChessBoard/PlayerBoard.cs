@@ -444,46 +444,8 @@ namespace Queem.Core.ChessBoard
 		}
 						
 		#endregion
-		
-		public void FilterMoves(PlayerBoard opponent, FixedArray moves)
-		{
-			var kingSquare = this.King.GetSquare();
-			int index = 0;
-			int squeezed_index = 0;
-			var innerArray = moves.InnerArray;
-			int size = moves.Size;
-			
-			while (index < size)
-			{
-				var move = innerArray[index];
-				var figure = this.figures[(int)move.From];
-				
-				if (move.Type == MoveType.KingCastle)
-				{
-					index++;
-					continue;
-				}
-				
-				this.ProcessMove(move, figure);
-				
-				// TODO write "from direction" method
-				if (!this.IsUnderAttack(kingSquare, opponent))
-				{
-					innerArray[squeezed_index].From = move.From;
-					innerArray[squeezed_index].To = move.To;
-                    innerArray[squeezed_index].Type = move.Type;
-					++squeezed_index;
-				}
-				
-				this.CancelMove((int)move.From, (int)move.To);
-				
-				++index;
-			}
 
-            moves.Size = squeezed_index;
-		}
-		
-		protected bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
+		public bool IsUnderAttack(Square sq, PlayerBoard opponentBoard)
 		{
 			ulong occupied = 1UL << (int)sq;
 			
@@ -494,6 +456,7 @@ namespace Queem.Core.ChessBoard
 			ulong knights = opponentBoard.bitboards[(int)Figure.Knight].GetInnerValue();
 			ulong king = opponentBoard.bitboards[(int)Figure.King].GetInnerValue();
 			ulong otherFigures = opponentBoard.allFigures | this.allFigures;
+            otherFigures &= (~occupied);
 			
 			var knightAttackGenerator = this.attacksGenerators[(int)Figure.Knight];
 			ulong occupiedKnightMoves = knightAttackGenerator.GetAttacks(sq, otherFigures);

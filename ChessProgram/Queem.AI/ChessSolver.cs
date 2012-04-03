@@ -29,15 +29,21 @@ namespace Queem.AI
 				return bestMove;
 				
 			FixedArray moves;
-				
-			if (provider.PlayerBoard1.FigureColor == color)
-				moves = provider.PlayerBoard1.GetMoves(provider.PlayerBoard2, 
-					provider.History.GetLastMove(), 
-					MovesMask.AllMoves);
-			else
-				moves = provider.PlayerBoard2.GetMoves(provider.PlayerBoard1, 
-					provider.History.GetLastMove(), 
-					MovesMask.AllMoves);
+
+            if (provider.PlayerBoard1.FigureColor == color)
+            {
+                moves = provider.PlayerBoard1.GetMoves(provider.PlayerBoard2,
+                    provider.History.GetLastMove(),
+                    MovesMask.AllMoves);
+                provider.FilterMoves(moves, color);
+            }
+            else
+            {
+                moves = provider.PlayerBoard2.GetMoves(provider.PlayerBoard1,
+                    provider.History.GetLastMove(),
+                    MovesMask.AllMoves);
+                provider.FilterMoves(moves, provider.PlayerBoard2.FigureColor);
+            }
 					
 			Random rand = new Random(DateTime.Now.Millisecond);
 			return moves.InnerArray[rand.Next(moves.Size)];

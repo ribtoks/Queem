@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Queem.Core.History;
+using Queem.Core.Extensions;
 using System.Collections.Generic;
 using QueemCore;
 
@@ -103,7 +104,7 @@ namespace Queem.Core.ChessBoard
 			var playerBoard2 = this.playerBoards[(int)oppositeColor];
 			
 			var figureMoving = playerBoard1.Figures[(int)move.From];
-			var destinationFigure = playerBoard2.Figures[(int)move.To];			
+			var destinationFigure = playerBoard2.Figures[(int)move.To];
 			
 			this.History.AddItem(move);
 
@@ -150,7 +151,7 @@ namespace Queem.Core.ChessBoard
 			if (move.Type == MoveType.KingCastle)
 			{
 				int moveTo = (int)move.To;
-				int moveFrom = (int)move.From;				
+				int moveFrom = (int)move.From;	
 				// will be +2 or -2
 				int difference = moveTo - moveFrom;
 				// same as sign of difference
@@ -233,6 +234,7 @@ namespace Queem.Core.ChessBoard
 			
 			playerBoard.RemoveFigure(square, Figure.Pawn);
 			playerBoard.AddFigure(square, newFigure);
+            this.History.GetLastMove().Type = newFigure.GetPromotionType();
 		}
 		
 		public bool IsUnderCheck(Color color)
@@ -276,12 +278,57 @@ namespace Queem.Core.ChessBoard
 			var moves = player.GetMoves(opponent, 
 										this.History.GetLastMove(), 
 										MovesMask.AllMoves);
-			
-			player.FilterMoves(opponent, moves);
+
+            this.FilterMoves(moves, player.FigureColor);
 			bool result = (moves.Size == 0);
 			MovesArray.ReleaseLast();
 			return result;
 		}
+
+        public void FilterMoves(FixedArray moves, Color playerColor)
+        {
+            var oppositeColor = 1 - (int)playerColor;
+            var player = this.playerBoards[(int)playerColor];
+            var opponent = this.playerBoards[oppositeColor];
+
+            int index = 0;
+            int squeezed_index = 0;
+            var innerArray = moves.InnerArray;
+            int size = moves.Size;
+
+            while (index < size)
+            {
+                var move = innerArray[index];
+                var figure = player.Figures[(int)move.From];
+
+                if (move.Type == MoveType.KingCastle)
+                {
+                    innerArray[squeezed_index].From = move.From;
+                    innerArray[squeezed_index].To = move.To;
+                    innerArray[squeezed_index].Type = move.Type;
+                    ++squeezed_index;
+                    ++index;
+                    continue;
+                }
+
+                this.ProcessMove(move, playerColor);
+
+                // TODO write "from direction" method
+                if (!player.IsUnderAttack(player.King.GetSquare(), opponent))
+                {
+                    innerArray[squeezed_index].From = move.From;
+                    innerArray[squeezed_index].To = move.To;
+                    innerArray[squeezed_index].Type = move.Type;
+                    ++squeezed_index;
+                }
+
+                this.CancelLastMove(playerColor);
+
+                ++index;
+            }
+
+            moves.Size = squeezed_index;
+        }
 
         public List<HighlightedSquare> GetTargetSquares(Square square, Color playerColor)
         {
@@ -297,7 +344,7 @@ namespace Queem.Core.ChessBoard
 
             var moves = player.GetMoves(opponent, lastMove, MovesMask.AllMoves);
 
-            player.FilterMoves(opponent, moves);
+            this.FilterMoves(moves, playerColor);
 
             var result = moves.InnerArray.Take(moves.Size)
                 .Where((move) => move.From == square)

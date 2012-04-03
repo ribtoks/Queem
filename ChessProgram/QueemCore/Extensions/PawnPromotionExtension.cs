@@ -8,11 +8,12 @@ namespace Queem.Core.Extensions
 {
     public static class PawnPromotionExtension
     {
-        private static Dictionary<MoveType, Figure> promotions;
+        private static Dictionary<MoveType, Figure> reversePromotions;
+        private static Dictionary<Figure, MoveType> promotions;
 
         static PawnPromotionExtension()
         {
-            promotions = new Dictionary<MoveType, Figure>()
+            reversePromotions = new Dictionary<MoveType, Figure>()
             {
                 { MoveType.KnightPromotion, Figure.Knight },
                 { MoveType.BishopPromotion, Figure.Bishop },
@@ -23,13 +24,28 @@ namespace Queem.Core.Extensions
                 { MoveType.RookPromoCapture, Figure.Rook },
                 { MoveType.QueenPromoCapture, Figure.Queen }
             };
+
+            promotions = new Dictionary<Figure, MoveType>()
+            {
+                { Figure.Knight, MoveType.KnightPromotion  },
+                { Figure.Bishop, MoveType.BishopPromotion  },
+                { Figure.Rook, MoveType.RookPromotion },
+                { Figure.Queen, MoveType.QueenPromotion}
+            };
         }
 
         public static Figure GetPromotionFigure(this MoveType type)
         {
-            if (promotions.ContainsKey(type))
-                return promotions[type];
+            if (reversePromotions.ContainsKey(type))
+                return reversePromotions[type];
             return Figure.Nobody;
+        }
+
+        public static MoveType GetPromotionType(this Figure figure)
+        {
+            if (promotions.ContainsKey(figure))
+                return promotions[figure];
+            return MoveType.Quiet;
         }
     }
 }

@@ -100,16 +100,7 @@ namespace Queem.Core.BitBoards
 			
 			return this;
 		}
-		
-		protected BitBoard ToggleBit (Square square)
-		{
-			// unpredictable if square is NoSquare
-			ulong oneBitNumber = 1UL << (int)square;
-			this.board = this.board ^ oneBitNumber;
-		
-			return this;
-		}
-		
+				
 		protected ulong GetOneBitNumber(int rank, int file)
 		{
 			// rank and file in 0..7
