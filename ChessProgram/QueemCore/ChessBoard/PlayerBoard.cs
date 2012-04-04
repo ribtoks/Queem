@@ -72,6 +72,11 @@ namespace Queem.Core.ChessBoard
 			get { return (KingBitBoard)this.bitboards[(int)Figure.King]; }
 		}
 		
+		public BitBoard[] BitBoards
+		{
+			get { return this.bitboards; }
+		}
+		
 		#endregion
 					
 		#region Initializations
@@ -217,6 +222,11 @@ namespace Queem.Core.ChessBoard
 		public ulong GetAllFigures()
 		{
 			return this.allFigures;
+		}
+		
+		public int GetAllFiguresCount()
+		{
+			return BitBoardHelper.BitsCount(this.allFigures);
 		}
 		
 		protected ulong GetBishopsQueens()

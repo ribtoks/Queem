@@ -2,7 +2,7 @@
 using Queem.Core;
 using Queem.Core.BitBoards.Helpers;
 
-namespace ChessBoardVisualLib.Extensions
+namespace Queem.Core.Extensions
 {
     public static class MoveExtension
     {
