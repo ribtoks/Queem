@@ -22,7 +22,7 @@
                     Content="Undo" Margin="5" IsEnabled="False"
                     Click="cancelButton_Click"/>
             <Button x:Name="redoButton" Width="50" Content="Redo"
-                    Margin="5"
+                    Margin="5" Click="redoButton_Click"
                     IsEnabled="False" />
             <Button x:Name="saveButton" Width="50" Content="Save"
                     Margin="5" Click="saveButton_Click" />

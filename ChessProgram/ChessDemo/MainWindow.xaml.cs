@@ -224,5 +224,31 @@ namespace ChessDemo
             if (!this.gameProvider.History.HasItems())
                 this.cancelButton.IsEnabled = false;
         }
+
+        private void redoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (redoMoves.Count == 0)
+                return;
+
+            var moveWithDecition = redoMoves.Last();
+            redoMoves.RemoveAt(redoMoves.Count - 1);
+
+            this.gameProvider.ProcessMove(moveWithDecition.Move,
+                this.chessboardControl.CurrentPlayerColor);
+
+            this.chessboardControl.AnimateLast();
+
+            if (moveWithDecition.Decision != Queem.Core.Figure.Nobody)
+            {
+                this.chessboardControl.PromotePawn(
+                    this.chessboardControl.CurrentPlayerColor,
+                    moveWithDecition.Move.To,
+                    moveWithDecition.Decision);
+            }
+
+            this.chessboardControl.ChangeCurrentPlayer();
+
+            this.redoButton.IsEnabled = (this.redoMoves.Count > 0);
+        }
     }
 }
