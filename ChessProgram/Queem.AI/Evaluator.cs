@@ -11,7 +11,7 @@ namespace Queem.AI
         public static readonly int KnightValue = 400;
         public static readonly int RookValue = 600;
         public static readonly int QueenValue = 1200;
-        public static readonly int KingValue = 100000;
+        public static readonly int KingValue = 10000;
 
         public static readonly int MateValue = KingValue;
         
@@ -200,7 +200,7 @@ namespace Queem.AI
 
         #endregion
         
-        public static int GetValue(PlayerBoard player, PlayerBoard opponent)
+        public static int Evaluate(PlayerBoard player, PlayerBoard opponent)
 		{
 			int value1 = 0;
 			int value2 = 0;

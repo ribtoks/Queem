@@ -47,5 +47,6 @@
     <Compile Include="ChessSolver.cs" />
     <Compile Include="Evaluator.cs" />
     <Compile Include="ChessTreeNode.cs" />
+    <Compile Include="MovesSorter.cs" />
   </ItemGroup>
 </Project>

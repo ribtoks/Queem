@@ -17,6 +17,7 @@ namespace Queem.AI
 			var nextNode = new ChessTreeNode();
 			nextNode.Alpha = -this.Beta;
 			nextNode.Beta = -this.Alpha;
+			nextNode.Depth = this.Depth - 1;
 			
 			return nextNode;
 		}	
