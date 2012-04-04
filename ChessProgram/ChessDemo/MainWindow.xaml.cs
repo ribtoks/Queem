@@ -197,6 +197,32 @@ namespace ChessDemo
             }
 
             this.chessboardControl.RedrawAll();
-        }        
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.CancelLastMove();
+            this.CancelLastMove();
+        }
+
+        private void CancelLastMove()
+        {
+            if (!this.gameProvider.History.HasItems())
+                return;
+
+            var lastMove = new Move(this.gameProvider.History.GetLastMove());
+            var lastDeltaChanges = this.gameProvider.History.GetLastDeltaChange().GetCopy();
+
+            this.chessboardControl.ChangeCurrentPlayer();
+
+            this.gameProvider.CancelLastMove(this.chessboardControl.CurrentPlayerColor);
+            this.chessboardControl.AnimateCancelMove(lastDeltaChanges, lastMove);
+
+            redoButton.IsEnabled = true;
+            redoMoves.Add(new MoveWithDecision() { Move = lastMove, Decision = lastMove.Type.GetPromotionFigure() });
+
+            if (!this.gameProvider.History.HasItems())
+                this.cancelButton.IsEnabled = false;
+        }
     }
 }

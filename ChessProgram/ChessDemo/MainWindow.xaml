@@ -19,7 +19,8 @@
 
         <StackPanel x:Name="buttonsPanel" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
             <Button x:Name="cancelButton" Width="50"
-                    Content="Undo" Margin="5" IsEnabled="False" />
+                    Content="Undo" Margin="5" IsEnabled="False"
+                    Click="cancelButton_Click"/>
             <Button x:Name="redoButton" Width="50" Content="Redo"
                     Margin="5"
                     IsEnabled="False" />

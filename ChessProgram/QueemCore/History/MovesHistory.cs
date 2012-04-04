@@ -94,7 +94,7 @@ namespace Queem.Core.History
 
         public bool HasItems()
         {
-            return this.lastIndex > 0;
+            return this.lastIndex >= 0;
         }
 
         public void ClearAll()

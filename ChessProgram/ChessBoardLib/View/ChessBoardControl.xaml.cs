@@ -189,10 +189,14 @@ namespace ChessBoardVisualLib.View
             this.OnMoveAnimationPreview();
             this.SetupAnimationCount(move);
 
-            Queem.Core.Figure figureDied = dc.Filter((ch) =>
+            var figureDiedItems = dc.Filter((ch) =>
                 (ch.Action == MoveAction.Deletion) &&
                 (ch.FigureColor == this.viewModel.CurrentPlayerColor) &&
-                (ch.Square == move.To)).First().FigureType;
+                (ch.Square == move.To));
+
+            Queem.Core.Figure figureDied = Queem.Core.Figure.Nobody;
+            if (figureDiedItems.Count() > 0)
+                figureDied = figureDiedItems.First().FigureType;
 
             while (dc.HasItems())
             {
@@ -201,7 +205,7 @@ namespace ChessBoardVisualLib.View
                 switch (change.Action)
                 {
                     case MoveAction.Move:
-                        this.InnerAnimateMove(new Move(change.Square, change.AdditionalSquare), figureDied);
+                        this.InnerAnimateMove(new Move(change.AdditionalSquare, change.Square), figureDied);
                         break;
 
                     case MoveAction.Creation:
