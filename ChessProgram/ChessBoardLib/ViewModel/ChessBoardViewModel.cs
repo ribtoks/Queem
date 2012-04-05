@@ -256,8 +256,10 @@ namespace ChessBoardVisualLib.ViewModel
                 {
                     this.dispatcher.BeginInvoke(new Action(() =>
                         {
-                            targetItem.UpdateChessFigure(figureMoving, sourceItem.FigureColor);
+                            targetItem.UpdateChessFigure(item.FigureType, sourceItem.FigureColor);
+
                             sourceItem.UpdateChessFigure(Figure.Nobody, sourceItem.FigureColor);
+
                             sourceItem.ResetTransform();
 
                             animationFinishedAction(item);
@@ -267,14 +269,20 @@ namespace ChessBoardVisualLib.ViewModel
 
         public void RemoveFigure(Square square)
         {
-            var item = this.squareItems[square.GetRealIndex()];
-            item.UpdateChessFigure(Figure.Nobody, this.CurrentPlayerColor);
+            this.dispatcher.BeginInvoke(new Action(() =>
+                {
+                    var item = this.squareItems[square.GetRealIndex()];
+                    item.UpdateChessFigure(Figure.Nobody, this.CurrentPlayerColor);
+                }), DispatcherPriority.Render);
         }
 
         public void UpdateFigure(Square square, Figure figure, Color color)
         {
-            var item = this.squareItems[square.GetRealIndex()];
-            item.UpdateChessFigure(figure, color);
+            this.dispatcher.BeginInvoke(new Action(() =>
+                {
+                    var item = this.squareItems[square.GetRealIndex()];
+                    item.UpdateChessFigure(figure, color);
+                }), DispatcherPriority.Render);
         }
 
         public void UpdateLayout()

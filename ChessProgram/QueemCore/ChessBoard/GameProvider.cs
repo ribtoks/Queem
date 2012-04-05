@@ -365,7 +365,7 @@ namespace Queem.Core.ChessBoard
         public void ResetAll()
         {
             this.PlayerBoard1.ResetAll();
-            this.PlayerBoard2.ResetAll();
+            this.PlayerBoard2.ResetAll();            
             this.History.Reset();
         }
 	}

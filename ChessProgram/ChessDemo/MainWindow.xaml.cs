@@ -36,6 +36,7 @@ namespace ChessDemo
         private List<MoveWithDecision> redoMoves;
         private int maxdepth;
         private bool canSolverStart;
+        private bool needsOneMoreCancel = false;
 
         public MainWindow()
         {
@@ -117,8 +118,16 @@ namespace ChessDemo
 
         private void chessboardControl_MoveAnimationFinished(object sender, EventArgs e)
         {
-            this.buttonsPanel.IsEnabled = true;
-            this.StartSolver();
+            if (needsOneMoreCancel)
+            {
+                this.CancelLastMove();
+                this.needsOneMoreCancel = false;
+            }
+            else
+            {
+                this.buttonsPanel.IsEnabled = true;
+                this.StartSolver();
+            }
         }
 
         private void chessboardControl_MoveAnimationPreview(object sender, EventArgs e)
@@ -171,7 +180,8 @@ namespace ChessDemo
 
         private void readButton_Click(object sender, RoutedEventArgs e)
         {
-            this.gameProvider.ResetAll();
+            this.gameProvider = new GameProvider();
+            this.chessboardControl.SetupGameProvider(this.gameProvider);
             this.redoMoves = new List<MoveWithDecision>();
 
             string path = Directory.GetCurrentDirectory() + 
@@ -188,11 +198,6 @@ namespace ChessDemo
                         move.Type = MoveType.KingCastle;
 
                 this.gameProvider.ProcessMove(move, color);
-                /*this.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    this.chessboardControl.RedrawAll();
-                }));
-                System.Threading.Thread.Sleep(1000);*/
                 color = (Queem.Core.Color)(1 - (int)color);
             }
 
@@ -202,7 +207,7 @@ namespace ChessDemo
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.CancelLastMove();
-            this.CancelLastMove();
+            this.needsOneMoreCancel = true;
         }
 
         private void CancelLastMove()

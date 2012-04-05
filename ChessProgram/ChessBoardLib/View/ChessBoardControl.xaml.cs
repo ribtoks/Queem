@@ -191,7 +191,7 @@ namespace ChessBoardVisualLib.View
 
             var figureDiedItems = dc.Filter((ch) =>
                 (ch.Action == MoveAction.Deletion) &&
-                (ch.FigureColor == this.viewModel.CurrentPlayerColor) &&
+                (ch.FigureColor != this.viewModel.CurrentPlayerColor) &&
                 (ch.Square == move.To));
 
             Queem.Core.Figure figureDied = Queem.Core.Figure.Nobody;
