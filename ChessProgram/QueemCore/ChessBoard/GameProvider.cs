@@ -311,6 +311,7 @@ namespace Queem.Core.ChessBoard
                     innerArray[squeezed_index].From = move.From;
                     innerArray[squeezed_index].To = move.To;
                     innerArray[squeezed_index].Type = move.Type;
+                    innerArray[squeezed_index].Value = move.Value;
                     ++squeezed_index;
                     ++index;
                     continue;
@@ -324,6 +325,7 @@ namespace Queem.Core.ChessBoard
                     innerArray[squeezed_index].From = move.From;
                     innerArray[squeezed_index].To = move.To;
                     innerArray[squeezed_index].Type = move.Type;
+                    innerArray[squeezed_index].Value = move.Value;
                     ++squeezed_index;
                 }
 

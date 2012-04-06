@@ -4,11 +4,13 @@ using Queem.Core;
 
 namespace Queem.AI
 {
+	internal delegate void QuickSortDelegate(Move[] items, int first, int last);
+
 	public static class MovesSorter
 	{
 		private static Move[] tempBuffer = new Move[448];
 							
-		public static void Sort(FixedArray moves, PlayerBoard opponentBoard)
+		public static void Sort(FixedArray moves)
 		{
 			// approximate moves size - 40 moves
 			// best approach to split on 20+20
@@ -18,45 +20,25 @@ namespace Queem.AI
 			int size = moves.Size;
 			int left = 0, right = size - 1;
 			var array = moves.InnerArray;
-			int coef = 10000;
 			int split = (left + right) / 2;
 			int i, j;
 			
 			for (i = 0; i < split; ++i)
 			{
-				int x = (int)array[i].Type * coef + 
-					(int)opponentBoard.Figures[(int)array[i].To];
 				Move move = array[i];
 				
-				for (j = i - 1; j >= 0; j--)
-				{
-					int y = (int)array[j].Type * coef + 
-						(int)opponentBoard.Figures[(int)array[j].To];
-					if (y <= x)
-						 break;
-					
-					array[j + 1] = array[j];					
-				}
+				for (j = i - 1; (j >= 0) && (array[j].Value > move.Value); j--)
+					array[j + 1] = array[j];
 				
 				array[j + 1] = move;
 			}
 			
 			for (i = split; i < size; ++i)
-			{
-				int x = (int)array[i].Type * coef + 
-					(int)opponentBoard.Figures[(int)array[i].To];
-					
+			{		
 				Move move = array[i];
 				
-				for (j = i - 1; j >= split; j--)
-				{
-					int y = (int)array[j].Type * coef + 
-						(int)opponentBoard.Figures[(int)array[j].To];
-					if (y <= x)
-						 break;
-					
+				for (j = i - 1; (j >= split) && (array[j].Value > move.Value); j--)
 					array[j + 1] = array[j];
-				}
 				
 				array[j + 1] = move;
 			}
@@ -68,14 +50,9 @@ namespace Queem.AI
 
    			while ((pos1 <= split) && (pos2 <= right))
    			{
-   				int x = (int)array[pos1].Type * coef + 
-					(int)opponentBoard.Figures[(int)array[pos1].To];
-					
-				int y = (int)array[pos2].Type * coef + 
-					(int)opponentBoard.Figures[(int)array[pos2].To];
       			// stable sort when <= 0
       			// and unstable when < 0
-      			if (x <= y)
+      			if (array[pos1].Value <= array[pos2].Value)
          			tempBuffer[index++] = array[pos1++];
 		      	else
 		        	tempBuffer[index++] = array[pos2++];
@@ -89,6 +66,45 @@ namespace Queem.AI
 		
 		   for (i = left; i <= right; ++i)
 		      array[i] = tempBuffer[i - left];
+		}
+		
+		public static void QuickSort(FixedArray moves)
+		{
+			QuickSortDelegate quicksort = null;
+            quicksort =
+                (items, first, last) =>
+                {
+                    int left = first;
+                    int right = last;
+                    int mid = items[(left + right) >> 1].Value;
+
+                    while (left <= right)
+                    {
+                        while (items[left].Value > mid)
+                            ++left;
+
+                        while (items[right].Value < mid)
+                            --right;
+
+                        if (left <= right)
+                        {
+                            var tempItem = items[left];
+                            items[left] = items[right];
+                            items[right] = tempItem;
+
+                            ++left;
+                            --right;
+                        }
+                    }
+
+                    if (first < right)
+                        quicksort(items, first, right);
+
+                    if (left < last)
+                        quicksort(items, left, last);
+                };
+
+            quicksort(moves.InnerArray, 0, moves.Size - 1);
 		}
 	}
 }

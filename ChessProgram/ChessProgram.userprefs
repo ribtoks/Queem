@@ -1,27 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Queem.AI/ChessSolver.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueemTests\SortingTests.cs">
     <Files>
-      <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="238" Column="4" />
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="17" Column="3" />
-      <File FileName="QueemCore/ChessBoard/MovesArray.cs" Line="1" Column="1" />
-      <File FileName="Queem.AI/ChessSolver.cs" Line="4" Column="3" />
-      <File FileName="DebutMovesHolder/DebutGraph.cs" Line="3" Column="25" />
+      <File FileName="QueemCore\ChessBoard\GameProvider.cs" Line="362" Column="38" />
+      <File FileName="QueemCore\ChessBoard\PlayerBoard.cs" Line="400" Column="31" />
+      <File FileName="Queem.AI\ChessSolver.cs" Line="29" Column="5" />
+      <File FileName="Queem.AI\MovesSorter.cs" Line="71" Column="48" />
+      <File FileName="Queem.AI\Evaluator.cs" Line="27" Column="3" />
+      <File FileName="QueemTests\SortingTests.cs" Line="31" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="DebutMovesHolder" expanded="True" />
-          <Node name="Queem.AI" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="ChessSolver.cs" selected="True" />
-          </Node>
+          <Node name="Queem.AI" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="ChessBoard" expanded="True" />
           </Node>
-          <Node name="Queem.CoreInterface" expanded="True">
-            <Node name="Adapters" expanded="True" />
-          </Node>
+          <Node name="Queem.Tests" expanded="True" selected="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
@@ -32,11 +27,17 @@
           <Value>FirstRankAttacks[rank, rotatedFile]</Value>
         </State>
       </Pad>
-      <Pad Id="ConnectionManagerPad">
-        <State selected="True" />
-      </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Queem.Tests" expanded="True">
+            <Node name="Queem" expanded="True">
+              <Node name="Tests" expanded="True">
+                <Node name="SerializationTests" expanded="True" />
+                <Node name="SortingTests" expanded="True" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

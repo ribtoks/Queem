@@ -51,6 +51,7 @@
     <Compile Include="PawnsTest.cs" />
     <Compile Include="SerializationTests.cs" />
     <Compile Include="PawnMovesGeneratorTests.cs" />
+    <Compile Include="SortingTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -65,5 +66,16 @@
       <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
       <Name>Queem.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Queem.AI\Queem.AI.csproj">
+      <Project>{E94ED089-692E-411E-943D-2EB3E4304E87}</Project>
+      <Name>Queem.AI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DebutsLib\DebutsLib.csproj">
+      <Project>{ACD58B44-CEB6-4102-833E-599D99F03013}</Project>
+      <Name>DebutsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="chess.game" />
   </ItemGroup>
 </Project>

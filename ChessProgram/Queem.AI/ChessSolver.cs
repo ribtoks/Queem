@@ -43,7 +43,7 @@ namespace Queem.AI
                     MovesMask.AllMoves);
                 provider.FilterMoves(moves, provider.PlayerBoard2.FigureColor);
             }
-					
+				
 			Random rand = new Random(DateTime.Now.Millisecond);
 			return moves.InnerArray[rand.Next(moves.Size)];
 		}

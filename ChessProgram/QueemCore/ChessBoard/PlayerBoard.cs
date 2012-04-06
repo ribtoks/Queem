@@ -22,6 +22,8 @@ namespace Queem.Core.ChessBoard
 		protected Figure[] figures;
 		protected ulong allFigures;
 		
+		private static readonly int MoveTypeWeight = 10000;
+		
 		public static readonly Figure[] KnightBishopRookQueen = 
 			new Figure[] {Figure.Knight, Figure.Bishop, Figure.Rook, Figure.Queen};
 		
@@ -277,6 +279,9 @@ namespace Queem.Core.ChessBoard
                         int destinationFigure = (int)opponent.figures[(int)item.To];
 						innerArray[index].Type = 
 							BitBoardHelper.MoveTypes[(int)figure][destinationFigure][(int)item.From][(int)item.To];
+							
+						innerArray[index].Value = (int)innerArray[index].Type * MoveTypeWeight + 
+							(int)opponent.figures[(int)item.To];
 						
 						index++;
 					}
@@ -302,6 +307,9 @@ namespace Queem.Core.ChessBoard
 					else
 						innerArray[index].Type = 
 							BitBoardHelper.MoveTypes[(int)Figure.King][destinationFigure][(int)item.From][(int)item.To];
+							
+					innerArray[index].Value = (int)innerArray[index].Type * MoveTypeWeight + 
+							(int)opponent.figures[(int)item.To];
 					
 					index++;
 				}
@@ -339,11 +347,13 @@ namespace Queem.Core.ChessBoard
 					
 					moveTo = (int)item.To;
 					int destinationFigure = (int)opponent.figures[(int)item.To];
+					item.Value = (int)opponent.figures[(int)item.To];
 					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][destinationFigure][(int)item.From][moveTo];
 					
 					if (wasLastMovePassing)
 						if (item.To == (Square)middle)
 							item.Type = MoveType.EpCapture;
+										
 					
 					if ((moveTo < 8) ||
 						(moveTo >= 56))
@@ -353,12 +363,15 @@ namespace Queem.Core.ChessBoard
 						{
 							innerArray[index + m].From = item.From;
 							innerArray[index + m].To = item.To;
+							innerArray[index + m].Value = (int)opponent.figures[(int)item.To];
 						}
 						
 						this.AddPromotionMoves(innerArray, index, (Figure)j);
 						index += 3;
 					}
-															
+					else
+						item.Value += (int)item.Type;
+					
 					index++;
 				}
 			}
@@ -382,7 +395,10 @@ namespace Queem.Core.ChessBoard
 				innerArray[index + 1].Type = MoveType.BishopPromotion;
 				innerArray[index + 2].Type = MoveType.RookPromotion;
 				innerArray[index + 3].Type = MoveType.QueenPromotion;
-			}			
+			}
+			
+			for (int i = 0; i < 4; ++i)
+				innerArray[i].Value += (int)innerArray[i].Type * MoveTypeWeight;
 		}
 				
 		public List<Move[]> GetKingMoves(PlayerBoard opponent, ulong mask)
