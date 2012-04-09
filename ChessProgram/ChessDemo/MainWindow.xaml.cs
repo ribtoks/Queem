@@ -54,6 +54,14 @@ namespace ChessDemo
 
             this.maxdepth = 6;
             this.debutsGraph = DebutsReader.ReadDebuts("simple_debut_moves", PlayerPosition.Down);
+
+            this.InitMovesArray();
+        }
+
+        private void InitMovesArray()
+        {            
+            MovesArray.New();
+            MovesArray.ReleaseLast();
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
