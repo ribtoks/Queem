@@ -41,6 +41,33 @@ namespace Queem.Core.BitBoards
 				this.RightNotMoved = (newRightMask == rightMask) ? 1 : 0;
 			}
 		}
+
+        public override BitBoard SetBit(Square sq)
+        {
+            return base.SetBit(sq);
+        }
+
+        public override BitBoard UnsetBit(Square sq)
+        {
+            var leftMask = RookBitBoardHelper.LeftRookMask & this.board;
+            var rightMask = RookBitBoardHelper.RightRookMask & this.board;
+
+            base.UnsetBit(sq);
+
+            if (this.LeftNotMoved != 0)
+            {
+                var newLeftMask = RookBitBoardHelper.LeftRookMask & this.board;
+                this.LeftNotMoved = (newLeftMask == leftMask) ? 1 : 0;
+            }
+
+            if (this.RightNotMoved != 0)
+            {
+                var newRightMask = RookBitBoardHelper.RightRookMask & this.board;
+                this.RightNotMoved = (newRightMask == rightMask) ? 1 : 0;
+            }
+
+            return this;
+        }
 		
 		public override int GetInnerProperty ()
 		{

@@ -90,6 +90,7 @@ namespace Queem.Core.History
 				throw new InvalidOperationException();
 #endif
 			lastIndex--;
+            
 		}
 
         public bool HasItems()

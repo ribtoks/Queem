@@ -261,7 +261,7 @@ namespace Queem.AI
 
             var player = this.gameProvider.PlayerBoards[node.PlayerIndex];
             var opponent = this.gameProvider.PlayerBoards[1 - node.PlayerIndex];
-
+            
             int positionValue = Evaluator.Evaluate(player, opponent);
             //return positionValue;
             
@@ -287,7 +287,7 @@ namespace Queem.AI
                     MovesArray.ReleaseLast();
                     return (-Evaluator.MateValue) + ply;
                 }
-
+            
             var moves = movesArray.InnerArray;
             for (int i = 0; i < movesArray.Size; ++i)
             {

@@ -110,7 +110,7 @@ namespace Queem.Core.ChessBoard
 			
 			var figureMoving = playerBoard1.Figures[(int)move.From];
 			var destinationFigure = playerBoard2.Figures[(int)move.To];
-			
+
 			this.History.AddItem(move);
 
 			var deltaChange = this.History.GetLastDeltaChange();
