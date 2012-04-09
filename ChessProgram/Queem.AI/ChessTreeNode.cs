@@ -40,7 +40,7 @@ namespace Queem.AI
             nextNode.Alpha = this.Beta - 1;
             nextNode.Beta = this.Beta;
             nextNode.Depth = this.Depth - 1;
-            nextNode.PlayerIndex = 1 - this.PlayerIndex;
+            nextNode.PlayerIndex = this.PlayerIndex;
             return nextNode;
         }
 
