@@ -88,18 +88,18 @@ namespace Queem.Core.BitBoards.Helpers
 				new Move[] {new Move(Square.D1, Square.B1), new Move(Square.D1, Square.F1)};
 				
 			moves[(int)Color.White][(int)PlayerPosition.Up][0] = 
-				new Move[] {new Move(Square.E8, Square.C8)};
+				new Move[] {new Move(Square.D8, Square.B8)};
 			moves[(int)Color.White][(int)PlayerPosition.Up][1] = 
-				new Move[] {new Move(Square.E8, Square.G8)};
+				new Move[] {new Move(Square.D8, Square.F8)};
 			moves[(int)Color.White][(int)PlayerPosition.Up][2] = 
-				new Move[] {new Move(Square.E8, Square.C8), new Move(Square.E8, Square.G8)};
+				new Move[] {new Move(Square.D8, Square.B8), new Move(Square.D8, Square.F8)};
 				
 			moves[(int)Color.Black][(int)PlayerPosition.Up][0] = 
-				new Move[] {new Move(Square.D8, Square.B8)};
+				new Move[] {new Move(Square.E8, Square.C8)};
 			moves[(int)Color.Black][(int)PlayerPosition.Up][1] = 
-				new Move[] {new Move(Square.D8, Square.F8)};
+				new Move[] {new Move(Square.E8, Square.G8)};
 			moves[(int)Color.Black][(int)PlayerPosition.Up][2] = 
-				new Move[] {new Move(Square.D8, Square.B8), new Move(Square.D8, Square.F8)};
+				new Move[] {new Move(Square.E8, Square.C8), new Move(Square.E8, Square.G8)};
 			
 			return moves;
 		}
