@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Queem.Core;
 
-namespace QueemCore
+namespace Queem.Core
 {
     public class HighlightedSquare
     {

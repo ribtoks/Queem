@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
+using Queem.Core;
 using Queem.Core.History;
 using Queem.Core.Extensions;
 using System.Collections.Generic;
-using QueemCore;
 
 namespace Queem.Core.ChessBoard
 {

@@ -12,8 +12,8 @@ using ChessBoardVisualLib.Enums;
 using System.Windows.Data;
 using ChessBoardVisualLib.Converters;
 using Queem.Core.BitBoards.Helpers;
+using Queem.Core.Extensions;
 using ChessBoardVisualLib.Extensions;
-using QueemCore;
 using System.Windows.Threading;
 
 namespace ChessBoardVisualLib.ViewModel

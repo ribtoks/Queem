@@ -45,7 +45,9 @@ namespace Queem.AI
             }
 				
 			Random rand = new Random(DateTime.Now.Millisecond);
-			return moves.InnerArray[rand.Next(moves.Size)];
+            var move = new Move(moves.InnerArray[rand.Next(moves.Size)]);
+            MovesArray.ReleaseLast();
+            return move;
 		}
 	}
 }
