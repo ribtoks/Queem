@@ -263,7 +263,9 @@ namespace Queem.AI
             var opponent = this.gameProvider.PlayerBoards[1 - node.PlayerIndex];
             
             int positionValue = Evaluator.Evaluate(player, opponent);
-            //return positionValue;
+
+            if (node.Depth < -5)
+                return positionValue;
             
             if (positionValue >= node.Beta)
                 return node.Beta;

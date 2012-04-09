@@ -52,7 +52,7 @@ namespace ChessDemo
             this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
             this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
 
-            this.maxdepth = 6;
+            this.maxdepth = 5;
             this.debutsGraph = DebutsReader.ReadDebuts("simple_debut_moves", PlayerPosition.Down);
 
             this.InitMovesArray();
