@@ -10,13 +10,14 @@ namespace Queem.AI
 	{
 		protected DebutGraph debutGraph;
         protected GameProvider gameProvider;
+        protected MovesArrayAllocator allocator;
         protected Move bestMove;
         protected int ply;
         protected int nodesSearched;
 	
 		public ChessSolver (DebutGraph graph)
 		{
-			this.debutGraph = graph;
+			this.debutGraph = graph;			
 		}
 
         public int NodesSearched
@@ -40,6 +41,7 @@ namespace Queem.AI
             this.gameProvider = provider;
             this.ply = 0;
             this.nodesSearched = 0;
+            this.allocator = provider.Allocator;
             this.AlphaBetaMain(maxdepth, color);
             return this.bestMove;
 		}
@@ -73,7 +75,7 @@ namespace Queem.AI
 
             if (movesArray.Size == 0)
             {
-                MovesArray.ReleaseLast();
+                this.allocator.ReleaseLast();
                 if (wasKingInCheck)
                     return (-Evaluator.MateValue + ply);
                 else
@@ -118,7 +120,7 @@ namespace Queem.AI
                 }
             }
 
-            MovesArray.ReleaseLast();
+            this.allocator.ReleaseLast();
             return node.Alpha;
         }
 
@@ -146,7 +148,7 @@ namespace Queem.AI
 
             if (movesArray.Size == 0)
             {
-                MovesArray.ReleaseLast();
+                this.allocator.ReleaseLast();
                 if (wasKingInCheck)
                     return (-Evaluator.MateValue + ply);
                 else
@@ -185,7 +187,7 @@ namespace Queem.AI
 
                 if (score >= node.Beta)
                 {
-                    MovesArray.ReleaseLast();
+                    this.allocator.ReleaseLast();
                     return node.Beta;
                 }
 
@@ -196,7 +198,7 @@ namespace Queem.AI
                 }
             }
 
-            MovesArray.ReleaseLast();
+            this.allocator.ReleaseLast();
             return node.Alpha;
         }
 
@@ -222,7 +224,7 @@ namespace Queem.AI
 
             if (movesArray.Size == 0)
             {
-                MovesArray.ReleaseLast();
+                this.allocator.ReleaseLast();
                 if (wasKingInCheck)
                     return (-Evaluator.MateValue + ply);
                 else
@@ -254,12 +256,12 @@ namespace Queem.AI
 
                 if (score >= node.Beta)
                 {
-                    MovesArray.ReleaseLast();
+                    this.allocator.ReleaseLast();
                     return node.Beta;
                 }
             }
 
-            MovesArray.ReleaseLast();
+            this.allocator.ReleaseLast();
             return node.Beta - 1;
         }
 
@@ -294,7 +296,7 @@ namespace Queem.AI
             if (movesArray.Size == 0)
                 if (wasKingInCheck)
                 {
-                    MovesArray.ReleaseLast();
+                    this.allocator.ReleaseLast();
                     return (-Evaluator.MateValue) + ply;
                 }
             
@@ -320,7 +322,7 @@ namespace Queem.AI
 
                 if (score >= node.Beta)
                 {
-                    MovesArray.ReleaseLast();
+                    this.allocator.ReleaseLast();
                     return node.Beta;
                 }
 
@@ -328,7 +330,7 @@ namespace Queem.AI
                     node.Alpha = score;
             }
 
-            MovesArray.ReleaseLast();
+            this.allocator.ReleaseLast();
             return node.Alpha;
         }
 	}

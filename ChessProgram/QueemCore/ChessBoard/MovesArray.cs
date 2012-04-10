@@ -8,16 +8,16 @@ namespace Queem.Core.ChessBoard
 		public int Size { get; set; }
 	}
 
-	public static class MovesArray
+	public class MovesArrayAllocator
 	{
-        private static object syncRoot = new object();
-		private static int CurrentIndex;
-		private static readonly FixedArray[] AllocatedArrays;
-		private static readonly int HistorySize = 10000;
+        private object syncRoot = new object();
+		private int CurrentIndex;
+		private readonly FixedArray[] AllocatedArrays;
+		private readonly int HistorySize = 1000;
 		// (8*7 max figure moves)*8 (max count of figures with max moves) == 448
-		private static readonly int MaxMovesSize = 448; 
+		private readonly int MaxMovesSize = 448; 
 		
-		static MovesArray ()
+		public MovesArrayAllocator ()
 		{
 			AllocatedArrays = new FixedArray[HistorySize];
 			for (int i = 0; i < HistorySize; ++i)
@@ -33,7 +33,7 @@ namespace Queem.Core.ChessBoard
 			CurrentIndex = -1;
 		}
 		
-		public static FixedArray New()
+		public FixedArray CreateNewArray()
 		{
             lock (syncRoot)
             {
@@ -43,7 +43,7 @@ namespace Queem.Core.ChessBoard
             }
 		}
 		
-		public static void ReleaseLast()
+		public void ReleaseLast()
 		{
             lock (syncRoot)
             {

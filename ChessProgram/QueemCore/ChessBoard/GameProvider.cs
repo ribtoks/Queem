@@ -14,23 +14,32 @@ namespace Queem.Core.ChessBoard
 				
 		public MovesHistory History { get; private set; }
 		
+		protected MovesArrayAllocator allocator;
+		
 		protected PlayerBoard[] playerBoards;
 
         public PlayerBoard[] PlayerBoards
         {
             get { return this.playerBoards; }
         }
-	
-		public GameProvider ()
+        
+        public MovesArrayAllocator Allocator
 		{
-			this.PlayerBoard1 = new PlayerBoard(PlayerPosition.Down, Color.White);
-			this.PlayerBoard2 = new PlayerBoard(PlayerPosition.Up, Color.Black);
+			get { return this.allocator; }
+		}
+	
+		public GameProvider (MovesArrayAllocator arrayAllocator)
+		{
+			this.allocator = arrayAllocator;
+			this.PlayerBoard1 = new PlayerBoard(PlayerPosition.Down, Color.White, arrayAllocator);
+			this.PlayerBoard2 = new PlayerBoard(PlayerPosition.Up, Color.Black, arrayAllocator);
 			
 			this.History = new MovesHistory();
 			
 			this.playerBoards = new PlayerBoard[2];
 			this.playerBoards[(int)Color.White] = this.PlayerBoard1;
 			this.playerBoards[(int)Color.Black] = this.PlayerBoard2;
+			
 		}
 		
         public void ForEachFigure(Action<Square, Figure> action)
@@ -286,7 +295,7 @@ namespace Queem.Core.ChessBoard
 
             this.FilterMoves(moves, player.FigureColor);
 			bool result = (moves.Size == 0);
-			MovesArray.ReleaseLast();
+			this.allocator.ReleaseLast();
 			return result;
 		}
 
@@ -304,7 +313,6 @@ namespace Queem.Core.ChessBoard
             while (index < size)
             {
                 var move = innerArray[index];
-                var figure = player.Figures[(int)move.From];
 
                 if (move.Type == MoveType.KingCastle)
                 {
@@ -359,7 +367,7 @@ namespace Queem.Core.ChessBoard
                 .GroupBy((hs) => hs.Square).Select((item) => item.First()) // for promotion moves
                 .ToList();
 
-            MovesArray.ReleaseLast();
+            this.allocator.ReleaseLast();
 
             return result;
         }

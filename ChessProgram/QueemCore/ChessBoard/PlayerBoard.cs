@@ -19,9 +19,11 @@ namespace Queem.Core.ChessBoard
 		protected AttacksGenerator[] attacksGenerators;
 		protected MovesGenerator[] moveGenerators;
 		
+		protected MovesArrayAllocator allocator;
+		
 		protected Figure[] figures;
 		protected ulong allFigures;
-		
+				
 		private static readonly int MoveTypeWeight = 10000;
 		
 		public static readonly Figure[] KnightBishopRookQueen = 
@@ -83,11 +85,12 @@ namespace Queem.Core.ChessBoard
 					
 		#region Initializations
 		
-		public PlayerBoard (PlayerPosition playerPosition, Color playerColor)
+		public PlayerBoard (PlayerPosition playerPosition, Color playerColor, MovesArrayAllocator arrayAllocator)
 		{
 			this.position = playerPosition;
 			this.color = playerColor;
-
+			this.allocator = arrayAllocator;
+			
             this.ResetAll();
 		}
 
@@ -247,7 +250,7 @@ namespace Queem.Core.ChessBoard
 		
 		public FixedArray GetMoves(PlayerBoard opponent, Move lastMove, MovesMask movesMask)
 		{
-			FixedArray moves = MovesArray.New();
+			FixedArray moves = this.allocator.CreateNewArray();
 			var innerArray = moves.InnerArray;
 			int index = 0;
 			
