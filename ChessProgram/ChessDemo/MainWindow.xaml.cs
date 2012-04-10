@@ -18,6 +18,7 @@ using Queem.AI;
 using Queem.Core.Extensions;
 using DebutsLib;
 using System.IO;
+using System.Diagnostics;
 
 namespace ChessDemo
 {

@@ -10,6 +10,7 @@ namespace Queem.Core.ChessBoard
 
 	public static class MovesArray
 	{
+        private static object syncRoot = new object();
 		private static int CurrentIndex;
 		private static readonly FixedArray[] AllocatedArrays;
 		private static readonly int HistorySize = 10000;
@@ -34,14 +35,20 @@ namespace Queem.Core.ChessBoard
 		
 		public static FixedArray New()
 		{
-			CurrentIndex += 1;
-			AllocatedArrays[CurrentIndex].Size = 0;
-			return AllocatedArrays[CurrentIndex];
+            lock (syncRoot)
+            {
+                CurrentIndex += 1;
+                AllocatedArrays[CurrentIndex].Size = 0;
+                return AllocatedArrays[CurrentIndex];
+            }
 		}
 		
 		public static void ReleaseLast()
 		{
-			CurrentIndex -= 1;
+            lock (syncRoot)
+            {
+                CurrentIndex -= 1;
+            }
 		}
 	}
 }

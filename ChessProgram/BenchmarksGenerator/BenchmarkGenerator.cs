@@ -2,51 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using QueemAI;
-using BasicChessClasses;
+using Queem.Core;
+using Queem.Core.ChessBoard;
+using Queem.Core.Extensions;
 
 namespace BenchmarksGenerator
 {
     public static class BenchmarkGenerator
     {
-        public static List<ChessMove> GenerateSituation(int depth)
+        public static List<Move> GenerateSituation(int depth)
         {
             int curr_depth = 0;
-            FigureColor myColor = FigureColor.White;
-            FigureStartPosition myPosition = FigureStartPosition.Down;
+            Color myColor = Color.White;
+            PlayerPosition myPosition = PlayerPosition.Down;
 
-            MovesProvider mp = new MovesProvider(myColor, myPosition);
+            GameProvider provider = new GameProvider();
 
-            FigureColor currColor = myColor;
+            Color color = myColor;
             Random rand = new Random(DateTime.Now.Millisecond);
 
             while (curr_depth < depth)
             {
-                List<ChessMove> moves = MovesGenerator.GenerateAllMoves(mp, currColor);
-                if (moves.Count == 0)
+                var player = provider.PlayerBoards[(int)color];
+                var opponent = provider.PlayerBoards[1 - (int)color];
+
+                var lastMove = new Move(Square.A1, Square.A1);
+                if (provider.History.HasItems())
+                    lastMove = provider.History.GetLastMove();
+
+                var moves = player.GetMoves(
+                    opponent, 
+                    lastMove,
+                    MovesMask.AllMoves);
+                provider.FilterMoves(moves, color);
+
+                if (moves.Size == 0)
                 {
                     // some checkmate found
                     break;
                 }
-                int index = rand.Next(moves.Count);
+                int index = rand.Next(moves.Size);
                 // just get random move
-                var move = moves[index];
+                var move = new Move(moves.InnerArray[index]);
 
-                MoveResult mr = mp.ProvidePlayerMove(move, currColor);
+                provider.ProcessMove(move, color);
 
-                if ((mr == MoveResult.PawnReachedEnd) ||
-                    (mr == MoveResult.CapturedAndPawnReachedEnd))
-                {
-                    mp.ReplacePawn(mp.History.LastMove.End,
-                        (FigureType)((move as PromotionMove).Promotion));
-                }
+                bool needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
+                if (needsPromotion)
+                    provider.PromotePawn(
+                        color,
+                        move.To,
+                        move.Type.GetPromotionFigure());
 
-                currColor = currColor.GetOppositeColor();
-
+                color = (Queem.Core.Color)(1 - (int)color);
                 curr_depth += 1;
+                MovesArray.ReleaseLast();
             }
 
-            return mp.History.Moves;
+            return provider.History.Moves;
         }
     }
 }

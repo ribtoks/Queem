@@ -58,6 +58,7 @@ Usage: BenchmarkGenerator [-h|--help] [-v|--verbose] test_count depth results_pa
             {
                 // create specified path with subdirs
                 Directory.CreateDirectory(path);
+                Console.WriteLine("Tests directory created");
             }
 
             int testsCount = 0;

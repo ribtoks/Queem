@@ -9,6 +9,9 @@ namespace BenchmarkManager
 {
     class Program
     {
+        static string[] possible_commands = { "-r", "--run", "-c", "--cmp" };
+        static string[] possible_verbose_commands = { "-v", "--verbose" };
+                
         static void Main(string[] args)
         {
             string help = @"
@@ -50,8 +53,7 @@ Compare options:
             }
 
             string command = args[0].ToLower();
-            string[] possible_commands = { "-r", "--run", "-c", "--cmp" };
-            string[] possible_verbose_commands = { "-v", "--verbose" };
+            
 
             if (!possible_commands.Contains(command))
             {
@@ -63,112 +65,15 @@ Compare options:
             {
                 case "-r":
                 case "--run":
-                    if (args.Length < 6)
+
+                    try
                     {
-                        Console.WriteLine(help);
-                        return;
+                        RunTests(args, help);
                     }
-
-                    bool verbose = false;
-                    int index = 1;
-                    if (possible_verbose_commands.Contains(args[index].ToLower()))
+                    catch(Exception ex)
                     {
-                        verbose = true;
-                        index += 1;
+                        Console.WriteLine(ex.Message);
                     }
-
-                    string generatorPath = args[index];
-                    if (!File.Exists(generatorPath))
-                    {
-                        Console.WriteLine("Benchmarks generator cannot be found");
-                        return;
-                    }
-
-                    string testurerPath = args[index + 1];
-                    if (!File.Exists(testurerPath))
-                    {
-                        Console.WriteLine("Benchmark runner cannot be found");
-                        return;
-                    }
-
-                    int tests_count = 0;
-                    int.TryParse(args[index + 2], out tests_count);
-                    if (tests_count <= 0)
-                    {
-                        Console.WriteLine("<tests_count> must be a positive integer");
-                        return;
-                    }
-
-                    int tests_depth = 0;
-                    int.TryParse(args[index + 3], out tests_depth);
-                    if (tests_depth <= 0)
-                    {
-                        Console.WriteLine("<tests_depth> must be a positive integer");
-                        return;
-                    }
-
-                    int max_depth = 0;
-                    int.TryParse(args[index + 4], out max_depth);
-                    if (max_depth <= 0)
-                    {
-                        Console.WriteLine("<max_depth> must be a positive integer");
-                        return;
-                    }
-
-                    string resultsFilePath = string.Empty;
-                    if (args.Length == (6 + index))
-                    {
-                        resultsFilePath = " " + args[5 + index];
-                    }
-
-                    // path to current result folder
-                    string testsFolder = "./tests_bundle_" +
-                        Guid.NewGuid().ToString().Substring(0, 8);
-
-                    // now run processes with correct parameters
-                    ProcessStartInfo gen_psi = new ProcessStartInfo();
-                    gen_psi.UseShellExecute = true;
-                    gen_psi.FileName = generatorPath;
-                    gen_psi.CreateNoWindow = true;
-
-                    string verboseStr = string.Empty;
-                    if (verbose)
-                        verboseStr = "--verbose ";
-
-                    gen_psi.Arguments = string.Format(
-                        "{0}{1} {2} {3}",
-                        verboseStr,
-                        tests_count,
-                        tests_depth,
-                        testsFolder
-                        );
-
-                    Process generateTests = Process.Start(gen_psi);
-                    generateTests.WaitForExit();
-
-                    if (verbose)
-                        Console.WriteLine("Tests're generated. Starting solving...\r\n");
-
-                    // now start solving process
-
-                    ProcessStartInfo solve_psi = new ProcessStartInfo();
-                    solve_psi.UseShellExecute = true;
-                    solve_psi.FileName = testurerPath;
-                    solve_psi.CreateNoWindow = true;
-
-                    solve_psi.Arguments = string.Format(
-                        "{0}{1} {2}{3}",
-                        verboseStr,
-                        testsFolder,
-                        max_depth,
-                        resultsFilePath
-                        );
-
-                    Process solveTests = Process.Start(solve_psi);
-                    solveTests.WaitForExit();
-
-                    if (verbose)
-                        Console.WriteLine("\r\nTests're solved.\r\n");
 
                     break;
 
@@ -223,6 +128,118 @@ Compare options:
 
                     break;
             }
+        }
+
+        static void RunTests(string[] args, string help)
+        {
+            if (args.Length < 6)
+            {
+                Console.WriteLine(help);
+                return;
+            }
+
+            bool verbose = false;
+            int index = 1;
+            if (possible_verbose_commands.Contains(args[index].ToLower()))
+            {
+                verbose = true;
+                index += 1;
+            }
+
+            string generatorPath = args[index];
+            if (!File.Exists(generatorPath))
+            {
+                Console.WriteLine("Benchmarks generator cannot be found");
+                return;
+            }
+
+            string testurerPath = args[index + 1];
+            if (!File.Exists(testurerPath))
+            {
+                Console.WriteLine("Benchmark runner cannot be found");
+                return;
+            }
+
+            int tests_count = 0;
+            int.TryParse(args[index + 2], out tests_count);
+            if (tests_count <= 0)
+            {
+                Console.WriteLine("<tests_count> must be a positive integer");
+                return;
+            }
+
+            int tests_depth = 0;
+            int.TryParse(args[index + 3], out tests_depth);
+            if (tests_depth <= 0)
+            {
+                Console.WriteLine("<tests_depth> must be a positive integer");
+                return;
+            }
+
+            int max_depth = 0;
+            int.TryParse(args[index + 4], out max_depth);
+            if (max_depth <= 0)
+            {
+                Console.WriteLine("<max_depth> must be a positive integer");
+                return;
+            }
+
+            string resultsFilePath = string.Empty;
+            if (args.Length == (6 + index))
+            {
+                resultsFilePath = " " + args[5 + index];
+            }
+
+            // path to current result folder
+            string testsFolder = "./tests_bundle_" +
+                Guid.NewGuid().ToString().Substring(0, 8);
+
+            // now run processes with correct parameters
+            ProcessStartInfo gen_psi = new ProcessStartInfo();
+            gen_psi.UseShellExecute = false;
+            gen_psi.FileName = generatorPath;
+            gen_psi.CreateNoWindow = true;
+
+            string verboseStr = string.Empty;
+            if (verbose)
+                verboseStr = "--verbose ";
+
+            gen_psi.Arguments = string.Format(
+                "{0}{1} {2} {3}",
+                verboseStr,
+                tests_count,
+                tests_depth,
+                testsFolder
+                );
+            //gen_psi.RedirectStandardError = true;
+
+            Process generateTests = Process.Start(gen_psi);
+            generateTests.WaitForExit();
+
+            if (verbose)
+                Console.WriteLine("Tests're generated. Starting solving...\r\n");
+
+            // now start solving process
+
+            ProcessStartInfo solve_psi = new ProcessStartInfo();
+            solve_psi.UseShellExecute = false;
+            solve_psi.FileName = testurerPath;
+            solve_psi.CreateNoWindow = true;
+            solve_psi.RedirectStandardError = true;
+
+            solve_psi.Arguments = string.Format(
+                "{0}{1} {2}{3}",
+                verboseStr,
+                testsFolder,
+                max_depth,
+                resultsFilePath
+                );
+
+            Process solveTests = Process.Start(solve_psi);
+            solveTests.WaitForExit();
+
+            if (verbose)
+                Console.WriteLine("\r\nTests're solved.\r\n");
         }
 
         static List<List<string>> ReadTestsFile(string filePath)

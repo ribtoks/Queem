@@ -33,6 +33,7 @@ namespace QueemSpeedBenchmark
 
         public void RunBenchmarks(int maxdepth, bool verbose)
         {
+            /*
             ParallelLoopResult result = Parallel.For(0, benchmarks.Count,
                 (i) =>
                 {
@@ -47,8 +48,20 @@ namespace QueemSpeedBenchmark
 
             // wait for all tests complete
             while (!result.IsCompleted) ;
-
+            */
             // do other stuff...
+            
+            for (int i = 0; i < benchmarks.Count; ++i)
+            {
+                var item = benchmarks[i];
+                if (verbose)
+                    Console.WriteLine("Started test " + i + "...");
+
+                item.Run(maxdepth);
+
+                if (verbose)
+                    Console.WriteLine("Test " + i + " finished.");
+            }            
         }
 
         public void SaveResultsToFile(string filePath)

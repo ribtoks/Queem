@@ -24,6 +24,11 @@ namespace Queem.Core.History
         {
             this.lastIndex = -1;
         }
+
+        public List<Move> Moves
+        {
+            get { return this.moves.Take(this.lastIndex + 1).ToList(); }
+        }
 		
 		protected void FillCache()
 		{

@@ -18,6 +18,11 @@ namespace Queem.AI
 		{
 			this.debutGraph = graph;
 		}
+
+        public int NodesSearched
+        {
+            get { return this.nodesSearched; }
+        }
 		
 		protected bool TryFindDebutMove(out Move debutMove)
 		{
@@ -64,6 +69,7 @@ namespace Queem.AI
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
+            MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
             {
@@ -136,6 +142,7 @@ namespace Queem.AI
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
+            MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
             {
@@ -211,6 +218,7 @@ namespace Queem.AI
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
+            //MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
             {

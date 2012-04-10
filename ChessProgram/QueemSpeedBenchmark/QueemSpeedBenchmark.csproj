@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,12 +43,25 @@
   <ItemGroup>
     <Compile Include="BenchmarkItem.cs" />
     <Compile Include="BenchmarkProvider.cs" />
-    <Compile Include="ChessSolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DebutsLib\DebutsLib.csproj">
+      <Project>{ACD58B44-CEB6-4102-833E-599D99F03013}</Project>
+      <Name>DebutsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Queem.AI\Queem.AI.csproj">
+      <Project>{E94ED089-692E-411E-943D-2EB3E4304E87}</Project>
+      <Name>Queem.AI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QueemCore\Queem.Core.csproj">
+      <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
+      <Name>Queem.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

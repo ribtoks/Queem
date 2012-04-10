@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using QueemAI;
-using BasicChessClasses;
 using System.Diagnostics;
+using Queem.Core.ChessBoard;
+using Queem.AI;
+using DebutsLib;
+using Queem.Core;
+using Queem.Core.Extensions;
 
 namespace QueemSpeedBenchmark
 {
@@ -15,42 +18,42 @@ namespace QueemSpeedBenchmark
         protected int depth;
         protected long milliseconds;
         protected ChessSolver solver;
-        protected MovesProvider mp;
+        protected GameProvider provider;
+        protected Color lastColor;
         
         public BenchmarkItem(string[] moves)
         {
             // for now only white color will be supported
             // (when i'll have time later, it will be expanded)
-            mp = new CH_MovesProvider(FigureColor.White, 
-                FigureStartPosition.Down);
+            this.provider = new GameProvider();
 
-            FigureColor currColor = FigureColor.White;
+            Color color = Color.White;
 
             foreach (var moveStr in moves)
             {
                 if (moveStr.Length == 0)
                     continue;
 
-                ChessMove move = null;
-                
-                if (moveStr.Length == 5)
-                    move = new ChessMove(moveStr);
-                else
-                    move = new PromotionMove(moveStr);
+                Move move = new Move(moveStr);
 
-                MoveResult mr = MoveResult.Fail;
-                mr = mp.ProvidePlayerMove(move, currColor);
-                currColor = currColor.GetOppositeColor();
+                if (this.provider.PlayerBoards[(int)color].Figures[(int)move.From] == Queem.Core.Figure.King)
+                    if (Math.Abs((int)move.From - (int)move.To) == 2)
+                        move.Type = MoveType.KingCastle;
 
-                if ((mr == MoveResult.PawnReachedEnd) ||
-                    (mr == MoveResult.CapturedAndPawnReachedEnd))
-                {
-                    mp.ReplacePawn(mp.History.LastMove.End,
-                        (FigureType)((move as PromotionMove).Promotion));
-                }
+                this.provider.ProcessMove(move, color);
+
+                bool needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
+                if (needsPromotion)
+                    this.provider.PromotePawn(
+                        color,
+                        move.To,
+                        move.Type.GetPromotionFigure());
+
+                color = (Queem.Core.Color)(1 - (int)color);
             }
 
-            solver = new ChessSolver();
+            solver = new ChessSolver(new DebutGraph());
+            this.lastColor = color;
         }
 
         public void Run(int maxdepth)
@@ -59,28 +62,22 @@ namespace QueemSpeedBenchmark
 
             watch.Start();
 
-            FigureColor color = FigureColor.Black;
-            if (mp.History.Count > 0)
-             color = mp.ChessBoard[mp.History.LastMove.End]
-                 .Color
-                 .GetOppositeColor();
+            Color color = this.lastColor;
             
             // TODO write some exceptions handling
-            solver.SolveProblem(mp, color, maxdepth);
+            solver.SolveProblem(this.provider, color, maxdepth);
             
             watch.Stop();
 
             this.milliseconds = watch.ElapsedMilliseconds;
-            this.historyCount = solver.HistoryDepth;
             this.nodesSearched = solver.NodesSearched;
             this.depth = maxdepth;
         }
 
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}",
+            return string.Format("{0} {1} {2}",
                 this.milliseconds,
-                this.historyCount,
                 this.nodesSearched,
                 this.depth
                 );
