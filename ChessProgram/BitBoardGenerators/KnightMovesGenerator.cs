@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using Queem.Core.BitBoard;
-using Queem.Core.BitBoard.Helpers;
+using Queem.Core.BitBoards;
+using Queem.Core.BitBoards.Helpers;
 
 namespace MovesGenerators
 {

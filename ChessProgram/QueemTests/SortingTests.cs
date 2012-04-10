@@ -14,7 +14,7 @@ namespace Queem.Tests
 	
 		public SortingTests ()
 		{
-			this.provider = new GameProvider();
+			this.provider = new GameProvider(new MovesArrayAllocator(100, 100));
 			string path = "chess.game";
 			string[] lines = System.IO.File.ReadAllLines(path);
             Queem.Core.Color color = Queem.Core.Color.White;
@@ -41,7 +41,7 @@ namespace Queem.Tests
 				
 			this.provider.FilterMoves(moves, this.provider.PlayerBoard1.FigureColor);
 			
-			var copyArray = MovesArray.New();
+			var copyArray = this.provider.Allocator.CreateNewArray();
 			copyArray.Size = moves.Size;
 			for (int i = 0; i < moves.Size; ++i)
 			{

@@ -16,7 +16,7 @@ namespace BenchmarksGenerator
             Color myColor = Color.White;
             PlayerPosition myPosition = PlayerPosition.Down;
 
-            GameProvider provider = new GameProvider();
+            GameProvider provider = new GameProvider(new MovesArrayAllocator());
 
             Color color = myColor;
             Random rand = new Random(DateTime.Now.Millisecond);
@@ -56,7 +56,8 @@ namespace BenchmarksGenerator
 
                 color = (Queem.Core.Color)(1 - (int)color);
                 curr_depth += 1;
-                MovesArray.ReleaseLast();
+				
+                provider.Allocator.ReleaseLast();
             }
 
             return provider.History.Moves;

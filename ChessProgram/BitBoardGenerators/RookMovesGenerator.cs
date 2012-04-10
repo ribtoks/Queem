@@ -2,9 +2,9 @@ using System;
 using Queem.Core.Extensions;
 using System.Linq;
 using System.Diagnostics;
-using Queem.Core.BitBoard;
+using Queem.Core.BitBoards;
 using Queem.Core;
-using Queem.Core.BitBoard.Helpers;
+using Queem.Core.BitBoards.Helpers;
 
 namespace MovesGenerators
 {

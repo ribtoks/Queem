@@ -1,19 +1,36 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Queem.AI/ChessSolver.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ChessBoardLib/Commands/DelegateCommand.cs">
     <Files>
       <File FileName="QueemCore/ChessBoard/GameProvider.cs" Line="28" Column="32" />
       <File FileName="QueemCore/ChessBoard/MovesArray.cs" Line="16" Column="42" />
-      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="92" Column="36" />
-      <File FileName="Queem.AI/ChessSolver.cs" Line="333" Column="27" />
+      <File FileName="QueemCore/ChessBoard/PlayerBoard.cs" Line="97" Column="31" />
+      <File FileName="Queem.AI/ChessSolver.cs" Line="328" Column="5" />
+      <File FileName="QueemTests/SortingTests.cs" Line="37" Column="46" />
+      <File FileName="BenchmarksGenerator/BenchmarkGenerator.cs" Line="62" Column="4" />
+      <File FileName="BitBoardGenerators/KingMovesGenerator.cs" Line="4" Column="27" />
+      <File FileName="BitBoardGenerators/KnightMovesGenerator.cs" Line="4" Column="27" />
+      <File FileName="BitBoardGenerators/BishopMovesGenerator.cs" Line="13" Column="26" />
+      <File FileName="BitBoardGenerators/RookMovesGenerator.cs" Line="7" Column="27" />
+      <File FileName="BitBoardGenerators/FileMasksGenerator.cs" Line="4" Column="27" />
+      <File FileName="BitBoardGenerators/Generator.cs" Line="3" Column="27" />
+      <File FileName="ChessBoardLib/Commands/DelegateCommand.cs" Line="9" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Queem.AI" expanded="True" selected="True" />
+          <Node name="BenchmarksGenerator" expanded="True" />
+          <Node name="BitBoardGenerators" expanded="True" />
+          <Node name="ChessBoardVisualLib" expanded="True">
+            <Node name="Commands" expanded="True">
+              <Node name="DelegateCommand.cs" selected="True" />
+            </Node>
+          </Node>
+          <Node name="Queem.AI" expanded="True" />
           <Node name="Queem.Core" expanded="True">
             <Node name="ChessBoard" expanded="True" />
           </Node>
+          <Node name="Queem.Tests" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
