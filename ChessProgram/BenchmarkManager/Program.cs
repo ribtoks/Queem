@@ -198,7 +198,6 @@ Compare options:
             ProcessStartInfo gen_psi = new ProcessStartInfo();
             gen_psi.UseShellExecute = false;
             gen_psi.FileName = generatorPath;
-            gen_psi.CreateNoWindow = true;
 
             string verboseStr = string.Empty;
             if (verbose)
@@ -211,7 +210,7 @@ Compare options:
                 tests_depth,
                 testsFolder
                 );
-            //gen_psi.RedirectStandardError = true;
+            
 
             Process generateTests = Process.Start(gen_psi);
             generateTests.WaitForExit();
@@ -224,8 +223,6 @@ Compare options:
             ProcessStartInfo solve_psi = new ProcessStartInfo();
             solve_psi.UseShellExecute = false;
             solve_psi.FileName = testurerPath;
-            solve_psi.CreateNoWindow = true;
-            solve_psi.RedirectStandardError = true;
 
             solve_psi.Arguments = string.Format(
                 "{0}{1} {2}{3}",

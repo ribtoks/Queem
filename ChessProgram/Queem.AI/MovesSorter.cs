@@ -1,18 +1,30 @@
 using System;
 using Queem.Core.ChessBoard;
 using Queem.Core;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Queem.AI
 {
 	internal delegate void QuickSortDelegate(Move[] items, int first, int last);
 
+    public class MovesComparer : IComparer<Move>
+    {
+        public int Compare(Move x, Move y)
+        {
+            return y.Value - x.Value;
+        }
+    }
+
 	public static class MovesSorter
 	{
-		private static Move[] tempBuffer = new Move[448];
-							
-		public static void Sort(FixedArray moves)
+		public static void Sort2(FixedArray moves)
 		{
-			// approximate moves size - 40 moves
+            if (moves.Size == 0)
+                return;
+
+            Move[] tempBuffer = new Move[moves.Size];
+            // approximate moves size - 40 moves
 			// best approach to split on 20+20
 			// sort each part with insert sort
 			// and then merge them
@@ -68,8 +80,11 @@ namespace Queem.AI
 		      array[i] = tempBuffer[i - left];
 		}
 		
-		public static void QuickSort(FixedArray moves)
+		public static void Sort(FixedArray moves)
 		{
+            if (moves.Size == 0)
+                return;
+
 			QuickSortDelegate quicksort = null;
             quicksort =
                 (items, first, last) =>
