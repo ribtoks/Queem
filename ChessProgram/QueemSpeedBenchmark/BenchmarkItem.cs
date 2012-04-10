@@ -25,7 +25,7 @@ namespace QueemSpeedBenchmark
         {
             // for now only white color will be supported
             // (when i'll have time later, it will be expanded)
-            this.provider = new GameProvider();
+            this.provider = new GameProvider(new MovesArrayAllocator(100, 100));
 
             Color color = Color.White;
 

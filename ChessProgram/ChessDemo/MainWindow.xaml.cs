@@ -43,7 +43,7 @@ namespace ChessDemo
         {
             InitializeComponent();
 
-            this.gameProvider = new GameProvider();
+            this.gameProvider = new GameProvider(new MovesArrayAllocator());
 
             this.chessboardControl.SetupGameProvider(gameProvider);
             this.worker = new BackgroundWorker();
@@ -55,14 +55,6 @@ namespace ChessDemo
 
             this.maxdepth = 5;
             this.debutsGraph = DebutsReader.ReadDebuts("simple_debut_moves", PlayerPosition.Down);
-
-            this.InitMovesArray();
-        }
-
-        private void InitMovesArray()
-        {            
-            MovesArray.New();
-            MovesArray.ReleaseLast();
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -189,7 +181,7 @@ namespace ChessDemo
 
         private void readButton_Click(object sender, RoutedEventArgs e)
         {
-            this.gameProvider = new GameProvider();
+            this.gameProvider = new GameProvider(this.gameProvider.Allocator);
             this.chessboardControl.SetupGameProvider(this.gameProvider);
             this.redoMoves = new List<MoveWithDecision>();
 
