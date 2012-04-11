@@ -70,8 +70,7 @@ namespace Queem.AI
                 opponent, 
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
-            this.gameProvider.FilterMoves(movesArray, currPlayerColor);
-            MovesSorter.Sort(movesArray);
+            this.gameProvider.FilterMoves(movesArray, currPlayerColor);            
 
             if (movesArray.Size == 0)
             {
@@ -144,7 +143,6 @@ namespace Queem.AI
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
-            MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
             {
@@ -220,7 +218,6 @@ namespace Queem.AI
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
-            MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
             {
@@ -292,7 +289,6 @@ namespace Queem.AI
                             this.gameProvider.History.GetLastMove(),
                             MovesMask.Attacks);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
-            MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
                 if (wasKingInCheck)
