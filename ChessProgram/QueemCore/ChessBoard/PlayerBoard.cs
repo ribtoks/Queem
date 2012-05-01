@@ -294,7 +294,7 @@ namespace Queem.Core.ChessBoard
 			}
 			
 			// add king moves
-			var kingMoves = this.GetKingMoves(opponent, mask);
+			var kingMoves = this.GetKingMoves(opponent, mask, movesMask);
 			
 			for (int j = 0; j < kingMoves.Count; ++j)
 			{
@@ -412,7 +412,7 @@ namespace Queem.Core.ChessBoard
 				innerArray[i].Value += (int)innerArray[i].Type * MoveTypeWeight;
 		}
 				
-		public List<Move[]> GetKingMoves(PlayerBoard opponent, ulong mask)
+		public List<Move[]> GetKingMoves(PlayerBoard opponent, ulong mask, MovesMask movesMask)
 		{
 			var otherFigures = opponent.allFigures | this.allFigures;
 			var list = this.moveGenerators[(int)Figure.King].GetMoves(otherFigures, mask);
@@ -429,7 +429,10 @@ namespace Queem.Core.ChessBoard
 			// if rooks cannot move
 			if (rooks.GetInnerProperty() == 0)
 				return list;
-						
+
+            if (movesMask == MovesMask.Attacks)
+                return list;
+
 			var allMasks = KingBitBoardHelper.CastlingMasks;
 			ulong[] castlingMasks = allMasks[(int)this.color][(int)this.position];
 			
