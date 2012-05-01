@@ -182,7 +182,7 @@ namespace Queem.AI
 
                 this.gameProvider.CancelLastMove(currPlayerColor);
                 --ply;
-
+                
                 if (score >= node.Beta)
                 {
                     this.allocator.ReleaseLast();
@@ -212,6 +212,28 @@ namespace Queem.AI
 
             bool wasKingInCheck = player.IsUnderAttack(player.King.GetSquare(), opponent);
             Color currPlayerColor = player.FigureColor;
+
+            // ----------------------------------------
+            int playerFiguresCount = player.GetAllFiguresCount();
+            int opponentFiguresCount = opponent.GetAllFiguresCount();
+
+            int r = 3;
+            bool canMakeNullMove = true;
+            int figuresCount = playerFiguresCount + opponentFiguresCount;
+            canMakeNullMove &= wasKingInCheck == false;
+            canMakeNullMove &= figuresCount > 7;
+            canMakeNullMove &= node.Depth > 2;
+            canMakeNullMove &= !node.WasNullMove;
+
+            if (canMakeNullMove)
+            {
+                int value = -this.zwSearch(node.GetNextNullMoveZW(r));
+                if (value >= node.Beta)
+                {
+                    return node.Beta;
+                }
+            }
+            // ----------------------------------------
 
             var movesArray = player.GetMoves(
                 opponent, 
@@ -271,8 +293,8 @@ namespace Queem.AI
             
             int positionValue = Evaluator.Evaluate(player, opponent);
 
-            if (node.Depth < -5)
-                return positionValue;
+            //if (node.Depth < -5)
+            //    return positionValue;
             
             if (positionValue >= node.Beta)
                 return node.Beta;
@@ -296,12 +318,12 @@ namespace Queem.AI
                     this.allocator.ReleaseLast();
                     return (-Evaluator.MateValue) + ply;
                 }
-            
+
             var moves = movesArray.InnerArray;
             for (int i = 0; i < movesArray.Size; ++i)
             {
                 var move = moves[i];
-
+                
                 this.gameProvider.ProcessMove(move, currPlayerColor);
                 ply++;
 
@@ -316,7 +338,7 @@ namespace Queem.AI
 
                 this.gameProvider.CancelLastMove(currPlayerColor);
                 ply--;
-
+                
                 if (score >= node.Beta)
                 {
                     this.allocator.ReleaseLast();

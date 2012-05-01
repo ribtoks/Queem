@@ -208,6 +208,7 @@ namespace Queem.Core.ChessBoard
 				switch (change.Action)
 				{
 				case MoveAction.PawnChange:
+
 					playerBoard1.AddFigure(change.Square, change.FigureType);
 					playerBoard1.SetProperty(change.FigureType, change.Data);
 					break;
@@ -377,6 +378,12 @@ namespace Queem.Core.ChessBoard
             this.PlayerBoard1.ResetAll();
             this.PlayerBoard2.ResetAll();            
             this.History.Reset();
+        }
+
+        public int GetAllFiguresCount()
+        {
+            return this.PlayerBoard1.GetAllFiguresCount() +
+                this.PlayerBoard2.GetAllFiguresCount();
         }
 	}
 }

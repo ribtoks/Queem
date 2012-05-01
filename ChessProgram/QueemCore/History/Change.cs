@@ -24,6 +24,15 @@ namespace Queem.Core.History
             this.FigureColor = from.FigureColor;
             this.FigureType = from.FigureType;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {3} at {4}",
+                FigureColor,
+                FigureType,
+                Action,
+                Square);
+        }
 	}
 }
 

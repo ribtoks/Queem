@@ -13,6 +13,7 @@ namespace Queem.AI
 		public int Beta { get; set; }
 		public int Depth { get; set; }
         public int PlayerIndex { get; set; }
+        public bool WasNullMove { get; set; }
 	
 		public virtual ChessTreeNode GetNext()
 		{
@@ -21,6 +22,7 @@ namespace Queem.AI
 			nextNode.Beta = -this.Alpha;
 			nextNode.Depth = this.Depth - 1;
             nextNode.PlayerIndex = 1 - this.PlayerIndex;
+            nextNode.WasNullMove = this.WasNullMove;
 			
 			return nextNode;
 		}
@@ -31,6 +33,7 @@ namespace Queem.AI
             nextNode.Beta = 1 - this.Beta;
             nextNode.Depth = this.Depth - 1;
             nextNode.PlayerIndex = 1 - this.PlayerIndex;
+            nextNode.WasNullMove = false;
             return nextNode;
         }
 
@@ -41,12 +44,23 @@ namespace Queem.AI
             nextNode.Beta = this.Beta;
             nextNode.Depth = this.Depth - 1;
             nextNode.PlayerIndex = this.PlayerIndex;
+            nextNode.WasNullMove = this.WasNullMove;
+            return nextNode;
+        }
+
+        public virtual ChessTreeNode GetNextNullMoveZW(int r)
+        {
+            var nextNode = new ChessTreeNode();
+            nextNode.Beta = 1 - this.Beta;
+            nextNode.Depth = this.Depth - r - 1;
+            nextNode.PlayerIndex = 1 - this.PlayerIndex;
+            nextNode.WasNullMove = true;
             return nextNode;
         }
 
         public bool IsZeroDepth()
         {
-            return this.Depth == 0;
+            return this.Depth <= 0;
         }
 	}
 }
