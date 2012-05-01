@@ -14,6 +14,7 @@ namespace Queem.AI
         protected Move bestMove;
         protected int ply;
         protected int nodesSearched;
+        private const int criticalDepth = 7;
 	
 		public ChessSolver (DebutGraph graph)
 		{
@@ -293,15 +294,15 @@ namespace Queem.AI
             
             int positionValue = Evaluator.Evaluate(player, opponent);
 
-            //if (node.Depth < -5)
-            //    return positionValue;
-            
             if (positionValue >= node.Beta)
                 return node.Beta;
 
             if (node.Alpha < positionValue)
                 node.Alpha = positionValue;
-                        
+
+            if (node.Depth < -criticalDepth)
+                return positionValue;
+
             int score = -Evaluator.MateValue;
             Color currPlayerColor = player.FigureColor;
             bool wasKingInCheck = player.IsUnderAttack(player.King.GetSquare(), opponent);
