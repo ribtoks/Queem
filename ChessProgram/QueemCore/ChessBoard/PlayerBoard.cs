@@ -120,6 +120,8 @@ namespace Queem.Core.ChessBoard
 			
 			for (int i = 0; i < 6; ++i)
 				this.bitboards[i] = BitBoardFactory.CreateBitBoard((Figure)i);
+
+            this.Rooks.SetupOrientation(this.position);
 		}
 		
 		protected void FillBitBoards()
@@ -333,7 +335,14 @@ namespace Queem.Core.ChessBoard
                     otherFigures |= mask;
 					wasLastMovePassing = true;
 				}
-			
+
+            if (movesMask == MovesMask.Attacks)
+            {
+                ulong pawns = this.bitboards[(int)Figure.Pawn].GetInnerValue();
+                otherFigures |= pawns >> 8;
+                otherFigures |= pawns << 8;
+            }
+
 			// add pawns moves            
 			var pawnMoves = this.moveGenerators[(int)Figure.Pawn].GetMoves(otherFigures, mask);
 			int moveTo;
@@ -355,8 +364,7 @@ namespace Queem.Core.ChessBoard
 					
 					if (wasLastMovePassing)
 						if (item.To == (Square)middle)
-							item.Type = MoveType.EpCapture;
-										
+							item.Type = MoveType.EpCapture;										
 					
 					if ((moveTo < 8) ||
 						(moveTo >= 56))
