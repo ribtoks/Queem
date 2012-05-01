@@ -317,7 +317,18 @@ namespace Queem.AI
                 if (wasKingInCheck)
                 {
                     this.allocator.ReleaseLast();
-                    return (-Evaluator.MateValue) + ply;
+
+                    movesArray = player.GetMoves(
+                        opponent,
+                        this.gameProvider.History.GetLastMove(),
+                        MovesMask.AllMoves);
+                    this.gameProvider.FilterMoves(movesArray, currPlayerColor);
+
+                    if (movesArray.Size == 0)
+                    {
+                        this.allocator.ReleaseLast();
+                        return (-Evaluator.MateValue) + ply;
+                    }
                 }
 
             var moves = movesArray.InnerArray;
