@@ -71,7 +71,10 @@ namespace Queem.AI
                 opponent, 
                 this.gameProvider.History.GetLastMove(), 
                 MovesMask.AllMoves);
-            this.gameProvider.FilterMoves(movesArray, currPlayerColor);            
+            this.gameProvider.FilterMoves(movesArray, currPlayerColor);
+
+            this.EvaluateMoves(movesArray, player, opponent);
+            MovesSorter.Sort(movesArray);
 
             if (movesArray.Size == 0)
             {
@@ -235,7 +238,7 @@ namespace Queem.AI
                 }
             }
             // ----------------------------------------
-
+            
             var movesArray = player.GetMoves(
                 opponent, 
                 this.gameProvider.History.GetLastMove(), 
@@ -363,6 +366,27 @@ namespace Queem.AI
 
             this.allocator.ReleaseLast();
             return node.Alpha;
+        }
+
+        protected void EvaluateMoves(FixedArray movesArray, PlayerBoard player, PlayerBoard opponent)
+        {
+            for (int i = 0; i < movesArray.Size; ++i)
+            {
+                var move = movesArray.InnerArray[i];
+
+                this.gameProvider.ProcessMove(move, player.FigureColor);                
+
+                bool needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
+                if (needsPromotion)
+                    this.gameProvider.PromotePawn(
+                        player.FigureColor, 
+                        move.To, 
+                        move.Type.GetPromotionFigure());
+
+                move.Value = Evaluator.Evaluate(player, opponent);
+
+                this.gameProvider.CancelLastMove(player.FigureColor);
+            }
         }
 	}
 }

@@ -285,8 +285,8 @@ namespace Queem.Core.ChessBoard
 						innerArray[index].Type = 
 							BitBoardHelper.MoveTypes[(int)figure][destinationFigure][(int)item.From][(int)item.To];
 							
-						innerArray[index].Value = (int)innerArray[index].Type * MoveTypeWeight + 
-							(int)opponent.figures[(int)item.To];
+						//innerArray[index].Value = (int)innerArray[index].Type * MoveTypeWeight + 
+						//	(int)opponent.figures[(int)item.To];
 						
 						index++;
 					}
@@ -313,8 +313,8 @@ namespace Queem.Core.ChessBoard
 						innerArray[index].Type = 
 							BitBoardHelper.MoveTypes[(int)Figure.King][destinationFigure][(int)item.From][(int)item.To];
 							
-					innerArray[index].Value = (int)innerArray[index].Type * MoveTypeWeight + 
-							(int)opponent.figures[(int)item.To];
+					//innerArray[index].Value = (int)innerArray[index].Type * MoveTypeWeight + 
+					//		(int)opponent.figures[(int)item.To];
 					
 					index++;
 				}
@@ -359,7 +359,7 @@ namespace Queem.Core.ChessBoard
 					
 					moveTo = (int)item.To;
 					int destinationFigure = (int)opponent.figures[(int)item.To];
-					item.Value = (int)opponent.figures[(int)item.To];
+					//item.Value = (int)opponent.figures[(int)item.To];
 					item.Type = BitBoardHelper.MoveTypes[(int)Figure.Pawn][destinationFigure][(int)item.From][moveTo];
 					
 					if (wasLastMovePassing)
@@ -374,14 +374,14 @@ namespace Queem.Core.ChessBoard
 						{
 							innerArray[index + m].From = item.From;
 							innerArray[index + m].To = item.To;
-							innerArray[index + m].Value = (int)opponent.figures[(int)item.To];
+							//innerArray[index + m].Value = (int)opponent.figures[(int)item.To];
 						}
 						
 						this.AddPromotionMoves(innerArray, index, (Figure)j);
 						index += 3;
 					}
-					else
-						item.Value += (int)item.Type;
+					//else
+						//item.Value += (int)item.Type;
 					
 					index++;
 				}
@@ -408,8 +408,8 @@ namespace Queem.Core.ChessBoard
 				innerArray[index + 3].Type = MoveType.QueenPromotion;
 			}
 			
-			for (int i = 0; i < 4; ++i)
-				innerArray[i].Value += (int)innerArray[i].Type * MoveTypeWeight;
+			//for (int i = 0; i < 4; ++i)
+			//	innerArray[i].Value += (int)innerArray[i].Type * MoveTypeWeight;
 		}
 				
 		public List<Move[]> GetKingMoves(PlayerBoard opponent, ulong mask, MovesMask movesMask)
