@@ -73,6 +73,33 @@ namespace Queem.Core
 
             return string.Format("{0}-{1}{2}", this.From, this.To, promotionPart);
         }
+
+        public override int GetHashCode()
+        {
+            return (int)this.From * 64 + (int)this.To;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            Move move = obj as Move;
+            if ((object)move == null)
+                return false;
+
+            return (move.To == this.To) && (move.From == this.From);
+        }
+
+        public static bool operator ==(Move move1, Move move2)
+        {
+            return ((move1.From == move2.From) && (move1.To == move2.To));
+        }
+
+        public static bool operator !=(Move move1, Move move2)
+        {
+            return !(move1 == move2);
+        }
 	}
 }
 

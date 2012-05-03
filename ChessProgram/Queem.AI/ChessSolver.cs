@@ -25,21 +25,31 @@ namespace Queem.AI
         {
             get { return this.nodesSearched; }
         }
-		
-		protected bool TryFindDebutMove(out Move debutMove)
-		{
-			debutMove = null;
-            return false;
-		}		
+
+        protected bool TryFindDebutMove(out Move debutMove)
+        {
+            debutMove = null;
+            var it = this.debutGraph.CheckMoves(this.gameProvider.History.Moves);
+            if (it == DebutGraph.MoveIterator.End)
+                return false;
+            ++it;
+
+            if (it == DebutGraph.MoveIterator.End)
+                return false;
+
+            debutMove = it.CurrentNode.Move;
+            return true;
+        }
 		
 		public Move SolveProblem(GameProvider provider, Color color, int maxdepth)
 		{
 			Move bestMove;
 			
+            this.gameProvider = provider;
+
 			if (this.TryFindDebutMove(out bestMove))
 				return bestMove;
 
-            this.gameProvider = provider;
             this.ply = 0;
             this.nodesSearched = 0;
             this.allocator = provider.Allocator;

@@ -74,7 +74,7 @@ namespace DebutsLib
             if (!replies.ContainsKey(temp))
                 replies.Add(temp, temp);
 
-            return replies[temp];            
+            return replies[temp];
         }
 
         /// <summary>
