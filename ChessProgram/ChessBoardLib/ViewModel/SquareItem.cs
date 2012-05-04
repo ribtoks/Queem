@@ -82,6 +82,15 @@ namespace ChessBoardVisualLib.ViewModel
             set { SetValue(IsHighlightedProperty, value); }
         }
 
+        public static readonly DependencyProperty IsLastMovePartProperty =
+            DependencyProperty.Register("IsLastMovePart", typeof(bool), typeof(SquareItem));
+
+        public bool IsLastMovePart
+        {
+            get { return (bool)GetValue(IsLastMovePartProperty); }
+            set { SetValue(IsLastMovePartProperty, value); }
+        }
+
         public static readonly DependencyProperty FigureColorProperty =
             DependencyProperty.Register("FigureColor", typeof(Color), typeof(SquareItem));
 

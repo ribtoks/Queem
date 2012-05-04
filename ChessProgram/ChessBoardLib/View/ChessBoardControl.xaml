@@ -67,6 +67,10 @@
                                             <Setter Property="Opacity" Value="0.15" TargetName="backgroundRect" />
                                             <Setter Property="Fill" Value="Aqua" TargetName="backgroundRect" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsLastMovePart}" Value="True">
+                                            <Setter Property="Opacity" Value="0.1" TargetName="backgroundRect" />
+                                            <Setter Property="Fill" Value="Red" TargetName="backgroundRect" />
+                                        </DataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
                                                 <Condition Binding="{Binding Path=DataContext.IsFigureMoving, RelativeSource= {RelativeSource AncestorType={x:Type UserControl}}}" Value="True" />

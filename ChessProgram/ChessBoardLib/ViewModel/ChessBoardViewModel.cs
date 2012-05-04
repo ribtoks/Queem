@@ -242,6 +242,33 @@ namespace ChessBoardVisualLib.ViewModel
             else
                 this.CurrentPlayerColor = Color.White;
         }
+
+        public void UpdateLastMoveHighlighting()
+        {
+            if (this.GameProvider.History.Moves.Count == 0)
+                return;
+
+            var lastMove = this.GameProvider.History.GetLastMove();
+            this.HighlightMove(lastMove);
+
+            if (this.GameProvider.History.Moves.Count <= 1)
+                return;
+
+            var prelastMove = this.GameProvider.History.GetPreLastMove();
+            this.UnHighlightMove(prelastMove);
+        }
+
+        private void HighlightMove(Move move)
+        {
+            this.Squares.First(sq => sq.Square == move.From).IsLastMovePart = true;
+            this.Squares.First(sq => sq.Square == move.To).IsLastMovePart = true;
+        }
+
+        private void UnHighlightMove(Move move)
+        {
+            this.Squares.First(sq => sq.Square == move.From).IsLastMovePart = false;
+            this.Squares.First(sq => sq.Square == move.To).IsLastMovePart = false;
+        }
         
         public void AnimateMove(Move move, double width, Action<SquareItem> animationFinishedAction)
         {
@@ -262,6 +289,7 @@ namespace ChessBoardVisualLib.ViewModel
 
                             sourceItem.ResetTransform();
 
+                            this.UpdateLastMoveHighlighting();
                             animationFinishedAction(item);
                         }), DispatcherPriority.Render);                    
                 });
