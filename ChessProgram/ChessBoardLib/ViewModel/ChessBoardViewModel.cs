@@ -247,15 +247,11 @@ namespace ChessBoardVisualLib.ViewModel
         {
             if (this.GameProvider.History.Moves.Count == 0)
                 return;
-
+			
+			this.UnhighlightLastMoveItems();
+			
             var lastMove = this.GameProvider.History.GetLastMove();
             this.HighlightMove(lastMove);
-
-            if (this.GameProvider.History.Moves.Count <= 1)
-                return;
-
-            var prelastMove = this.GameProvider.History.GetPreLastMove();
-            this.UnHighlightMove(prelastMove);
         }
 
         private void HighlightMove(Move move)
@@ -263,13 +259,13 @@ namespace ChessBoardVisualLib.ViewModel
             this.Squares.First(sq => sq.Square == move.From).IsLastMovePart = true;
             this.Squares.First(sq => sq.Square == move.To).IsLastMovePart = true;
         }
-
-        private void UnHighlightMove(Move move)
-        {
-            this.Squares.First(sq => sq.Square == move.From).IsLastMovePart = false;
-            this.Squares.First(sq => sq.Square == move.To).IsLastMovePart = false;
-        }
-        
+		
+		public void UnhighlightLastMoveItems()
+		{
+			foreach (var sq in this.squareItems)
+				sq.IsLastMovePart = false;
+		}
+		
         public void AnimateMove(Move move, double width, Action<SquareItem> animationFinishedAction)
         {
             double deltaX = move.GetDeltaX() * width;
