@@ -38,6 +38,8 @@ namespace ChessDemo
         private int maxdepth;
         private bool canSolverStart;
         private bool needsOneMoreCancel = false;
+        private bool isSolverMove = false;
+        private bool isCanceling = false;
 
         public MainWindow()
         {
@@ -59,15 +61,20 @@ namespace ChessDemo
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            this.buttonsPanel.IsEnabled = true;
+
             if (e.Result == null)
             {
                 if (this.gameProvider.IsStalemate(this.myColor))
                     MessageBox.Show("You're in stalemate");
                 else
                     MessageBox.Show("You're in checkmate");
+
+                this.chessboardControl.IsEnabled = false;
             }
             else
             {
+                this.isSolverMove = true;
                 var move = e.Result as Move;
                 this.gameProvider.ProcessMove(move, Queem.Core.Color.Black);
                 this.chessboardControl.AnimateLast();
@@ -76,7 +83,7 @@ namespace ChessDemo
                 if (needPawnPromotion)
                     this.chessboardControl.PromotePawn(Queem.Core.Color.Black, move.To, move.Type.GetPromotionFigure());
 
-                this.chessboardControl.ChangeCurrentPlayer();
+                this.chessboardControl.ChangeCurrentPlayer();                
             }
 
             this.canSolverStart = false;
@@ -126,14 +133,31 @@ namespace ChessDemo
             }
             else
             {
-                this.buttonsPanel.IsEnabled = true;
+                if (!this.isSolverMove && !this.isCanceling)
+                    this.buttonsPanel.IsEnabled = false;
+                else
+                {
+                    if (this.isSolverMove)
+                        this.isSolverMove = false;
+
+                    if (this.isCanceling)
+                    {
+                        this.cancelButton.IsEnabled = true;
+                        this.isCanceling = false;
+
+                        if (!this.gameProvider.History.HasItems())
+                            this.cancelButton.IsEnabled = false;
+                    }
+                }
+
                 this.StartSolver();
             }
         }
 
         private void chessboardControl_MoveAnimationPreview(object sender, EventArgs e)
         {
-            this.buttonsPanel.IsEnabled = false;
+            if (!this.isSolverMove && !this.isCanceling)
+                this.buttonsPanel.IsEnabled = false;
         }
 
         private void chessboardControl_PawnPromoted(object sender, EventArgs e)
@@ -219,6 +243,8 @@ namespace ChessDemo
             var lastMove = new Move(this.gameProvider.History.GetLastMove());
             var lastDeltaChanges = this.gameProvider.History.GetLastDeltaChange().GetCopy();
 
+            this.isCanceling = true;
+            this.cancelButton.IsEnabled = false;
             this.chessboardControl.ChangeCurrentPlayer();
 
             this.gameProvider.CancelLastMove(this.chessboardControl.CurrentPlayerColor);
@@ -227,8 +253,6 @@ namespace ChessDemo
             redoButton.IsEnabled = true;
             redoMoves.Add(new MoveWithDecision() { Move = lastMove, Decision = lastMove.Type.GetPromotionFigure() });
 
-            if (!this.gameProvider.History.HasItems())
-                this.cancelButton.IsEnabled = false;
         }
 
         private void redoButton_Click(object sender, RoutedEventArgs e)

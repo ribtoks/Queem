@@ -249,9 +249,12 @@ namespace ChessBoardVisualLib.ViewModel
                 return;
 			
 			this.UnhighlightLastMoveItems();
-			
-            var lastMove = this.GameProvider.History.GetLastMove();
-            this.HighlightMove(lastMove);
+
+            if (this.GameProvider.History.Moves.Count > 1)
+            {
+                var lastMove = this.GameProvider.History.GetLastMove();
+                this.HighlightMove(lastMove);
+            }
         }
 
         private void HighlightMove(Move move)
